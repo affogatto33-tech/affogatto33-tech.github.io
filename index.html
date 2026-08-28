@@ -495,7 +495,9 @@
   .placeItem.bld img{filter:none}
   .placeItem .plabel{position:absolute;left:50%;bottom:-3px;transform:translateX(-50%);font-family:'Jua',sans-serif;font-size:.62rem;color:#fff;
     background:rgba(150,110,180,.9);padding:1px 8px;border-radius:11px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;box-shadow:0 2px 5px rgba(0,0,0,.2)}
-  .placeItem.bld:hover .plabel{opacity:1}
+  .bldlabel{position:absolute;transform:translate(-50%,2px);font-family:'Jua',sans-serif;font-size:.62rem;color:#fff;
+    background:rgba(150,110,180,.92);padding:2px 9px;border-radius:11px;white-space:nowrap;pointer-events:none;
+    box-shadow:0 2px 5px rgba(0,0,0,.25);z-index:1000001}
   .placeItem.bld:hover{filter:brightness(1.05)}
   .placeItem.bld:active{filter:brightness(1.08)}
   .placeItem.avatar{width:12%}
@@ -951,7 +953,7 @@ function applySave(d){freshState();if(d){score=d.s||0;owned=new Set(d.o||[]);CAT
 function migratePlaced(){/* 구버전: owned 장식이 placed에 없으면 한 개씩 생성 */if(typeof owned==='undefined')return;DECOS.forEach(d=>{if(owned.has(d.id)&&!placed.some(p=>p.id===d.id)){placed.push({iid:newIid(),id:d.id,c:null,r:null});}});}
 function normalizeGrid(){/* 격자 좌표 보정: 옛 %좌표/누락 → 기본 셀 */
   BUILDINGS.forEach(b=>{var p=groundPos[b.id];if(!p||typeof p.c!=='number')groundPos[b.id]={c:b.dc,r:b.dr};});
-  if(!groundPos.avatar||typeof groundPos.avatar.c!=='number')groundPos.avatar={c:3,r:3};
+  if(!groundPos.avatar||typeof groundPos.avatar.c!=='number')groundPos.avatar={c:4,r:4};
   var cnt={};
   placed.forEach(function(p){if(typeof p.c!=='number'||typeof p.r!=='number'){var d=decoById(p.id)||{dc:3,dr:3,fw:1};cnt[p.id]=(cnt[p.id]||0);var c=Math.max(0,Math.min(GRID.cols-(d.fw||1),d.dc+cnt[p.id]));cnt[p.id]++;p.c=c;p.r=d.dr;}});}
 function saveAll(){if(!currentUser)return;const u=usersLoad();u[currentUser]=u[currentUser]||{pw:''};u[currentUser].save={s:score,o:[...owned],e:equip,cov:[...covered],st:stage,md:(typeof mathDone!=='undefined'?mathDone:{as:0,md:0}),lk:(typeof equippedLook!=='undefined'?equippedLook:'look_dress'),bg:(typeof equippedBg!=='undefined'?equippedBg:'bg_soft'),gp:(typeof groundPos!=='undefined'?groundPos:{}),pl:(typeof placed!=='undefined'?placed:[])};usersSave(u);}
@@ -2069,7 +2071,7 @@ function groundItems(){
   const items=[];
   BUILDINGS.forEach(b=>{var p=groundPos[b.id]||{c:b.dc,r:b.dr};items.push({key:b.id,kind:'bld',name:b.name,game:b.game,fw:b.fw,fh:b.fh,c:p.c,r:p.r,img:assetImg(b.id)});});
   placed.forEach(p=>{const d=decoById(p.id);if(d)items.push({key:p.iid,iid:p.iid,kind:'deco',id:p.id,name:d.name,fw:d.fw,fh:d.fh,c:p.c,r:p.r,img:assetImg(p.id)});});
-  var av=groundPos.avatar||{c:3,r:3};
+  var av=groundPos.avatar||{c:4,r:4};
   items.push({key:'avatar',kind:'avatar',name:'공주',fw:0.8,fh:0.8,c:av.c,r:av.r,img:currentLookImg()});
   return items;
 }
@@ -2102,8 +2104,10 @@ function attachPlace(el,it){
 }
 function drawGrid(){var g=$('#grounds');if(!g)return;var svg=$('#gridsvg');
   if(!svg){svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.id='gridsvg';svg.setAttribute('class','gridsvg');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');g.insertBefore(svg,g.firstChild);}
-  var d='';for(var i=0;i<=GRID.cols;i++){var a=gPt(i,0),b=gPt(i,GRID.rows);d+='M'+a.x+' '+a.y+'L'+b.x+' '+b.y;}
-  for(var j=0;j<=GRID.rows;j++){var a2=gPt(0,j),b2=gPt(GRID.cols,j);d+='M'+a2.x+' '+a2.y+'L'+b2.x+' '+b2.y;}
+  /* 마당 전체를 덮도록 넓은 범위로 다이아몬드 격자를 그림(overflow로 잘림) */
+  var d='',LO=-10,HI=18;
+  for(var i=LO;i<=HI;i++){var a=gPt(i,LO),b=gPt(i,HI);d+='M'+a.x.toFixed(1)+' '+a.y.toFixed(1)+'L'+b.x.toFixed(1)+' '+b.y.toFixed(1);}
+  for(var j=LO;j<=HI;j++){var a2=gPt(LO,j),b2=gPt(HI,j);d+='M'+a2.x.toFixed(1)+' '+a2.y.toFixed(1)+'L'+b2.x.toFixed(1)+' '+b2.y.toFixed(1);}
   svg.innerHTML='<path d="'+d+'" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="0.25"/>';}
 function renderGrounds(){
   const g=$('#grounds');if(!g)return;
@@ -2115,13 +2119,24 @@ function renderGrounds(){
     el.className='placeItem '+it.kind;
     el.dataset.key=it.key;
     if(it.kind==='deco'){el.dataset.iid=it.iid;if(it.iid===selectedIid)el.classList.add('selected');}
-    var inner='<img src="'+it.img+'" draggable="false" alt="'+it.name+'"><span class="plabel">'+it.name+'</span>';
-    if(it.kind==='deco')inner+='<button class="delx" title="빼기">✕ 빼기</button>';
+    var inner='<img src="'+it.img+'" draggable="false" alt="'+it.name+'">';
+    if(it.kind==='deco')inner+='<span class="plabel">'+it.name+'</span><button class="delx" title="빼기">✕ 빼기</button>';
     el.innerHTML=inner;
     placeEl(el,it);
     attachPlace(el,it);
     if(it.kind==='deco'){const x=el.querySelector('.delx');if(x)x.addEventListener('click',ev=>{ev.stopPropagation();removeInstance(it.iid);});}
     g.appendChild(el);
+  });
+  /* 건물 이름표는 항상 공주/장식보다 위에 보이도록 최상단 레이어로 렌더 */
+  [...g.querySelectorAll('.bldlabel')].forEach(e=>e.remove());
+  groundItems().forEach(it=>{
+    if(it.kind!=='bld'||!it.img)return;
+    var s=itemScreen(it.c,it.r,it.fw,it.fh);
+    const lb=document.createElement('div');
+    lb.className='bldlabel';
+    lb.textContent=it.name;
+    lb.style.left=s.x+'%';lb.style.top=s.y+'%';
+    g.appendChild(lb);
   });
   g.classList.toggle('edit',editMode);
 }
