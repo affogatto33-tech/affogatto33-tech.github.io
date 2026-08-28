@@ -18,7 +18,7 @@
     --cream:#f4ecff;--card:#fffafe;--ink:#5a3a7a;--ink-soft:#9878b8;
     --pink:#ff6fb0;--pink-soft:#ffdcef;--lav:#c3aefc;--lav-soft:#ece2ff;
     --mint:#8fe3cf;--mint-soft:#e0f7f0;--sun:#ffcf5c;--line:#e9dcf6;
-    --good:#2fae86;--block:#b3a0f0;--block-edge:#9a86e0;
+    --good:#2fae86;--block:#6a5aa6;--block-edge:#4e4088;
     --key:#f6ecff;--key-edge:#ddccf2;--shadow:rgba(150,110,200,.22);
   }
   @media (prefers-color-scheme: dark){
@@ -99,6 +99,8 @@
   .cell.sel::after{content:'';position:absolute;bottom:5px;width:60%;height:3px;border-radius:2px;background:var(--pink);animation:blink 1s step-start infinite}
   @keyframes blink{50%{opacity:.2}}
   .cell.correct{background:var(--mint-soft);border-color:var(--good);color:var(--good);animation:pop .3s}
+  .cell.shown{background:#fff2bf;border-color:#f0c000;color:#8a6400}
+  .cell.shown .num{color:#b08a00}
   .cell.wrong{animation:shake .4s}
   .cell .num{position:absolute;top:1px;left:3px;font-family:'Jua',sans-serif;font-weight:700;font-size:.7rem;color:var(--ink-soft);line-height:1}
   .cell.correct .num{color:var(--good)}
@@ -113,7 +115,15 @@
   .aclue.empty{background:var(--lav-soft);border-color:var(--lav)}
 
   /* keyboard */
-  .kbd{margin-top:10px;display:flex;flex-direction:column;gap:6px;user-select:none}
+  .kbtabs{display:flex;gap:6px;margin-top:10px;justify-content:center}
+  .kbtab{flex:1;max-width:180px;padding:8px 6px;border-radius:12px 12px 0 0;border:2px solid var(--key-edge);border-bottom:none;
+    background:var(--key);color:var(--ink-soft);font-family:'Jua',sans-serif;font-size:.95rem;cursor:pointer;transition:background .12s,color .12s}
+  .kbtab.act{background:var(--pink);color:#fff;border-color:var(--pink)}
+  .sysinput{width:100%;box-sizing:border-box;margin-top:8px;padding:14px 14px;border:2.5px solid var(--pink);border-radius:14px;
+    background:var(--card);color:var(--ink);font-family:'Jua',sans-serif;font-size:1.5rem;text-align:center;outline:none;box-shadow:0 3px 0 var(--key-edge)}
+  .sysinput::placeholder{color:var(--ink-soft);font-size:1rem}
+  .syshint{margin-top:6px;text-align:center;font-family:'Jua',sans-serif;font-size:.8rem;color:var(--ink-soft)}
+  .kbd{margin-top:6px;display:flex;flex-direction:column;gap:6px;user-select:none}
   .krow{display:flex;gap:5px;justify-content:center}
   .key{flex:1;max-width:44px;height:46px;border:none;border-radius:10px;
     background:var(--key);color:var(--ink);border:2px solid var(--key-edge);
@@ -380,6 +390,9 @@
   #playScreen{background:linear-gradient(180deg,#faf1e2, var(--card) 44%)}
   #playScreen .board{background:linear-gradient(180deg,#efe0c6,#e6d2ad);box-shadow:inset 0 3px 10px rgba(120,80,30,.18)}
   #playScreen .cell{background:linear-gradient(180deg,#fffaf0,#fdf3e2)}
+  #playScreen .cell.block{background:linear-gradient(160deg,var(--block),var(--block-edge))}
+  #playScreen .cell.shown{background:#fff2bf}
+  #playScreen .cell.correct{background:var(--mint-soft)}
   #playScreen .speech{background:#f3e6cf}
 
   /* 보석 계산실 (연산) — 크리스탈 블루 */
@@ -613,14 +626,22 @@
           <div class="tx" id="atext">칸을 누르면 여기에 힌트가 나와요!</div>
         </div>
 
+        <div class="kbtabs">
+          <button class="kbtab act" id="kbtabDraw">🧚 그림 키보드</button>
+          <button class="kbtab" id="kbtabSys">⌨️ 내 키보드</button>
+        </div>
         <div class="kbd" id="kbd"></div>
+        <input id="sysinput" class="sysinput" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="칸을 누르고 여기에 글자를 쳐요" hidden>
+        <div class="syshint" id="syshint" hidden>내 키보드로 한 글자씩 입력돼요 · ⌫ 지우기 · Enter 확인</div>
 
         <div class="feedback" id="feedback"></div>
+
+        <button class="btn main" id="nextInlineBtn" hidden style="width:100%">다음 단계 →</button>
 
         <div class="controls">
           <button class="btn ghost" id="dirBtn">↔ 가로/세로</button>
           <button class="btn ghost" id="hintBtn">💡 힌트</button>
-          <button class="btn ghost" id="showBtn">🔑 정답 보기</button>
+          <button class="btn ghost" id="showBtn">🔑 정답</button>
           <button class="btn ghost" id="clearBtn">↺ 지우기</button>
           <button class="btn main" id="checkBtn">확인 ✓</button>
         </div>
@@ -1886,6 +1907,7 @@ function onCell(r,c){
   if(sel&&sel.r===r&&sel.c===c){const a=entryAt(r,c,'across'),d=entryAt(r,c,'down');if(a&&d)selDir=selDir==='across'?'down':'across';}
   else{finalize();sel={r,c};const a=entryAt(r,c,'across');if(!( (selDir==='across'&&a)||(selDir==='down'&&entryAt(r,c,'down')) ))selDir=a?'across':'down';}
   updateAll();
+  if(kbdMode==='sys'){const inp=$('#sysinput');if(inp)inp.value='';focusSysInput();}
 }
 function advanceCell(){
   const ae=activeEntry();if(!ae)return false;
@@ -1916,6 +1938,24 @@ function backspace(){
   else{const ae=activeEntry();if(ae){const i=ae.cells.findIndex(([r,c])=>r===sel.r&&c===sel.c);if(i>0){sel={r:ae.cells[i-1][0],c:ae.cells[i-1][1]};user[sel.r][sel.c]='';comp=emptyC();}}}
   updateAll();
 }
+/* ===== 내 키보드(기기/시스템 키보드) 입력: 완성된 한 글자를 칸에 채움 ===== */
+function isHangulSyl(ch){const cc=ch.charCodeAt(0);return cc>=0xAC00&&cc<=0xD7A3;}
+function placeSyllable(ch){
+  if(solved)return;
+  if(!sel||isBlock(sel.r,sel.c)){const e=nextEmptyGlobal();if(!e)return;sel={r:e.r,c:e.c};selDir=e.dir;}
+  comp=emptyC();
+  user[sel.r][sel.c]=ch;
+  try{Audio2.key();}catch(_){}
+  advanceCell();
+  updateAll();
+  if(boardFull())autoCheck();
+}
+function commitSysChar(ch){
+  if(!ch)return;
+  if(ch===' '||ch==='\n'||ch==='\t')return;      // 공백은 무시
+  /* 한글 완성형 또는 낱자/숫자/영문 한 글자만 채움 */
+  placeSyllable(ch);
+}
 function nextEmptyGlobal(){
   const ae=activeEntry();
   if(ae)for(const[r,c]of ae.cells)if(!user[r][c])return {r,c,dir:ae.dir};
@@ -1942,7 +1982,21 @@ function doCheck(auto){
 function showAnswerCross(){
   if(solved)return;
   for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){if(!isBlock(r,c))user[r][c]=grid[r][c];}
-  comp=emptyC();updateAll();answerShown=true;win();
+  comp=emptyC();answerShown=true;solved=true;
+  updateAll();
+  /* 정답 칸을 노란색으로 표시(축하 팝업 없이 천천히 볼 수 있게) */
+  document.querySelectorAll('.cell').forEach(el=>{if(!el.classList.contains('block'))el.classList.add('shown');});
+  stageWords.forEach(w=>covered.add(w));saveAll();updateStarUI();
+  $('#feedback').innerHTML='이게 정답이에요! 천천히 확인하고 <b>다음 단계</b>를 눌러요 ✨';$('#feedback').className='feedback';
+  $('#speech').innerHTML=`<b>${princessName()}</b>: 여기가 정답이야~ 천천히 보고, 다음엔 스스로 풀어서 코인을 받아보자 😊`;
+  setInlineNext();
+}
+function setInlineNext(){
+  const btn=$('#nextInlineBtn');if(!btn)return;
+  const done=covered.size>=WORDBANK.length;
+  btn.innerHTML=done?'🔁 낱말 다시 도전':'다음 단계 →';
+  btn.hidden=false;
+  btn.onclick=()=>{btn.hidden=true;if(done){covered=new Set();stage=0;saveAll();}nextStage();};
 }
 function win(){
   solved=true;
@@ -2160,7 +2214,7 @@ function buyDeco(d){
 }
 function openGame(g){
   switchScreen(g);
-  if(g==='crossword'){if(!$('#board').children.length||solved)nextStage();}
+  if(g==='crossword'){if(!$('#board').children.length||solved)nextStage();if(typeof applyKbdMode==='function')applyKbdMode();}
   if(g==='math')openMath();
   if(g==='sentence')openSentence();
   if(g==='tetris')tReady();
@@ -2462,7 +2516,7 @@ $('#tetDown').addEventListener('click',tSoft);
 addEventListener('keydown',e=>{if(currentScreen!=='tetris'||tOver)return;if(e.key==='ArrowLeft'){e.preventDefault();tMove(-1);}else if(e.key==='ArrowRight'){e.preventDefault();tMove(1);}else if(e.key==='ArrowUp'){e.preventDefault();tRotate();}else if(e.key==='ArrowDown'){e.preventDefault();tSoft();}});
 
 /* ================= buttons / keys ================= */
-$('#dirBtn').addEventListener('click',()=>{if(sel){const a=entryAt(sel.r,sel.c,'across'),d=entryAt(sel.r,sel.c,'down');if(a&&d)selDir=selDir==='across'?'down':'across';updateAll();}});
+$('#dirBtn').addEventListener('click',()=>{if(sel){const a=entryAt(sel.r,sel.c,'across'),d=entryAt(sel.r,sel.c,'down');if(a&&d)selDir=selDir==='across'?'down':'across';updateAll();if(kbdMode==='sys'){const inp=$('#sysinput');if(inp)inp.value='';focusSysInput();}}});
 $('#clearBtn').addEventListener('click',()=>{if(solved)return;for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)if(!isBlock(r,c))user[r][c]='';comp=emptyC();$('#feedback').textContent='';updateAll();});
 $('#checkBtn').addEventListener('click',()=>doCheck(false));
 $('#showBtn').addEventListener('click',()=>{if(solved)return;if(confirm('정답을 보면 코인은 받지 않아요. 볼까요?'))showAnswerCross();});
@@ -2482,6 +2536,7 @@ const QMAP={q:'ㅂ',w:'ㅈ',e:'ㄷ',r:'ㄱ',t:'ㅅ',y:'ㅛ',u:'ㅕ',i:'ㅑ',o:'�
 const QMAP_S={Q:'ㅃ',W:'ㅉ',E:'ㄸ',R:'ㄲ',T:'ㅆ',O:'ㅒ',P:'ㅖ'};
 addEventListener('keydown',e=>{
   if(!$('#startOverlay').hidden||!$('#winOverlay').hidden||$('#playScreen').hidden)return;
+  if(kbdMode==='sys'||e.isComposing||e.target===$('#sysinput'))return;   // 내 키보드 모드는 입력창이 처리
   if(e.key==='Backspace'){e.preventDefault();backspace();return;}
   if(e.key===' '){e.preventDefault();$('#dirBtn').click();return;}
   if(e.key.startsWith('Arrow')){e.preventDefault();moveSel(e.key);return;}
@@ -2496,6 +2551,50 @@ function moveSel(key){
   const d={ArrowLeft:[0,-1],ArrowRight:[0,1],ArrowUp:[-1,0],ArrowDown:[1,0]}[key];
   for(let k=0;k<Math.max(rows,cols);k++){r+=d[0];c+=d[1];if(r<0||c<0||r>=rows||c>=cols)break;if(!isBlock(r,c)){finalize();sel={r,c};selDir=(key==='ArrowLeft'||key==='ArrowRight')?'across':'down';if(!entryAt(r,c,selDir))selDir=selDir==='across'?'down':'across';updateAll();return;}}
 }
+
+/* ================= 키보드 방식 탭 (그림 키보드 / 내 키보드) ================= */
+let kbdMode='draw';
+try{const m=localStorage.getItem('princess_kbdmode');if(m==='sys'||m==='draw')kbdMode=m;}catch(_){}
+function focusSysInput(){const inp=$('#sysinput');if(inp&&kbdMode==='sys'){try{inp.focus({preventScroll:true});}catch(_){inp.focus();}}}
+function applyKbdMode(){
+  const draw=kbdMode!=='sys';
+  $('#kbd').style.display=draw?'flex':'none';
+  $('#sysinput').style.display=draw?'none':'block';
+  $('#syshint').style.display=draw?'none':'block';
+  $('#kbtabDraw').classList.toggle('act',draw);
+  $('#kbtabSys').classList.toggle('act',!draw);
+  if(!draw){const inp=$('#sysinput');inp.value='';setTimeout(focusSysInput,30);}
+}
+function setKbdMode(m){kbdMode=m;try{localStorage.setItem('princess_kbdmode',m);}catch(_){}applyKbdMode();}
+$('#kbtabDraw').addEventListener('click',()=>setKbdMode('draw'));
+$('#kbtabSys').addEventListener('click',()=>{setKbdMode('sys');focusSysInput();});
+/* 내 키보드: 입력창의 글자를 '지금 고른 낱말' 칸에 실시간으로 채움 */
+function sysRender(text,composing){
+  if(solved)return;
+  text=(text||'').replace(/\s/g,'');
+  if(!activeEntry()){const e=nextEmptyGlobal();if(e){finalize();sel={r:e.r,c:e.c};selDir=e.dir;}}
+  const entry=activeEntry();if(!entry){updateAll();return;}
+  const chars=[...text];
+  for(let i=0;i<entry.cells.length;i++){const [r,c]=entry.cells[i];user[r][c]=(chars[i]!=null?chars[i]:'');}
+  const idx=Math.min(chars.length,entry.cells.length-1);
+  const [sr,sc]=entry.cells[Math.max(0,idx)];sel={r:sr,c:sc};comp=emptyC();
+  updateAll();
+  if(!composing&&chars.length>=entry.cells.length){if(boardFull())autoCheck();}
+}
+(function(){
+  const inp=$('#sysinput');if(!inp)return;
+  let composing=false;
+  inp.addEventListener('compositionstart',()=>{composing=true;});
+  inp.addEventListener('compositionupdate',()=>{if(kbdMode==='sys')sysRender(inp.value,true);});
+  inp.addEventListener('compositionend',()=>{composing=false;if(kbdMode==='sys')sysRender(inp.value,false);});
+  inp.addEventListener('input',()=>{if(composing)return;if(kbdMode!=='sys')return;
+    if(/\s/.test(inp.value))inp.value=inp.value.replace(/\s/g,'');
+    sysRender(inp.value,false);});
+  inp.addEventListener('keydown',e=>{
+    if(e.isComposing)return;
+    if(e.key==='Enter'){e.preventDefault();inp.value='';doCheck(false);}
+  });
+})();
 
 $('#startBtn').addEventListener('click',()=>{$('#startOverlay').hidden=true;switchScreen('home');});
 $('#logoutBtn').addEventListener('click',logout);
@@ -2565,7 +2664,9 @@ function nextStage(){
   $('#fairySlot').innerHTML=`<div class="fairy">${FAIRIES[0].svg}</div>`;
   $('#speech').innerHTML=`<b>${princessName()}</b>: 칸을 누르고 키보드로 글자를 쳐줘! ✨`;
   $('#startOverlay').hidden=true;$('#winOverlay').hidden=true;
+  $('#nextInlineBtn').hidden=true;
   renderKbd();updateAll();
+  if(typeof applyKbdMode==='function')applyKbdMode();
 }
 /* ================= 소리 (Web Audio 합성, 외부파일 없음) ================= */
 const Audio2=(function(){
@@ -2624,7 +2725,7 @@ const Audio2=(function(){
   if(typeof openGame==='function'){ var _og=openGame; openGame=function(){ Audio2.click(); return _og.apply(this,arguments); }; }
 })();
 // 저장된 진행/별/꾸미기 불러오기
-renderKbd();switchScreen('home');
+renderKbd();applyKbdMode();switchScreen('home');
 $('#authFairy').innerHTML=FAIRIES[0].svg;$('#startFairy').innerHTML=FAIRIES[0].svg;
 // 자동 로그인(마지막 사용자) 또는 로그인 화면
 (function(){
