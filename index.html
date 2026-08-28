@@ -500,10 +500,11 @@
     box-shadow:0 2px 5px rgba(0,0,0,.25);z-index:1000001}
   .placeItem.bld:hover{filter:brightness(1.05)}
   .placeItem.bld:active{filter:brightness(1.08)}
-  .placeItem.avatar{width:12%}
+  .placeItem.avatar{width:6%}
   .placeItem.avatar img{filter:drop-shadow(0 5px 4px rgba(150,110,200,.4))}
   /* 투명 PNG의 큰 박스가 서로 가리는 문제 방지: 모드별로 대상 분리 */
-  .placeItem.avatar{pointer-events:none!important}
+  .grounds:not(.edit) .placeItem.avatar{pointer-events:none}
+  .grounds.edit .placeItem.avatar{pointer-events:auto}
   .grounds.edit .placeItem.deco{pointer-events:auto}
   .grounds:not(.edit) .placeItem.deco{pointer-events:none}
   .grounds.edit .placeItem{cursor:grab;animation:jiggle 1.5s ease-in-out infinite}
@@ -828,10 +829,14 @@ function itemScreen(c,r,fw,fh){
 }
 function snapHalf(v){return Math.round(v*2)/2;}
 function pointerToCell(px,py,fw,fh){
+  /* 포인터를 마당 안쪽으로 제한(아이템이 화면 밖으로 못 나가게) */
+  px=Math.max(4,Math.min(96,px));
+  py=Math.max(15,Math.min(98,py));
   const a=(px-GRID.cx)/(GRID.tw/2), b=(py-GRID.cy)/(GRID.th/2);
   let c=snapHalf((a+b)/2 - fw/2), r=snapHalf((b-a)/2 - fh/2);
-  c=Math.max(0,Math.min(GRID.cols-fw,c));
-  r=Math.max(0,Math.min(GRID.rows-fh,r));
+  /* 옛 7x7 제한 해제: 마당 전체(넓은 범위)로 배치 허용 */
+  c=Math.max(-4,Math.min(GRID.cols+4-fw,c));
+  r=Math.max(-4,Math.min(GRID.rows+4-fh,r));
   return {c:c,r:r};
 }
 const BG_LIST=[
