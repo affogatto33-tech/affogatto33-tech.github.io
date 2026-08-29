@@ -991,8 +991,9 @@ const ENERGY_MAX=100;
 /* 30분 놀면 에너지가 줄고, 마을 레저 건물(카페·식당·놀이터·극장·놀이동산)을 누르면 충전 */
 const PLAY_LIMIT_MS=30*60*1000;   /* 30분 후부터 감소 시작 */
 const ENERGY_DRAIN_PER_SEC=0.05;  /* 감소 속도(약 3/분) */
-const RECHARGE_AMT=25, RECHARGE_CD=45000;
-const RECHARGE_IDS=new Set(['deco_cafe','deco_restaurant','deco_playground','deco_theater','deco_amusement']);
+const RECHARGE_AMT=10, RECHARGE_CD=45000, RECHARGE_COST=10;
+const RECHARGE_IDS=new Set(['deco_cafe','deco_restaurant','deco_playground','deco_theater','deco_amusement','deco_castle']);
+const RECHARGE_FREE=new Set(['deco_castle']);  /* 성은 무료 충전(코인 소모 없음) */
 let playMs=0;             /* 이번 세션 누적 플레이시간 (세션마다 0으로 시작) */
 let _rechargeAt={};       /* iid -> 다음 충전 가능 시각 (메모리) */
 function updateEnergyUI(){var f=$('#enFill'),v=$('#enVal');if(!f)return;var e=Math.max(0,Math.min(ENERGY_MAX,Math.round(energy)));f.style.width=e+'%';f.classList.toggle('low',e<=25);if(v)v.textContent=e;}
@@ -1000,15 +1001,19 @@ function addEnergy(n){energy=Math.max(0,Math.min(ENERGY_MAX,energy+n));updateEne
 function spendEnergy(n){addEnergy(-n);}
 function rechargeAt(el,it){
   if(!it||!RECHARGE_IDS.has(it.id))return false;
+  var free=RECHARGE_FREE.has(it.id);
   var now=Date.now();
-  if(_rechargeAt[it.iid]&&now<_rechargeAt[it.iid]){
-    floatMsg(el,'조금 이따 다시 와요 ⏳');return true;
-  }
-  _rechargeAt[it.iid]=now+RECHARGE_CD;
   if(energy>=ENERGY_MAX){floatMsg(el,'에너지가 가득해요 ⚡');return true;}
-  addEnergy(RECHARGE_AMT);
+  if(free&&_rechargeAt[it.iid]&&now<_rechargeAt[it.iid]){floatMsg(el,'조금 이따 다시 와요 ⏳');return true;}
+  if(!free){
+    if(score<RECHARGE_COST){if(typeof flashStar==='function')flashStar();floatMsg(el,'코인이 부족해요 🪙');return true;}
+    score-=RECHARGE_COST;updateStarUI();
+  } else {
+    _rechargeAt[it.iid]=now+RECHARGE_CD;
+  }
+  addEnergy(RECHARGE_AMT);   /* saveAll 포함 */
   try{Audio2.coin&&Audio2.coin();}catch(_){}
-  floatMsg(el,'⚡ +'+RECHARGE_AMT+' 충전!');
+  floatMsg(el, free ? '⚡ +'+RECHARGE_AMT+' 충전!' : '⚡ +'+RECHARGE_AMT+' · 🪙 -'+RECHARGE_COST);
   return true;
 }
 function floatMsg(el,txt){
