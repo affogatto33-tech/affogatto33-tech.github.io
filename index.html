@@ -421,6 +421,49 @@
   #tetrisScreen{background:linear-gradient(180deg,#e9fbf4, var(--card) 44%)}
   #tetCanvas{background:linear-gradient(180deg,#2c2261,#4a3f86);border-color:#6a5aa8;box-shadow:inset 0 0 22px rgba(0,0,0,.4),0 6px 14px var(--shadow)}
 
+  /* ========== 공주의 방(침실) ========== */
+  #roomScreen{background:linear-gradient(180deg,#fbeffa, var(--card) 44%)}
+  .worldbar.castleroom{background:linear-gradient(180deg,#f3d9ff,#e2b8f5);color:#6a3f8a;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+  .room{position:relative;width:100%;aspect-ratio:16/10;max-width:min(100%, calc((100vh - 240px) * 16 / 10));margin:10px auto 0;border-radius:24px;overflow:hidden;
+    box-shadow:inset 0 0 0 3px rgba(255,255,255,.5),0 8px 20px var(--shadow)}
+  .room .rwall{position:absolute;inset:0 0 34% 0;background:linear-gradient(180deg,#f7ddf5,#f0cdee);}
+  .room .rwall:after{content:'';position:absolute;inset:0;background-image:radial-gradient(4px 4px at 18% 40%, rgba(255,255,255,.6),transparent),radial-gradient(4px 4px at 62% 22%, rgba(255,255,255,.5),transparent),radial-gradient(4px 4px at 84% 52%, rgba(255,255,255,.5),transparent),radial-gradient(3px 3px at 40% 66%, rgba(255,255,255,.5),transparent)}
+  .room .rfloor{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,#e9c9a3,#dbb488);box-shadow:inset 0 4px 8px rgba(120,80,40,.15)}
+  .room .rrug{position:absolute;left:50%;bottom:5%;transform:translateX(-50%);width:52%;height:20%;border-radius:50%;
+    background:radial-gradient(circle,#ffd7ef 0 40%,#ffbfe4 41% 70%,#ff9fd4 71%);opacity:.85}
+  .room .rwindow{position:absolute;left:9%;top:9%;width:24%;height:34%;border-radius:14px 14px 10px 10px;border:5px solid #fff;
+    background:linear-gradient(180deg,#3a2f6e,#5b4a9e);box-shadow:0 6px 12px rgba(0,0,0,.15);overflow:hidden}
+  .room .rwindow:after{content:'';position:absolute;left:50%;top:0;bottom:0;width:4px;background:#fff;transform:translateX(-50%)}
+  .room .rmoon{position:absolute;right:14%;top:14%;font-size:1.3rem}
+  .room .rstar{position:absolute;color:#fff;font-size:.7rem;opacity:.9}
+  .room .rs1{left:18%;top:20%}.room .rs2{left:60%;top:52%}.room .rs3{left:30%;top:64%}
+  .room .rframe{position:absolute;right:11%;top:12%;font-size:1.8rem;filter:drop-shadow(0 3px 3px rgba(0,0,0,.15))}
+  /* 책상 */
+  .room .desk{position:absolute;right:6%;bottom:12%;width:26%;height:30%}
+  .room .desktop{position:absolute;left:0;right:0;top:22%;height:14%;background:linear-gradient(180deg,#f6cfa0,#e0ab74);border-radius:6px;box-shadow:0 3px 5px rgba(0,0,0,.18)}
+  .room .desklegL,.room .desklegR{position:absolute;bottom:0;width:9%;height:66%;background:#d19a63;border-radius:3px}
+  .room .desklegL{left:8%}.room .desklegR{right:8%}
+  .room .deskchair{position:absolute;left:-16%;bottom:0;width:20%;height:52%;background:#e7b3e0;border-radius:6px 6px 4px 4px;box-shadow:0 3px 5px rgba(0,0,0,.15)}
+  .room .deskbook{position:absolute;left:14%;top:6%;font-size:1.1rem}
+  .room .desklamp{position:absolute;right:12%;top:0;font-size:1.1rem}
+  /* 침대 */
+  .room .bed{position:absolute;left:5%;bottom:9%;width:42%;height:44%;border:none;background:none;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+  .room .bed:active{transform:scale(.99)}
+  .room .bedcanopy{position:absolute;left:-4%;top:-30%;width:108%;height:36%;background:linear-gradient(180deg,#ff9fd0,#ff7ec0);border-radius:50% 50% 8px 8px;box-shadow:0 4px 8px rgba(0,0,0,.15)}
+  .room .bedhead{position:absolute;left:0;bottom:0;width:16%;height:82%;background:linear-gradient(180deg,#c8a2f0,#a97fe0);border-radius:12px 12px 6px 6px}
+  .room .bedbase{position:absolute;left:8%;bottom:0;width:92%;height:46%;background:linear-gradient(180deg,#e7d2ff,#d3b8f5);border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,.18)}
+  .room .bedquilt{position:absolute;left:14%;bottom:30%;width:86%;height:26%;background:linear-gradient(180deg,#ffd3ec,#ffb3dd);border-radius:10px 10px 4px 4px;box-shadow:inset 0 2px 4px rgba(255,255,255,.5)}
+  .room .bedpillow{position:absolute;left:14%;bottom:40%;width:22%;height:16%;background:#fff;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.12)}
+  .room .bedzzz{position:absolute;left:26%;top:-6%;font-size:1.3rem;opacity:0;transition:opacity .3s}
+  .room.sleeping .bedzzz{opacity:1;animation:zzzfloat 1.6s ease-in-out infinite}
+  @keyframes zzzfloat{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-8px);opacity:1}}
+  /* 아바타(방 안) */
+  .room .roomavatar{position:absolute;left:52%;bottom:9%;width:15%;transform:translateX(-50%);transition:all .5s ease;z-index:5}
+  .room .roomavatar img{width:100%;display:block;filter:drop-shadow(0 5px 4px rgba(150,110,200,.35))}
+  .room.sleeping .roomavatar{left:24%;bottom:22%;width:20%;transform:translateX(-50%) rotate(-78deg);z-index:4}
+  .room .roomhint{position:absolute;left:50%;bottom:1%;transform:translateX(-50%);white-space:nowrap;font-family:'Jua',sans-serif;font-size:.82rem;color:#7a4f8e;
+    background:rgba(255,255,255,.82);padding:3px 12px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+
   /* ========== 꾸미기 배경 선택 ========== */
   .homefig{overflow:hidden;border-radius:16px}
   .dresssec{margin-top:14px}
@@ -629,6 +672,40 @@
     </div>
   </div>
 
+  <div class="card screen" id="roomScreen" hidden>
+    <div class="worldbar castleroom">🏰 공주의 방</div>
+    <div class="room" id="room">
+      <div class="rwall"></div>
+      <div class="rwindow"><span class="rmoon">🌙</span><span class="rstar rs1">✦</span><span class="rstar rs2">✦</span><span class="rstar rs3">✧</span></div>
+      <div class="rframe">🖼️</div>
+      <div class="rfloor"></div>
+      <div class="rrug"></div>
+      <!-- 책상 -->
+      <div class="desk">
+        <div class="desktop"></div>
+        <div class="desklegL"></div><div class="desklegR"></div>
+        <div class="deskchair"></div>
+        <span class="deskbook">📖</span><span class="desklamp">💡</span>
+      </div>
+      <!-- 침대 -->
+      <button class="bed" id="bedBtn" title="침대">
+        <div class="bedcanopy"></div>
+        <div class="bedhead"></div>
+        <div class="bedbase"></div>
+        <div class="bedquilt"></div>
+        <div class="bedpillow"></div>
+        <span class="bedzzz">💤</span>
+      </button>
+      <!-- 아바타 -->
+      <div class="roomavatar" id="roomAvatar"><img id="roomAvatarImg" src="" alt="공주" draggable="false"></div>
+      <div class="roomhint" id="roomHint">🛏️ 침대를 누르면 공주가 자면서 ⚡에너지가 채워져요!</div>
+    </div>
+    <div class="controls">
+      <button class="btn ghost" id="roomWake" hidden>☀️ 일어나기</button>
+      <button class="btn main" id="roomExit">🏰 마을로 나가기</button>
+    </div>
+  </div>
+
   <div class="card screen" id="playScreen" hidden>
     <div class="worldbar lib">📚 마법 도서관</div>
     <div class="fairy-row">
@@ -678,9 +755,9 @@
     <div class="dsectitle">👗 드레스</div>
     <div class="shopGrid" id="shopGrid"></div>
     <div class="dsectitle" style="margin-top:16px">🏘️ 마을 상점</div>
-    <div class="shopnote">마을 건물을 마당에 놓고 <b>톡 누르면 ⚡에너지가 충전</b>돼요!<br>
-      ☕카페 +10 · 🍽️식당 +15 · 🛝놀이터 +20 · 🎭극장 +25 · 🎡놀이동산 +35 · 🏰공주의 성 +50<br>
-      <span class="dim">누를 때 코인 소모 — 🏰공주의 성 🪙50 · 나머지 🪙10</span></div>
+    <div class="shopnote">마을 건물을 마당에 놓고 <b>톡 누르면 ⚡에너지가 충전</b>돼요! (누를 때 🪙10)<br>
+      ☕카페 +10 · 🍽️식당 +15 · 🛝놀이터 +20 · 🎭극장 +25 · 🎡놀이동산 +35<br>
+      <span class="dim">🏰공주의 성은 누르면 방에 들어가 침대에서 자면 <b>무료로 충전</b>돼요!</span></div>
     <div class="shopGrid" id="shopDecoGrid"></div>
   </div>
 
@@ -762,9 +839,9 @@
     <div class="helpbody">
       • 게임을 하면 에너지가 조금씩 줄어요. <b>30분 놀면 0</b>이 돼요.<br>
       • 앱을 <b>끄고 쉬면 다시 차올라요 — 8시간이면 가득!</b><br>
-      • 마당의 <b>마을 건물을 톡 누르면 바로 충전</b>돼요:
-      <span class="amt">☕ 카페 +10 · 🍽️ 식당 +15 · 🛝 놀이터 +20<br>🎭 극장 +25 · 🎡 놀이동산 +35 · 🏰 공주의 성 +50</span>
-      <span class="dim">누를 때 코인 소모 — 🏰 공주의 성 🪙50 · 나머지 🪙10</span>
+      • 마당의 <b>마을 건물을 톡 누르면 바로 충전</b>돼요 (🪙10):
+      <span class="amt">☕ 카페 +10 · 🍽️ 식당 +15 · 🛝 놀이터 +20<br>🎭 극장 +25 · 🎡 놀이동산 +35</span>
+      • 🏰 <b>공주의 성</b>을 누르면 <b>방</b>에 들어가 침대에서 자면 <b>무료로 충전</b>돼요!
     </div>
     <div class="diff">
       <button id="helpClose" style="background:var(--pink);color:#fff;border-color:var(--pink);justify-content:center;font-size:1.15rem">확인 ✓</button>
@@ -1041,6 +1118,7 @@ function addEnergy(n){energy=Math.max(0,Math.min(ENERGY_MAX,energy+n));updateEne
 function spendEnergy(n){addEnergy(-n);}
 function rechargeAt(el,it){
   if(!it||!RECHARGE_IDS.has(it.id))return false;
+  if(it.id==='deco_castle'){openRoom();return true;}   /* 공주의 성 → 방 입장(코인 소모 없음) */
   if(energy>=ENERGY_MAX){floatMsg(el,'에너지가 가득해요 ⚡');return true;}
   var cost=RECHARGE_COST_MAP[it.id]||10;
   if(score<cost){if(typeof flashStar==='function')flashStar();floatMsg(el,'코인이 부족해요 🪙');return true;}
@@ -1060,6 +1138,7 @@ function floatMsg(el,txt){
 function energyTick(){
   var now=Date.now();var dt=now-enTs;enTs=now;
   if(dt<=0)return;
+  if(typeof currentScreen!=='undefined'&&currentScreen==='room')return;   /* 방(침실)에선 소진 없음 — 잠자기로만 충전 */
   if(document.hidden){ energy=Math.min(ENERGY_MAX, energy + dt/REGEN_FULL_MS*ENERGY_MAX); }   /* 꺼둠/백그라운드 → 완충 */
   else { energy=Math.max(0, energy - dt/DRAIN_FULL_MS*ENERGY_MAX); }                           /* 켜서 놀면 → 소진 */
   updateEnergyUI();
@@ -1071,6 +1150,35 @@ function energyTick(){
 (function(){setInterval(function(){if(typeof currentUser!=='undefined'&&currentUser)energyTick();},10000);
   document.addEventListener('visibilitychange',function(){if(typeof currentUser!=='undefined'&&currentUser)energyTick();});
   setInterval(function(){if(typeof currentUser!=='undefined'&&currentUser&&typeof saveAll==='function')saveAll();},60000);})();
+
+/* ===== 공주의 방(침실): 성 입장 → 침대에서 잠자며 에너지 충전(무료) ===== */
+var _sleepTimer=null;
+function openRoom(){var img=$('#roomAvatarImg');if(img)img.src=currentLookImg();stopSleep();switchScreen('room');}
+function startSleep(){
+  var room=$('#room');if(!room)return;
+  room.classList.add('sleeping');
+  $('#roomHint').textContent='공주가 쿨쿨 자면서 ⚡에너지를 채우고 있어요 💤';
+  $('#roomWake').hidden=false;
+  if(_sleepTimer)clearInterval(_sleepTimer);
+  _sleepTimer=setInterval(function(){
+    if(energy>=ENERGY_MAX){energy=ENERGY_MAX;enTs=Date.now();updateEnergyUI();if(typeof saveAll==='function')saveAll();clearInterval(_sleepTimer);_sleepTimer=null;$('#roomHint').textContent='에너지가 가득 찼어요! ⚡ 이제 신나게 놀 수 있어요 😊';return;}
+    energy=Math.min(ENERGY_MAX,energy+5);enTs=Date.now();updateEnergyUI();
+  },500);
+}
+function stopSleep(){
+  if(_sleepTimer){clearInterval(_sleepTimer);_sleepTimer=null;}
+  var room=$('#room');if(room)room.classList.remove('sleeping');
+  var w=$('#roomWake');if(w)w.hidden=true;
+  var h=$('#roomHint');if(h&&typeof currentScreen!=='undefined'&&currentScreen==='room')h.textContent='🛏️ 침대를 누르면 공주가 자면서 ⚡에너지가 채워져요!';
+  if(typeof saveAll==='function'&&typeof currentUser!=='undefined'&&currentUser)saveAll();
+}
+/* 방 버튼 바인딩은 $ 정의 이후(스크립트 끝부분)에서 실행됨 → bindRoomButtons() */
+function bindRoomButtons(){
+  var bed=$('#bedBtn'),wake=$('#roomWake'),exit=$('#roomExit');
+  if(bed)bed.addEventListener('click',function(){var r=$('#room');if(r&&r.classList.contains('sleeping'))return;startSleep();});
+  if(wake)wake.addEventListener('click',stopSleep);
+  if(exit)exit.addEventListener('click',function(){stopSleep();switchScreen('home');});
+}
 function updateHintBtn(){var b=$('#hintBtn');if(b)b.textContent='💡 힌트 '+(typeof hints==='number'?hints:3);}
 CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));
 /* ---- 사용자 프로필(로컬 저장) ---- */
@@ -2211,7 +2319,7 @@ function coinFly(n){const chip=$('#starChip');if(!chip||!n)return;const r=chip.g
   document.body.appendChild(f);setTimeout(()=>f.remove(),1100);
   if(typeof burstAt==='function')burstAt(r.left+r.width/2,r.top+r.height/2,14,true);}
 function addStars(n){score+=n;updateStarUI();saveAll();const c=$('#starChip');c.classList.add('pop');setTimeout(()=>c.classList.remove('pop'),400);coinFly(n);}
-const SCREEN_EL={home:'homeScreen',crossword:'playScreen',math:'mathScreen',sentence:'sentenceScreen',tetris:'tetrisScreen',shop:'shopScreen',dress:'dressScreen'};
+const SCREEN_EL={home:'homeScreen',crossword:'playScreen',math:'mathScreen',sentence:'sentenceScreen',tetris:'tetrisScreen',shop:'shopScreen',dress:'dressScreen',room:'roomScreen'};
 let currentScreen='home', navHist=[];
 function switchScreen(n,isBack){
   if(currentScreen==='tetris'&&n!=='tetris'&&typeof tStop==='function')tStop();
@@ -2224,6 +2332,7 @@ function switchScreen(n,isBack){
   if(n==='home')renderHome();
   if(n==='shop')renderShop();
   if(n==='dress')renderDress();
+  if(n!=='room'&&typeof stopSleep==='function')stopSleep();   /* 방을 벗어나면 잠 해제 */
 }
 function goBack(){if(!navHist.length){switchScreen('home',true);return;}const p=navHist.pop();switchScreen(p,true);}
 $('#backBtn').addEventListener('click',goBack);
@@ -2702,6 +2811,7 @@ function sysRender(text,composing){
 
 (function(){var hb=$('#helpBtn'),ho=$('#helpOverlay'),hc=$('#helpClose');if(hb&&ho)hb.addEventListener('click',()=>{ho.hidden=false;});if(hc&&ho)hc.addEventListener('click',()=>{ho.hidden=true;});if(ho)ho.addEventListener('click',e=>{if(e.target===ho)ho.hidden=true;});})();
 (function(){var eo=$('#energyOverlay'),eg=$('#energyGoHome');if(eg&&eo)eg.addEventListener('click',()=>{eo.hidden=true;switchScreen('home');});})();
+if(typeof bindRoomButtons==='function')bindRoomButtons();
 $('#startBtn').addEventListener('click',()=>{$('#startOverlay').hidden=true;switchScreen('home');});
 $('#logoutBtn').addEventListener('click',logout);
 $('#userChip').addEventListener('click',()=>{if(currentUser&&confirm('다른 아이디로 로그인할까요? (지금까지 저장돼 있어요)'))logout();});
