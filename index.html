@@ -516,6 +516,7 @@
   .placeItem{position:absolute;transform:translate(-50%,-100%);width:24%;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:none;transition:filter .12s}
   .placeItem img{width:100%;display:block;pointer-events:none;filter:drop-shadow(0 7px 6px rgba(80,60,90,.28))}
   .placeItem.bld img{filter:none}
+  .placeItem.deco.rc img{filter:none}   /* 마을 건물: 홈에서 드롭섀도(음영) 제거 */
   .placeItem .plabel{position:absolute;left:50%;bottom:-3px;transform:translateX(-50%);font-family:'Jua',sans-serif;font-size:.62rem;color:#fff;
     background:rgba(150,110,180,.9);padding:1px 8px;border-radius:11px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;box-shadow:0 2px 5px rgba(0,0,0,.2)}
   .bldlabel{position:absolute;transform:translate(-50%,2px);font-family:'Jua',sans-serif;font-size:.62rem;color:#fff;
@@ -875,12 +876,12 @@ const BUILDINGS=[
 ];
 const DECOS=[
   /* 🏘️ 마을 건물 (상점에서 구매해 마을에 놓기) */
-  {id:'deco_cafe',      name:'카페',      price:40, fw:2,fh:2, dc:1,dr:1},
-  {id:'deco_restaurant',name:'식당',      price:45, fw:2,fh:2, dc:3,dr:1},
-  {id:'deco_playground',name:'놀이터',    price:55, fw:2,fh:2, dc:1,dr:3},
-  {id:'deco_theater',   name:'극장',      price:70, fw:2,fh:2, dc:3,dr:3},
-  {id:'deco_amusement', name:'놀이동산',  price:90, fw:2,fh:2, dc:1,dr:5},
-  {id:'deco_castle',    name:'공주의 성', price:150,fw:2,fh:2, dc:3,dr:5},
+  {id:'deco_cafe',      name:'카페',      price:40, fw:1.2,fh:1.2, dc:1,dr:1},
+  {id:'deco_restaurant',name:'식당',      price:45, fw:1.2,fh:1.2, dc:3,dr:1},
+  {id:'deco_playground',name:'놀이터',    price:55, fw:1.2,fh:1.2, dc:1,dr:3},
+  {id:'deco_theater',   name:'극장',      price:70, fw:1.2,fh:1.2, dc:3,dr:3},
+  {id:'deco_amusement', name:'놀이동산',  price:90, fw:1.2,fh:1.2, dc:1,dr:5},
+  {id:'deco_castle',    name:'공주의 성', price:150,fw:1.2,fh:1.2, dc:3,dr:5},
   {id:'deco_tree',    name:'꽃나무',    price:15,fw:1,  fh:1,  dc:1,dr:3},
   {id:'deco_fountain',name:'분수대',    price:45,fw:2,  fh:2,  dc:2,dr:2},
   {id:'deco_flower',  name:'꽃밭',      price:20,fw:1,  fh:1,  dc:5,dr:3},
