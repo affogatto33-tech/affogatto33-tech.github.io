@@ -1233,6 +1233,17 @@ CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));
 let currentUser=null;
 function usersLoad(){try{return JSON.parse(localStorage.getItem('princess_users'))||{};}catch(e){return {};}}
 function usersSave(u){try{localStorage.setItem('princess_users',JSON.stringify(u));}catch(e){}}
+/* 한글 아이디 안정화: 자모 조합형(NFD)/완성형(NFC) 불일치로 로그인 실패 방지 → 항상 NFC로 통일 */
+function normId(s){return (typeof s==='string'?s:'').trim().normalize('NFC');}
+function migrateUserKeys(){try{
+  var u=JSON.parse(localStorage.getItem('princess_users'))||{},out={},changed=false;
+  Object.keys(u).forEach(function(k){var nk=normId(k);if(nk!==k)changed=true;
+    if(!out[nk]){out[nk]=u[k];}
+    else{changed=true;if((u[k]&&u[k].save)&&!(out[nk]&&out[nk].save))out[nk]=u[k];}});
+  if(changed)localStorage.setItem('princess_users',JSON.stringify(out));
+  var cur=localStorage.getItem('princess_current');
+  if(cur){var nc=normId(cur);if(nc!==cur)localStorage.setItem('princess_current',nc);}
+}catch(e){}}
 function freshState(){score=0;covered=new Set();stage=0;energy=ENERGY_MAX;owned=new Set();equip=Object.assign({},DEFAULTS);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));if(typeof mathDone!=='undefined')mathDone={as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook='look_dress';if(typeof equippedBg!=='undefined')equippedBg='bg_soft';groundPos={};placed=[];}
 function applySave(d){freshState();energy=ENERGY_MAX;enTs=Date.now();if(d){score=d.s||0;energy=(typeof d.en==='number')?d.en:ENERGY_MAX;enTs=(typeof d.et==='number')?d.et:Date.now();var _gap=Date.now()-enTs;if(_gap>0)energy=Math.min(ENERGY_MAX,energy+_gap/REGEN_FULL_MS*ENERGY_MAX);enTs=Date.now();owned=new Set(d.o||[]);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));equip=Object.assign({},DEFAULTS,d.e||{});covered=new Set(d.cov||[]);stage=d.st||0;if(typeof mathDone!=='undefined')mathDone=(d.md&&typeof d.md==='object')?{as:d.md.as||0,md:d.md.md||0,ad:d.md.ad||0}:{as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook=d.lk||'look_dress';if(typeof equippedBg!=='undefined')equippedBg=d.bg||'bg_soft';groundPos=(d.gp&&typeof d.gp==='object')?d.gp:{};placed=Array.isArray(d.pl)?d.pl.map(p=>({iid:p.iid||newIid(),id:p.id,c:(typeof p.c==='number'?p.c:null),r:(typeof p.r==='number'?p.r:null)})):[];migratePlaced();normalizeGrid();}updateEnergyUI();}
 function migratePlaced(){/* 구버전: owned 장식이 placed에 없으면 한 개씩 생성 */if(typeof owned==='undefined')return;DECOS.forEach(d=>{if(owned.has(d.id)&&!placed.some(p=>p.id===d.id)){placed.push({iid:newIid(),id:d.id,c:null,r:null});}});}
@@ -2873,6 +2884,7 @@ $('#resetBtn').addEventListener('click',()=>{
 /* ---- 로그인/가입 ---- */
 function authErr(m){$('#authFeed').textContent=m;}
 function enterUser(id){
+  id=normId(id);
   currentUser=id;try{localStorage.setItem('princess_current',id);}catch(e){}
   const u=usersLoad();applySave(u[id]&&u[id].save);
   updateStarUI();
@@ -2882,16 +2894,18 @@ function enterUser(id){
   renderHome();
 }
 function doLogin(){
-  const id=$('#authId').value.trim(),pw=$('#authPw').value;
+  const id=normId($('#authId').value),pw=$('#authPw').value;
   if(!id){return authErr('아이디를 입력해요');}
+  migrateUserKeys();
   const u=usersLoad();
   if(!u[id]){return authErr('없는 아이디예요. 새로 가입해 주세요');}
   if(u[id].pw!==pw){return authErr('비밀번호가 달라요');}
   enterUser(id);
 }
 function doSignup(){
-  const id=$('#authId').value.trim(),pw=$('#authPw').value;
+  const id=normId($('#authId').value),pw=$('#authPw').value;
   if(!id||!pw){return authErr('아이디와 비밀번호를 모두 입력해요');}
+  migrateUserKeys();
   const u=usersLoad();
   if(u[id]){return authErr('이미 있는 아이디예요. 로그인하거나 다른 이름을 쓰세요');}
   u[id]={pw:pw,save:null};usersSave(u);
@@ -2993,7 +3007,9 @@ renderKbd();applyKbdMode();switchScreen('home');
 $('#authFairy').innerHTML=FAIRIES[0].svg;$('#startFairy').innerHTML=FAIRIES[0].svg;
 // 자동 로그인(마지막 사용자) 또는 로그인 화면
 (function(){
+  migrateUserKeys();   /* 기존 NFD 한글 아이디 → NFC로 통일(로그인 실패 방지) */
   let cur=null;try{cur=localStorage.getItem('princess_current');}catch(e){}
+  if(cur)cur=normId(cur);
   const u=usersLoad();
   if(cur&&u[cur]){enterUser(cur);}
   else{renderAuthUsers();$('#authOverlay').hidden=false;$('#startOverlay').hidden=true;}
