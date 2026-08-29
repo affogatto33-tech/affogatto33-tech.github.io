@@ -629,7 +629,7 @@
     </div>
     <div class="chips">
       <div class="chip" id="userChip" title="다른 아이디로 바꾸기">👤 <span id="userTag"></span></div>
-      <div class="chip enchip" id="enChip" title="에너지"><span>⚡</span><span class="engauge"><span class="enfill" id="enFill"></span></span><span class="enval" id="enVal">100</span></div>
+      <div class="chip enchip" id="enChip" title="에너지" style="display:none"><span>⚡</span><span class="engauge"><span class="enfill" id="enFill"></span></span><span class="enval" id="enVal">100</span></div>
       <div class="chip" id="starChip"><span>🪙</span><span id="score">0</span></div>
       <div class="chip" id="soundToggle" title="소리 켜기/끄기" style="cursor:pointer">🔊</div>
     </div>
@@ -1105,17 +1105,8 @@ function floatMsg(el,txt){
   s.style.left=el.style.left;s.style.top=el.style.top;
   g.appendChild(s);setTimeout(function(){s.remove();},1100);
 }
-function energyTick(){
-  var now=Date.now();var dt=now-enTs;enTs=now;
-  if(dt<=0)return;
-  if(typeof currentScreen!=='undefined'&&currentScreen==='room')return;   /* 방(침실)에선 소진 없음 — 잠자기로만 충전 */
-  if(document.hidden){ energy=Math.min(ENERGY_MAX, energy + dt/REGEN_FULL_MS*ENERGY_MAX); }   /* 꺼둠/백그라운드 → 완충 */
-  else { energy=Math.max(0, energy - dt/DRAIN_FULL_MS*ENERGY_MAX); }                           /* 켜서 놀면 → 소진 */
-  updateEnergyUI();
-  /* 놀이 중 에너지가 0이 되면 마을로 보내고 잠금 안내 */
-  if(energy<1 && typeof currentScreen!=='undefined' && ['crossword','math','sentence','tetris'].indexOf(currentScreen)>=0){
-    var eo=$('#energyOverlay');if(eo)eo.hidden=false;switchScreen('home');
-  }
+function energyTick(){ /* 에너지 시스템 비활성화: 항상 가득, 소진·잠금 없음 */
+  enTs=Date.now(); energy=ENERGY_MAX;
 }
 (function(){setInterval(function(){if(typeof currentUser!=='undefined'&&currentUser)energyTick();},10000);
   document.addEventListener('visibilitychange',function(){if(typeof currentUser!=='undefined'&&currentUser)energyTick();});
@@ -2399,7 +2390,6 @@ function buyDeco(d){
   placeDeco(d);renderShop();
 }
 function openGame(g){
-  if(energy<1){var eo=$('#energyOverlay');if(eo)eo.hidden=false;return;}   /* 에너지 0 → 놀이 잠금 */
   switchScreen(g);
   if(g==='crossword'){if(!$('#board').children.length||solved)nextStage();if(typeof applyKbdMode==='function')applyKbdMode();}
   if(g==='math')openMath();
