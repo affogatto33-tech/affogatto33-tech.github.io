@@ -2403,7 +2403,7 @@ function groundItems(){
   BUILDINGS.forEach(b=>{var p=groundPos[b.id]||{c:b.dc,r:b.dr};items.push({key:b.id,kind:'bld',name:b.name,game:b.game,fw:b.fw,fh:b.fh,c:p.c,r:p.r,img:assetImg(b.id)});});
   placed.forEach(p=>{const d=decoById(p.id);if(d)items.push({key:p.iid,iid:p.iid,kind:'deco',id:p.id,name:d.name,fw:d.fw,fh:d.fh,c:p.c,r:p.r,img:assetImg(p.id)});});
   var av=groundPos.avatar||{c:4,r:4};
-  items.push({key:'avatar',kind:'avatar',name:'공주',fw:0.4,fh:0.4,c:av.c,r:av.r,img:currentLookImg()});
+  items.push({key:'avatar',kind:'avatar',name:'공주',fw:0.48,fh:0.48,c:av.c,r:av.r,img:currentLookImg()});
   return items;
 }
 function placeEl(el,it){var s=itemScreen(it.c,it.r,it.fw,it.fh);
