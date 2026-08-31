@@ -557,9 +557,16 @@
 
   /* ========== 성 마당(홈, 타운십 스타일 꾸미기) ========== */
   .grounds{position:relative;width:100%;aspect-ratio:16/9;margin:8px auto 0;border-radius:26px;overflow:hidden;touch-action:none;
-    background:radial-gradient(circle at 26% 22%,#e8fce1,transparent 44%),radial-gradient(circle at 80% 74%,#d7f4ff,transparent 48%),linear-gradient(165deg,#cef1c6,#a9e3b7 55%,#bde9de);
+    background:#a4e298;cursor:grab;
     box-shadow:inset 0 0 0 4px rgba(255,255,255,.55),inset 0 4px 16px rgba(120,150,110,.18),0 12px 30px var(--shadow)}
+  .grounds.panning{cursor:grabbing}
+  .groundsInner{position:absolute;inset:0;transform-origin:center center;transition:transform .16s ease;will-change:transform}
   .groundsbg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+  /* 줌 버튼(뷰포트 고정, 확대/축소에 영향 안 받음) */
+  .zoomctl{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px;z-index:50}
+  .zbtn{width:44px;height:44px;border:none;border-radius:14px;background:rgba(255,255,255,.92);color:#c0468a;font-size:1.5rem;font-weight:800;cursor:pointer;
+    box-shadow:0 4px 0 rgba(0,0,0,.12),0 6px 14px rgba(0,0,0,.15);line-height:1;display:flex;align-items:center;justify-content:center}
+  .zbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.12)}
   .gridsvg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
   .placeItem{position:absolute;transform:translate(-50%,-100%);width:24%;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:none;transition:filter .12s}
   .placeItem img{width:100%;display:block;pointer-events:none;filter:drop-shadow(0 7px 6px rgba(80,60,90,.28))}
@@ -664,11 +671,28 @@
   </div>
 
   <div class="card screen" id="homeScreen" hidden>
-    <div class="homehi castlehi">공주의 마을이에요! 🏰<br>건물을 누르면 놀이 시작 · <b>✋옮기기</b>로 마음대로 꾸며요 🎀</div>
+    <div class="homehi castlehi">공주의 마을이에요! 🏰<br>건물을 누르면 놀이 시작 · <b>✋옮기기</b>로 꾸미기 · ➕➖확대 · 빈 잔디를 끌어 이동 🎀</div>
     <div class="grounds" id="grounds">
-      <svg class="groundsbg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#ffffff" opacity=".5"><circle cx="70" cy="40" r="3"/><circle cx="330" cy="46" r="3"/><circle cx="360" cy="150" r="2.5"/><circle cx="30" cy="150" r="2.5"/><circle cx="200" cy="30" r="2.5"/></g>
-      </svg>
+      <div class="groundsInner" id="groundsInner">
+        <svg class="groundsbg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grassdots" width="30" height="30" patternUnits="userSpaceOnUse">
+              <path d="M7 20 q2 -7 4 0 M15 22 q2 -8 4 0 M23 19 q2 -7 4 0" stroke="#83cf72" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            </pattern>
+          </defs>
+          <rect x="-200" y="-150" width="800" height="600" fill="#a4e298"/>
+          <rect x="-200" y="-150" width="800" height="600" fill="url(#grassdots)" opacity="0.55"/>
+          <!-- 호수 -->
+          <ellipse cx="200" cy="168" rx="92" ry="48" fill="#7fc9ea"/>
+          <ellipse cx="200" cy="162" rx="92" ry="48" fill="#a6ddf5"/>
+          <ellipse cx="176" cy="150" rx="30" ry="13" fill="#ffffff" opacity="0.45"/>
+          <ellipse cx="228" cy="172" rx="22" ry="9" fill="#ffffff" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="zoomctl">
+        <button class="zbtn" id="zoomIn" title="확대">➕</button>
+        <button class="zbtn" id="zoomOut" title="축소">➖</button>
+      </div>
     </div>
     <div class="groundsbar">
       <button class="gbtn" id="editToggle">✋ 옮기기</button>
@@ -991,13 +1015,13 @@ function itemScreen(c,r,fw,fh){
 function snapHalf(v){return Math.round(v*2)/2;}
 function pointerToCell(px,py,fw,fh){
   /* 포인터를 마당 안쪽으로 제한(아이템이 화면 밖으로 못 나가게) */
-  px=Math.max(4,Math.min(96,px));
-  py=Math.max(15,Math.min(98,py));
+  px=Math.max(-45,Math.min(145,px));
+  py=Math.max(-45,Math.min(145,py));
   const a=(px-GRID.cx)/(GRID.tw/2), b=(py-GRID.cy)/(GRID.th/2);
   let c=snapHalf((a+b)/2 - fw/2), r=snapHalf((b-a)/2 - fh/2);
   /* 옛 7x7 제한 해제: 마당 전체(넓은 범위)로 배치 허용 */
-  c=Math.max(-4,Math.min(GRID.cols+4-fw,c));
-  r=Math.max(-4,Math.min(GRID.rows+4-fh,r));
+  c=Math.max(-9,Math.min(GRID.cols+9-fw,c));
+  r=Math.max(-9,Math.min(GRID.rows+9-fh,r));
   return {c:c,r:r};
 }
 const BG_LIST=[
@@ -2414,7 +2438,7 @@ function removeInstance(iid){if(selectedIid===iid)selectedIid=null;placed=placed
 function applySelection(){document.querySelectorAll('#grounds .placeItem').forEach(el=>{el.classList.toggle('selected', !!el.dataset.iid && el.dataset.iid===selectedIid);});}
 function selectDeco(iid){selectedIid=iid;applySelection();}
 function attachPlace(el,it){
-  const g=$('#grounds');let dragging=false,moved=false,dx0=0,dy0=0;
+  const g=$('#groundsInner')||$('#grounds');let dragging=false,moved=false,dx0=0,dy0=0;
   el.addEventListener('pointerdown',e=>{
     if(!editMode)return;
     if(e.target&&e.target.classList&&e.target.classList.contains('delx'))return;
@@ -2433,15 +2457,10 @@ function attachPlace(el,it){
   el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
   el.addEventListener('click',()=>{if(moved)return;if(editMode){if(it.kind==='deco')selectDeco(it.iid);return;}if(it.game){openGame(it.game);return;}if(it.kind==='deco'&&RECHARGE_IDS.has(it.id))rechargeAt(el,it);});
 }
-function drawGrid(){var g=$('#grounds');if(!g)return;var svg=$('#gridsvg');
-  if(!svg){svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.id='gridsvg';svg.setAttribute('class','gridsvg');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');g.insertBefore(svg,g.firstChild);}
-  /* 마당 전체를 덮도록 넓은 범위로 다이아몬드 격자를 그림(overflow로 잘림) */
-  var d='',LO=-10,HI=18;
-  for(var i=LO;i<=HI;i++){var a=gPt(i,LO),b=gPt(i,HI);d+='M'+a.x.toFixed(1)+' '+a.y.toFixed(1)+'L'+b.x.toFixed(1)+' '+b.y.toFixed(1);}
-  for(var j=LO;j<=HI;j++){var a2=gPt(LO,j),b2=gPt(HI,j);d+='M'+a2.x.toFixed(1)+' '+a2.y.toFixed(1)+'L'+b2.x.toFixed(1)+' '+b2.y.toFixed(1);}
-  svg.innerHTML='<path d="'+d+'" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="0.25"/>';}
+function drawGrid(){var svg=$('#gridsvg');if(svg)svg.remove();}   /* 격자무늬 제거(잔디 배경) */
 function renderGrounds(){
   const g=$('#grounds');if(!g)return;
+  const gInner=$('#groundsInner')||g;
   [...g.querySelectorAll('.placeItem')].forEach(e=>e.remove());
   drawGrid();
   groundItems().forEach(it=>{
@@ -2456,7 +2475,7 @@ function renderGrounds(){
     placeEl(el,it);
     attachPlace(el,it);
     if(it.kind==='deco'){const x=el.querySelector('.delx');if(x)x.addEventListener('click',ev=>{ev.stopPropagation();removeInstance(it.iid);});}
-    g.appendChild(el);
+    gInner.appendChild(el);
   });
   /* 건물 이름표는 항상 공주/장식보다 위에 보이도록 최상단 레이어로 렌더 */
   [...g.querySelectorAll('.bldlabel')].forEach(e=>e.remove());
@@ -2467,11 +2486,37 @@ function renderGrounds(){
     lb.className='bldlabel';
     lb.textContent=it.name;
     lb.style.left=s.x+'%';lb.style.top=s.y+'%';
-    g.appendChild(lb);
+    gInner.appendChild(lb);
   });
   g.classList.toggle('edit',editMode);
+  if(typeof applyGroundView==='function')applyGroundView();
 }
 function renderHome(){renderGrounds();}
+/* ===== 마당 줌/이동(패닝) ===== */
+var groundZoom=1, groundPanX=0, groundPanY=0;
+function applyGroundView(){var inner=$('#groundsInner');if(inner)inner.style.transform='translate('+groundPanX.toFixed(1)+'px,'+groundPanY.toFixed(1)+'px) scale('+groundZoom.toFixed(3)+')';}
+function clampGroundPan(){var g=$('#grounds');if(!g)return;var w=g.clientWidth||1,h=g.clientHeight||1;
+  var mx=w*Math.max(groundZoom,1)*0.9, my=h*Math.max(groundZoom,1)*0.9;
+  groundPanX=Math.max(-mx,Math.min(mx,groundPanX));groundPanY=Math.max(-my,Math.min(my,groundPanY));}
+function setGroundZoom(z){groundZoom=Math.max(0.55,Math.min(1.9,z));clampGroundPan();applyGroundView();}
+function bindGroundView(){
+  var zi=$('#zoomIn'),zo=$('#zoomOut'),g=$('#grounds');
+  if(zi)zi.addEventListener('click',function(e){e.stopPropagation();setGroundZoom(groundZoom+0.2);});
+  if(zo)zo.addEventListener('click',function(e){e.stopPropagation();setGroundZoom(groundZoom-0.2);});
+  if(g){
+    var panning=false,sx=0,sy=0,bx=0,by=0;
+    g.addEventListener('pointerdown',function(e){
+      if(e.target.closest&&(e.target.closest('.placeItem')||e.target.closest('.zoomctl')))return;  /* 아이템·버튼은 이동 아님 */
+      panning=true;sx=e.clientX;sy=e.clientY;bx=groundPanX;by=groundPanY;g.classList.add('panning');
+      try{g.setPointerCapture(e.pointerId);}catch(_){}
+    });
+    g.addEventListener('pointermove',function(e){
+      if(!panning)return;groundPanX=bx+(e.clientX-sx);groundPanY=by+(e.clientY-sy);clampGroundPan();applyGroundView();
+    });
+    var pend=function(){panning=false;g.classList.remove('panning');};
+    g.addEventListener('pointerup',pend);g.addEventListener('pointercancel',pend);
+  }
+}
 function placeDeco(d){var n=placed.filter(p=>p.id===d.id).length;
   var c=Math.max(0,Math.min(GRID.cols-d.fw, d.dc+(n%3)*d.fw));
   var r=Math.max(0,Math.min(GRID.rows-d.fh, d.dr+Math.floor(n/3)*d.fh));
@@ -2873,6 +2918,7 @@ function sysRender(text,composing){
 (function(){var eo=$('#energyOverlay'),eg=$('#energyGoHome');if(eg&&eo)eg.addEventListener('click',()=>{eo.hidden=true;switchScreen('home');});})();
 if(typeof bindRoomButtons==='function')bindRoomButtons();
 if(typeof bindCafeButtons==='function')bindCafeButtons();
+if(typeof bindGroundView==='function')bindGroundView();
 $('#startBtn').addEventListener('click',()=>{$('#startOverlay').hidden=true;switchScreen('home');});
 $('#logoutBtn').addEventListener('click',logout);
 $('#userChip').addEventListener('click',()=>{if(currentUser&&confirm('다른 아이디로 로그인할까요? (지금까지 저장돼 있어요)'))logout();});
