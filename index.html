@@ -2912,6 +2912,8 @@ function sysRender(text,composing){
 if(typeof bindRoomButtons==='function')bindRoomButtons();
 if(typeof bindCafeButtons==='function')bindCafeButtons();
 if(typeof bindGroundView==='function')bindGroundView();
+/* 테스트용: 지영 계정일 때만 코인칩을 누르면 +1000 충전(다른 계정은 반응 없음) */
+(function(){var sc=$('#starChip');if(sc)sc.addEventListener('click',function(){if(typeof currentUser!=='undefined'&&currentUser==='지영'&&typeof addStars==='function')addStars(1000);});})();
 $('#startBtn').addEventListener('click',()=>{$('#startOverlay').hidden=true;switchScreen('home');});
 $('#logoutBtn').addEventListener('click',logout);
 $('#userChip').addEventListener('click',()=>{if(currentUser&&confirm('다른 아이디로 로그인할까요? (지금까지 저장돼 있어요)'))logout();});
