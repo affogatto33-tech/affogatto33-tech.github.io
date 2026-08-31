@@ -2420,7 +2420,7 @@ function groundItems(){
 }
 function placeEl(el,it){var s=itemScreen(it.c,it.r,it.fw,it.fh);
   el.style.left=s.x+'%';el.style.top=s.y+'%';el.style.width=s.w+'%';
-  el.style.zIndex=(it.kind==='avatar')?999999:Math.round(s.zc*1000);}
+  el.style.zIndex=(it.kind==='avatar')?999999:Math.max(1,Math.round((s.zc+60)*1000));}  /* +60 오프셋: 음수 칸에서도 z가 항상 양수→잔디 뒤로 숨지 않음 */
 function setCell(it,c,r){if(it.kind==='deco'){var p=placed.find(q=>q.iid===it.iid);if(p){p.c=c;p.r=r;}}else groundPos[it.key]={c:c,r:r};it.c=c;it.r=r;}
 function removeInstance(iid){if(selectedIid===iid)selectedIid=null;placed=placed.filter(p=>p.iid!==iid);saveAll();renderGrounds();if(!$('#shopScreen').hidden)renderShop();}
 function applySelection(){document.querySelectorAll('#grounds .placeItem').forEach(el=>{el.classList.toggle('selected', !!el.dataset.iid && el.dataset.iid===selectedIid);});}
