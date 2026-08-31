@@ -674,7 +674,7 @@
   </div>
 
   <div class="card screen" id="homeScreen" hidden>
-    <div class="homehi castlehi">공주의 마을이에요! 🏰<br>건물을 누르면 놀이 시작 · <b>✋옮기기</b>로 꾸미기 · ➕➖확대 · 빈 잔디를 끌어 이동 🎀</div>
+    <div class="homehi castlehi">공주의 마을이에요! 🏰<br><b>🏰공주의 성</b>에 들어가면 <b>쉬거나(침대)</b> · <b>문장완성 놀이(책상)</b>를 할 수 있어요<br>건물을 누르면 놀이 시작 · ✋옮기기 · ➕➖확대 · 빈 잔디를 끌어 이동 🎀</div>
     <div class="grounds" id="grounds">
       <div class="groundsInner" id="groundsInner"><div class="groundsgrass" id="groundsgrass"></div></div>
       <div class="zoomctl">
@@ -967,7 +967,6 @@ const CASTLE_ASSETS={ground_grass:'data:image/webp;base64,UklGRm4kAABXRUJQVlA4IG
 const BUILDINGS=[
   {id:'bld_library',game:'crossword',name:'마법 도서관',fw:1.8,fh:1.8,dc:0,dr:0},
   {id:'bld_gem',    game:'math',    name:'보석 계산실',fw:1.8,fh:1.8,dc:5,dr:0},
-  {id:'bld_star',   game:'sentence',name:'별빛 관측소',fw:1.8,fh:1.8,dc:0,dr:5},
   {id:'bld_block',  game:'tetris',  name:'블록 공방',  fw:1.8,fh:1.8,dc:5,dr:5},
 ];
 const DECOS=[
@@ -1255,8 +1254,8 @@ function migrateUserKeys(){try{
   var cur=localStorage.getItem('princess_current');
   if(cur){var nc=normId(cur);if(nc!==cur)localStorage.setItem('princess_current',nc);}
 }catch(e){}}
-function freshState(){score=0;covered=new Set();stage=0;energy=ENERGY_MAX;owned=new Set();equip=Object.assign({},DEFAULTS);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));if(typeof mathDone!=='undefined')mathDone={as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook='look_dress';if(typeof equippedBg!=='undefined')equippedBg='bg_soft';groundPos={};placed=[];}
-function applySave(d){freshState();energy=ENERGY_MAX;enTs=Date.now();if(d){score=d.s||0;energy=(typeof d.en==='number')?d.en:ENERGY_MAX;enTs=(typeof d.et==='number')?d.et:Date.now();var _gap=Date.now()-enTs;if(_gap>0)energy=Math.min(ENERGY_MAX,energy+_gap/REGEN_FULL_MS*ENERGY_MAX);enTs=Date.now();owned=new Set(d.o||[]);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));equip=Object.assign({},DEFAULTS,d.e||{});covered=new Set(d.cov||[]);stage=d.st||0;if(typeof mathDone!=='undefined')mathDone=(d.md&&typeof d.md==='object')?{as:d.md.as||0,md:d.md.md||0,ad:d.md.ad||0}:{as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook=d.lk||'look_dress';if(typeof equippedBg!=='undefined')equippedBg=d.bg||'bg_soft';try{groundPos=(d.gp&&typeof d.gp==='object')?d.gp:{};placed=Array.isArray(d.pl)?d.pl.map(p=>({iid:p.iid||newIid(),id:p.id,c:(typeof p.c==='number'?p.c:null),r:(typeof p.r==='number'?p.r:null)})):[];migratePlaced();normalizeGrid();}catch(_ge){groundPos={};placed=[];try{migratePlaced();normalizeGrid();}catch(__){}}}updateEnergyUI();}
+function freshState(){score=0;covered=new Set();stage=0;energy=ENERGY_MAX;owned=new Set();equip=Object.assign({},DEFAULTS);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));if(typeof mathDone!=='undefined')mathDone={as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook='look_dress';if(typeof equippedBg!=='undefined')equippedBg='bg_soft';groundPos={};placed=[];owned.add('deco_castle');placed.push({iid:(typeof newIid==='function'?newIid():'castle_'+Date.now()),id:'deco_castle',c:0,r:5});}  /* 공주의 성 기본 제공 */
+function applySave(d){freshState();energy=ENERGY_MAX;enTs=Date.now();if(d){score=d.s||0;energy=(typeof d.en==='number')?d.en:ENERGY_MAX;enTs=(typeof d.et==='number')?d.et:Date.now();var _gap=Date.now()-enTs;if(_gap>0)energy=Math.min(ENERGY_MAX,energy+_gap/REGEN_FULL_MS*ENERGY_MAX);enTs=Date.now();owned=new Set(d.o||[]);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));owned.add('deco_castle');/* 성 기본 제공(기존 사용자도) */equip=Object.assign({},DEFAULTS,d.e||{});covered=new Set(d.cov||[]);stage=d.st||0;if(typeof mathDone!=='undefined')mathDone=(d.md&&typeof d.md==='object')?{as:d.md.as||0,md:d.md.md||0,ad:d.md.ad||0}:{as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook=d.lk||'look_dress';if(typeof equippedBg!=='undefined')equippedBg=d.bg||'bg_soft';try{groundPos=(d.gp&&typeof d.gp==='object')?d.gp:{};placed=Array.isArray(d.pl)?d.pl.map(p=>({iid:p.iid||newIid(),id:p.id,c:(typeof p.c==='number'?p.c:null),r:(typeof p.r==='number'?p.r:null)})):[];migratePlaced();normalizeGrid();}catch(_ge){groundPos={};placed=[];try{migratePlaced();normalizeGrid();}catch(__){}}}updateEnergyUI();}
 function migratePlaced(){/* 구버전: owned 장식이 placed에 없으면 한 개씩 생성 */if(typeof owned==='undefined')return;DECOS.forEach(d=>{if(owned.has(d.id)&&!placed.some(p=>p.id===d.id)){placed.push({iid:newIid(),id:d.id,c:null,r:null});}});}
 function normalizeGrid(){/* 격자 좌표 보정: 옛 %좌표/누락 → 기본 셀 */
   BUILDINGS.forEach(b=>{var p=groundPos[b.id];if(!p||typeof p.c!=='number')groundPos[b.id]={c:b.dc,r:b.dr};});
