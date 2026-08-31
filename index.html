@@ -493,8 +493,7 @@
   .worldbar.restbar{background:linear-gradient(180deg,#ffd9c2,#ffbfa0);color:#8a4a30;text-shadow:0 1px 0 rgba(255,255,255,.5)}
   .cafegrid.restgrid{grid-template-columns:repeat(5,1fr)}
   @media (max-width:560px){ .cafegrid.restgrid{grid-template-columns:repeat(4,1fr)} }
-  /* 식당은 카페보다 크게(넓고 높게) */
-  #restaurant{aspect-ratio:18/9;max-width:1000px;max-height:54vh}
+  /* 식당 화면은 카페와 동일(.bakery 기본값) */
 
   /* ========== 극장 ========== */
   #theaterScreen{background:linear-gradient(180deg,#efeaff, var(--card) 46%)}
@@ -513,7 +512,7 @@
   /* ========== 놀이동산 승마 리듬게임 ========== */
   #amuseScreen{background:linear-gradient(180deg,#d5f0ff, var(--card) 60%)}
   .worldbar.amusebar{background:linear-gradient(180deg,#bfe6ff,#9bd4ff);color:#2a5a80;text-shadow:0 1px 0 rgba(255,255,255,.5)}
-  .amusewrap{position:relative;width:98%;max-width:1010px;margin:6px auto 0;aspect-ratio:840/472;max-height:56vh;
+  .amusewrap{position:relative;width:96%;max-width:840px;margin:6px auto 0;aspect-ratio:840/472;max-height:46vh;
     border-radius:20px;overflow:hidden;box-shadow:0 8px 18px rgba(80,120,160,.28),inset 0 0 0 3px rgba(255,255,255,.55)}
   #amuseCanvas{width:100%;height:100%;display:block;touch-action:manipulation}
   .amusehud{position:absolute;left:12px;top:10px;z-index:4;font-family:'Jua',sans-serif;font-size:1.1rem;color:#fff;
@@ -1105,10 +1104,10 @@ const BUILDINGS=[
 const DECOS=[
   /* 🏘️ 마을 건물 (상점에서 구매해 마을에 놓기) */
   {id:'deco_cafe',      name:'카페',      price:40, fw:1.8,fh:1.8, dc:1,dr:1},
-  {id:'deco_restaurant',name:'식당',      price:45, fw:1.8,fh:1.8, dc:3,dr:1},
+  {id:'deco_restaurant',name:'식당',      price:45, fw:2.4,fh:2.4, dc:3,dr:1},
   {id:'deco_playground',name:'놀이터',    price:55, fw:1.8,fh:1.8, dc:1,dr:3},
   {id:'deco_theater',   name:'극장',      price:70, fw:1.8,fh:1.8, dc:3,dr:3},
-  {id:'deco_amusement', name:'야외체육관',price:90, fw:1.8,fh:1.8, dc:1,dr:5},
+  {id:'deco_amusement', name:'야외체육관',price:90, fw:2.4,fh:2.4, dc:1,dr:5},
   {id:'deco_castle',    name:'공주의 성', price:150,fw:2.7,fh:2.7, dc:3,dr:5},
   {id:'deco_tree',    name:'꽃나무',    price:15,fw:1,  fh:1,  dc:1,dr:3},
   {id:'deco_fountain',name:'분수대',    price:45,fw:2,  fh:2,  dc:2,dr:2},
