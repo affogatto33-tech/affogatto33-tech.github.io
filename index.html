@@ -1253,7 +1253,8 @@ function buyTreat(cat,i,el){
   if(score<CAFE_PRICE){ if(typeof flashStar==='function')flashStar(); try{Audio2.wrong&&Audio2.wrong();}catch(_){}
     if(h)h.textContent='코인이 조금 더 필요해요! 🪙 (낱말·놀이로 모아요)'; return; }
   score-=CAFE_PRICE; if(typeof updateStarUI==='function')updateStarUI(); if(typeof saveAll==='function')saveAll();
-  try{Audio2.correct&&Audio2.correct();}catch(_){}
+  /* 빵=바삭바삭, 음료=쭈욱 빨아먹는 소리(입에 닿는 타이밍에 맞춰 약간 지연) */
+  try{ if(cat==='b'){ setTimeout(function(){Audio2.crunch&&Audio2.crunch();},170); } else { setTimeout(function(){Audio2.slurp&&Audio2.slurp();},150); } }catch(_){}
   if(el){el.classList.remove('eaten');void el.offsetWidth;el.classList.add('eaten');}
   if(h)h.textContent='냠냠! '+it.emoji+' '+it.name+' 맛있어요 😋 (🪙-'+CAFE_PRICE+')';
   playCafeEat(it.emoji);
@@ -3045,39 +3046,73 @@ function nextStage(){
 }
 /* ================= 소리 (Web Audio 합성, 외부파일 없음) ================= */
 const Audio2=(function(){
-  var ctx=null,sfx=null,mus=null,soundOn=true;
+  var ctx=null,sfx=null,mus=null,muslp=null,soundOn=true,_nb=null;
   var timer=null,running=false,nextT=0,step=0;
+  function makeIR(dur,decay){ var n=Math.floor(ctx.sampleRate*dur); var b=ctx.createBuffer(2,n,ctx.sampleRate);
+    for(var c=0;c<2;c++){ var d=b.getChannelData(c); for(var i=0;i<n;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/n,decay); } } return b; }
+  function noiseBuf(){ if(_nb)return _nb; var n=Math.floor(ctx.sampleRate*1.0); var b=ctx.createBuffer(1,n,ctx.sampleRate); var d=b.getChannelData(0); for(var i=0;i<n;i++)d[i]=Math.random()*2-1; _nb=b; return b; }
   function init(){ if(ctx)return; try{ var AC=window.AudioContext||window.webkitAudioContext; if(!AC)return;
     ctx=new AC(); sfx=ctx.createGain(); sfx.gain.value=0.42; sfx.connect(ctx.destination);
-    mus=ctx.createGain(); mus.gain.value=0.0001; mus.connect(ctx.destination);
+    mus=ctx.createGain(); mus.gain.value=0.0001;
+    muslp=ctx.createBiquadFilter(); muslp.type='lowpass'; muslp.frequency.value=2300; muslp.Q.value=0.3;
+    mus.connect(muslp); muslp.connect(ctx.destination);
+    /* 리버브(공간감)로 기계음 느낌 완화 */
+    try{ var rev=ctx.createConvolver(); rev.buffer=makeIR(2.6,2.2); var wet=ctx.createGain(); wet.gain.value=0.55; muslp.connect(rev); rev.connect(wet); wet.connect(ctx.destination); }catch(e){}
   }catch(e){} }
   function resume(){ try{ if(ctx&&ctx.state==='suspended')ctx.resume(); }catch(e){} }
   function blip(f,dur,type,vol,glide){ if(!ctx||!soundOn)return; var t=ctx.currentTime;
     var o=ctx.createOscillator(); o.type=type||'sine'; o.frequency.setValueAtTime(f,t);
     if(glide)o.frequency.exponentialRampToValueAtTime(glide,t+dur);
     var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t);
-    g.gain.exponentialRampToValueAtTime(vol||0.3,t+0.008);
+    g.gain.exponentialRampToValueAtTime(vol||0.3,t+0.012);
     g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
     o.connect(g); g.connect(sfx); o.start(t); o.stop(t+dur+0.03); }
-  /* 배경음악: 부드러운 펜타토닉 자장가풍 루프 */
+  /* 먹는 효과음: 빵=바삭바삭(노이즈 하이패스 짧은 연타) */
+  function crunch(){ if(!ctx||!soundOn)return; var t=ctx.currentTime;
+    for(var k=0;k<3;k++){ var st=t+k*0.085+Math.random()*0.02;
+      var src=ctx.createBufferSource(); src.buffer=noiseBuf();
+      var hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1600+Math.random()*900; hp.Q.value=0.7;
+      var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,st);
+      g.gain.exponentialRampToValueAtTime(0.34-k*0.05,st+0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001,st+0.055);
+      src.connect(hp); hp.connect(g); g.connect(sfx); src.start(st); src.stop(st+0.08); } }
+  /* 음료=쭈욱 빨아먹는 소리(노이즈 밴드패스 상승 스윕) */
+  function slurp(){ if(!ctx||!soundOn)return; var t=ctx.currentTime;
+    var src=ctx.createBufferSource(); src.buffer=noiseBuf(); src.loop=true;
+    var bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.Q.value=7;
+    bp.frequency.setValueAtTime(360,t); bp.frequency.exponentialRampToValueAtTime(2000,t+0.5);
+    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.22,t+0.06); g.gain.setValueAtTime(0.22,t+0.42); g.gain.exponentialRampToValueAtTime(0.0001,t+0.62);
+    src.connect(bp); bp.connect(g); g.connect(sfx); src.start(t); src.stop(t+0.66);
+    /* 마지막 '꼴깍' */
+    setTimeout(function(){ blip(300,0.12,'sine',0.16,180); },560); }
+  /* 배경음악: 부드러운 펜타토닉 자장가풍 루프(레가토+패드+리버브) */
   var TUNE=[523.25,659.25,783.99,659.25,587.33,493.88,587.33,659.25, 523.25,659.25,880.00,783.99,659.25,587.33,523.25,392.00];
   var BASS=[130.81,0,196.00,0,146.83,0,196.00,0, 130.81,0,196.00,0,164.81,0,196.00,0];
-  var SPB=0.44;
-  function noteM(f,t,dur,vol,type){ if(!ctx)return; var o=ctx.createOscillator(); o.type=type||'triangle'; o.frequency.setValueAtTime(f,t);
-    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+0.05); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
-    o.connect(g); g.connect(mus); o.start(t); o.stop(t+dur+0.05); }
+  var SPB=0.56;
+  function noteM(f,t,dur,vol){ if(!ctx)return;
+    var o1=ctx.createOscillator(); o1.type='triangle'; o1.frequency.setValueAtTime(f,t);
+    var o2=ctx.createOscillator(); o2.type='sine'; o2.frequency.setValueAtTime(f,t); o2.detune.setValueAtTime(-7,t);
+    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.07);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o1.connect(g); o2.connect(g); g.connect(mus); o1.start(t); o2.start(t); o1.stop(t+dur+0.1); o2.stop(t+dur+0.1); }
+  function pad(f,t,dur,vol){ if(!ctx)return; var o=ctx.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(f,t);
+    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(vol,t+0.45); g.gain.linearRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(mus); o.start(t); o.stop(t+dur+0.1); }
   function loop(){ if(!running||!ctx)return; var now=ctx.currentTime;
-    while(nextT<now+0.3){ var i=step%TUNE.length; noteM(TUNE[i],nextT,SPB*0.9,0.16,'triangle'); if(BASS[i])noteM(BASS[i],nextT,SPB*1.7,0.12,'sine'); nextT+=SPB; step++; }
-    timer=setTimeout(loop,80); }
+    while(nextT<now+0.4){ var i=step%TUNE.length; if(TUNE[i])noteM(TUNE[i],nextT,SPB*1.7,0.13); if(BASS[i])pad(BASS[i],nextT,SPB*3.6,0.09); nextT+=SPB; step++; }
+    timer=setTimeout(loop,90); }
   function startMusic(){ if(!ctx||!soundOn||running)return; running=true; nextT=ctx.currentTime+0.1; step=0;
-    try{ mus.gain.cancelScheduledValues(ctx.currentTime); mus.gain.setValueAtTime(Math.max(0.0001,mus.gain.value),ctx.currentTime); mus.gain.setTargetAtTime(0.17,ctx.currentTime,0.6);}catch(e){} loop(); }
-  function stopMusic(){ running=false; if(timer){clearTimeout(timer);timer=null;} try{ if(mus)mus.gain.setTargetAtTime(0.0001,ctx.currentTime,0.2);}catch(e){} }
+    try{ mus.gain.cancelScheduledValues(ctx.currentTime); mus.gain.setValueAtTime(Math.max(0.0001,mus.gain.value),ctx.currentTime); mus.gain.setTargetAtTime(0.19,ctx.currentTime,0.7);}catch(e){} loop(); }
+  function stopMusic(){ running=false; if(timer){clearTimeout(timer);timer=null;} try{ if(mus)mus.gain.setTargetAtTime(0.0001,ctx.currentTime,0.25);}catch(e){} }
   return { init:init, resume:resume,
-    click:function(){ blip(520,0.07,'triangle',0.2); },
-    key:function(){ blip(355+Math.random()*35,0.045,'square',0.09); },
-    coin:function(){ blip(784,0.07,'square',0.18); setTimeout(function(){blip(1175,0.09,'square',0.15);},70); },
-    correct:function(){ blip(659.25,0.12,'sine',0.22); setTimeout(function(){blip(987.77,0.16,'sine',0.2);},95); },
-    wrong:function(){ blip(220,0.16,'sawtooth',0.15,150); },
+    click:function(){ blip(520,0.09,'sine',0.16); },
+    key:function(){ blip(340+Math.random()*30,0.05,'triangle',0.08); },
+    coin:function(){ blip(784,0.09,'triangle',0.16); setTimeout(function(){blip(1175,0.11,'triangle',0.13);},75); },
+    correct:function(){ blip(659.25,0.14,'sine',0.2); setTimeout(function(){blip(987.77,0.18,'sine',0.18);},100); },
+    wrong:function(){ blip(300,0.2,'sine',0.14,190); },
+    crunch:crunch, slurp:slurp,
     startMusic:startMusic, stopMusic:stopMusic,
     isOn:function(){return soundOn;},
     setOn:function(v){ soundOn=v; if(!v)stopMusic(); else { resume(); startMusic(); } } };
