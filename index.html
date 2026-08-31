@@ -2332,13 +2332,15 @@ function renderShop(){
   const dgrid=$('#shopDecoGrid');
   if(dgrid){dgrid.innerHTML='';
     DECOS.forEach(d=>{
+      const isBld=(typeof RECHARGE_IDS!=='undefined')&&RECHARGE_IDS.has(d.id);  /* 건물: 1개만 */
       const own=owned.has(d.id);
       const cnt=(typeof placed!=='undefined')?placed.filter(p=>p.id===d.id).length:0;
-      const card=document.createElement('div');card.className='shopcard'+(own?' on':'');
-      card.innerHTML='<div class="pv"><img class="pfig" src="'+assetImg(d.id)+'" alt=""></div><div class="nm">'+d.name+(cnt?' ×'+cnt:'')+'</div>';
+      const card=document.createElement('div');card.className='shopcard'+((isBld&&own)?' on':'');
+      card.innerHTML='<div class="pv"><img class="pfig" src="'+assetImg(d.id)+'" alt=""></div><div class="nm">'+d.name+((!isBld&&cnt)?' ×'+cnt:'')+'</div>';
       const act=document.createElement('button');act.className='buybtn';
-      if(own){act.textContent='＋ 놓기';act.classList.add('own');act.onclick=()=>{placeDeco(d);renderShop();};}
-      else{act.innerHTML='🪙 '+d.price;if(score<d.price)act.classList.add('cant');act.onclick=()=>buyDeco(d);}
+      if(isBld&&own&&cnt>=1){act.textContent='배치됨 ✓';act.classList.add('worn');}          /* 건물: 이미 있음 */
+      else if(isBld&&own){act.textContent='＋ 놓기';act.classList.add('own');act.onclick=()=>{placeDeco(d);renderShop();};}  /* 건물: 지웠으면 무료로 다시 놓기 */
+      else{act.innerHTML='🪙 '+d.price;if(score<d.price)act.classList.add('cant');act.onclick=()=>buyDeco(d);}  /* 미보유 건물 or 꾸미기: 매번 코인 */
       card.appendChild(act);dgrid.appendChild(card);
     });
   }
@@ -2475,11 +2477,12 @@ function placeDeco(d){var n=placed.filter(p=>p.id===d.id).length;
   var r=Math.max(0,Math.min(GRID.rows-d.fh, d.dr+Math.floor(n/3)*d.fh));
   placed.push({iid:newIid(),id:d.id,c:c,r:r});saveAll();renderGrounds();}
 function buyDeco(d){
-  if(!owned.has(d.id)){
-    if(score<d.price){flashStar();return;}
-    score-=d.price;owned.add(d.id);updateStarUI();
-    const c=$('#starChip');c.classList.add('pop');setTimeout(()=>c.classList.remove('pop'),400);
-  }
+  var isBld=(typeof RECHARGE_IDS!=='undefined')&&RECHARGE_IDS.has(d.id);
+  if(isBld&&owned.has(d.id))return;   /* 건물은 1번만 구매(재구매 불가) */
+  if(score<d.price){flashStar();return;}   /* 꾸미기 아이템은 살 때마다 코인 소모 */
+  score-=d.price;owned.add(d.id);updateStarUI();
+  const c=$('#starChip');c.classList.add('pop');setTimeout(()=>c.classList.remove('pop'),400);
+  try{if(typeof Audio2!=='undefined'&&Audio2.coin)Audio2.coin();}catch(_){}
   placeDeco(d);renderShop();
 }
 function openGame(g){
