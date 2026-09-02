@@ -85,3 +85,50 @@ Kling은 클립당 5~10초다. 6분 영상 = 360초.
 | `schedule.md` | 12편 격주 스케줄 (2026-09-17 ~ 2027-02-18) |
 | `ep01-script.md` | 1편 풀 대본 (약 2,000자, 타임코드·호흡 표시 포함) |
 | `ep01-kling-prompts.md` | 1편 Kling 프롬프트 14종 + 고정 스타일 토큰 |
+
+---
+
+## 6. 블로그 글 목록 수집 (로컬 실행)
+
+Claude Code on the web 세션은 egress proxy에 막혀 외부 웹을 읽지 못합니다.
+(네이버뿐 아니라 `example.com`, `google.com` 도 동일하게 차단됩니다.)
+글 목록은 **본인 컴퓨터에서** 아래를 실행해 뽑으세요.
+
+```bash
+git clone https://github.com/affogatto33-tech/affogatto33-tech.github.io.git
+cd affogatto33-tech.github.io
+git checkout claude/youtube-health-longform-uyjbuj
+
+python3 youtube/tools/fetch_blog_titles.py sh_forest303
+```
+
+파이썬 표준 라이브러리만 씁니다. 설치할 패키지 없음.
+
+### 결과물
+
+| 파일 | 용도 |
+|---|---|
+| `youtube/blog_posts.md` | 글 목록 표. **적합도(A/B/C) 칸을 채워서** 돌려주면 스케줄에 반영 |
+| `youtube/blog_posts.json` | 원본 데이터 |
+
+### 이어서 할 일
+
+둘 중 편한 쪽:
+
+- **A안** — `blog_posts.md` 내용을 채팅에 붙여넣기
+- **B안** — 로컬에서 Claude Code를 실행해 이 저장소를 열고 이어서 작업
+  (로컬은 본인 네트워크를 쓰므로 블로그를 직접 읽을 수 있습니다)
+
+```bash
+# B안
+npm install -g @anthropic-ai/claude-code
+cd affogatto33-tech.github.io
+claude
+```
+
+### 안 될 때
+
+- **0건 수집** → 블로그가 비공개거나 ID가 다름. 브라우저에서
+  `https://blog.naver.com/sh_forest303` 가 열리는지 확인
+- **목록 API 실패, RSS만 성공** → 최근 글만 나옵니다. 네이버가 목록 API 응답
+  형식을 바꾼 경우이며, 스크립트 실행 로그를 그대로 붙여주면 파서를 고치겠습니다
