@@ -1,12 +1,14 @@
 # EP.01 — Kling 프롬프트 세트
 
-대본 타임코드에 1:1 매칭. **Kling 생성 14클립** + 스톡/그래픽 슬롯 표기.
+대본 실측 타임코드에 1:1 매칭. **Kling 12클립** + 스톡/그래픽 슬롯.
+총 5분 04초 (304초).
 
 ---
 
 ## 0. 고정 스타일 토큰 (모든 프롬프트에 그대로 붙일 것)
 
-편 전체의 톤을 일관되게 유지하는 장치입니다. **한 글자도 바꾸지 마세요.**
+편 전체 톤을 일관되게 유지하는 장치입니다. **한 글자도 바꾸지 마세요.**
+2편 이후에도 같은 토큰을 써야 채널 전체가 한 덩어리로 보입니다.
 
 ```
 STYLE:
@@ -24,179 +26,179 @@ oversaturated colors, neon, cartoon, anime, 3d render look,
 low resolution, flicker, jitter, fast cuts, crowded frame
 ```
 
-### 반드시 지킬 3가지
+### 반드시 지킬 4가지
 
 1. **화면에 글자를 만들지 마세요.** Kling은 한글은 물론 영문도 깨뜨립니다.
-   숫자·기준표는 전부 편집 단계에서 얹으세요. (그래서 `no text`가 스타일 토큰에 있습니다)
-2. **얼굴 클로즈업을 피하세요.** 손·뒷모습·어깨 아래·사물 위주로 갑니다.
-   얼굴 없는 채널 포맷과도 맞고, 기형 생성 리스크도 없앱니다.
-3. **가능하면 Image-to-Video를 쓰세요.** 정지 이미지를 먼저 확정한 뒤 움직임만 주면
-   재생성 횟수가 절반으로 줄어듭니다. Text-to-Video는 구도 통제가 어렵습니다.
+   날짜·수치·기준은 전부 편집 단계에서 얹으세요.
+2. **얼굴 클로즈업을 피하세요.** 손·뒷모습·어깨 아래·사물 위주.
+   얼굴 없는 채널 포맷과 맞고, 기형 생성 리스크도 없앱니다.
+3. **주사 바늘을 화면에 크게 넣지 마세요.** 주사 공포가 있는 시청자가
+   이탈합니다. 백신 바이알, 알코올 솜, 접종 후 밴드 정도로 대체합니다.
+4. **가능하면 Image-to-Video를 쓰세요.** 정지 이미지를 먼저 확정한 뒤 움직임만
+   주면 재생성 횟수가 절반으로 줍니다.
 
 ---
 
 ## 1. 클립 목록
 
-각 프롬프트는 `[내용] + STYLE` 형태로 넣고, 네거티브는 위 블록을 그대로 사용합니다.
+각 프롬프트는 `[내용] + STYLE`, 네거티브는 위 블록 그대로.
 
-### K-01 · [00:00–00:06] 오프닝 훅 — 결과지
-> **의도**: 시청자가 방금 겪은 장면을 그대로 재현해 즉시 몰입시킨다.
+### K-01 · [00:00–00:08] 훅 — 9월의 아침
+> **의도**: 계절 전환을 몸으로 느끼게 해서 "지금이 그 시기"임을 각인.
 ```
-Close-up of a hand holding a plain white medical checkup report sheet on a
-wooden kitchen table, morning light from a side window, the paper trembles
-very slightly, camera slowly pushes in on the sheet, extremely shallow focus
+Early autumn morning light through a window, a thin cotton cardigan draped
+over the back of a chair, faint condensation on the glass, dust motes
+drifting in the beam, camera pushes in very slowly, quiet domestic mood
 ```
-`5초 · Image-to-Video 권장 · 카메라: 느린 push in`
+`5초 · Image-to-Video 권장`
 
-### K-02 · [00:06–00:12] 훅 — 혈압계
+### K-02 · [00:08–00:18] 훅 — 달력
 ```
-A digital blood pressure monitor resting on a table, the cuff coiled beside
-it, screen dark and blank, camera slowly orbits from left to right,
-soft window light raking across the plastic surface
+A wall calendar page turning slowly by itself in still air, pages settling,
+soft side light raking across the paper texture, camera locked off, macro,
+extremely shallow focus on the page edge
 ```
-`5초 · 화면은 반드시 꺼진 상태로 (숫자 생성 방지). 130/85는 편집에서 합성`
+`10초 · 날짜 숫자는 편집에서 합성. 프롬프트에 숫자를 넣지 말 것`
 
-### K-03 · [00:12–00:22] 훅 — 지구본 전환
-> **의도**: "나라를 건너면 병명이 바뀐다" 를 물리적으로 보여준다.
+### K-03 · [00:18–00:27] 훅 — 백신 바이알
 ```
-A small vintage desk globe slowly rotating, Korea peninsula turning away and
-North America turning into view, warm desk lamp light from the upper left,
-dust motes floating in the beam, camera locked off, very slow rotation
+A small glass vaccine vial standing on a stainless steel tray beside a
+folded alcohol swab, cool clinical light from above, faint reflections on
+the metal, camera slowly orbits left to right, macro, no needle in frame
 ```
-`10초 · 회전 속도가 빠르면 재생성. "very slow" 유지`
-
----
-
-### [00:22–00:48] 도입 → **그래픽 구간** (Kling 미사용)
-> 챕터 3개를 텍스트 모션으로 순차 노출. 편집 프로그램에서 처리.
+`10초 · 바늘 금지. "no needle in frame" 반드시 유지`
 
 ---
 
-### K-04 · [00:48–00:58] 챕터1 — 심장 박동
-```
-Abstract anatomical heart shape made of soft translucent material,
-gently contracting and expanding in a slow steady rhythm, floating in a
-dark teal void, subtle rim light outlining the form, macro lens, camera static
-```
-`5초 · 해부학적 사실성보다 리듬감 우선. 징그럽지 않게 "translucent" 필수`
-
-### K-05 · [00:58–01:12] 챕터1 — 수축기
-```
-Interior view of a blood vessel, smooth glossy pink-red walls, a strong
-pressure wave surging through and pushing the walls outward, camera travels
-forward through the tunnel, soft internal glow, slow motion
-```
-`10초 · 카메라: dolly forward`
-
-### K-06 · [01:12–01:26] 챕터1 — 이완기
-> **의도**: K-05와 같은 공간, 압력만 낮은 상태. 대비가 핵심이므로 **연속 생성**할 것.
-```
-Interior view of the same blood vessel, the wave has passed, walls settling
-back but still held slightly open under residual pressure, camera drifts
-forward slowly, dimmer internal glow, calm
-```
-`10초 · K-05 결과물을 첫 프레임으로 Image-to-Video 하면 연속성이 살아납니다`
-
-### K-07 · [01:26–01:45] 챕터1 — 뻣뻣해진 혈관
-```
-Two glass tubes side by side, the left one soft and flexible bending gently,
-the right one rigid and brittle with fine hairline cracks, cool studio light
-on a matte grey backdrop, camera slowly slides right, macro
-```
-`10초 · 비교 구도. 좌=정상 우=경직. 편집에서 라벨 얹기`
+### [00:27–00:50] 도입 → **그래픽 구간** (Kling 미사용)
+> 오늘 다룰 세 가지를 텍스트 모션으로 순차 노출.
 
 ---
 
-### [01:45–03:20] 챕터2 기준표 → **그래픽 구간** (Kling 미사용)
-> 5단계 기준표를 정지 이미지 + 느린 줌으로 처리. 이 구간은 **정보 밀도가 높아
-> 영상이 움직이면 방해**됩니다. 표를 화면에 띄우고 항목별로 하이라이트만 이동시키세요.
+### K-04 · [00:50–01:00] 챕터1 — 겨울 거리
+```
+A city street in early winter seen from a distance, people walking bundled
+in coats, breath visible in the cold air, muted grey blue tones, camera
+static wide shot, shallow focus, no recognizable faces
+```
+`10초 · 12월 1차 유행 구간의 배경. 얼굴 식별 안 되게 원경 유지`
 
-### K-08 · [03:05–03:20] 챕터2 마무리 — '나쁜 쪽 기준'
+### K-05 · [01:00–01:10] 챕터1 — 초봄 거리
+> **의도**: K-04와 같은 구도, 계절만 다르게. 2차 유행을 대비로 보여줍니다.
 ```
-Two identical brass balance scales on a dark table, the left pan level and
-still, the right pan slowly tipping down and settling, single warm spotlight
-from above, deep shadows, camera slowly pushes in
+The same city street in early spring, thin bare branches beginning to bud,
+people in lighter jackets, pale warm light, camera static wide shot,
+shallow focus, no recognizable faces
 ```
-`5초 · "나쁜 쪽으로 분류된다" 의 은유`
+`10초 · K-04의 첫 프레임을 참조 이미지로 쓰면 구도가 맞습니다`
 
----
+### [01:10–01:35] 챕터1 — **그래픽 구간**
+> 유행 곡선(12월 피크 + 2~3월 피크)과 항체 지속 구간(2주 후 시작 → 6개월)을
+> 겹쳐 그리는 애니메이션. **이 편에서 가장 중요한 화면입니다.**
+> Kling으로 만들 수 없고, 만들어서도 안 됩니다. 편집 프로그램에서 직접 그리세요.
 
-### K-09 · [03:20–03:35] 챕터3 — 갈림길
+### K-06 · [01:35–01:45] 챕터1 — 9월 접종 시나리오
 ```
-An empty road forking into two paths in soft morning fog, one path leading
-toward a quiet park, the other toward a clinical white building, camera
-static at the fork, cool desaturated light, no people
+A single sturdy umbrella opened and standing upright on a wooden floor,
+soft rain shadows moving across the wall behind it, warm interior light,
+camera slowly pushes in, calm and reassuring
 ```
-`10초 · 좌=생활습관 우=약물치료. 인물 넣지 말 것`
+`10초 · "미리 준비해두면 덮인다"의 은유`
 
-### K-10 · [03:35–03:55] 챕터3 — 예외 조건
+### K-07 · [01:45–01:59] 챕터1 — 11월 접종 시나리오
 ```
-A stack of transparent glass panes on a light table, each pane etched with
-faint abstract line patterns, layering one over another to build density,
-soft overhead light, camera slowly tilts down, minimal
+A closed umbrella lying flat on a wet entryway floor, rain already visible
+through the open doorway behind it, cool light, camera slowly pulls back,
+slight sense of being late
 ```
-`5초 · "조건이 겹칠수록 위험도가 올라간다" 의 추상 표현`
-
-### K-11 · [03:55–04:15] 챕터3 — 체중 감량
-```
-Worn running shoes by an apartment doorway in early morning light, laces
-loosely tied, one shoe slightly turned as if just placed down, camera slowly
-pushes in low to the ground, warm side light, quiet domestic mood
-```
-`5초`
-
-### K-12 · [04:15–04:30] 챕터3 — 저염식
-```
-A small ceramic dish of coarse salt on a wooden counter, a hand entering
-frame and setting the salt shaker aside out of reach, natural kitchen light,
-camera static, shallow focus on the salt
-```
-`5초 · 손은 프레임 가장자리에서 짧게만. 손가락 클로즈업 금지`
-
-### K-13 · [04:30–04:45] 챕터3 — 걷기
-```
-Low angle following shot of legs briskly walking along a tree-lined park
-path, autumn morning light filtering through leaves, dappled shadows moving
-across the ground, camera tracks steadily forward at knee height
-```
-`10초 · 무릎 아래만. 얼굴 미노출 포맷 유지`
+`10초 · K-06과 대비. 같은 우산, 접힌 상태`
 
 ---
 
-### K-14 · [04:45–05:45] 챕터4 — 집에서 재기
-```
-A quiet living room corner in soft morning light, an armchair with a small
-side table holding a blood pressure monitor and a notebook, the chair empty,
-sheer curtain moving slightly, camera very slowly pushes in
-```
-`10초 · 이 클립을 챕터4 배경으로 깔고, 4가지 수칙은 텍스트 모션으로 얹으세요.
-클립 하나로 60초를 버티게 하는 구간입니다 (속도 0.5배 + 루프)`
+### [01:59–02:47] 챕터2 무료 대상 → **그래픽 구간 + 스톡**
+> 세 그룹(어린이·임신부·어르신)은 아이콘 + 텍스트로 처리.
+> 인물 영상이 필요하면 Pexels 무료 푸티지로 대체하세요.
+> Kling으로 사람을 만들면 손·얼굴 기형 리스크만 커집니다.
 
 ---
 
-### [05:45–06:10] 마무리 → **그래픽 + K-01 재사용**
-> 요약 3줄을 텍스트로 노출하고, 배경에 K-01(결과지)을 흐리게 재활용해 수미상관.
+### K-08 · [02:47–02:57] 챕터3 — 오해 1
+```
+A sealed glass vial on a clean surface, perfectly still, a soft light
+sweeping slowly across it from one side to the other, nothing moving
+inside, macro, camera locked off
+```
+`10초 · "살아있는 바이러스가 없다" = 정지·밀봉의 시각화`
+
+### K-09 · [02:57–03:15] 챕터3 — 오해 2
+```
+Three identical glass vials in a row on a steel tray, lit one after another
+by a slow moving light, each one slightly different in tone, camera slides
+right at constant speed, macro
+```
+`10초 · 매년 새 백신. 3개 = 3개 절기`
+
+### K-10 · [03:15–03:44] 챕터3 — 오해 3
+```
+Two contrasting still lifes side by side on a table, left a crumpled tissue
+and a warm mug, right a folded blanket and a thermometer, soft window light,
+camera slowly slides from left to right, shallow focus
+```
+`10초 · 감기(좌) vs 독감(우). 편집에서 라벨 얹기`
+
+---
+
+### K-11 · [03:44–04:10] 챕터4 — 진료실 대기
+```
+A quiet clinic waiting area with empty chairs in a row, soft natural light
+from a tall window, a low table with neatly stacked magazines, warm and calm,
+camera pushes in extremely slowly, no people
+```
+`10초 · 이 클립을 챕터4 앞부분 배경으로 깔고 4가지 수칙은 텍스트로 얹으세요.
+속도 0.5배 + 루프로 26초를 버팁니다`
+
+### K-12 · [04:10–04:34] 챕터4 — 접종 후
+```
+A small round adhesive bandage on a folded shirt sleeve resting on a chair
+arm, soft afternoon light, gentle shadow, camera very slowly pushes in,
+macro, calm and ordinary
+```
+`10초 · 접종 완료의 상징. 팔뚝 피부 클로즈업은 피하고 옷 위주로`
+
+---
+
+### [04:34–05:04] 마무리 → **그래픽 + K-01 재사용**
+> 요약 3줄을 텍스트로 노출하고, 배경에 K-01(9월 아침)을 흐리게 재활용해 수미상관.
 > **재사용은 낭비가 아니라 구성입니다.** 크레딧을 아끼는 가장 확실한 방법.
 
 ---
 
-## 2. 생성 순서 (크레딧 절약)
+## 2. 화면 배분 점검
 
-1. **먼저 K-05를 뽑습니다.** 이게 이 편에서 가장 어려운 클립입니다.
-   여기서 톤이 결정되면 나머지가 쉬워집니다.
-2. K-05가 확정되면 **마지막 프레임을 캡처해 K-06의 시작 이미지**로 씁니다.
-3. K-01, K-02, K-11, K-12, K-14는 **사물 정물**이라 실패율이 낮습니다. 묶어서 한 번에 큐 투입.
-4. K-03, K-04, K-08, K-10은 **추상/은유**라 2~3회 재생성을 예상하세요.
-5. K-09, K-13은 **스톡 푸티지로 대체 가능**합니다.
-   Pexels에서 "forest path fork", "walking legs autumn" 검색 → 무료.
-   → 크레딧이 빡빡하면 **이 둘부터 스톡으로 돌리세요. 14클립 → 12클립.**
+| 소스 | 분량 | 비중 |
+|---|---|---|
+| Kling 생성 (12클립) | 약 115초 | 38% |
+| 그래픽 · 텍스트 모션 | 약 110초 | 36% |
+| 스톡 푸티지 | 약 50초 | 16% |
+| 재사용 · 정지+줌 | 약 30초 | 10% |
 
-## 3. 재생성 판단 기준
+Kling 12클립이면 반나절 작업입니다. 격주 페이스가 유지됩니다.
 
-아래에 하나라도 걸리면 그냥 다시 뽑으세요. 편집으로 못 살립니다.
+## 3. 생성 순서 (크레딧 절약)
+
+1. **K-04와 K-05를 먼저** 뽑습니다. 같은 구도로 계절만 바꾸는 게 이 편에서 가장
+   어렵습니다. K-04 확정 후 그 프레임을 참조로 K-05를 뽑으세요.
+2. K-01, K-02, K-03, K-08, K-09, K-12는 **사물 정물**이라 실패율이 낮습니다. 한 번에 큐 투입.
+3. K-06, K-07(우산)은 **은유**라 2~3회 재생성을 예상하세요.
+4. **크레딧이 빡빡하면 K-06·K-07부터 잘라내세요.** 나레이션만으로도 전달됩니다.
+   12클립 → 10클립.
+
+## 4. 재생성 판단 기준
+
+아래에 하나라도 걸리면 다시 뽑으세요. 편집으로 못 살립니다.
 
 - 화면에 글자·숫자 비슷한 형체가 생겼다
+- **주사 바늘이 프레임에 들어왔다**
 - 손가락이 5개가 아니거나 관절이 꺾였다
-- 클립 중간에 물체가 다른 물체로 변형(morphing)된다
+- 클립 중간에 물체가 변형(morphing)된다
 - 카메라가 예상보다 빠르다 → 프롬프트에 `very slow` 추가 후 재생성
-- 색이 튄다(과채도) → 네거티브에 `oversaturated` 가 들어갔는지 확인
