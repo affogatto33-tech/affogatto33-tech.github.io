@@ -113,6 +113,7 @@ Kling은 클립당 5~10초다. 6분 영상 = 360초.
 | `ep05-kling-prompts.md` | 예비 대본용 Kling 프롬프트 14종 |
 | `heygen-plan.md` | HeyGen 역할 배정 · Shorts 운영 규칙 · 고지 의무 |
 | `ep01-shorts.md` | 1편 파생 Shorts 3종 대본 (실측 41~44초) |
+| `shorts-heygen-input.md` | **Shorts 9개 HeyGen 붙여넣기용.** 숫자·약어를 소리나는 대로 변환 |
 | `blog_posts.md` | 블로그 글 50건 중 42건 + 주제별 분포 · 영상화 적합도 |
 | `tools/` | 블로그 글 목록 수집 스크립트 (로컬 실행용) |
 
