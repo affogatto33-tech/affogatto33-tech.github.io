@@ -98,11 +98,34 @@ Claude Code on the web 세션은 egress proxy에 막혀 외부 웹을 읽지 못
 git clone https://github.com/affogatto33-tech/affogatto33-tech.github.io.git
 cd affogatto33-tech.github.io
 git checkout claude/youtube-health-longform-uyjbuj
+```
 
+그다음 환경에 맞는 쪽을 실행하세요.
+
+### 윈도우 (PowerShell) — 설치할 것 없음
+
+```powershell
+.\youtube\tools\Fetch-BlogTitles.ps1 sh_forest303
+```
+
+실행 정책 때문에 막히면 이 창에서만 임시로 허용합니다:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\youtube\tools\Fetch-BlogTitles.ps1 sh_forest303
+```
+
+### 파이썬이 있는 경우 (맥 · 리눅스 · 윈도우 공통)
+
+```bash
 python3 youtube/tools/fetch_blog_titles.py sh_forest303
 ```
 
-파이썬 표준 라이브러리만 씁니다. 설치할 패키지 없음.
+**윈도우에서는 `python3` 이 아니라 `python` 입니다.** 윈도우는 파이썬이 없을 때
+`python3` 을 Microsoft Store 로 가로채서 콘솔에 아무 출력도 남기지 않습니다.
+출력이 한 줄도 없다면 그 증상이니 `python --version` 으로 먼저 확인하세요.
+
+두 스크립트 모두 표준 기능만 씁니다. 설치할 패키지 없음.
 
 ### 결과물
 
