@@ -409,6 +409,39 @@
   #mathScreen{background:linear-gradient(180deg,#eef7ff, var(--card) 44%)}
   #mathScreen .ansbox{background:linear-gradient(180deg,#e3f2ff,#c7e4fb);border-color:#7db8e6;color:#1c5b8a}
   #mathScreen .kkey:not(.ok):not(.del){background:linear-gradient(180deg,#ddeeff,#a9d0f2);color:#1c5b8a;box-shadow:var(--gloss),0 4px 0 #7fb0dd,0 9px 16px rgba(60,120,180,.28)}
+  /* 구구단 보석방 (보석 계산실 첫 단계) */
+  #guguScreen{background:linear-gradient(180deg,#eef7ff, var(--card) 44%)}
+  #guguScreen .kkey:not(.ok):not(.del){background:linear-gradient(180deg,#ddeeff,#a9d0f2);color:#1c5b8a;box-shadow:var(--gloss),0 4px 0 #7fb0dd,0 9px 16px rgba(60,120,180,.28)}
+  #guguScreen .btn{padding:12px 18px}
+  .ggmode{display:flex;justify-content:center;gap:6px;margin:0 0 10px}
+  .ggmode button{font-family:'Jua',sans-serif;font-size:1rem;border:2.5px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:7px 16px;cursor:pointer}
+  .ggmode button.on{background:#7fb0dd;color:#fff;border-color:#7fb0dd}
+  .gggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:520px){.gggrid{grid-template-columns:repeat(2,1fr)}}
+  .ggdan{border:2.5px solid var(--line);border-radius:18px;background:var(--card);padding:14px 6px 10px;text-align:center;cursor:pointer;font-family:'Jua',sans-serif}
+  .ggdan .n{font-size:1.9rem;color:#1c5b8a;line-height:1.1}
+  .ggdan .s{font-size:.8rem;color:var(--ink-soft)}
+  .ggdan .st{font-size:.9rem;min-height:1.2em}
+  .ggdan.locked{opacity:.45;cursor:not-allowed}
+  .ggdan.cleared{border-color:var(--sun);background:linear-gradient(180deg,#fff8e0,var(--card))}
+  .ggdan.cur{border-color:var(--pink);box-shadow:0 0 0 3px var(--pink-soft)}
+  .ggconcept{border:2.5px solid var(--line);border-radius:18px;background:var(--card);padding:14px;display:flex;flex-direction:column;gap:10px;align-items:center}
+  .ggeq{font-family:'Jua',sans-serif;font-size:2.1rem;color:var(--ink);text-align:center}
+  .ggeq .r{color:var(--pink)}
+  .gggroups{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .gggroup{border:2px dashed #7fb0dd;border-radius:12px;padding:6px 8px;display:flex;flex-wrap:wrap;gap:3px;max-width:92px;justify-content:center;background:#f2f9ff}
+  .gggroup span{font-size:1.15rem;line-height:1}
+  .ggadd{font-family:'Jua',sans-serif;color:#1c5b8a;text-align:center}
+  .ggpills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:12px 0}
+  .ggpill{font-family:'Jua',sans-serif;font-size:1.05rem;border:2.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:8px 10px;min-width:66px;cursor:pointer}
+  .ggpill.viewed{border-color:var(--good);background:var(--mint-soft)}
+  .ggpill.viewed::after{content:" ✓";color:var(--good)}
+  .ggpill.active{border-color:var(--pink);box-shadow:0 0 0 3px var(--pink-soft)}
+  .ggpill.locked{opacity:.4}
+  .ggpill.lit{background:#fff3c4}
+  .ggpass,.mpass{display:block;margin:10px auto 0;font-family:'Jua',sans-serif;font-size:1rem;border:2.5px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:12px;padding:8px 18px;cursor:pointer}
+  .ggbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+  .ggbtns .btn{flex:1 1 140px}
 
   /* 별빛 책상 (문장) — 밤하늘 반짝임 */
   #sentenceScreen{background:linear-gradient(180deg,#efe9ff, var(--card) 44%)}
@@ -925,8 +958,15 @@
       <div class="qbig" id="mathQ"></div>
       <div class="ansbox" id="mathAns">?</div>
       <div class="keypad" id="mathKeys"></div>
+      <button class="mpass" id="mathPass">⏭️ 패스 (나중에 다시 풀기)</button>
       <div class="gfeed" id="mathFeed"></div>
     </div>
+  </div>
+
+  <div class="card screen" id="guguScreen" hidden>
+    <div class="gtop"><button class="homeback" id="guguBack">← 계산실</button><div class="gtitle" id="guguTitle">💎 구구단 보석방</div><div class="gprog" id="guguProg"></div></div>
+    <div class="worldbar gem">💎 보석 계산실 · 구구단</div>
+    <div id="guguBody"></div>
   </div>
 
   <div class="card screen" id="sentenceScreen" hidden>
@@ -1586,15 +1626,15 @@ function migrateUserKeys(){try{
   var cur=localStorage.getItem('princess_current');
   if(cur){var nc=normId(cur);if(nc!==cur)localStorage.setItem('princess_current',nc);}
 }catch(e){}}
-function freshState(){score=0;covered=new Set();stage=0;energy=ENERGY_MAX;owned=new Set();equip=Object.assign({},DEFAULTS);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));if(typeof mathDone!=='undefined')mathDone={as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook='look_dress';if(typeof equippedBg!=='undefined')equippedBg='bg_soft';groundPos={};placed=[];owned.add('deco_castle');placed.push({iid:(typeof newIid==='function'?newIid():'castle_'+Date.now()),id:'deco_castle',c:0,r:5});}  /* 공주의 성 기본 제공 */
-function applySave(d){freshState();energy=ENERGY_MAX;enTs=Date.now();if(d){score=d.s||0;energy=(typeof d.en==='number')?Math.max(0,Math.min(ENERGY_MAX,d.en)):ENERGY_MAX;enTs=Date.now();owned=new Set(d.o||[]);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));owned.add('deco_castle');/* 성 기본 제공(기존 사용자도) */equip=Object.assign({},DEFAULTS,d.e||{});covered=new Set(d.cov||[]);stage=d.st||0;if(typeof mathDone!=='undefined')mathDone=(d.md&&typeof d.md==='object')?{as:d.md.as||0,md:d.md.md||0,ad:d.md.ad||0}:{as:0,md:0,ad:0};if(typeof equippedLook!=='undefined')equippedLook=d.lk||'look_dress';if(typeof equippedBg!=='undefined')equippedBg=d.bg||'bg_soft';try{groundPos=(d.gp&&typeof d.gp==='object')?d.gp:{};placed=Array.isArray(d.pl)?d.pl.map(p=>({iid:p.iid||newIid(),id:p.id,c:(typeof p.c==='number'?p.c:null),r:(typeof p.r==='number'?p.r:null)})):[];migratePlaced();normalizeGrid();}catch(_ge){groundPos={};placed=[];try{migratePlaced();normalizeGrid();}catch(__){}}}updateEnergyUI();}
+function freshState(){score=0;covered=new Set();stage=0;energy=ENERGY_MAX;owned=new Set();equip=Object.assign({},DEFAULTS);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));if(typeof mathDone!=='undefined')mathDone={as:0,md:0,ad:0};window.__ggSave=null;if(typeof GUGU!=='undefined'&&GUGU)GUGU.reset();if(typeof equippedLook!=='undefined')equippedLook='look_dress';if(typeof equippedBg!=='undefined')equippedBg='bg_soft';groundPos={};placed=[];owned.add('deco_castle');placed.push({iid:(typeof newIid==='function'?newIid():'castle_'+Date.now()),id:'deco_castle',c:0,r:5});}  /* 공주의 성 기본 제공 */
+function applySave(d){freshState();energy=ENERGY_MAX;enTs=Date.now();if(d){score=d.s||0;energy=(typeof d.en==='number')?Math.max(0,Math.min(ENERGY_MAX,d.en)):ENERGY_MAX;enTs=Date.now();owned=new Set(d.o||[]);CATALOG.filter(i=>i.price===0).forEach(i=>owned.add(i.id));owned.add('deco_castle');/* 성 기본 제공(기존 사용자도) */equip=Object.assign({},DEFAULTS,d.e||{});covered=new Set(d.cov||[]);stage=d.st||0;if(typeof mathDone!=='undefined')mathDone=(d.md&&typeof d.md==='object')?{as:d.md.as||0,md:d.md.md||0,ad:d.md.ad||0}:{as:0,md:0,ad:0};window.__ggSave=d.gg||null;if(typeof GUGU!=='undefined'&&GUGU)GUGU.load(d.gg);if(typeof equippedLook!=='undefined')equippedLook=d.lk||'look_dress';if(typeof equippedBg!=='undefined')equippedBg=d.bg||'bg_soft';try{groundPos=(d.gp&&typeof d.gp==='object')?d.gp:{};placed=Array.isArray(d.pl)?d.pl.map(p=>({iid:p.iid||newIid(),id:p.id,c:(typeof p.c==='number'?p.c:null),r:(typeof p.r==='number'?p.r:null)})):[];migratePlaced();normalizeGrid();}catch(_ge){groundPos={};placed=[];try{migratePlaced();normalizeGrid();}catch(__){}}}updateEnergyUI();}
 function migratePlaced(){/* 구버전: owned 장식이 placed에 없으면 한 개씩 생성 */if(typeof owned==='undefined')return;DECOS.forEach(d=>{if(owned.has(d.id)&&!placed.some(p=>p.id===d.id)){placed.push({iid:newIid(),id:d.id,c:null,r:null});}});}
 function normalizeGrid(){/* 격자 좌표 보정: 옛 %좌표/누락 → 기본 셀 */
   BUILDINGS.forEach(b=>{var p=groundPos[b.id];if(!p||typeof p.c!=='number')groundPos[b.id]={c:b.dc,r:b.dr};});
   if(!groundPos.avatar||typeof groundPos.avatar.c!=='number')groundPos.avatar={c:4,r:4};
   var cnt={};
   placed.forEach(function(p){if(typeof p.c!=='number'||typeof p.r!=='number'){var d=decoById(p.id)||{dc:3,dr:3,fw:1};cnt[p.id]=(cnt[p.id]||0);var c=Math.max(0,Math.min(GRID.cols-(d.fw||1),d.dc+cnt[p.id]));cnt[p.id]++;p.c=c;p.r=d.dr;}});}
-function saveAll(){if(!currentUser)return;const u=usersLoad();u[currentUser]=u[currentUser]||{pw:''};u[currentUser].save={s:score,en:energy,et:enTs,o:[...owned],e:equip,cov:[...covered],st:stage,md:(typeof mathDone!=='undefined'?mathDone:{as:0,md:0}),lk:(typeof equippedLook!=='undefined'?equippedLook:'look_dress'),bg:(typeof equippedBg!=='undefined'?equippedBg:'bg_soft'),gp:(typeof groundPos!=='undefined'?groundPos:{}),pl:(typeof placed!=='undefined'?placed:[])};usersSave(u);}
+function saveAll(){if(!currentUser)return;const u=usersLoad();u[currentUser]=u[currentUser]||{pw:''};u[currentUser].save={s:score,en:energy,et:enTs,o:[...owned],e:equip,cov:[...covered],st:stage,md:(typeof mathDone!=='undefined'?mathDone:{as:0,md:0}),gg:(typeof GUGU!=='undefined'&&GUGU?GUGU.data():(window.__ggSave||null)),lk:(typeof equippedLook!=='undefined'?equippedLook:'look_dress'),bg:(typeof equippedBg!=='undefined'?equippedBg:'bg_soft'),gp:(typeof groundPos!=='undefined'?groundPos:{}),pl:(typeof placed!=='undefined'?placed:[])};usersSave(u);}
 function loadAll(){}
 
 /* ================= 낱말 은행 (초등 저·중·고학년 어휘 280개, 쉬움→어려움 순) =========
@@ -2722,7 +2762,7 @@ function coinFly(n){const chip=$('#starChip');if(!chip||!n)return;const r=chip.g
   document.body.appendChild(f);setTimeout(()=>f.remove(),1100);
   if(typeof burstAt==='function')burstAt(r.left+r.width/2,r.top+r.height/2,14,true);}
 function addStars(n){score+=n;updateStarUI();saveAll();const c=$('#starChip');c.classList.add('pop');setTimeout(()=>c.classList.remove('pop'),400);coinFly(n);}
-const SCREEN_EL={home:'homeScreen',crossword:'playScreen',math:'mathScreen',sentence:'sentenceScreen',tetris:'tetrisScreen',shop:'shopScreen',dress:'dressScreen',room:'roomScreen',cafe:'cafeScreen',rest:'restScreen',theater:'theaterScreen',amuse:'amuseScreen',playground:'playgroundScreen'};
+const SCREEN_EL={home:'homeScreen',crossword:'playScreen',math:'mathScreen',gugu:'guguScreen',sentence:'sentenceScreen',tetris:'tetrisScreen',shop:'shopScreen',dress:'dressScreen',room:'roomScreen',cafe:'cafeScreen',rest:'restScreen',theater:'theaterScreen',amuse:'amuseScreen',playground:'playgroundScreen'};
 let currentScreen='home', navHist=[];
 function switchScreen(n,isBack){
   if(currentScreen==='tetris'&&n!=='tetris'&&typeof tStop==='function')tStop();
@@ -2928,6 +2968,9 @@ function openMath(){ // 종류 고르기
   $('#mathPlay').hidden=true;$('#mathMenu').hidden=false;$('#mathProg').textContent='';
   $('#mathBack').textContent='🏠 홈';$('#mathBack').onclick=()=>switchScreen('home');
   const box=$('#mathMenu');box.innerHTML='<div class="shophint">어떤 연산을 해볼까요?<br>한 문제 1코인, 초4 과정부터 2코인 🪙</div>';
+  {const g=document.createElement('button');g.className='mstage';
+   g.innerHTML=`<span class="mnum" style="background:#7fb0dd;font-size:1.2rem">💎</span><span>구구단 보석방 <b style="color:var(--pink)">· 첫 단계</b><br><span class="mgr">개념 이해 → 연습 → 도전 · ${GUGU.summary()}</span></span><span class="mst">▶</span>`;
+   g.onclick=()=>GUGU.open();box.appendChild(g);}
   TRACKS.forEach(t=>{const done=(mathDone[t.key]||0);const b=document.createElement('button');b.className='mstage';
     b.innerHTML=`<span class="mnum" style="background:var(--lav);font-size:1.2rem">${t.emoji}</span><span>${t.name}<br><span class="mgr">${done}/${t.stages.length}단계 완료</span></span><span class="mst">▶</span>`;
     b.onclick=()=>pickTrack(t);box.appendChild(b);});
@@ -2948,7 +2991,11 @@ function renderMathMenu(){
     box.appendChild(b);
   });
 }
-function startStage(i){mStage=i;mIdx=0;mScore=0;mInput='';$('#mathMenu').hidden=true;$('#mathPlay').hidden=false;$('#mathBack').textContent='← 단계';$('#mathBack').onclick=showStages;renderKeypad();nextMath();}
+let mQueue=[], mSolved=0, mFirst=0, mBusy=false;
+function startStage(i){mStage=i;mIdx=0;mScore=0;mInput='';mSolved=0;mFirst=0;mBusy=false;
+  mQueue=[];for(let k=0;k<M_TOTAL;k++)mQueue.push({p:mathTrack.stages[i].g(),missed:false});
+  $('#mathMenu').hidden=true;$('#mathPlay').hidden=false;$('#mathPass').hidden=false;$('#mathPass').onclick=passMath;
+  $('#mathBack').textContent='← 단계';$('#mathBack').onclick=showStages;renderKeypad();nextMath();}
 function renderKeypad(){
   const kb=$('#mathKeys');kb.innerHTML='';kb.style.gridTemplateColumns='';
   ['1','2','3','4','5','6','7','8','9','dot','0','del'].forEach(k=>{
@@ -2962,29 +3009,33 @@ function renderKeypad(){
 }
 function drawAns(){$('#mathAns').textContent=mInput===''?'?':mInput;}
 function nextMath(){
-  if(mIdx>=M_TOTAL){mathResult();return;}
-  const p=mathTrack.stages[mStage].g();mAns=p.ans;mAnsText=(p.ansText!=null?p.ansText:p.ans);mInput='';drawAns();
-  $('#mathQ').innerHTML=(p.full?p.q:p.q+' = ?')+(p.hint?`<div class="mhint">${p.hint}</div>`:'');
-  $('#mathProg').textContent=`${mIdx+1}/${M_TOTAL} · 맞은 개수 ${mScore}`;
+  if(!mQueue.length){mathResult();return;}
+  const it=mQueue[0],p=it.p;mAns=p.ans;mAnsText=(p.ansText!=null?p.ansText:p.ans);mInput='';drawAns();
+  $('#mathQ').innerHTML=(p.full?p.q:p.q+' = ?')+(p.hint?`<div class="mhint">${p.hint}</div>`:'')+(it.missed?'<div class="mhint">🔁 다시 나온 문제</div>':'');
+  $('#mathProg').textContent=`${mSolved}/${M_TOTAL} 해결 · 남은 ${mQueue.length}`;
   $('#mathFeed').textContent='';$('#mathFeed').className='gfeed';
 }
 function submitMath(){
+  if(mBusy||!mQueue.length)return;
   if(mInput===''||mInput==='.')return;
-  const v=parseFloat(mInput), pts=stagePts(mathTrack.stages[mStage].gr);
-  if(!isNaN(v)&&Math.abs(v-mAns)<1e-9){mScore++;addStars(pts);$('#mathFeed').textContent=`정답! +${pts} 🪙`;$('#mathFeed').className='gfeed good';}
-  else{$('#mathFeed').textContent=`아쉬워요. 정답은 ${mAnsText||mAns}`;$('#mathFeed').className='gfeed bad';}
-  mIdx++;setTimeout(nextMath,800);
+  const v=parseFloat(mInput), pts=stagePts(mathTrack.stages[mStage].gr), it=mQueue[0];
+  const ok=!isNaN(v)&&Math.abs(v-mAns)<1e-9; mBusy=true; mQueue.shift();
+  if(ok){mSolved++;if(!it.missed)mFirst++;mScore=mFirst;addStars(pts);$('#mathFeed').textContent=`정답! +${pts} 🪙`;$('#mathFeed').className='gfeed good';try{Audio2.correct();}catch(_){}}
+  else{it.missed=true;mQueue.push(it);$('#mathFeed').textContent=`아쉬워요. 정답은 ${mAnsText||mAns} · 뒤에 다시 나와요`;$('#mathFeed').className='gfeed bad';try{Audio2.wrong();}catch(_){}}
+  mIdx++;setTimeout(()=>{mBusy=false;if(currentScreen!=='math'||$('#mathPlay').hidden)return;nextMath();},ok?800:1400);
+}
+function passMath(){
+  if(mBusy||!mQueue.length)return;
+  const it=mQueue.shift();it.missed=true;mQueue.push(it);mBusy=true;
+  $('#mathFeed').textContent='패스! 이 문제는 나중에 다시 나와요 ⏭️';$('#mathFeed').className='gfeed';
+  setTimeout(()=>{mBusy=false;if(currentScreen!=='math'||$('#mathPlay').hidden)return;nextMath();},700);
 }
 function mathResult(){
-  const perfect=mScore===M_TOTAL, last=mStage>=mathTrack.stages.length-1, done=mathDone[mathTrack.key]||0;
-  $('#mathQ').innerHTML=perfect?'💯 100점!':`${mScore} / ${M_TOTAL} 맞았어요`;
-  $('#mathAns').textContent=perfect?'🎉':'💪';
+  const last=mStage>=mathTrack.stages.length-1, done=mathDone[mathTrack.key]||0, perfect=mFirst===M_TOTAL;
+  $('#mathPass').hidden=true;
+  $('#mathQ').innerHTML=perfect?'💯 한 번에 다 맞혔어요!':`모두 해결! <div class="mhint">한 번에 맞힘 ${mFirst} / ${M_TOTAL}</div>`;
+  $('#mathAns').textContent='🎉';
   $('#mathKeys').innerHTML='';$('#mathProg').textContent='';
-  if(!perfect){
-    $('#mathFeed').innerHTML=`아쉬워요! 100점이어야 다음 단계로 가요.<br>같은 단계를 <b>다시</b> 풀어 볼게요 💪`;$('#mathFeed').className='gfeed bad';
-    setTimeout(()=>{if(currentScreen==='math'&&$('#mathPlay').hidden===false)startStage(mStage);},1600);
-    return;
-  }
   if(mStage===done&&!last)mathDone[mathTrack.key]=mStage+1;
   saveAll();
   $('#mathFeed').innerHTML=last?`모든 단계 완료! 대단해요 🏆`:`다 맞았어요! <b>${mStage+2}단계</b>가 열렸어요 🪙`;
@@ -2994,6 +3045,151 @@ function mathResult(){
   const rp=document.createElement('button');rp.className='kkey';rp.textContent='다시';rp.style.fontSize='1rem';rp.onclick=()=>startStage(mStage);box.appendChild(rp);
   const mn=document.createElement('button');mn.className='kkey del';mn.textContent='단계 목록';mn.style.fontSize='1rem';mn.onclick=()=>showStages();box.appendChild(mn);
 }
+
+/* ===== 구구단 보석방 (보석 계산실 첫 단계: 개념 이해 → 연습 → 도전, 틀림·패스 재출제) ===== */
+var GUGU=(function(){
+  const DANS=[2,3,4,5,6,7,8,9];
+  const blank=()=>({mul:{c:{},s:{},l:{},p:{}},div:{c:{},s:{},l:{},p:{}}});
+  let D=blank(), mode='mul', dan=2, view='map', viewed={}, Q=null, busy=false;
+  const snd=k=>{try{if(Audio2&&Audio2[k])Audio2[k]();}catch(_){}};
+  const cur=()=>D[mode];
+  function data(){return D;}
+  function load(g){D=blank();if(g&&typeof g==='object'){['mul','div'].forEach(m=>{const x=g[m]||{};D[m]={c:x.c||{},s:x.s||{},l:x.l||{},p:x.p||{}};});}}
+  function reset(){D=blank();}
+  const unlocked=d=>d===2||!!cur().c[d-1];
+  const canCh=d=>!!cur().c[d]||(!!cur().l[d]&&!!cur().p[d]);
+  const cnt=m=>DANS.filter(d=>D[m].c[d]).length;
+  const summary=()=>`✕ ${cnt('mul')}/8 · ➗ ${cnt('div')}/8`;
+  const label=d=>mode==='mul'?d+'단':'÷'+d;
+  const ans=(d,b)=>mode==='mul'?d*b:b;
+  const face=(d,b)=>mode==='mul'?`${d} × ${b}`:`${d*b} ÷ ${d}`;
+  const eqT=(d,b)=>mode==='mul'?`${d}×${b}=${d*b}`:`${d*b}÷${d}=${b}`;
+  const body=()=>$('#guguBody');
+  function setTop(title,backFn,backTxt){$('#guguTitle').textContent=title;const bb=$('#guguBack');bb.textContent=backTxt||'← 뒤로';bb.onclick=backFn;$('#guguProg').textContent='';}
+  function open(){switchScreen('gugu');showMap();}
+  function showMap(){
+    view='map';setTop('💎 구구단 보석방',()=>{switchScreen('math');openMath();},'← 계산실');
+    let curD=null;for(const d of DANS){if(unlocked(d)&&!cur().c[d]){curD=d;break;}}
+    let h=`<div class="ggmode"><button data-m="mul" class="${mode==='mul'?'on':''}">✕ 곱셈</button><button data-m="div" class="${mode==='div'?'on':''}">➗ 나눗셈</button></div>`;
+    h+=`<div class="shophint">${mode==='mul'?'2단부터 차례대로! 앞 단을 깨면 다음 방이 열려요':'÷2부터 차례대로! 앞 방을 깨면 다음 방이 열려요'}</div>`;
+    if(cnt(mode)>=DANS.length)h+=`<button class="btn main" id="ggMixed" style="display:block;margin:0 auto 12px">👑 ${mode==='mul'?'곱셈':'나눗셈'} 전체 섞어서 도전!</button>`;
+    h+='<div class="gggrid">';
+    DANS.forEach(d=>{const u=unlocked(d),c=cur().c[d],st=cur().s[d]||0;
+      h+=`<div class="ggdan${u?'':' locked'}${c?' cleared':''}${d===curD?' cur':''}" data-d="${d}"><div class="n">${label(d)}</div><div class="st">${c?'⭐'.repeat(st)+'☆'.repeat(3-st):''}</div><div class="s">${c?'완료!':u?(d===curD?'여기부터!':'도전 가능'):'🔒 잠김'}</div></div>`;});
+    body().innerHTML=h+'</div>';
+    body().querySelectorAll('.ggmode button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;snd('click');showMap();});
+    body().querySelectorAll('.ggdan').forEach(el=>el.onclick=()=>{const d=+el.dataset.d;if(!unlocked(d)){snd('wrong');return;}snd('click');openDan(d);});
+    const mx=$('#ggMixed');if(mx)mx.onclick=()=>{snd('click');startQuiz('mixed');};
+  }
+  function openDan(d){
+    dan=d;view='dan';setTop(`💎 ${label(d)} 보석방`,showMap);
+    const ok=canCh(d),L=!!cur().l[d],P=!!cur().p[d],C=!!cur().c[d];
+    const row=(i,t,sub,st,cls)=>`<button class="mstage${cls}" data-step="${i}"><span class="mnum">${i}</span><span>${t}<br><span class="mgr">${sub}</span></span><span class="mst">${st}</span></button>`;
+    body().innerHTML=`<div class="shophint">${mode==='mul'?`세 걸음으로 ${d}단을 내 것으로!`:`세 걸음으로 ${d}로 나누기를 내 것으로!`}</div>`+
+      row(1,'💎 개념 이해',mode==='mul'?"곱셈은 '몇씩 몇 묶음'이에요":"나눗셈은 '똑같이 나눠 담기'예요",L?'✅':'▶',L?' cleared':'')+
+      row(2,'✏️ 연습','답을 직접 써요 · 틀리거나 패스하면 뒤에 다시!',P?'✅':'▶',P?' cleared':'')+
+      row(3,'⚔️ 도전',ok?'10문제를 다 맞히면 다음 방이 열려요':'🔒 개념 이해와 연습을 먼저 끝내요',C?'✅':ok?'▶':'🔒',ok?(C?' cleared':''):' locked');
+    body().querySelectorAll('.mstage').forEach(b=>b.onclick=()=>{const s=+b.dataset.step;
+      if(s===1){snd('click');showLearn();}else if(s===2){snd('click');startQuiz('practice');}
+      else{if(!canCh(dan)){snd('wrong');return;}snd('click');startQuiz('challenge');}});
+  }
+  function showLearn(){
+    view='learn';viewed={};setTop(`💎 ${label(dan)} 개념 이해`,()=>openDan(dan));
+    let pills='';for(let b=1;b<=9;b++)pills+=`<button class="ggpill" data-b="${b}">${mode==='mul'?`${dan}×${b}`:`${dan*b}÷${dan}`}</button>`;
+    body().innerHTML=`<div class="shophint">${mode==='mul'?'곱셈은 같은 수를 여러 번 더한 거예요.':'나눗셈은 똑같이 나눠 담는 거예요.'}<br>1번부터 차례대로 눌러봐요!</div>
+      <div class="ggconcept"><div class="ggeq" id="ggEq">💎 1번 식을 눌러 시작!</div><div class="gggroups" id="ggGroups"></div><div class="ggadd" id="ggAdd"></div></div>
+      <div class="ggpills">${pills}</div>
+      <button class="btn main" id="ggToPr" style="display:block;margin:0 auto" disabled>식을 차례대로 눌러봐요 (0/9)</button>`;
+    body().querySelectorAll('.ggpill').forEach(p=>p.onclick=()=>{const b=+p.dataset.b;
+      if(viewed[b]){concept(b);return;} if(b!==nextExp()){snd('wrong');return;} viewed[b]=true;concept(b);pillStates();});
+    $('#ggToPr').onclick=()=>{snd('click');startQuiz('practice');};
+    pillStates();
+  }
+  function nextExp(){for(let b=1;b<=9;b++)if(!viewed[b])return b;return 10;}
+  function pillStates(){const nx=nextExp();let n=0;
+    body().querySelectorAll('.ggpill').forEach(p=>{const b=+p.dataset.b,s=!!viewed[b];if(s)n++;p.classList.toggle('viewed',s);p.classList.toggle('active',!s&&b===nx);p.classList.toggle('locked',!s&&b!==nx);});
+    const bt=$('#ggToPr');
+    if(n>=9){bt.disabled=false;bt.textContent='이제 연습하러 가기 →';if(!cur().l[dan]){cur().l[dan]=true;saveAll();}}
+    else{bt.disabled=true;bt.textContent=`식을 차례대로 눌러봐요 (${n}/9)`;}
+  }
+  function concept(b){const a=dan,r=a*b;
+    body().querySelectorAll('.ggpill').forEach(p=>p.classList.toggle('lit',+p.dataset.b===b));
+    $('#ggEq').innerHTML=mode==='mul'?`${a} × ${b} = <span class="r">${r}</span>`:`${r} ÷ ${a} = <span class="r">${b}</span>`;
+    let g='';for(let i=0;i<b;i++)g+='<div class="gggroup">'+'<span>💎</span>'.repeat(a)+'</div>';
+    $('#ggGroups').innerHTML=g;
+    $('#ggAdd').textContent=mode==='mul'?`${a}씩 ${b}묶음 = ${Array(b).fill(a).join(' + ')} = ${r}`:`보석 ${r}개를 ${a}개씩 똑같이 나누면 → ${b}묶음!`;
+    snd('click');
+  }
+  function startQuiz(kind){
+    let slots=[];
+    if(kind==='practice'){for(let b=1;b<=9;b++)slots.push({d:dan,b,m:false});}
+    else if(kind==='challenge'){const base=[1,2,3,4,5,6,7,8,9];for(let i=8;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=base[i];base[i]=base[j];base[j]=t;}base.push(1+Math.floor(Math.random()*9));slots=base.map(b=>({d:dan,b,m:false}));}
+    else{for(let i=0;i<15;i++)slots.push({d:2+Math.floor(Math.random()*8),b:1+Math.floor(Math.random()*9),m:false});}
+    Q={kind,slots,total:slots.length,solved:0,first:0,buf:''};busy=false;view='quiz';
+    setTop(kind==='mixed'?`👑 ${mode==='mul'?'곱셈':'나눗셈'} 섞어 도전`:`💎 ${label(dan)} ${kind==='practice'?'연습':'도전'}`,kind==='mixed'?showMap:()=>openDan(dan));
+    body().innerHTML=`<div class="qbig" id="ggQ"></div><div class="ansbox" id="ggAns">?</div><div class="keypad" id="ggKeys"></div><button class="ggpass" id="ggPass">⏭️ 패스 (나중에 다시 풀기)</button><div class="gfeed" id="ggFeed"></div>`;
+    const kb=$('#ggKeys');
+    ['1','2','3','4','5','6','7','8','9','del','0','ok'].forEach(k=>{const b=document.createElement('button');
+      if(k==='del'){b.className='kkey del';b.textContent='⌫';b.onclick=()=>{Q.buf=Q.buf.slice(0,-1);drawA();};}
+      else if(k==='ok'){b.className='kkey ok';b.textContent='✓';b.onclick=submit;}
+      else{b.className='kkey';b.textContent=k;b.onclick=()=>{if(Q.buf.length<2){Q.buf+=k;drawA();}};}
+      kb.appendChild(b);});
+    $('#ggPass').onclick=pass;
+    showQ();
+  }
+  function drawA(){$('#ggAns').textContent=Q.buf===''?'?':Q.buf;}
+  function prog(){$('#guguProg').textContent=`${Q.solved}/${Q.total} · 남은 ${Q.slots.length}`;}
+  function showQ(){const s=Q.slots[0];Q.buf='';drawA();
+    $('#ggQ').innerHTML=face(s.d,s.b)+' = ?'+(s.m?'<div class="mhint">🔁 다시 나온 문제</div>':'');
+    prog();$('#ggFeed').textContent='';$('#ggFeed').className='gfeed';}
+  const still=q=>currentScreen==='gugu'&&view==='quiz'&&Q===q;
+  function submit(){
+    if(busy||!Q||!Q.slots.length||Q.buf==='')return;
+    const q=Q,s=q.slots[0],ok=parseInt(q.buf,10)===ans(s.d,s.b);busy=true;q.slots.shift();
+    if(ok){q.solved++;if(!s.m)q.first++;$('#ggFeed').textContent='딩동댕! '+eqT(s.d,s.b);$('#ggFeed').className='gfeed good';snd('correct');}
+    else{s.m=true;q.slots.push(s);$('#ggFeed').textContent=`땡! ${eqT(s.d,s.b)} 예요 · 뒤에 다시 나와요`;$('#ggFeed').className='gfeed bad';snd('wrong');}
+    prog();
+    setTimeout(()=>{busy=false;if(!still(q))return;q.slots.length?showQ():finish();},ok?700:1300);
+  }
+  function pass(){
+    if(busy||!Q||!Q.slots.length)return;
+    const q=Q,s=q.slots.shift();s.m=true;q.slots.push(s);busy=true;
+    $('#ggFeed').textContent='패스! 이 문제는 나중에 다시 나와요 ⏭️';$('#ggFeed').className='gfeed';snd('click');prog();
+    setTimeout(()=>{busy=false;if(!still(q))return;showQ();},700);
+  }
+  function finish(){
+    view='result';$('#guguProg').textContent='';
+    const k=Q.kind,ft=Q.first,tot=Q.total,btns=[];
+    let title='',stars='',score='',reward='',msg='';
+    if(k==='practice'){
+      if(!cur().p[dan]){cur().p[dan]=true;saveAll();}
+      title=`${label(dan)} 연습 완료! 🎀`;score='9문제 모두 해결!';
+      if(canCh(dan)){msg='이제 도전해서 다음 방을 열어봐요!';btns.push(['main','도전하러 가기 ⚔️',()=>startQuiz('challenge')]);}
+      else{msg='개념 이해까지 끝내면 도전이 열려요!';btns.push(['main','개념 이해 하러 가기 💎',showLearn]);}
+      btns.push(['ghost','한 번 더 연습',()=>startQuiz('practice')]);btns.push(['ghost','보석방 지도',showMap]);
+    }else if(k==='mixed'){
+      const tier=ft>=tot?3:ft>=tot-3?2:1,coin=Math.max(5,ft);
+      title=`${mode==='mul'?'곱셈':'나눗셈'} 섞어 도전 끝! 👑`;stars='⭐'.repeat(tier)+'☆'.repeat(3-tier);score=`한 번에 맞힘 ${ft} / ${tot}`;reward=`🪙 코인 +${coin}`;
+      msg=ft>=tot?'완벽해요! 진짜 보석공주 👑💎':'잘했어요! 또 섞어서 도전해봐요.';addStars(coin);
+      btns.push(['main','또 섞어 도전',()=>startQuiz('mixed')]);btns.push(['ghost','보석방 지도',showMap]);
+    }else{
+      const tier=ft>=tot?3:ft>=tot-2?2:1,first=!cur().c[dan],coin=first?10:2;
+      cur().c[dan]=true;if((cur().s[dan]||0)<tier)cur().s[dan]=tier;
+      title=`${label(dan)} 통과! 🎉`;stars='⭐'.repeat(tier)+'☆'.repeat(3-tier);score=`한 번에 맞힘 ${ft} / ${tot}`;reward=`🪙 코인 +${coin}`;
+      addStars(coin); /* addStars → saveAll 에서 gg 저장 */
+      const nx=dan+1;
+      if(nx<=9){msg=first?`${label(nx)} 방이 열렸어요!`:`다시 통과! 별 ${tier}개 ⭐`;btns.push(['main',`${label(nx)} 방 →`,()=>openDan(nx)]);}
+      else{msg=`${mode==='mul'?'곱셈':'나눗셈'} 9단까지 전부! 섞어 도전이 열렸어요 👑`;btns.push(['main','👑 섞어 도전!',()=>startQuiz('mixed')]);}
+      btns.push(['ghost','다시 도전',()=>startQuiz('challenge')]);btns.push(['ghost','보석방 지도',showMap]);
+      if(typeof bigBurst==='function')bigBurst();
+    }
+    body().innerHTML=`<div class="qbig" style="font-size:1.8rem">${title}</div>${stars?`<div style="text-align:center;font-size:2rem;letter-spacing:4px">${stars}</div>`:''}<div class="shophint" style="font-size:1.2rem">${score}</div>${reward?`<div class="shophint" style="color:var(--pink)">${reward}</div>`:''}<div class="gfeed good">${msg}</div><div class="ggbtns" id="ggBtns"></div>`;
+    const bx=$('#ggBtns');btns.forEach(([c,t,f])=>{const b=document.createElement('button');b.className='btn '+c;b.textContent=t;b.onclick=()=>{snd('click');f();};bx.appendChild(b);});
+    snd(k==='practice'?'correct':'coin');
+  }
+  load(window.__ggSave);
+  return {open,data,load,reset,summary};
+})();
 
 /* ===== 문장 완성 (빈칸 채우기 · 반대말 찾기) ===== */
 const SENTENCES=[
