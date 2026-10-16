@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마운자로 원내 처방 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1d2433;
+    --muted: #5b6475;
+    --line: #d9dee8;
+    --accent: #1f4e8c;
+    --accent-soft: #eaf1fb;
+    --warn: #b4232a;
+    --warn-soft: #fdeeee;
+    --ok: #1d7a4b;
+    --ok-soft: #e8f6ee;
+    --paper: #ffffff;
+    --bg: #f2f4f8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.65;
+    word-break: keep-all;
+  }
+  .toolbar {
+    max-width: 210mm;
+    margin: 16px auto 0;
+    padding: 0 16px;
+    text-align: right;
+  }
+  .toolbar button {
+    font: inherit;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .page {
+    background: var(--paper);
+    max-width: 210mm;
+    min-height: 297mm;
+    margin: 12px auto 32px;
+    padding: 18mm 18mm 16mm;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  }
+  header {
+    text-align: center;
+    border-bottom: 3px double var(--accent);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  .kicker {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 2px 12px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: -.02em;
+  }
+  .sub { color: var(--muted); margin: 6px 0 0; font-size: 15px; }
+
+  p { margin: 0 0 12px; }
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 26px 0 10px;
+    padding-left: 10px;
+    border-left: 5px solid var(--accent);
+  }
+
+  .alert {
+    background: var(--warn-soft);
+    border: 1px solid #f0c4c6;
+    border-left: 6px solid var(--warn);
+    padding: 14px 16px;
+    border-radius: 6px;
+  }
+  .alert strong { color: var(--warn); }
+
+  .cases { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .case {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    align-items: start;
+    background: var(--ok-soft);
+    border: 1px solid #bfe3cf;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ok);
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .case h3 { margin: 2px 0 2px; font-size: 16.5px; }
+  .case p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--accent-soft); font-weight: 700; }
+  td.y { color: var(--ok); font-weight: 700; white-space: nowrap; }
+  td.n { color: var(--warn); font-weight: 700; white-space: nowrap; }
+
+  ul.notes { margin: 0; padding-left: 20px; }
+  ul.notes li { margin-bottom: 6px; }
+
+  .closing {
+    margin-top: 28px;
+    padding: 14px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    font-size: 15px;
+  }
+  .sign {
+    margin-top: 28px;
+    text-align: right;
+  }
+  .sign .date { color: var(--muted); }
+  .sign .clinic { font-size: 20px; font-weight: 900; margin-top: 4px; }
+  .blank {
+    display: inline-block;
+    min-width: 140px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 24px 16px; min-height: 0; margin: 12px 0 24px; box-shadow: none; }
+    h1 { font-size: 24px; }
+    th, td { padding: 7px 6px; font-size: 13.5px; }
+  }
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: #fff; }
+    .toolbar { display: none; }
+    .page { margin: 0; box-shadow: none; max-width: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar"><button type="button" onclick="window.print()">인쇄하기</button></div>
+
+  <main class="page">
+    <header>
+      <div class="kicker">환자 안내문</div>
+      <h1>마운자로(Mounjaro) 원내 처방 안내</h1>
+      <p class="sub">약사법에 따른 원내 처방 제한 및 예외 사항</p>
+    </header>
+
+    <p>평소 저희 의원을 믿고 찾아주시는 환자분들께 감사드립니다.</p>
+    <p>
+      비만·체중 관리 치료제인 <b>마운자로(성분명: 터제파타이드)</b>의 처방과 관련하여,
+      현행 약사법에 따른 처방 기준을 아래와 같이 안내드립니다.
+      진료 및 처방 시 참고하여 주시기 바랍니다.
+    </p>
+
+    <h2>1. 원내 처방 제한 안내</h2>
+    <div class="alert">
+      현행 <b>약사법(의약분업 원칙)</b>에 따라, 마운자로를 원내에서 처방받아
+      <strong>댁으로 가져가 직접 투여하시는 것은 원칙적으로 불가</strong>합니다.<br>
+      이 경우 <b>원외 처방전</b>을 발급해 드리며, 외부 약국에서 약을 수령하셔야 합니다.
+    </div>
+
+    <h2>2. 원내 처방이 가능한 예외 경우</h2>
+    <p>다만, 아래의 <b>세 가지 경우</b>에는 원내 처방이 가능합니다.</p>
+    <ol class="cases">
+      <li class="case">
+        <div class="num">1</div>
+        <div>
+          <h3>원내에서 매주 주사를 맞으시는 경우</h3>
+          <p>매주 내원하여 의료진에게 원내에서 직접 주사를 맞으시는 경우에는 원내 처방이 가능합니다.</p>
+        </div>
+      </li>
+      <li class="case">
+        <div class="num">2</div>
+        <div>
+          <h3>급여 처방으로 실손보험 청구 서류가 발급되는 경우</h3>
+          <p>건강보험 급여 기준에 해당하여 급여로 처방되고, 실손보험(실비) 청구용 서류 작성이 가능한 경우에는 원내 처방이 가능합니다.</p>
+        </div>
+      </li>
+      <li class="case">
+        <div class="num">3</div>
+        <div>
+          <h3>주사 당일 원내에서 맞고 가져가시는 경우</h3>
+          <p>내원하신 당일 원내에서 주사를 맞으신 후, 남은 약을 가져가시는 경우에는 원내 처방이 가능합니다.</p>
+        </div>
+      </li>
+    </ol>
+
+    <h2>3. 한눈에 보기</h2>
+    <table>
+      <thead>
+        <tr><th style="width:62%">처방 상황</th><th>원내 처방</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>원내에서 매주 주사를 맞는 경우</td><td class="y">가능</td></tr>
+        <tr><td>급여 처방으로 실손보험 청구 서류가 작성되는 경우</td><td class="y">가능</td></tr>
+        <tr><td>주사 당일 원내에서 맞고 가져가는 경우</td><td class="y">가능</td></tr>
+        <tr><td>원내 주사 없이 약만 받아 가정에서 투여하는 경우</td><td class="n">불가 (원외 처방전 발급)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>4. 유의 사항</h2>
+    <ul class="notes">
+      <li>예외에 해당하는지 여부는 <b>진료 시 의료진과 상담</b>을 통해 결정됩니다.</li>
+      <li>원외 처방전을 받으신 경우, 약국별로 재고 상황이 다를 수 있으니 방문 전 약국에 미리 확인하시기 바랍니다.</li>
+      <li>마운자로는 <b>냉장 보관(2~8℃)</b>이 필요한 약입니다. 수령 후 보관 방법을 꼭 지켜 주세요.</li>
+      <li>본 안내는 관련 법령 및 보건당국 지침에 따라 변경될 수 있습니다.</li>
+    </ul>
+
+    <div class="closing">
+      법령 준수를 위한 조치이오니 환자분들의 너른 양해 부탁드립니다.
+      궁금하신 사항은 접수처 또는 진료실로 언제든지 문의해 주십시오.
+    </div>
+
+    <div class="sign">
+      <div class="date"><span class="blank">&nbsp;</span>년 &nbsp;<span class="blank" style="min-width:48px">&nbsp;</span>월 &nbsp;<span class="blank" style="min-width:48px">&nbsp;</span>일</div>
+      <div class="clinic"><span class="blank" style="min-width:200px">&nbsp;</span> 의원장</div>
+    </div>
+  </main>
+</body>
+</html>
