@@ -3184,8 +3184,11 @@ function buildNintendoEnvironment() {
       const sc = document.createElement('canvas'); sc.width = 340; sc.height = 150; const x = sc.getContext('2d');
       const rr = (X, Y, W2, H2, R2) => { x.beginPath(); x.moveTo(X + R2, Y); x.arcTo(X + W2, Y, X + W2, Y + H2, R2); x.arcTo(X + W2, Y + H2, X, Y + H2, R2); x.arcTo(X, Y + H2, X, Y, R2); x.arcTo(X, Y, X + W2, Y, R2); x.closePath(); };
       rr(6, 6, 328, 138, 26); x.fillStyle = '#fff8ec'; x.fill(); x.lineWidth = 8; x.strokeStyle = '#c58b5a'; x.stroke();
-      x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#7a4a2a'; x.font = "bold 42px 'Malgun Gothic', sans-serif"; x.fillText('🔒 아직 못 꾸며요', 170, 52);
-      x.fillStyle = '#d4380d'; x.font = "bold 32px 'Malgun Gothic', sans-serif"; x.fillText('상점에서 땅 넓히기', 170, 106);
+      /* 11-20 글자가 팻말 칸 안에 들어가게: 폭(안쪽 290px)에 맞춰 글자 크기를 줄임 */
+      const fitTxt = (t, px, y, col) => { let f = px; do { x.font = `bold ${f}px 'Malgun Gothic', sans-serif`; f -= 2; } while (x.measureText(t).width > 290 && f > 14); x.fillStyle = col; x.fillText(t, 170, y); };
+      x.textAlign = 'center'; x.textBaseline = 'middle';
+      fitTxt('🔒 아직 못 꾸며요', 40, 54, '#7a4a2a');
+      fitTxt('상점에서 땅 넓히기', 30, 104, '#d4380d');
       const smat = new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(sc), transparent: true }), postMat = new THREE.MeshStandardMaterial({ color: 0xb07a52, roughness: 0.8 });
       for (let i = 0; i < 8; i++) { const a = Math.PI / 8 + i * Math.PI / 4, r2 = Rb + 2.6, px = Math.cos(a) * r2, pz = Math.sin(a) * r2;
         if (onPath(px, pz, 1.0) || nearLake(px, pz, 1.0)) continue;
