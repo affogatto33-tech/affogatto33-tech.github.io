@@ -342,6 +342,21 @@
   .en-wrow { display: flex; align-items: center; gap: 8px; background: #fff; border: 2px solid #b5f5ec; border-radius: 12px; padding: 4px 8px; font-size: 1rem; }
   .en-wrow b { font-family: 'Segoe UI', sans-serif; font-size: 1.15rem; color: #006d75; }
   .en-wrow > span:last-child { margin-left: auto; color: #531dab; font-family: 'Jua', sans-serif; }
+  /* 11-20(2) 복도: 3D 문 3개 */
+  .en-lobby { flex: 1; min-height: 260px; position: relative; margin-top: 6px; border-radius: 16px; overflow: hidden; background: #7cc7b8; border: 4px solid #5fb5a6; }
+  .en-lobby canvas.en3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+  .en3d-wrap { display: none; position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+  .en-lobby.is3d .en3d-wrap { display: block; }
+  .en3d-sign { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); background: linear-gradient(#e6fffb, #b5f5ec); color: #00474f; border: 4px solid #36cfc9; border-radius: 18px; padding: 5px 24px 6px; font-size: 1.45rem; font-weight: 800; text-align: center; box-shadow: 0 5px 0 #13a8a8, 0 10px 18px rgba(0,60,60,0.2); white-space: nowrap; font-family: 'Jua', sans-serif; }
+  .en3d-sign span { display: block; font-size: 0.92rem; font-weight: 600; color: #08979c; }
+  .en3d-sub { position: absolute; transform: translate(-50%, 0); background: #fffaf0; color: #006d75; border: 3px solid #5fb5a6; border-radius: 999px; padding: 3px 14px; font-size: 0.92rem; font-weight: 700; white-space: nowrap; box-shadow: 0 3px 0 #13a8a8; transition: opacity .2s; }
+  .en-doors2d { display: none; position: absolute; inset: 0; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 18px; align-items: stretch; }
+  .en-lobby.no3d .en-doors2d { display: grid; }
+  .en-door2d { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: var(--dc); border-radius: 90px 90px 14px 14px; border: 6px solid #9a6236; font-size: 1.2rem; }
+  .en-door2d-e { font-size: 2.6rem; }
+  .en-tolobby { font-size: 0.85rem; padding: 5px 12px; }
+  @media (max-width: 560px) { .en3d-sub { font-size: 0.72rem; padding: 2px 7px; border-width: 2px; } .en-doors2d { grid-template-columns: 1fr; } }
+  .en-room { font-family: 'Jua', sans-serif; color: #006d75; background: #e6fffb; border: 2px solid #87e8de; border-radius: 999px; padding: 3px 12px; font-size: 1rem; }
   @media (max-width: 760px) { .en-play { grid-template-columns: 140px minmax(0, 1fr); } .en-wlist { grid-template-columns: 1fr; } .en-word { font-size: 1.7rem; } }
   /* 11-20 보석 계산실 (교과서 단원별) */
   .mc-hub { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 8px 2px; align-content: start; }
@@ -965,7 +980,8 @@
           </div>
           <div class="en-sr">🎯 SR 2.3 맞춤</div>
         </div>
-        <div id="enHub" class="mc-hub en-hub"></div>
+        <div id="enLobby" class="en-lobby"></div>
+        <div id="enHub" class="mc-hub en-hub" style="display:none;"></div>
         <div id="enPlay" class="en-play" style="display:none;">
           <div id="enSide" class="track-list-box"></div>
           <div class="problem-stage-box">
@@ -4729,7 +4745,7 @@ function enUnitDone(id) { return enStars(id).every(s => s > 0); }
 function enUnitOpen(u) { if (u.jr || u.lv < 3) return true; return enUnits(u.id[0]).filter(x => x.lv === 2).every(x => enUnitDone(x.id)); }
 function enStageOpen(u, k) { return enUnitOpen(u) && (k === 0 || enStars(u.id)[k - 1] > 0); }
 function enSaveEng(fn) { updateSave(sv => { sv.eng = sv.eng || { st: {} }; sv.eng.st = sv.eng.st || {}; fn(sv.eng, sv); }); }
-function enView(w) { enEl('enHub').style.display = w === 'hub' ? '' : 'none'; enEl('enPlay').style.display = w === 'play' ? '' : 'none'; }
+function enView(w) { enEl('enLobby').style.display = w === 'lobby' ? '' : 'none'; enEl('enHub').style.display = w === 'hub' ? '' : 'none'; enEl('enPlay').style.display = w === 'play' ? '' : 'none'; }
 
 /* ---- 영어 소리 (기기 안의 읽어 주기) : 🔊 단추는 늘, 저절로 읽기는 소리 켜짐일 때만 ---- */
 let enVoiceCache = null;
@@ -4795,13 +4811,12 @@ function enMakeStage(u, k) {
 }
 
 /* ---- 화면 ---- */
-function enEnter() { const d = enData(); enTab = ['g', 'j'].includes(d.tab) ? d.tab : 'v'; enShowHub(); }
+function enEnter() { const d = enData(); enTab = ['g', 'j'].includes(d.tab) ? d.tab : 'v'; enShowLobby(); }   /* 11-20(2) 먼저 복도(문 3개) */
 function enShowHub() {
   enView('hub'); enWait = false; try { speechSynthesis.cancel(); } catch (e) {}
-  const tabs = enEl('enTabs'); tabs.innerHTML = '';
-  [['v', '📘 Voca 낱말'], ['g', '✏️ Grammar 문법'], ['j', '📗 교재 Journey 2.2']].forEach(([t, n]) => { const b = document.createElement('button');
-    b.className = 'tab-btn' + (t === enTab ? ' active' : ''); b.textContent = n;
-    b.onclick = () => { playSfx('click'); enTab = t; enSaveEng(m => { m.tab = t; }); enShowHub(); }; tabs.appendChild(b); });
+  const tabs = enEl('enTabs'), R = enRoomOf(enTab);   /* 11-20(2) 탭 대신: 복도로 나가는 단추 + 지금 교실 이름 */
+  tabs.innerHTML = `<button class="btn-3d en-tolobby">🚪 복도로</button><span class="en-room">${R.emo} ${R.name} 교실</span>`;
+  tabs.querySelector('.en-tolobby').onclick = () => { playSfx('click'); enShowLobby(); };
   const hub = enEl('enHub'); hub.innerHTML = '';
   if (enTab === 'j') return enJourHub(hub);
   [1, 2, 3].forEach(lv => {
@@ -4953,6 +4968,174 @@ function englishSchoolFill(sv) {
   const taken = [...(sv.pl || []).filter(Boolean).map(p => [Number(p.c) || 0, Number(p.r) || 0]), ...Object.keys(sv.gp).map(k => [Number(sv.gp[k].c) || 0, Number(sv.gp[k].r) || 0])];
   const sp = spots.find(([c, r]) => taken.every(([c2, r2]) => Math.hypot(c - c2, r - r2) >= 2.8)) || spots[0];
   sv.gp.english = { c: sp[0], r: sp[1] };
+}
+
+/* ---------- 11-20(2) 🔤 영어 학교 복도: 3D 문 3개 (Voca · Grammar · Journey 2.2) — 도서관 입구와 같은 방식 ----------
+   문을 누르면 공주가 걸어가서 문이 열리고, 그 교실(단원 목록)로 들어감. WebGL이 안 되면 큰 문 단추 3개 */
+const EN_ROOMS = [
+  { t: 'v', name: 'Voca 낱말',    emo: '📘', x: -4.3, col: 0x9cc3ea, deco: 0xcfe1f5 },
+  { t: 'g', name: 'Grammar 문법', emo: '✏️', x: 0,    col: 0xf3d27f, deco: 0xfbe9b8 },
+  { t: 'j', name: 'Journey 2.2',  emo: '📗', x: 4.3,  col: 0xa3d6a5, deco: 0xd2ecd0 }
+];
+const EN3D = { ok: null, r: null, scene: null, cam: null, doors: {}, pr: null, prTex: null, prCv: null, raf: 0, walk: null, cv: null, w: 0, h: 0 };
+let enWalking = false;
+function enRoomOf(t) { return EN_ROOMS.find(R => R.t === t) || EN_ROOMS[0]; }
+function enRoomSub(t) {
+  const us = enUnits(t), dn = us.filter(u => enUnitDone(u.id)).length, w = t === 'j' ? '묶음' : '단원';
+  return dn ? `👑 ${dn}/${us.length} ${w}` : `${us.length}${w}`;
+}
+function enLobbyBuild() {
+  const lb = enEl('enLobby'); if (lb.dataset.built) return; lb.dataset.built = '1';
+  lb.innerHTML = `<div class="en3d-wrap">
+    ${EN_ROOMS.map(R => `<div class="en3d-sub" id="enSub_${R.t}"></div>`).join('')}</div>
+    <div class="en-doors2d">${EN_ROOMS.map(R => `<button class="btn-3d en-door2d" data-room="${R.t}" style="--dc:#${R.col.toString(16).padStart(6, '0')}"><span class="en-door2d-e">${R.emo}</span><b>${R.name}</b><small id="enSub2_${R.t}"></small></button>`).join('')}</div>`;
+  lb.querySelectorAll('.en-door2d').forEach(b => { b.onclick = () => { playSfx('click'); enGoRoom(b.dataset.room); }; });
+}
+function en3dInit() {
+  if (EN3D.ok !== null) return EN3D.ok;
+  try {
+    if (typeof THREE === 'undefined' || typeof libWoodTex !== 'function') throw new Error('no three');
+    const lb = enEl('enLobby'), cv = document.createElement('canvas'); cv.className = 'en3d'; lb.insertBefore(cv, lb.firstChild);
+    const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); r.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+    const S = new THREE.Scene(); S.background = new THREE.Color(0x7cc7b8);
+    const cam = new THREE.PerspectiveCamera(38, 1.6, 0.1, 100); cam.position.set(0, 5.0, 12.2); cam.lookAt(0, 2.5, 0);
+    S.add(new THREE.HemisphereLight(0xfff6ea, 0x9ccfc2, 0.58));
+    const sun = new THREE.DirectionalLight(0xfff4e6, 0.5); sun.position.set(4, 11, 9); sun.castShadow = true;
+    sun.shadow.mapSize.set(1024, 1024); Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 9, bottom: -4, near: 1, far: 40 }); sun.shadow.radius = 4; S.add(sun);
+    const M = (c, o) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.82, metalness: 0 }, o || {}));
+    const add = (geo, mat, x, y, z, o) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = !(o && o.noCast); m.receiveShadow = true; (o && o.parent || S).add(m); return m; };
+    /* 나무 마루 + 민트 판자 벽 */
+    const fl = libWoodTex('#d7a065', 'rgba(110,60,25,0.55)', 512, 512, 64, false); fl.repeat.set(4, 3);
+    add(new THREE.PlaneGeometry(32, 22), M(0xffffff, { map: fl }), 0, 0, 4, { noCast: true }).rotation.x = -Math.PI / 2;
+    const wl = libWoodTex('#cfeee6', 'rgba(40,120,110,0.28)', 512, 512, 52, true); wl.repeat.set(5, 2);
+    add(new THREE.PlaneGeometry(32, 14), M(0xffffff, { map: wl }), 0, 7, -3.2, { noCast: true });
+    const wl2 = libWoodTex('#8fd3c6', 'rgba(20,90,80,0.4)', 512, 256, 64, true); wl2.repeat.set(5, 1);
+    add(new THREE.PlaneGeometry(32, 1.5), M(0xffffff, { map: wl2 }), 0, 0.75, -3.17, { noCast: true });
+    add(libRBox(32, 0.22, 0.3, 0.08), M(0x5fb5a6), 0, 1.55, -3.1);
+    for (const sx of [-1, 1]) { const side = add(new THREE.PlaneGeometry(14, 14), M(0xffffff, { map: wl }), sx * 9.8, 7, 3.6, { noCast: true }); side.rotation.y = -sx * Math.PI / 2; }
+    /* 동그란 러그 */
+    [[3.0, 0xa6e3d7, 0.025], [2.65, 0xfffbe6, 0.03], [1.65, 0xffd6e7, 0.035]].forEach(([rr, c, y]) => { add(new THREE.CylinderGeometry(rr, rr, y * 2, 48), M(c), 0, y, 3.3, { noCast: true }).scale.z = 0.62; });
+    /* ABC 깃발 줄 */
+    const FLAG = ['#f7b5c8', '#a9cdf2', '#fff0a6', '#a8dcc8', '#c9b6ec', '#ffd59e'];
+    const ABC = 'ABCDEFGHIJKLM'.split(''), fx0 = -7.2, fx1 = 7.2;
+    for (let i = 0; i < ABC.length; i++) {
+      const u = i / (ABC.length - 1), x = fx0 + (fx1 - fx0) * u, y = 6.05 - Math.sin(u * Math.PI) * 0.45;
+      const c = document.createElement('canvas'); c.width = 128; c.height = 128; const g = c.getContext('2d');
+      g.fillStyle = FLAG[i % FLAG.length]; g.beginPath(); g.moveTo(8, 6); g.lineTo(120, 6); g.lineTo(64, 122); g.closePath(); g.fill();
+      g.fillStyle = '#5a3a1a'; g.font = 'bold 54px "Segoe UI",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(ABC[i], 64, 48);
+      const t = new THREE.CanvasTexture(c); t.anisotropy = 4;
+      const f = new THREE.Mesh(new THREE.PlaneGeometry(0.85, 0.85), new THREE.MeshBasicMaterial({ map: t, transparent: true, alphaTest: 0.05 }));
+      f.position.set(x, y - 0.4, -3.0); f.rotation.z = (u - 0.5) * 0.25; S.add(f);
+    }
+    const pts = []; for (let k = 0; k <= 40; k++) { const u = k / 40; pts.push(new THREE.Vector3(fx0 - 0.6 + (fx1 - fx0 + 1.2) * u, 6.05 - Math.sin(u * Math.PI) * 0.47, -3.02)); }
+    S.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: 0x8a5a2b })));
+    /* 화분 */
+    for (const sx of [-1, 1]) {
+      add(new THREE.CylinderGeometry(0.42, 0.32, 0.7, 20), M(0xe58f5c), sx * 7.6, 0.35, -1.6);
+      add(new THREE.CylinderGeometry(0.46, 0.46, 0.12, 20), M(0xd17a49), sx * 7.6, 0.72, -1.6);
+      [[0, 1.25, 0, 0.62], [-0.32, 1.05, 0.12, 0.42], [0.34, 1.1, 0.05, 0.45], [0.05, 1.7, -0.05, 0.38]].forEach(([dx, y, dz, rr]) => add(new THREE.SphereGeometry(rr, 18, 14), M(0x8fd18a, { roughness: 0.9 }), sx * 7.6 + dx, y, -1.6 + dz));
+    }
+    /* 문 3개: 둥근 아치 나무 문틀 + 파스텔 문짝 (도서관 문과 같은 모양) */
+    const OW = 2.0, OH = 3.4;
+    for (const D of EN_ROOMS) {
+      const g = new THREE.Group(); g.position.set(D.x, 0, -3.05); S.add(g);
+      const frameS = libArch(OW + 0.7, OH + 0.4); frameS.holes.push(libArch(OW, OH));
+      add(new THREE.ExtrudeGeometry(frameS, { depth: 0.22, bevelEnabled: true, bevelThickness: 0.09, bevelSize: 0.08, bevelSegments: 3, curveSegments: 24 }), M(0x9a6236), 0, 0, 0, { parent: g });
+      add(libRBox(OW + 1.0, 0.22, 0.6, 0.08), M(0x8a5a2b), 0, 0.11, 0.25, { parent: g });   /* 문턱 */
+      const glow = new THREE.Mesh(new THREE.ShapeGeometry(libArch(OW, OH), 24), new THREE.MeshBasicMaterial({ color: 0xfff1c4 })); glow.position.set(0, 0, -0.02); g.add(glow);
+      const hinge = new THREE.Group(); hinge.position.set(-OW / 2 + 0.02, 0, 0.12); g.add(hinge);
+      const lg = new THREE.ExtrudeGeometry(libArch(OW - 0.06, OH - 0.04), { depth: 0.08, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 2, curveSegments: 24 });
+      lg.translate(OW / 2 - 0.02, 0.02, 0); add(lg, M(D.col, { roughness: 0.6 }), 0, 0, 0, { parent: hinge });
+      const dm = M(D.deco, { roughness: 0.6 });
+      add(libRBox(0.62, 1.05, 0.08, 0.1), dm, OW / 2 - 0.47, 0.85, 0.14, { parent: hinge });
+      add(libRBox(0.62, 1.05, 0.08, 0.1), dm, OW / 2 + 0.43, 0.85, 0.14, { parent: hinge });
+      add(new THREE.CylinderGeometry(0.5, 0.5, 0.1, 32), M(0x9a6236), OW / 2 - 0.02, OH - 1.05, 0.13, { parent: hinge }).rotation.x = Math.PI / 2;
+      const emoBg = new THREE.Mesh(new THREE.CircleGeometry(0.42, 32), new THREE.MeshBasicMaterial({ color: 0xfff6dc })); emoBg.position.set(OW / 2 - 0.02, OH - 1.05, 0.19); hinge.add(emoBg);
+      const emo = new THREE.Mesh(new THREE.CircleGeometry(0.4, 32), new THREE.MeshBasicMaterial({ map: libTextTex(D.emo, 128, 128, '84px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif'), color: 0xffffff, transparent: true }));
+      emo.position.set(OW / 2 - 0.02, OH - 1.05, 0.2); hinge.add(emo);
+      add(new THREE.SphereGeometry(0.11, 16, 12), M(0xf5c542, { metalness: 0.4, roughness: 0.35 }), OW - 0.28, 1.55, 0.2, { parent: hinge });
+      /* 나무 간판 */
+      add(libRBox(2.6, 0.62, 0.16, 0.12), M(0xe9c48e), 0, OH + 0.85, 0.18, { parent: g });
+      const sign = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 0.56), new THREE.MeshBasicMaterial({ map: libTextTex(D.name, 512, 120, 'bold 60px "Malgun Gothic","Apple SD Gothic Neo",sans-serif'), transparent: true }));
+      sign.position.set(0, OH + 0.85, 0.27); g.add(sign);
+      EN3D.doors[D.t] = { g, hinge, x: D.x, open: 0, target: 0 };
+    }
+    /* 문 사이 벽등 */
+    for (const lx of [-2.15, 2.15]) {
+      const lamp = add(new THREE.SphereGeometry(0.2, 16, 12), new THREE.MeshBasicMaterial({ color: 0xfff1b8 }), lx, 3.3, -2.95, { noCast: true });
+      add(libRBox(0.3, 0.16, 0.2, 0.05), M(0x9a6236), lamp.position.x, 3.08, -3.0);
+    }
+    const pl = new THREE.PointLight(0xffe2b8, 0.22, 14); pl.position.set(0, 4.5, 1); S.add(pl);
+    /* 공주(뒷모습 판) + 동그란 그림자 */
+    const pc = document.createElement('canvas'); pc.width = 256; pc.height = 256; const pt = new THREE.CanvasTexture(pc);
+    const PH = 2.7, pr = new THREE.Mesh(new THREE.PlaneGeometry(PH, PH), new THREE.MeshBasicMaterial({ map: pt, transparent: true, alphaTest: 0.05, depthWrite: false }));
+    pr.userData.yOff = PH / 2 - PH * 16 / 256; S.add(pr);
+    const sh = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), new THREE.MeshBasicMaterial({ color: 0x2f6b60, transparent: true, opacity: 0.25, depthWrite: false }));
+    sh.rotation.x = -Math.PI / 2; sh.scale.y = 0.45; S.add(sh); pr.userData.shadow = sh;
+    Object.assign(EN3D, { ok: true, r, scene: S, cam, pr, prTex: pt, prCv: pc, cv });
+    const hit = e => { const rc = cv.getBoundingClientRect(), v = new THREE.Vector2((e.clientX - rc.left) / rc.width * 2 - 1, -(e.clientY - rc.top) / rc.height * 2 + 1);
+      const ray = new THREE.Raycaster(); ray.setFromCamera(v, cam); return EN_ROOMS.map(R => R.t).find(t => ray.intersectObject(EN3D.doors[t].g, true).length); };
+    cv.addEventListener('pointerdown', e => { const t = hit(e); if (t) enGoRoom(t); });
+    cv.addEventListener('pointermove', e => { cv.style.cursor = hit(e) ? 'pointer' : ''; });
+    lb.classList.add('is3d');
+  } catch (e) { console.warn('en3d off', e); EN3D.ok = false; }
+  return EN3D.ok;
+}
+function en3dSize() {
+  const lb = enEl('enLobby'), w = lb.clientWidth || 800, h = lb.clientHeight || 500, a = w / h;
+  EN3D.w = lb.clientWidth; EN3D.h = lb.clientHeight; EN3D.r.setSize(w, h, false); EN3D.cam.aspect = a;
+  /* 문 세 개와 화분까지 다 보이게: 좁은 화면이면 뒤로 물러남 */
+  const dist = Math.max(15.4, (a < 1 ? 6.0 : 8.4) / (Math.tan(19 * Math.PI / 180) * a)), back = dist - 3.2;   /* 세로 화면은 문 세 개만 꽉 차게 */
+  EN3D.cam.position.set(0, 5.0 + (back - 12.2) * 0.25, back); EN3D.cam.lookAt(0, 2.4, 0); EN3D.cam.updateProjectionMatrix();
+}
+function en3dPrincess(x, z, phase, op) {
+  const g = EN3D.prCv.getContext('2d'), sv = getSave(); g.clearRect(0, 0, 256, 256);
+  try { if (!drawPrincessBack(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0)) drawPrincessCombined(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0, false); } catch (e) {}
+  EN3D.prTex.needsUpdate = true;
+  const pr = EN3D.pr; pr.position.set(x, pr.userData.yOff, z); pr.material.opacity = op; pr.userData.shadow.position.set(x, 0.08, z + 0.05); pr.userData.shadow.material.opacity = 0.25 * op;
+  pr.lookAt(EN3D.cam.position.x, pr.position.y, EN3D.cam.position.z);
+}
+function en3dLabels() {
+  const lb = enEl('enLobby'), w = lb.clientWidth, h = lb.clientHeight;
+  for (const R of EN_ROOMS) {
+    const v = new THREE.Vector3(R.x, 0, -2.4).project(EN3D.cam), el = enEl('enSub_' + R.t);
+    el.style.left = ((v.x + 1) / 2 * w) + 'px'; el.style.top = ((1 - v.y) / 2 * h + 6) + 'px';
+  }
+}
+function en3dLoop(t) {
+  const lb = enEl('enLobby');
+  if (currentScreen !== 'english' || lb.style.display === 'none') { EN3D.raf = 0; return; }
+  EN3D.raf = requestAnimationFrame(en3dLoop);
+  if (lb.clientWidth && (lb.clientWidth !== EN3D.w || lb.clientHeight !== EN3D.h)) { en3dSize(); en3dLabels(); if (!EN3D.walk) en3dPrincess(0, 3.3, 0, 1); }
+  for (const k in EN3D.doors) { const d = EN3D.doors[k]; d.open += (d.target - d.open) * 0.12; d.hinge.rotation.y = d.open * 1.5; }
+  const W = EN3D.walk;
+  if (W) {
+    const p = Math.min(1, (t - W.t0) / 1000), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    en3dPrincess(W.x0 + (W.x1 - W.x0) * e, W.z0 + (W.z1 - W.z0) * e, (t - W.t0) / 90, p < 0.75 ? 1 : 1 - (p - 0.75) / 0.25);
+  }
+  EN3D.r.render(EN3D.scene, EN3D.cam);
+}
+function enShowLobby() {
+  enView('lobby'); enWait = false; enWalking = false; try { speechSynthesis.cancel(); } catch (e) {}
+  enEl('enTabs').innerHTML = '<span class="en-room">🚪 어느 교실로 들어갈까요?</span>';
+  enLobbyBuild();
+  const lb = enEl('enLobby');
+  EN_ROOMS.forEach(R => { enEl('enSub_' + R.t).textContent = enRoomSub(R.t); enEl('enSub2_' + R.t).textContent = enRoomSub(R.t); });
+  if (!en3dInit()) { lb.classList.add('no3d'); return; }
+  lb.querySelectorAll('.en3d-sub').forEach(e => { e.style.opacity = 1; });
+  EN3D.walk = null; for (const k in EN3D.doors) { EN3D.doors[k].open = EN3D.doors[k].target = 0; }
+  en3dSize(); en3dPrincess(0, 3.3, 0, 1); en3dLabels();
+  if (!EN3D.raf) EN3D.raf = requestAnimationFrame(en3dLoop);
+}
+function enGoRoom(t) {
+  const go = () => { enWalking = false; EN3D.walk = null; enTab = t; enSaveEng(m => { m.tab = t; }); enShowHub(); };
+  if (!EN3D.ok) return go();
+  if (enWalking) return; enWalking = true; playSfx('click');
+  const d = EN3D.doors[t]; d.target = 1;
+  enEl('enLobby').querySelectorAll('.en3d-sub').forEach(e => { e.style.opacity = 0; });
+  EN3D.walk = { t0: performance.now(), x0: EN3D.pr.position.x, z0: EN3D.pr.position.z, x1: d.x, z1: -2.6 };
+  setTimeout(() => { if (currentScreen === 'english' && enWalking) go(); else enWalking = false; }, 1150);
 }
 
 /* 모형 하나 만들기: 앞(+z)이 카메라(45°)를 보게 돌리고, 그림과 같은 크기로 맞춤 */
