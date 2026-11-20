@@ -287,6 +287,93 @@
   }
   .numpad-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; align-content: center; }
   .num-key { height: 46px; font-size: 1.25rem; border-radius: 14px; }
+  /* 11-20 보석 계산실 (교과서 단원별) */
+  .mc-hub { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 8px 2px; align-content: start; }
+  .mc-card { background: #fff; border: 3px solid #ffadd2; border-radius: 18px; padding: 10px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 4px 0 #ffd6e7; min-width: 0; }
+  .mc-card:hover { transform: translateY(-2px); }
+  .mc-card.lock { opacity: 0.55; filter: grayscale(0.7); cursor: default; }
+  .mc-card.done { border-color: #95de64; box-shadow: 0 4px 0 #d9f7be; }
+  .mc-card-h { display: flex; gap: 8px; align-items: center; font-family: 'Jua', sans-serif; font-size: 1.15rem; color: #531dab; }
+  .mc-card-h b { font-weight: normal; flex: 1; }
+  .mc-no { width: 28px; height: 28px; border-radius: 50%; background: #ff85c0; color: #fff; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .mc-gems { display: flex; gap: 4px; flex-wrap: wrap; }
+  .mc-gem { font-size: 0.74rem; padding: 2px 7px; border-radius: 10px; background: #f5f5f5; color: #999; }
+  .mc-gem.on { background: #fff0f6; color: #c41d7f; }
+  .mc-gem.next { background: #e6f7ff; color: #096dd9; font-weight: bold; }
+  .mc-card-f { font-size: 0.8rem; color: #8c6fae; }
+  .mc-toolbtn { align-self: flex-start; font-size: 0.78rem; padding: 4px 10px; }
+  .mc-note { grid-column: 1 / -1; font-size: 0.85rem; color: #6b4f8a; background: #f9f0ff; border-radius: 12px; padding: 8px 12px; }
+  #mcPlay { grid-template-columns: 190px minmax(0, 1fr) 230px; min-height: 0; }
+  #mcPlay .problem-stage-box { overflow-y: auto; justify-content: center; gap: 8px; }
+  .mc-side-t { font-family: 'Jua', sans-serif; color: #531dab; font-size: 1rem; line-height: 1.3; padding: 2px 4px; }
+  .mc-stbtn { font-size: 0.85rem; padding: 6px 8px; text-align: left; display: flex; justify-content: space-between; gap: 4px; }
+  .mc-stbtn span { font-size: 0.7rem; }
+  .mc-vis { display: flex; justify-content: center; align-items: center; max-width: 100%; }
+  .mc-vis svg { max-width: 100%; height: auto; max-height: 30vh; }
+  .mc-q { font-size: 1.45rem; color: #531dab; text-align: center; line-height: 1.4; }
+  .mc-ansrow { font-size: 1.3rem; color: #531dab; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2px; font-family: 'Jua', sans-serif; }
+  .mc-box { min-width: 76px; height: 50px; padding: 0 8px; border: 3px solid #ffadd2; border-radius: 14px; background: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.7rem; color: #eb2f96; cursor: pointer; margin: 0 4px; }
+  .mc-box.act { border-color: #eb2f96; box-shadow: 0 0 0 4px #ffd6e7; }
+  .mc-right { display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+  .mc-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: center; }
+  .mc-choices.one { grid-template-columns: 1fr; }
+  .mc-choice { min-height: 56px; font-size: 1.15rem; padding: 6px; line-height: 1.3; }
+  .mc-choice.ok { background: #d9f7be !important; border-color: #52c41a !important; }
+  .mc-choice.no { background: #ffccc7 !important; border-color: #ff4d4f !important; }
+  .mc-fb { font-size: 1rem; text-align: center; }
+  .mc-fb:empty { display: none; }
+  .mc-fb.ok { color: #389e0d; font-weight: bold; font-size: 1.15rem; }
+  .mc-fb.no { background: #fff7e6; border: 2px solid #ffc53d; border-radius: 14px; padding: 8px 12px; color: #ad4e00; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .mc-fb.no small { font-size: 0.9rem; color: #874d00; }
+  .mc-res { position: absolute; inset: 8px; background: rgba(255,255,255,0.97); border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; z-index: 5; color: #531dab; padding: 10px; }
+  .mc-res-stars { font-size: 2.6rem; letter-spacing: 0.1em; }
+  .mc-res-t { font-size: 1.5rem; }
+  .mc-res-b { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .fr { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.05; margin: 0 0.12em; font-size: 0.9em; }
+  .fr i { font-style: normal; padding: 0 0.22em; }
+  .fr i:first-child { border-bottom: 2px solid currentColor; }
+  .frw { display: inline-flex; align-items: center; }
+  .mc-blocks { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
+  .mc-vis .mc-blocks svg { max-height: 120px; }
+  .op { font-size: 1.8rem; color: #531dab; align-self: center; margin: 0 4px; }
+  .mc-items, .mc-groups { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; font-size: 1.5rem; max-width: 520px; }
+  .mc-grp { border: 2px dashed #ff85c0; border-radius: 12px; padding: 2px 6px; }
+  .mc-row { display: flex; gap: 8px; align-items: center; justify-content: center; }
+  .mc-row.wrap { flex-wrap: wrap; max-width: 460px; }
+  .mc-lab { display: flex; flex-direction: column; align-items: center; font-size: 1.1rem; }
+  .mc-tbl { border-collapse: collapse; background: #fff; font-size: 0.95rem; }
+  .mc-tbl th, .mc-tbl td { border: 1.5px solid #d3adf7; padding: 3px 9px; text-align: center; min-width: 34px; }
+  .mc-tbl th { background: #f9f0ff; color: #531dab; }
+  .mc-og td { color: #eb2f96; font-weight: bold; height: 22px; }
+  .mc-pg td.pg { text-align: left; min-width: 160px; }
+  .mc-pg b { font-size: 1.55rem; font-weight: normal; }
+  .mc-pg i { font-size: 0.95rem; font-style: normal; }
+  .mc-pg .pgl { font-size: 0.8rem; color: #8c8c8c; text-align: right; }
+  .mc-len { font-size: 1.3rem; display: flex; flex-direction: column; align-items: flex-start; }
+  .mc-len .bar { height: 18px; background: #ffadd2; border: 2px solid #c41d7f; border-radius: 6px; margin-bottom: 4px; box-sizing: border-box; }
+  .mc-len .u span { display: inline-block; width: 1.6em; text-align: center; }
+  .cards { letter-spacing: 0.3em; background: #fff7e6; border: 2px solid #ffc53d; border-radius: 8px; padding: 0 4px 0 8px; }
+  .mc-q .big { font-size: 1.9rem; letter-spacing: 0.1em; }
+  .mc-tool { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+  .mc-tool-h { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .mc-tool-b { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+  .mc-lv { display: flex; gap: 5px; flex-wrap: wrap; }
+  .mc-lv .btn-3d { font-size: 0.9rem; padding: 6px 11px; }
+  .mc-tool-main { flex: 1; min-height: 0; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 10px; }
+  .mc-tool-info { background: #f9f0ff; border: 2px solid #d3adf7; border-radius: 18px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; color: #531dab; font-size: 0.95rem; overflow-y: auto; }
+  .mc-tool-stage { background: linear-gradient(180deg, #fff 0%, #fff0f6 100%); border: 3px solid #ffadd2; border-radius: 20px; display: flex; align-items: center; justify-content: center; padding: 8px; min-height: 0; overflow: auto; }
+  .mc-tool-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .mc-tool-btns .btn-3d { font-size: 1rem; padding: 8px 12px; }
+  .mc-tool-stage .mc-blocks { zoom: 1.55; }
+  .mc-lv .btn-3d.primary, .mc-lv .btn-3d.active { box-shadow: 0 0 0 2px #eb2f96 inset; }
+  .mc-tool-btns .btn-3d[disabled] { opacity: 0.4; }
+  .mc-big { font-family: 'Jua', sans-serif; font-size: 2.2rem; color: #eb2f96; line-height: 1.2; }
+  .mc-cnt { font-size: 1rem; }
+  .mc-small { font-size: 0.8rem; color: #8c6fae; }
+  .mc-tan-w { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+  #tanSvg { flex: 1; min-height: 0; width: 100%; background: linear-gradient(180deg, #fff 0%, #f9f0ff 100%); border: 3px solid #d3adf7; border-radius: 20px; }
+  @media (max-width: 760px) { .mc-hub { grid-template-columns: repeat(2, minmax(0, 1fr)); } #mcPlay { grid-template-columns: 150px minmax(0, 1fr) 190px; } .mc-tool-main { grid-template-columns: 220px minmax(0, 1fr); } }
+
 
   .cw-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: 250px 1fr 350px; gap: 10px; align-items: stretch; overflow: hidden; }
   /* 11-20 마법 도서관 입구 */
@@ -776,30 +863,37 @@
       </div>
     </section>
 
-    <!-- 4. math: 보석 계산실 -->
+    <!-- 4. math: 보석 계산실 (11-20 교과서 단원별) -->
     <section id="scr-math" class="screen">
       <div class="study-panel">
         <div class="closet-header">
-          <div style="display:flex; gap:8px; align-items:center;">
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
             <h3 style="margin:0;">💎 보석 계산실</h3>
-            <button class="btn-3d primary" data-goto="gugu">💎 구구단 보석방 (2~9단) 들어가기</button>
+            <div id="mcSemTabs" class="closet-tabs"></div>
           </div>
-          <div id="mathProgressChip" class="chip">진행: 0 / 10 문제</div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button class="btn-3d" id="mcToolBtn">🧰 교구 놀이</button>
+            <button class="btn-3d primary" data-goto="gugu">💎 구구단 보석방</button>
+          </div>
         </div>
-        <div class="math-layout">
+        <div id="mcHub" class="mc-hub"></div>
+        <div id="mcPlay" class="math-layout" style="display:none;">
           <div id="mathTrackList" class="track-list-box"></div>
           <div class="problem-stage-box">
-            <div id="mathStageTitle" class="chip">덧셈·뺄셈 1단계</div>
-            <div id="mathRetryBadge" style="display:none; color:#d46b08; font-weight:bold; font-size:0.86rem;">🔁 아까 틀렸거나 패스한 문제를 다시 풀어 봐요!</div>
-            <div id="mathQuestionText" class="jua" style="font-size:2.3rem; color:#531dab; text-align:center;">3 + 4 = ?</div>
-            <div id="mathAnswerBox" class="jua" style="min-width:140px; height:52px; border:3px solid #ff85c0; border-radius:16px; background:#fff; display:flex; align-items:center; justify-content:center; font-size:1.8rem; color:#eb2f96;"></div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;"><div id="mathStageTitle" class="chip"></div><div id="mathProgressChip" class="chip"></div></div>
+            <div id="mathRetryBadge" style="display:none; color:#d46b08; font-weight:bold; font-size:0.86rem;">🔁 아까 틀렸거나 넘긴 문제예요. 다시 풀어 봐요!</div>
+            <div id="mcVis" class="mc-vis"></div>
+            <div id="mathQuestionText" class="jua mc-q"></div>
+            <div id="mathAnswerBox" class="mc-ansrow"></div>
+            <div id="mcFeedback" class="mc-fb"></div>
             <div style="display:flex; gap:8px;">
-              <button id="btnMathPass" class="btn-3d">⏭️ 패스 (뒤로 넘기기)</button>
+              <button id="btnMathPass" class="btn-3d">⏭️ 나중에 풀기</button>
               <button id="btnMathSubmit" class="btn-3d primary">✅ 정답 확인</button>
             </div>
           </div>
-          <div id="mathNumpad" class="numpad-box"></div>
+          <div class="mc-right"><div id="mathNumpad" class="numpad-box"></div><div id="mcChoices" class="mc-choices" style="display:none;"></div></div>
         </div>
+        <div id="mcTool" class="mc-tool" style="display:none;"></div>
       </div>
     </section>
 
@@ -2561,6 +2655,931 @@ TOY_BUILD.deco_theater = function (g, k, anims) {
     lamps.forEach((l, i) => { l.scale.setScalar(1 + Math.sin(t * 2 + i) * 0.05); });
   } });
 };
+
+/* ============================================================================
+ * 11-20(10) 보석 계산실 = 교과서 단원별 50문제 (2-1 ~ 3-2)
+ *  단원마다 5단계(개념·기본·연습·응용·도전) × 10문제, 10문제 중 8문제를 한 번에 맞혀야 다음 단계
+ *  이 부분은 화면을 건드리지 않는 순수 함수(문제 만들기·그림 문자열)
+ * ============================================================================ */
+const mR = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const mPick = a => a[Math.floor(Math.random() * a.length)];
+const mShuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const fr = (n, d) => `<span class="fr"><i>${n}</i><i>${d}</i></span>`;
+const mixf = (w, n, d) => `<span class="frw">${w}${fr(n, d)}</span>`;
+function MP(q, ans, o) { return Object.assign({ q, ans: String(ans), type: 'num' }, o || {}); }
+function MC2(q, ans, wrongs, o) {
+  const all = [String(ans)]; wrongs.forEach(w => { w = String(w); if (!all.includes(w)) all.push(w); });
+  return Object.assign({ q, ans: String(ans), type: 'choice', opts: (o && o.fixed) ? o.fixed : mShuf(all) }, o || {});
+}
+const CMP = ['&gt;', '&lt;', '='];
+function MCmp(q, a, b, o) { const s = a > b ? '&gt;' : a < b ? '&lt;' : '='; return MC2(q, s, [], Object.assign({ fixed: CMP }, o || {})); }
+function MN2(q, a, b, tpl, o) { return Object.assign({ q, ans: [String(a), String(b)], type: 'num2', tpl }, o || {}); }
+const josa = (w, a, b) => { w = String(w); const ch = w[w.length - 1], c = w.charCodeAt(w.length - 1);
+  if (/[0-9]/.test(ch)) { const bat = '013678'.includes(ch), rieul = '178'.includes(ch); return w + (a === '으로' ? (bat && !rieul ? a : b) : (bat ? a : b)); }
+  if (c < 0xac00 || c > 0xd7a3) return w + b; const f = (c - 0xac00) % 28; return w + (a === '으로' ? (f && f !== 8 ? a : b) : (f ? a : b)); };
+const GEM = ['💎', '🌸', '⭐', '🍓', '🎀', '🍬', '🧁', '🐣'];
+const PAL = ['#ff85c0', '#69c0ff', '#95de64', '#ffc53d', '#b37feb', '#ff9c6e', '#5cdbd3'];
+
+/* ---------- 그림 ---------- */
+function vBlocks(th, h, t, o) {
+  let out = '<div class="mc-blocks">';
+  if (th) { let s = ''; for (let i = 0; i < th; i++) { const x = 4 + i * 62; s += `<polygon points="${x},14 ${x + 10},4 ${x + 60},4 ${x + 50},14" fill="#ffe58f" stroke="#ad6800"/><polygon points="${x + 50},14 ${x + 60},4 ${x + 60},54 ${x + 50},64" fill="#d4a106" stroke="#ad6800"/><rect x="${x}" y="14" width="50" height="50" fill="#ffd666" stroke="#ad6800"/>`; for (let k = 1; k < 10; k++) s += `<line x1="${x + k * 5}" y1="14" x2="${x + k * 5}" y2="64" stroke="#ad6800" stroke-width="0.4"/><line x1="${x}" y1="${14 + k * 5}" x2="${x + 50}" y2="${14 + k * 5}" stroke="#ad6800" stroke-width="0.4"/>`; }
+    out += `<svg viewBox="0 0 ${th * 62 + 6} 68" width="${th * 62 + 6}" height="68">${s}</svg>`; }
+  if (h) { const cols = Math.min(h, 5), rows = Math.ceil(h / 5); let s = '';
+    for (let i = 0; i < h; i++) { const x = 3 + (i % 5) * 54, y = 3 + Math.floor(i / 5) * 54; s += `<rect x="${x}" y="${y}" width="50" height="50" rx="2" fill="#ffd666" stroke="#d48806"/>`; for (let k = 1; k < 10; k++) s += `<line x1="${x + k * 5}" y1="${y}" x2="${x + k * 5}" y2="${y + 50}" stroke="#d48806" stroke-width="0.5"/><line x1="${x}" y1="${y + k * 5}" x2="${x + 50}" y2="${y + k * 5}" stroke="#d48806" stroke-width="0.5"/>`; }
+    out += `<svg viewBox="0 0 ${cols * 54 + 4} ${rows * 54 + 4}" width="${cols * 54 + 4}" height="${rows * 54 + 4}">${s}</svg>`; }
+  if (t) { const rows = Math.ceil(t / 10), cols = Math.min(t, 10); let s = '';
+    for (let i = 0; i < t; i++) { const x = 3 + (i % 10) * 12, y = 3 + Math.floor(i / 10) * 56; s += `<rect x="${x}" y="${y}" width="9" height="50" rx="2" fill="#69c0ff" stroke="#096dd9"/>`; for (let k = 1; k < 10; k++) s += `<line x1="${x}" y1="${y + k * 5}" x2="${x + 9}" y2="${y + k * 5}" stroke="#096dd9" stroke-width="0.5"/>`; }
+    out += `<svg viewBox="0 0 ${cols * 12 + 4} ${rows * 56 + 2}" width="${cols * 12 + 4}" height="${rows * 56 + 2}">${s}</svg>`; }
+  if (o) { const cols = Math.ceil(o / 5); let s = '';
+    for (let i = 0; i < o; i++) { const x = 3 + Math.floor(i / 5) * 12, y = 3 + (i % 5) * 11; s += `<rect x="${x}" y="${y}" width="9" height="9" rx="2" fill="#ff85c0" stroke="#c41d7f"/>`; }
+    out += `<svg viewBox="0 0 ${cols * 12 + 4} 60" width="${cols * 12 + 4}" height="60">${s}</svg>`; }
+  return out + '</div>';
+}
+const vItems = (n, emo) => `<div class="mc-items">${Array.from({ length: n }, () => `<span>${emo}</span>`).join('')}</div>`;
+const vGroups = (g, per, emo) => `<div class="mc-groups">${Array.from({ length: g }, () => `<span class="mc-grp">${emo.repeat(per)}</span>`).join('')}</div>`;
+function regPoly(n, cx, cy, r, rot) { const p = []; for (let i = 0; i < n; i++) { const a = (rot || -Math.PI / 2) + i * 2 * Math.PI / n; p.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); } return p; }
+const SHAPES = {
+  삼각형: [[[50, 8], [92, 82], [8, 82]], [[10, 80], [90, 80], [30, 12]], [[15, 15], [90, 50], [20, 85]], [[15, 10], [15, 82], [88, 82]], [[8, 30], [92, 15], [55, 85]]],
+  사각형: [[[12, 20], [88, 20], [88, 75], [12, 75]], [[18, 10], [82, 10], [82, 74], [18, 74]], [[30, 15], [70, 15], [92, 78], [8, 78]], [[30, 15], [92, 15], [70, 78], [8, 78]], [[15, 25], [80, 10], [90, 80], [25, 70]]],
+  오각형: [regPoly(5, 50, 48, 40), [[20, 15], [80, 15], [92, 55], [50, 85], [8, 55]]],
+  육각형: [regPoly(6, 50, 46, 40, 0), regPoly(6, 50, 46, 40)],
+  원: [null]
+};
+const SIDES = { 삼각형: 3, 사각형: 4, 오각형: 5, 육각형: 6, 원: 0 };
+function shapeSvg(kind, w, col, pts) {
+  col = col || mPick(PAL); w = w || 96;
+  if (kind === '원') return `<svg viewBox="0 0 100 90" width="${w}" height="${w * 0.9}"><circle cx="50" cy="46" r="38" fill="${col}" stroke="#531dab" stroke-width="3"/></svg>`;
+  pts = pts || mPick(SHAPES[kind]);
+  return `<svg viewBox="0 0 100 90" width="${w}" height="${w * 0.9}"><polygon points="${pts.map(p => p.join(',')).join(' ')}" fill="${col}" stroke="#531dab" stroke-width="3" stroke-linejoin="round"/></svg>`;
+}
+const vShape = kind => `<div class="mc-row">${shapeSvg(kind, 120)}</div>`;
+const vShapeRow = kinds => `<div class="mc-row">${kinds.map(k => shapeSvg(k, 64)).join('')}</div>`;
+function vStack(hs) {
+  const S = 24, D = 9, W = hs.length * S + D + 6, H = Math.max(...hs) * S + D + 6; let s = '';
+  hs.forEach((h, i) => { for (let j = 0; j < h; j++) { const x = 3 + i * S, y = H - 3 - (j + 1) * S, c = PAL[(i + j) % PAL.length];
+    s += `<rect x="${x}" y="${y}" width="${S}" height="${S}" fill="${c}" stroke="#3d2466"/><polygon points="${x},${y} ${x + D},${y - D} ${x + S + D},${y - D} ${x + S},${y}" fill="#fff" fill-opacity="0.75" stroke="#3d2466"/><polygon points="${x + S},${y} ${x + S + D},${y - D} ${x + S + D},${y + S - D} ${x + S},${y + S}" fill="${c}" fill-opacity="0.6" stroke="#3d2466"/>`; } });
+  return `<svg viewBox="0 0 ${W} ${H}" width="${Math.min(W * 1.4, 360)}" height="${Math.min(H * 1.4, 150)}">${s}</svg>`;
+}
+function vRuler(len, start, mm) {
+  const PX = 28, n = Math.min(14, Math.max(10, Math.ceil(start + len) + 1)), x0 = 14, W = n * PX + 30; let s = '';
+  s += `<rect x="${x0 + start * PX}" y="8" width="${len * PX}" height="20" rx="6" fill="#ffadd2" stroke="#c41d7f" stroke-width="2"/>`;
+  s += `<rect x="${x0 - 8}" y="38" width="${n * PX + 16}" height="40" rx="4" fill="#fff7cc" stroke="#d4b106"/>`;
+  for (let i = 0; i <= n * 10; i++) { const x = x0 + i * PX / 10, big = i % 10 === 0, half = i % 5 === 0;
+    if (!mm && !big && !half) continue;
+    s += `<line x1="${x}" y1="38" x2="${x}" y2="${38 + (big ? 16 : half ? 10 : 6)}" stroke="#614700" stroke-width="${big ? 1.4 : 0.7}"/>`;
+    if (big) s += `<text x="${x}" y="70" font-size="11" text-anchor="middle" fill="#614700">${i / 10}</text>`; }
+  return `<svg viewBox="0 0 ${W} 82" width="${Math.min(W, 420)}" height="${82 * Math.min(W, 420) / W}">${s}</svg>`;
+}
+function vClock(h, m, sec) {
+  let s = `<circle cx="80" cy="80" r="74" fill="#fff" stroke="#9254de" stroke-width="5"/>`;
+  for (let i = 0; i < 60; i++) { const a = i * 6 * Math.PI / 180, r1 = i % 5 ? 66 : 61; s += `<line x1="${80 + r1 * Math.sin(a)}" y1="${80 - r1 * Math.cos(a)}" x2="${80 + 70 * Math.sin(a)}" y2="${80 - 70 * Math.cos(a)}" stroke="#531dab" stroke-width="${i % 5 ? 1 : 2.5}"/>`; }
+  for (let i = 1; i <= 12; i++) { const a = i * 30 * Math.PI / 180; s += `<text x="${80 + 50 * Math.sin(a)}" y="${80 - 50 * Math.cos(a) + 6}" font-size="17" font-weight="bold" text-anchor="middle" fill="#391085">${i}</text>`; }
+  const ha = ((h % 12) + m / 60) * 30 * Math.PI / 180, ma = (m + (sec || 0) / 60) * 6 * Math.PI / 180;
+  s += `<line x1="80" y1="80" x2="${80 + 34 * Math.sin(ha)}" y2="${80 - 34 * Math.cos(ha)}" stroke="#391085" stroke-width="7" stroke-linecap="round"/>`;
+  s += `<line x1="80" y1="80" x2="${80 + 58 * Math.sin(ma)}" y2="${80 - 58 * Math.cos(ma)}" stroke="#eb2f96" stroke-width="4.5" stroke-linecap="round"/>`;
+  if (sec != null) { const sa = sec * 6 * Math.PI / 180; s += `<line x1="80" y1="80" x2="${80 + 64 * Math.sin(sa)}" y2="${80 - 64 * Math.cos(sa)}" stroke="#fa8c16" stroke-width="1.8"/>`; }
+  s += `<circle cx="80" cy="80" r="5" fill="#391085"/>`;
+  return `<svg viewBox="0 0 160 160" width="150" height="150">${s}</svg>`;
+}
+function vTable(head, cats, vals, total) {
+  const tv = total === '?' ? '?' : vals.reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
+  return `<table class="mc-tbl"><tr><th>${head}</th>${cats.map(c => `<th>${c}</th>`).join('')}${total !== undefined ? '<th>합계</th>' : ''}</tr><tr><th>수</th>${vals.map(v => `<td>${v}</td>`).join('')}${total !== undefined ? `<td>${total === true ? tv : total}</td>` : ''}</tr></table>`;
+}
+function vOGraph(cats, vals) {
+  const mx = Math.max(...vals); let rows = '';
+  for (let r = mx; r >= 1; r--) rows += `<tr><th>${r}</th>${vals.map(v => `<td>${v >= r ? '○' : ''}</td>`).join('')}</tr>`;
+  return `<table class="mc-tbl mc-og">${rows}<tr><th></th>${cats.map(c => `<th>${c}</th>`).join('')}</tr></table>`;
+}
+function vPicGraph(cats, vals, big, emo, unit, bigLab, smLab) {
+  const rows = cats.map((c, i) => { const b = Math.floor(vals[i] / big), sm = vals[i] % big;
+    return `<tr><th>${c}</th><td class="pg">${`<b>${emo}</b>`.repeat(b)}${`<i>${emo}</i>`.repeat(sm)}</td></tr>`; }).join('');
+  return `<table class="mc-tbl mc-pg">${rows}<tr><td colspan="2" class="pgl"><b>${emo}</b> ${bigLab || big + unit} &nbsp; <i>${emo}</i> ${smLab || '1' + unit}</td></tr></table>`;
+}
+function vFrac(kind, n, k) {
+  let s = '';
+  if (kind === 'circle') { for (let i = 0; i < n; i++) { const a0 = -Math.PI / 2 + i * 2 * Math.PI / n, a1 = a0 + 2 * Math.PI / n;
+    s += `<path d="M60 60 L${60 + 52 * Math.cos(a0)} ${60 + 52 * Math.sin(a0)} A52 52 0 ${n === 1 ? 1 : 0} 1 ${60 + 52 * Math.cos(a1)} ${60 + 52 * Math.sin(a1)} Z" fill="${i < k ? '#ff85c0' : '#fff'}" stroke="#531dab" stroke-width="2"/>`; }
+    return `<svg viewBox="0 0 120 120" width="130" height="130">${s}</svg>`; }
+  const W = 300, w = W / n; for (let i = 0; i < n; i++) s += `<rect x="${4 + i * w}" y="4" width="${w}" height="44" fill="${i < k ? '#69c0ff' : '#fff'}" stroke="#531dab" stroke-width="2"/>`;
+  return `<svg viewBox="0 0 308 52" width="300" height="52">${s}</svg>`;
+}
+function vCircle(r, mode) {
+  let s = `<circle cx="90" cy="70" r="62" fill="#f9f0ff" stroke="#722ed1" stroke-width="3"/><circle cx="90" cy="70" r="3.5" fill="#391085"/>`;
+  if (mode === 'r') s += `<line x1="90" y1="70" x2="152" y2="70" stroke="#eb2f96" stroke-width="3"/><text x="121" y="62" font-size="14" text-anchor="middle" fill="#c41d7f" font-weight="bold">${r}</text>`;
+  else s += `<line x1="28" y1="70" x2="152" y2="70" stroke="#eb2f96" stroke-width="3"/><text x="90" y="62" font-size="14" text-anchor="middle" fill="#c41d7f" font-weight="bold">${r}</text>`;
+  return `<svg viewBox="0 0 180 140" width="180" height="140">${s}</svg>`;
+}
+function vCircles(n, lab) {
+  const R = 26, W = n * 2 * R + 10; let s = '';
+  for (let i = 0; i < n; i++) s += `<circle cx="${5 + R + i * 2 * R}" cy="34" r="${R}" fill="#fff0f6" stroke="#c41d7f" stroke-width="2"/><circle cx="${5 + R + i * 2 * R}" cy="34" r="2" fill="#391085"/>`;
+  s += `<line x1="${5 + R}" y1="34" x2="${5 + 2 * R}" y2="34" stroke="#391085" stroke-width="2"/><text x="${5 + 1.5 * R}" y="29" font-size="11" text-anchor="middle" fill="#391085" font-weight="bold">${lab}</text>`;
+  s += `<line x1="5" y1="74" x2="${5 + n * 2 * R}" y2="74" stroke="#eb2f96" stroke-width="2"/><text x="${5 + n * R}" y="88" font-size="12" text-anchor="middle" fill="#eb2f96" font-weight="bold">?</text>`;
+  return `<svg viewBox="0 0 ${W} 92" width="${Math.min(W * 1.3, 380)}" height="${92 * Math.min(W * 1.3, 380) / W}">${s}</svg>`;
+}
+function vLine(kind) {
+  const arrow = (x, d) => `<polygon points="${x},30 ${x - 12 * d},23 ${x - 12 * d},37" fill="#391085"/>`;
+  let s = `<line x1="${kind === '직선' ? 10 : 40}" y1="30" x2="${kind === '선분' ? 180 : 210}" y2="30" stroke="#391085" stroke-width="3"/>`;
+  s += `<circle cx="40" cy="30" r="5" fill="#eb2f96"/><circle cx="180" cy="30" r="5" fill="#eb2f96"/><text x="40" y="56" font-size="15" text-anchor="middle">ㄱ</text><text x="180" y="56" font-size="15" text-anchor="middle">ㄴ</text>`;
+  if (kind !== '선분') s += arrow(218, 1); if (kind === '직선') s += arrow(2, -1);
+  return `<svg viewBox="0 0 220 62" width="260" height="73">${s}</svg>`;
+}
+function vRect(w, h, lw, lh) {
+  const sc = 120 / Math.max(w, h), W = w * sc, H = h * sc;
+  return `<svg viewBox="0 0 ${W + 70} ${H + 40}" width="${W + 70}" height="${H + 40}"><rect x="10" y="10" width="${W}" height="${H}" fill="#e6fffb" stroke="#08979c" stroke-width="3"/><text x="${10 + W / 2}" y="${H + 30}" font-size="13" text-anchor="middle" fill="#006d75" font-weight="bold">${lw}</text><text x="${W + 16}" y="${10 + H / 2 + 4}" font-size="13" fill="#006d75" font-weight="bold">${lh}</text></svg>`;
+}
+const RA_SHAPES = { 직사각형: [[10, 15], [90, 15], [90, 70], [10, 70]], 정사각형: [[20, 8], [80, 8], [80, 68], [20, 68]], 직각삼각형: [[15, 10], [15, 75], [88, 75]], 삼각형: [[50, 8], [90, 75], [8, 75]], 사다리꼴: [[15, 10], [60, 10], [90, 75], [15, 75]], 평행사변형: [[30, 12], [92, 12], [70, 75], [8, 75]] };
+const RA_COUNT = { 직사각형: 4, 정사각형: 4, 직각삼각형: 1, 삼각형: 0, 사다리꼴: 2, 평행사변형: 0 };
+function vLabeled(kinds) {
+  const L = ['㉠', '㉡', '㉢', '㉣'];
+  return `<div class="mc-row">${kinds.map((k, i) => `<div class="mc-lab"><svg viewBox="0 0 100 85" width="78" height="66"><polygon points="${RA_SHAPES[k].map(p => p.join(',')).join(' ')}" fill="${PAL[i]}" stroke="#531dab" stroke-width="3"/></svg><b>${L[i]}</b></div>`).join('')}</div>`;
+}
+function vItemSet(items) {
+  const draw = it => { const c = { 빨간: '#ff4d4f', 파란: '#1890ff', 노란: '#fadb14' }[it.c];
+    if (it.s === '동그라미') return `<svg viewBox="0 0 40 40" width="38" height="38"><circle cx="20" cy="20" r="16" fill="${c}" stroke="#333" stroke-width="2"/></svg>`;
+    if (it.s === '세모') return `<svg viewBox="0 0 40 40" width="38" height="38"><polygon points="20,4 37,35 3,35" fill="${c}" stroke="#333" stroke-width="2"/></svg>`;
+    return `<svg viewBox="0 0 40 40" width="38" height="38"><rect x="5" y="5" width="30" height="30" fill="${c}" stroke="#333" stroke-width="2"/></svg>`; };
+  return `<div class="mc-row wrap">${items.map(draw).join('')}</div>`;
+}
+
+/* ---------- 공통 문제 꾸러미 ---------- */
+const digitsOf = n => String(n).split('').map(Number);
+function cardsProb(k) {
+  let ds; do { ds = mShuf([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, k); } while (ds.filter(d => d).length < 2);
+  const desc = ds.slice().sort((a, b) => b - a);
+  const small = (() => { const a = ds.slice().sort((x, y) => x - y); const nz = a.findIndex(d => d > 0); const f = a.splice(nz, 1)[0]; return Number(String(f) + a.join('')); })();
+  const big = Number(desc.join(''));
+  return mPick([
+    () => MP(`수 카드 <b class="cards">${ds.join(' ')}</b>를 한 번씩 써서 만들 수 있는 가장 큰 ${k === 3 ? '세' : '네'} 자리 수는?`, big, { exp: `큰 숫자부터 차례로 → ${big}` }),
+    () => MP(`수 카드 <b class="cards">${ds.join(' ')}</b>를 한 번씩 써서 만들 수 있는 가장 작은 ${k === 3 ? '세' : '네'} 자리 수는?`, small, { exp: `0은 맨 앞에 올 수 없어요 → ${small}` })
+  ])();
+}
+function skipCount(lo, hi, steps) {
+  const st = mPick(steps), a = mR(lo, hi - st * 4), seq = [a, a + st, a + 2 * st, a + 3 * st], blank = mR(2, 3);
+  return MP(`규칙에 맞게 뛰어 세어요<br>${seq.map((v, i) => i === blank ? '□' : v).join(' → ')}`, seq[blank], { exp: `${st}씩 커지는 규칙` });
+}
+function placeVal(n) {
+  const d = digitsOf(n), i = mR(0, d.length - 1); if (!d[i]) return placeVal(n + (n % 10 === 9 ? -1 : 1));
+  const v = d[i] * Math.pow(10, d.length - 1 - i);
+  return MP(`${n}에서 숫자 ${d[i]}${d.indexOf(d[i]) !== i || d.lastIndexOf(d[i]) !== i ? '(앞에서 ' + (i + 1) + '번째)' : ''}는 얼마를 나타내나요?`, v, { exp: `${['천', '백', '십', '일'].slice(4 - d.length)[i]}의 자리 숫자라서 ${v}` });
+}
+function addSubWord(a, b, op) {
+  if (op !== '+' && a < b) [a, b] = [b, a];
+  if (op !== '+' && a === b) a += 3;
+  const e = mPick(['보석', '꽃', '스티커', '구슬', '리본']), who = mPick(['공주', '왕자', '지아', '요정']);
+  if (op === '+') return MP(`${josa(who, '은', '는')} ${josa(e, '을', '를')} ${a}개 가지고 있었는데 ${b}개를 더 받았어요. 모두 몇 개일까요?`, a + b, { exp: `${a} + ${b} = ${a + b}` });
+  return MP(`${e} ${a}개 중에서 ${b}개를 친구에게 주었어요. 남은 ${josa(e, '은', '는')} 몇 개일까요?`, a - b, { exp: `${a} − ${b} = ${a - b}` });
+}
+function wrongCalc(lo, hi) {
+  const x = mR(lo, hi), k = mR(Math.floor(lo / 2), hi), wrongIsSub = Math.random() < 0.5 && x > k;
+  if (wrongIsSub) return MP(`어떤 수에 ${k}을(를) 더해야 할 것을 잘못하여 뺐더니 ${x - k}이(가) 되었어요. 바르게 계산하면 얼마일까요?`, x + k, { exp: `어떤 수 = ${x - k} + ${k} = ${x}, 바른 계산 ${x} + ${k} = ${x + k}` });
+  return MP(`어떤 수에서 ${k}을(를) 빼야 할 것을 잘못하여 더했더니 ${x + k}이(가) 되었어요. 바르게 계산하면 얼마일까요?`, x - k > 0 ? x - k : x + k, { exp: `어떤 수 = ${x + k} − ${k} = ${x}, 바른 계산 ${x} − ${k} = ${x - k}` });
+}
+function boxProb(maxA) {
+  const a = mR(10, maxA), b = mR(10, maxA);
+  return mPick([
+    () => MP(`□ + ${b} = ${a + b}`, a, { exp: `□ = ${a + b} − ${b}` }),
+    () => MP(`${a + b} − □ = ${a}`, b, { exp: `□ = ${a + b} − ${a}` }),
+    () => MP(`□ − ${b} = ${a}`, a + b, { exp: `□ = ${a} + ${b}` })
+  ])();
+}
+function fracOpts(n, d) { const w = new Set(); w.add(fr(d - n > 0 ? d - n : n + 1, d)); w.add(fr(n, d + 1)); w.add(fr(d, n === d ? d + 1 : n)); w.delete(fr(n, d)); return [...w].slice(0, 3); }
+const W2 = ['일', '월', '화', '수', '목', '금', '토'];
+
+/* ---------- 단원 ---------- */
+const MC_STAGE = ['개념', '기본', '연습', '응용', '도전'];
+const MC_UNITS = [];
+function U(sem, no, name, tool, gens) { MC_UNITS.push({ id: sem.replace('-', '') + '-' + no, sem, no, name, tool, gens }); }
+
+/* 2-1 */
+U('2-1', 1, '세 자리 수', 'blocks', [
+  () => { const h = mR(1, 9), t = mR(0, 9), o = mR(0, 9), n = h * 100 + t * 10 + o; return MP('수 모형이 나타내는 수는 얼마일까요?', n, { vis: vBlocks(0, h, t, o), exp: `백 ${h}개, 십 ${t}개, 일 ${o}개 → ${n}` }); },
+  () => mPick([
+    () => { const h = mR(1, 9), t = mR(0, 9), o = mR(0, 9); return MP(`100이 ${h}개, 10이 ${t}개, 1이 ${o}개인 수는?`, h * 100 + t * 10 + o); },
+    () => { const h = mR(2, 9); return MP(`100이 ${h}개인 수는?`, h * 100, { exp: `${h}백 = ${h * 100}` }); },
+    () => { const n = mR(101, 999), d = digitsOf(n); return MP(`${n}은(는) 100이 □개, 10이 ${d[1]}개, 1이 ${d[2]}개인 수예요. □는?`, d[0]); },
+    () => { const k = mPick([90, 99, 80]); return MP(`100은 ${k}보다 □ 큰 수예요. □는?`, 100 - k); }
+  ])(),
+  () => mPick([() => skipCount(100, 990, [1, 10, 100]), () => placeVal(mR(111, 999)), () => { const n = mR(101, 999); return MP(`${n}의 십의 자리 숫자는?`, digitsOf(n)[1]); }])(),
+  () => mPick([
+    () => { const a = mR(100, 999); let b = Math.floor(a / 100) * 100 + mR(0, 99); if (b === a) b++; return MCmp(`두 수의 크기를 비교해요<br>${a} ○ ${b}`, a, b); },
+    () => cardsProb(3),
+    () => { const n = mR(110, 989), s = mPick([1, 10, 100]), up = Math.random() < 0.5; return MP(`${n}보다 ${s} ${up ? '큰' : '작은'} 수는?`, up ? n + s : n - s); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(2, 6), b = a + 2, c = mR(0, 9); return MP(`백의 자리 숫자는 ${a}, 십의 자리 숫자는 백의 자리 숫자보다 2 크고, 일의 자리 숫자는 ${c}인 수는?`, a * 100 + b * 10 + c); },
+    () => { const h = mR(2, 8), lim = mR(h * 100 + 20, h * 100 + 89), o = mR(0, 9); let best = -1; for (let d = 0; d <= 9; d++) if (h * 100 + d * 10 + o < lim) best = d; if (best < 0) return MP('100이 5개, 10이 12개인 수는?', 620); return MP(`□ 안에 들어갈 수 있는 숫자 중 가장 큰 숫자는?<br>${h}□${o} &lt; ${lim}`, best, { exp: `${h}${best}${o} &lt; ${lim}, ${h}${best + 1}${josa(o, '은', '는')} 안 돼요` }); },
+    () => { const n = mR(200, 899); return MP(`어떤 수보다 100 큰 수는 ${n}이에요. 어떤 수는?`, n - 100); },
+    () => { const s = mR(10, 60) * 10; return MP(`${s}부터 10씩 5번 뛰어 센 수는?`, s + 50); },
+    () => { const t = mR(11, 19); return MP(`100이 3개, 10이 ${t}개인 수는?`, 300 + t * 10, { exp: `10이 ${t}개 = ${t * 10} → 300 + ${t * 10}` }); }
+  ])()
+]);
+U('2-1', 2, '여러 가지 도형', 'tangram', [
+  () => { const k = mPick(['삼각형', '사각형', '원', '삼각형', '사각형', '오각형', '육각형']); return MC2('이 도형의 이름은 무엇일까요?', k, mShuf(['삼각형', '사각형', '원', '오각형', '육각형'].filter(x => x !== k)).slice(0, 3), { vis: vShape(k) }); },
+  () => { const k = mPick(['삼각형', '사각형', '오각형', '육각형']), what = mPick(['꼭짓점', '변']); return MP(`이 도형의 ${josa(what, '은', '는')} 몇 개일까요?`, SIDES[k], { vis: vShape(k), exp: `${josa(k, '은', '는')} ${what}이 ${SIDES[k]}개` }); },
+  () => { const ks = Array.from({ length: mR(5, 7) }, () => mPick(['삼각형', '사각형', '원'])), q = mPick(['삼각형', '사각형', '원']); return MP(`${josa(q, '은', '는')} 모두 몇 개일까요?`, ks.filter(k => k === q).length, { vis: vShapeRow(ks) }); },
+  () => mPick([
+    () => { const hs = Array.from({ length: mR(2, 4) }, () => mR(1, 3)); return MP('쌓기나무는 모두 몇 개일까요?', hs.reduce((a, b) => a + b, 0), { vis: vStack(hs) }); },
+    () => { const q = mPick([['삼각형', 5], ['사각형', 2]]); return MP(`칠교판 7조각 중 ${josa(q[0], '은', '는')} 몇 조각일까요?`, q[1], { exp: '삼각형 5조각, 사각형 2조각(정사각형 1, 평행사변형 1)' }); },
+    () => { const hs = Array.from({ length: mR(3, 4) }, () => mR(1, 3)); return MP('쌓기나무는 모두 몇 개일까요?', hs.reduce((a, b) => a + b, 0), { vis: vStack(hs) }); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(1, 4), b = mR(1, 4); return MP(`삼각형 ${a}개와 사각형 ${b}개의 꼭짓점은 모두 몇 개일까요?`, a * 3 + b * 4, { exp: `${a}×3 + ${b}×4` }); },
+    () => { const k = mPick(['오각형', '육각형', '사각형', '삼각형']); return MC2(`변이 ${SIDES[k]}개인 도형의 이름은?`, k, ['삼각형', '사각형', '오각형', '육각형', '원'].filter(x => x !== k).slice(0, 3)); },
+    () => MP('원에는 꼭짓점이 몇 개 있을까요?', 0, { exp: '원은 곧은 선도 꼭짓점도 없어요' }),
+    () => { const hs = Array.from({ length: mR(3, 5) }, () => mR(1, 4)); return MP('쌓기나무는 모두 몇 개일까요?', hs.reduce((a, b) => a + b, 0), { vis: vStack(hs) }); },
+    () => { const a = mR(2, 4), b = mR(1, 3); return MP(`사각형 ${a}개의 변의 수와 삼각형 ${b}개의 변의 수를 더하면?`, a * 4 + b * 3); }
+  ])()
+]);
+U('2-1', 3, '덧셈과 뺄셈', 'blocks', [
+  () => { if (Math.random() < 0.5) { const a = mR(12, 89), b = mR(10 - a % 10, 9); return MP(`${a} + ${b} = ?`, a + b, { vis: vBlocks(0, 0, Math.floor(a / 10), a % 10) + '<b class="op">+</b>' + vBlocks(0, 0, 0, b), exp: `일 모형 ${a % 10 + b}개 → 10개를 십 모형 1개로 바꿔요` }); }
+    const a = mR(21, 95), b = mR(a % 10 + 1, 9); if (b > 9 || a % 10 >= b) return MP(`${a} + 7 = ?`, a + 7); return MP(`${a} − ${b} = ?`, a - b, { vis: vBlocks(0, 0, Math.floor(a / 10), a % 10), exp: `일 모형이 모자라면 십 모형 1개를 일 모형 10개로 바꿔요` }); },
+  () => { const a = mR(15, 79), b = mR(Math.max(11, 10 - a % 10 + 10), 89 - 0); const bb = (a % 10 + b % 10 < 10) ? b + (10 - (a % 10 + b % 10)) : b; return MP(`${a} + ${bb} = ?`, a + bb, { exp: `일의 자리 ${a % 10}+${bb % 10} → 받아올림` }); },
+  () => mPick([
+    () => { let a, b; do { a = mR(31, 98); b = mR(11, a - 1); } while (b % 10 <= a % 10 || Math.floor(b / 10) >= Math.floor(a / 10)); return MP(`${a} − ${b} = ?`, a - b, { exp: '일의 자리끼리 뺄 수 없으면 십의 자리에서 10을 받아내려요' }); },
+    () => { const a = mR(3, 9) * 10, b = mR(11, a - 1); return MP(`${a} − ${b} = ?`, a - b, { exp: `${a} − ${b} = ${a - b}` }); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(10, 50), b = mR(5, 40), c = mR(5, a + b - 1); return MP(`${a} + ${b} − ${c} = ?`, a + b - c, { exp: `앞에서부터: ${a + b} − ${c}` }); },
+    () => { const a = mR(40, 90), b = mR(5, 25), c = mR(5, Math.min(20, a - b - 1)); return MP(`${a} − ${b} − ${c} = ?`, a - b - c, { exp: `앞에서부터: ${a - b} − ${c}` }); },
+    () => boxProb(60),
+    () => { const a = mR(20, 60), b = mR(10, 39); return MC2(`${a} + ${b} = ${a + b} 를 뺄셈식으로 바르게 나타낸 것은?`, `${a + b} − ${b} = ${a}`, [`${a} − ${b} = ${a + b}`, `${b} − ${a} = ${a + b}`, `${a + b} + ${b} = ${a}`]); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(25, 70), b = mR(15, 29); return addSubWord(a, b, Math.random() < 0.5 ? '+' : '−'); },
+    () => wrongCalc(20, 60),
+    () => { const ds = mShuf([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 4).sort((x, y) => y - x); const best = (ds[0] + ds[1]) * 10 + ds[2] + ds[3]; return MP(`수 카드 <b class="cards">${mShuf(ds).join(' ')}</b>를 한 번씩 써서 두 자리 수 2개를 만들어요. 두 수의 합이 가장 클 때 합은?`, best, { exp: `십의 자리에 큰 수 ${ds[0]}, ${ds[1]} → ${ds[0]}${ds[2]} + ${ds[1]}${ds[3]} = ${best}` }); },
+    () => { const a = mR(40, 90), b = mR(10, 30), c = mR(5, 20); return MP(`버스에 ${a}명이 타고 있었어요. ${b}명이 내리고 ${c}명이 탔어요. 지금 몇 명일까요?`, a - b + c, { exp: `${a} − ${b} + ${c}` }); }
+  ])()
+]);
+U('2-1', 4, '길이 재기', '', [
+  () => { const k = mR(3, 7), e = mPick(['📎', '🧷', '✏️']); return MP(`분홍 막대의 길이는 ${e} 몇 개만큼일까요?`, k, { vis: `<div class="mc-len"><div class="bar" style="width:${k * 1.6}em"></div><div class="u">${`<span>${e}</span>`.repeat(k)}</div></div>` }); },
+  () => { const L = mR(2, 11); return MP('막대의 길이는 몇 cm일까요?', L, { vis: vRuler(L, 0), exp: `0부터 ${L}까지 → ${L} cm` }); },
+  () => { const s = mR(1, 4), L = mR(2, 8); return MP('막대의 길이는 몇 cm일까요?', L, { vis: vRuler(L, s), exp: `${s}부터 ${s + L}까지 1 cm가 ${L}번` }); },
+  () => mPick([
+    () => { const L = mR(3, 9), d = mPick([0.2, 0.3, -0.2, -0.3]); return MP('막대의 길이는 약 몇 cm일까요?', L, { vis: vRuler(L + d, 0), exp: `${L} cm에 가까워요` }); },
+    () => { const k = mR(3, 12); return MP(`1 cm가 ${k}번이면 몇 cm일까요?`, k); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(9, 18), b = mR(3, a - 2), o = mPick([['연필', '지우개'], ['크레파스', '클립'], ['리본', '머리핀']]); return MP(`${o[0]}은 ${a} cm, ${o[1]}은 ${b} cm예요. ${o[0]}이 몇 cm 더 길까요?`, a - b); },
+    () => { const a = mR(3, 9), n = mR(2, 4); return MP(`${a} cm 막대 ${n}개를 겹치지 않게 이어 붙이면 몇 cm일까요?`, a * n); },
+    () => { const L = mR(4, 9), s = mR(1, 3); return MP('막대의 길이는 몇 cm일까요?', L, { vis: vRuler(L, s) }); },
+    () => { const a = mR(5, 12), b = mR(3, 9); return MP(`${a} cm와 ${b} cm를 이으면 모두 몇 cm일까요?`, a + b); }
+  ])()
+]);
+function itemSet(n) { const out = []; for (let i = 0; i < n; i++) out.push({ s: mPick(['세모', '네모', '동그라미']), c: mPick(['빨간', '파란', '노란']) }); return out; }
+U('2-1', 5, '분류하기', '', [
+  () => { const it = itemSet(mR(7, 10)), c = mPick(['빨간', '파란', '노란']); return MP(`${c}색은 모두 몇 개일까요?`, it.filter(x => x.c === c).length, { vis: vItemSet(it) }); },
+  () => { const it = itemSet(mR(7, 10)), s = mPick(['세모', '네모', '동그라미']); return MP(`${s} 모양은 모두 몇 개일까요?`, it.filter(x => x.s === s).length, { vis: vItemSet(it) }); },
+  () => { const it = itemSet(mR(8, 11)), c = mPick(['빨간', '파란', '노란']), s = mPick(['세모', '네모', '동그라미']); return MP(`${c} ${josa(s, '은', '는')} 몇 개일까요?`, it.filter(x => x.c === c && x.s === s).length, { vis: vItemSet(it) }); },
+  () => { let it, cnt, best; do { it = itemSet(mR(8, 11)); cnt = ['빨간', '파란', '노란'].map(c => it.filter(x => x.c === c).length); best = Math.max(...cnt); } while (cnt.filter(v => v === best).length > 1);
+    return Math.random() < 0.5 ? MC2('가장 많은 색깔은?', ['빨간색', '파란색', '노란색'][cnt.indexOf(best)], [], { fixed: ['빨간색', '파란색', '노란색'], vis: vItemSet(it) }) : MP('가장 많은 색과 가장 적은 색의 개수 차이는?', best - Math.min(...cnt), { vis: vItemSet(it) }); },
+  () => mPick([
+    () => MC2('분류 기준으로 알맞은 것은?', mPick(['색깔', '모양', '다리 수', '바퀴 수']), ['예쁜 것과 안 예쁜 것', '좋아하는 것과 싫어하는 것', '멋진 것과 안 멋진 것'], { exp: '누가 분류해도 결과가 같아야 해요' }),
+    () => MC2('분류 기준으로 알맞지 않은 것은?', mPick(['예쁜 것과 안 예쁜 것', '귀여운 것과 안 귀여운 것']), ['색깔', '모양', '크기'], { exp: '사람마다 다르게 생각하는 기준은 알맞지 않아요' }),
+    () => { const it = itemSet(mR(9, 12)); return MP('네모가 아닌 것은 몇 개일까요?', it.filter(x => x.s !== '네모').length, { vis: vItemSet(it) }); },
+    () => { const it = itemSet(mR(9, 12)), c = mPick(['빨간', '파란', '노란']); return MP(`${c}색이면서 동그라미가 아닌 것은 몇 개일까요?`, it.filter(x => x.c === c && x.s !== '동그라미').length, { vis: vItemSet(it) }); }
+  ])()
+]);
+U('2-1', 6, '곱셈', '', [
+  () => { const g = mR(2, 5), per = mR(2, 5), e = mPick(GEM); return Math.random() < 0.5 ? MP(`${josa(e, '을', '를')} 몇 개씩 묶었나요?`, per, { vis: vGroups(g, per, e) }) : MP(`${per}개씩 몇 묶음일까요?`, g, { vis: vGroups(g, per, e) }); },
+  () => { const g = mR(2, 5), per = mR(2, 6), e = mPick(GEM); return MP(`${per}씩 ${g}묶음은 모두 몇 개일까요?`, g * per, { vis: vGroups(g, per, e), exp: `${per} × ${g} = ${g * per}` }); },
+  () => mPick([
+    () => { const a = mR(2, 9), n = mR(3, 5); return MP(`${Array(n).fill(a).join(' + ')} = ${a} × □`, n, { exp: `${josa(a, '을', '를')} ${n}번 더했어요` }); },
+    () => { const a = mR(2, 9), n = mR(2, 5); return MP(`${a}의 ${n}배는 얼마일까요?`, a * n, { exp: `${Array(n).fill(a).join('+')} = ${a * n}` }); },
+    () => { const a = mR(2, 6), n = mR(2, 5); return MC2(`${a} × ${n}와 같은 것은?`, Array(n).fill(a).join(' + '), [Array(a).fill(n + 1).join(' + '), `${a} + ${n}`, Array(n + 1).fill(a).join(' + ')]); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(2, 9), n = mR(2, 5), o = mPick([['봉지', '사탕'], ['상자', '보석'], ['접시', '쿠키']]); return MP(`한 ${o[0]}에 ${o[1]}이 ${a}개씩 있어요. ${n}${o[0]}에는 모두 몇 개일까요?`, a * n, { exp: `${a} × ${n} = ${a * n}` }); },
+    () => { const a = mR(2, 6), n = mR(2, 4); return MP(`의자가 한 줄에 ${a}개씩 ${n}줄 있어요. 의자는 모두 몇 개일까요?`, a * n); },
+  ])(),
+  () => mPick([
+    () => { const a = mR(3, 6), b = mR(3, 5), c = mR(3, 6), d = mR(3, 5); if (a * b === c * d) return MP(`${a}의 ${b}배는?`, a * b); return MC2(`더 큰 것은?`, a * b > c * d ? `${a}의 ${b}배` : `${c}의 ${d}배`, [a * b > c * d ? `${c}의 ${d}배` : `${a}의 ${b}배`], { exp: `${a * b}와 ${c * d}` }); },
+    () => { const a = mR(3, 7), n = mR(2, 4), k = mR(1, 5); return MP(`${a}씩 ${n}묶음보다 ${k} 큰 수는?`, a * n + k); },
+    () => { const a = mR(2, 6), n = mR(2, 5); return MP(`□의 ${n}배는 ${a * n}이에요. □는?`, a, { exp: `□를 ${n}번 더하면 ${a * n}` }); },
+    () => { const a = mR(2, 5), b = mR(2, 5); return MP(`세발자전거 ${a}대와 두발자전거 ${b}대의 바퀴는 모두 몇 개?`, a * 3 + b * 2); }
+  ])()
+]);
+
+/* 2-2 */
+U('2-2', 1, '네 자리 수', 'blocks', [
+  () => { const th = mR(1, 4), h = mR(0, 5), t = mR(0, 9), o = mR(0, 9), n = th * 1000 + h * 100 + t * 10 + o; return MP('수 모형이 나타내는 수는?', n, { vis: vBlocks(th, h, t, o) }); },
+  () => mPick([
+    () => { const a = mR(1, 9), b = mR(0, 9), c = mR(0, 9), d = mR(0, 9); return MP(`1000이 ${a}개, 100이 ${b}개, 10이 ${c}개, 1이 ${d}개인 수는?`, a * 1000 + b * 100 + c * 10 + d); },
+    () => { const a = mR(2, 9); return MP(`1000이 ${a}개인 수는?`, a * 1000); },
+    () => { const k = mPick([900, 990, 999, 800]); return MP(`1000은 ${k}보다 □ 큰 수예요. □는?`, 1000 - k); }
+  ])(),
+  () => mPick([() => skipCount(1000, 9990, [1, 10, 100, 1000]), () => placeVal(mR(1111, 9999)), () => { const n = mR(1001, 9999); return MP(`${n}의 백의 자리 숫자는?`, digitsOf(n)[1]); }])(),
+  () => mPick([
+    () => { const a = mR(1000, 9999); let b = a - a % 100 + mR(0, 99); if (b === a) b++; return MCmp(`${a} ○ ${b}`, a, b); },
+    () => cardsProb(4),
+    () => { const n = mR(1100, 8900), s = mPick([10, 100, 1000]), up = Math.random() < 0.5; return MP(`${n}보다 ${s} ${up ? '큰' : '작은'} 수는?`, up ? n + s : n - s); }
+  ])(),
+  () => mPick([
+    () => { const th = mR(2, 8), lim = th * 1000 + mR(2, 8) * 100 + mR(0, 99); let best = -1; const r = mR(0, 99); for (let d = 0; d <= 9; d++) if (th * 1000 + d * 100 + r < lim) best = d; return best < 0 ? MP('1000이 2개, 100이 15개인 수는?', 3500) : MP(`□ 안에 들어갈 수 있는 가장 큰 숫자는?<br>${th}□${String(r).padStart(2, '0')} &lt; ${lim}`, best); },
+    () => { const s = mR(2, 6) * 1000 + mR(0, 9) * 100; return MP(`${s}부터 100씩 4번 뛰어 센 수는?`, s + 400); },
+    () => { const k = mR(11, 19); return MP(`1000이 2개, 100이 ${k}개인 수는?`, 2000 + k * 100, { exp: `100이 ${k}개 = ${k * 100}` }); },
+    () => { const n = mR(2000, 8999); return MP(`어떤 수보다 1000 작은 수가 ${n}이에요. 어떤 수는?`, n + 1000); },
+    () => { const k = mR(3, 9); return MP(`한 상자에 100개씩 든 구슬이 ${k * 10}상자 있어요. 구슬은 모두 몇 개일까요?`, k * 1000, { exp: `100이 ${k * 10}개 = ${k * 1000}` }); }
+  ])()
+]);
+const dan = ds => { const d = mPick(ds), b = mR(1, 9); return MP(`${d} × ${b} = ?`, d * b, { exp: `${d}단: ${d} × ${b} = ${d * b}` }); };
+U('2-2', 2, '곱셈구구', '', [
+  () => Math.random() < 0.35 ? (() => { const d = mPick([2, 5]), b = mR(2, 6), e = mPick(GEM); return MP(`${d} × ${b} = ?`, d * b, { vis: vGroups(b, d, e) }); })() : dan([2, 5]),
+  () => dan([3, 6]),
+  () => dan([4, 8]),
+  () => Math.random() < 0.8 ? dan([7, 9]) : mPick([() => { const b = mR(1, 9); return MP(`1 × ${b} = ?`, b, { exp: '1과 어떤 수의 곱은 그 수' }); }, () => { const b = mR(0, 9); return MP(`0 × ${b} = ?`, 0, { exp: '0과 어떤 수의 곱은 항상 0' }); }])(),
+  () => mPick([
+    () => { const a = mR(2, 9), b = mR(2, 9); return MP(`□ × ${a} = ${a * b}`, b, { exp: `${b} × ${a} = ${a * b}` }); },
+    () => { const a = mR(2, 9), b = mR(2, 9); return MP(`${a} × □ = ${a * b}`, b); },
+    () => { const a = mR(3, 9), b = mR(2, 9); return MP(`곱셈표에서 ${a} × ${b}와 곱이 같은 칸은 ${b} × □ 예요. □는?`, a, { exp: '곱하는 두 수의 순서를 바꿔도 곱은 같아요' }); },
+    () => { const a = mR(3, 9), b = mR(3, 9), o = mPick([['꽃잎', '꽃 한 송이'], ['다리', '문어 한 마리']]); return o[0] === '다리' ? MP(`문어 한 마리의 다리는 8개예요. 문어 ${b}마리의 다리는 모두 몇 개?`, 8 * b) : MP(`꽃 한 송이에 꽃잎이 ${a}장씩 있어요. ${b}송이의 꽃잎은 모두 몇 장?`, a * b); },
+    () => { const a = mR(2, 9), b = mR(2, 9), k = mR(1, 9); return MP(`${a} × ${b} + ${k} = ?`, a * b + k, { exp: `곱셈 먼저: ${a * b} + ${k}` }); }
+  ])()
+]);
+U('2-2', 3, '길이 재기', '', [
+  () => mPick([() => { const m = mR(1, 9); return MP(`${m} m = □ cm`, m * 100, { exp: '1 m = 100 cm' }); }, () => { const m = mR(1, 5), c = mR(1, 99); return MP(`${m} m ${c} cm = □ cm`, m * 100 + c); }])(),
+  () => { const m = mR(1, 6), c = mR(1, 99); return MN2(`${m * 100 + c} cm = □ m □ cm`, m, c, '□ m □ cm'); },
+  () => { const a = mR(1, 4), b = mR(10, 60), c = mR(1, 4), d = mR(10, 99 - b); return MN2(`${a} m ${b} cm + ${c} m ${d} cm = ?`, a + c, b + d, '□ m □ cm', { exp: `m끼리 ${a + c}, cm끼리 ${b + d}` }); },
+  () => { const a = mR(3, 8), b = mR(30, 99), c = mR(1, a - 1), d = mR(10, b); return MN2(`${a} m ${b} cm − ${c} m ${d} cm = ?`, a - c, b - d, '□ m □ cm'); },
+  () => mPick([
+    () => MC2('교실 문의 높이는 약 몇일까요?', '2 m', ['20 cm', '2 cm', '20 m']),
+    () => MC2('내 한 뼘의 길이는 약 몇일까요?', '15 cm', ['15 m', '1 m', '150 cm']),
+    () => MC2('버스의 길이는 약 몇일까요?', '10 m', ['10 cm', '1 m', '100 m']),
+    () => { const a = mR(1, 3), b = mR(20, 80), c = mR(1, 2), d = mR(10, 99 - b); return MN2(`리본 ${a} m ${b} cm와 ${c} m ${d} cm를 이었어요. 모두 몇 m 몇 cm?`, a + c, b + d, '□ m □ cm'); },
+    () => { const x = mR(120, 180), y = mR(100, x - 5); return MP(`아빠 키는 ${Math.floor(x / 100)} m ${x % 100} cm, 지아 키는 ${y} cm예요. 아빠가 몇 cm 더 클까요?`, x - y); }
+  ])()
+]);
+U('2-2', 4, '시각과 시간', 'clock', [
+  () => { const h = mR(1, 12), m = mR(0, 11) * 5; return MN2('시계가 나타내는 시각은?', h, m, '□시 □분', { vis: vClock(h, m), exp: `짧은바늘 ${h}과 ${h % 12 + 1} 사이, 긴바늘 ${m / 5 || 12} → ${m}분` }); },
+  () => { const h = mR(1, 12), m = mR(1, 59); return MN2('시계가 나타내는 시각은?', h, m, '□시 □분', { vis: vClock(h, m), exp: `긴바늘이 작은 눈금 ${m}칸` }); },
+  () => mPick([
+    () => { const h = mR(2, 12), k = mPick([5, 10, 15]); return MP(`${h - 1}시 ${60 - k}분은 ${h}시 □분 전이에요.`, k); },
+    () => { const h = mR(2, 12), k = mPick([5, 10, 15]); return MN2(`${h}시 ${k}분 전은 몇 시 몇 분일까요?`, h - 1, 60 - k, '□시 □분'); }
+  ])(),
+  () => mPick([
+    () => { const h = mR(1, 2), m = mR(1, 5) * 10; return MP(`${h}시간 ${m}분 = □분`, h * 60 + m, { exp: '1시간 = 60분' }); },
+    () => { const t = mR(65, 170); return MN2(`${t}분 = □시간 □분`, Math.floor(t / 60), t % 60, '□시간 □분'); },
+    () => { const h = mR(1, 9), m = mR(0, 5) * 10, d = mR(2, 9) * 10; const e = h * 60 + m + d; return MP(`${h}시 ${m}분부터 ${Math.floor(e / 60)}시 ${e % 60}분까지는 몇 분일까요?`, d); }
+  ])(),
+  () => mPick([
+    () => MP('하루는 □시간', 24), () => { const w = mR(2, 4); return MP(`${w}주일은 며칠일까요?`, w * 7, { exp: '1주일 = 7일' }); }, () => MP('1년은 □개월', 12),
+    () => { const a = mR(7, 11), b = mR(1, 5); return MP(`오전 ${a}시부터 오후 ${b}시까지는 몇 시간일까요?`, 12 - a + b, { exp: `낮 12시까지 ${12 - a}시간 + ${b}시간` }); },
+    () => { const s = mR(0, 6), d = mR(1, 7), k = mPick([7, 14]); return MC2(`어느 달 ${d}일이 ${W2[s]}요일이에요. ${d + k}일은 무슨 요일일까요?`, W2[s] + '요일', mShuf(W2.filter(x => x !== W2[s])).slice(0, 3).map(x => x + '요일'), { exp: '7일마다 같은 요일' }); },
+    () => { const s = mR(0, 6), d = mR(1, 5), k = mR(1, 6); return MC2(`어느 달 ${d}일이 ${W2[s]}요일이에요. ${d + k}일은 무슨 요일일까요?`, W2[(s + k) % 7] + '요일', mShuf(W2.filter(x => x !== W2[(s + k) % 7])).slice(0, 3).map(x => x + '요일')); },
+    () => MC2('날수가 30일인 달은?', mPick(['4월', '6월', '9월', '11월']), ['1월', '3월', '7월', '8월']),
+    () => { const d = mR(1, 2), h = mR(1, 23); return MP(`${d}일 ${h}시간 = □시간`, d * 24 + h); }
+  ])()
+]);
+const FRU = ['사과', '포도', '딸기', '귤', '바나나'];
+function dataSet(n, lo, hi) { const cats = mShuf(FRU).slice(0, n); let vals; do { vals = cats.map(() => mR(lo, hi)); } while (new Set(vals).size < n); return { cats, vals }; }
+U('2-2', 5, '표와 그래프', '', [
+  () => { const { cats, vals } = dataSet(4, 1, 8), i = mR(0, 3); return MP(`${josa(cats[i], '을', '를')} 좋아하는 학생은 몇 명일까요?`, vals[i], { vis: vTable('과일', cats, vals, true) }); },
+  () => { const { cats, vals } = dataSet(4, 1, 7), i = mR(0, 3); return MP(`그래프에서 ${josa(cats[i], '을', '를')} 좋아하는 학생은 몇 명일까요?`, vals[i], { vis: vOGraph(cats, vals) }); },
+  () => { const { cats, vals } = dataSet(4, 1, 7), big = Math.random() < 0.5; const v = big ? Math.max(...vals) : Math.min(...vals); return MC2(`가장 ${big ? '많은' : '적은'} 학생이 좋아하는 과일은?`, cats[vals.indexOf(v)], cats.filter(c => c !== cats[vals.indexOf(v)]), { vis: vOGraph(cats, vals) }); },
+  () => { const { cats, vals } = dataSet(4, 1, 8); return mPick([
+      () => MP('조사한 학생은 모두 몇 명일까요?', vals.reduce((a, b) => a + b), { vis: vTable('과일', cats, vals) }),
+      () => { const i = vals.indexOf(Math.max(...vals)), j = vals.indexOf(Math.min(...vals)); return MP(`${josa(cats[i], '을', '를')} 좋아하는 학생은 ${josa(cats[j], '을', '를')} 좋아하는 학생보다 몇 명 더 많을까요?`, vals[i] - vals[j], { vis: vOGraph(cats, vals) }); }])(); },
+  () => { const { cats, vals } = dataSet(4, 2, 9), i = mR(0, 3), tot = vals.reduce((a, b) => a + b), shown = vals.map((v, k) => k === i ? '?' : v); return Math.random() < 0.6 ? MP(`합계가 ${tot}명일 때 ${josa(cats[i], '을', '를')} 좋아하는 학생은 몇 명일까요?`, vals[i], { vis: vTable('과일', cats, shown, tot), exp: `${tot}에서 나머지를 빼요` }) : MP(`${cats[i]}와(과) ${josa(cats[(i + 1) % 4], '을', '를')} 좋아하는 학생은 모두 몇 명?`, vals[i] + vals[(i + 1) % 4], { vis: vOGraph(cats, vals) }); }
+]);
+U('2-2', 6, '규칙 찾기', '', [
+  () => { const syms = mShuf(['💎', '🌸', '⭐', '🎀', '🍓']).slice(0, mR(2, 3)), len = syms.length, start = mR(4, 6), seq = Array.from({ length: start }, (_, i) => syms[i % len]); return MC2(`다음에 올 모양은?<br><span class="big">${seq.join(' ')} □</span>`, syms[start % len], syms.filter(s => s !== syms[start % len]).concat(['🍬']).slice(0, 3)); },
+  () => { const st = mR(2, 9), a = mR(1, 30), up = Math.random() < 0.7, seq = Array.from({ length: 5 }, (_, i) => up ? a + st * i : a + st * 4 - st * i); return MP(`규칙에 맞게 □에 들어갈 수는?<br>${seq.slice(0, 4).join(', ')}, □`, seq[4], { exp: `${st}씩 ${up ? '커져요' : '작아져요'}` }); },
+  () => { const r = mR(1, 9), c = mR(1, 9); return MP(`덧셈표에서 세로줄 ${r}과(와) 가로줄 ${c}이(가) 만나는 칸의 수는?`, r + c, { vis: addTable(r, c, '+'), exp: `${r} + ${c}` }); },
+  () => { const r = mR(2, 9), c = mR(2, 9); return MP('곱셈표에서 □에 알맞은 수는?', r * c, { vis: addTable(r, c, '×') }); },
+  () => mPick([
+    () => { const a = mR(1, 2), st = 2, n = mR(4, 6); return MP(`쌓기나무를 ${a}개, ${a + st}개, ${a + 2 * st}개 … 처럼 쌓아요. ${n}번째에는 몇 개일까요?`, a + st * (n - 1)); },
+    () => { const d = mR(1, 6); return MP(`달력에서 ${d}일과 같은 요일인 날 중 세 번째 날짜는? (${d}일 다음부터)`, d + 21, { exp: '같은 요일은 7일마다' }); },
+    () => { const a = mR(2, 9); return MP(`곱셈표 ${a}단에서 수는 □씩 커져요.`, a); },
+    () => { const st = mR(11, 30), a = mR(100, 300); return MP(`${a}, ${a + st}, ${a + 2 * st}, □`, a + 3 * st); }
+  ])()
+]);
+function addTable(r, c, op) {
+  const rs = [r - 1, r, r + 1].filter(x => x >= 1).slice(0, 3), cs = [c - 1, c, c + 1].filter(x => x >= 1).slice(0, 3), f = (a, b) => op === '+' ? a + b : a * b;
+  return `<table class="mc-tbl"><tr><th>${op}</th>${cs.map(x => `<th>${x}</th>`).join('')}</tr>${rs.map(a => `<tr><th>${a}</th>${cs.map(b => `<td>${a === r && b === c ? '□' : f(a, b)}</td>`).join('')}</tr>`).join('')}</table>`;
+}
+
+/* 3-1 */
+U('3-1', 1, '덧셈과 뺄셈', 'blocks', [
+  () => { const a = mR(101, 699), b = mR(101, 299); return MP(`${a} + ${b} = ?`, a + b, { exp: `${a} + ${b} = ${a + b}` }); },
+  () => { let a, b; do { a = mR(150, 789); b = mR(150, 899 - a + 99); } while (a % 10 + b % 10 < 10 || Math.floor(a / 10) % 10 + Math.floor(b / 10) % 10 < 9 || a + b > 1999); return MP(`${a} + ${b} = ?`, a + b, { exp: '일·십의 자리에서 받아올림' }); },
+  () => { let a, b; do { a = mR(300, 999); b = mR(111, a - 50); } while (a % 10 >= b % 10); return MP(`${a} − ${b} = ?`, a - b, { exp: '받아내림 해요' }); },
+  () => mPick([
+    () => { const a = mR(150, 749), b = mR(120, 249); const est = Math.round(a / 100) * 100 + Math.round(b / 100) * 100; return MC2(`${a} + ${josa(b, '을', '를')} 어림하면 약 얼마일까요?`, est, [est + 100, est - 100, est + 200].filter(x => x > 0), { exp: `약 ${Math.round(a / 100) * 100} + 약 ${Math.round(b / 100) * 100}` }); },
+    () => { const a = mR(100, 600), b = mR(100, 399); return mPick([() => MP(`□ + ${b} = ${a + b}`, a), () => MP(`${a + b} − □ = ${a}`, b), () => MP(`□ − ${b} = ${a}`, a + b)])(); },
+    () => { const a = mR(500, 900), b = mR(100, 400); return MP(`${a} − ${b} = ?`, a - b); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(250, 600), b = mR(150, 380); return MP(`도서관에 동화책이 ${a}권, 위인전이 ${b}권 있어요. 모두 몇 권일까요?`, a + b); },
+    () => { const a = mR(500, 950), b = mR(150, 450); return MP(`줄넘기를 지아는 ${a}번, 왕자는 ${b}번 했어요. 지아가 몇 번 더 했을까요?`, a - b); },
+    () => wrongCalc(200, 600),
+    () => { const ds = mShuf([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 3); const big = Number(ds.slice().sort((x, y) => y - x).join('')), small = Number(ds.slice().sort((x, y) => x - y).join('')); return MP(`수 카드 <b class="cards">${ds.join(' ')}</b>로 만든 가장 큰 세 자리 수와 가장 작은 세 자리 수의 차는?`, big - small, { exp: `${big} − ${small}` }); }
+  ])()
+]);
+U('3-1', 2, '평면도형', '', [
+  () => { const k = mPick(['선분', '반직선', '직선']); return MC2('이 곧은 선의 이름은?', k, ['선분', '반직선', '직선'].filter(x => x !== k), { fixed: ['선분', '반직선', '직선'], vis: `<div class="mc-row">${vLine(k)}</div>`, exp: '선분: 양쪽 끝이 있음 / 반직선: 한쪽으로 끝없이 / 직선: 양쪽으로 끝없이' }); },
+  () => mPick([
+    () => { const k = mPick(['삼각형', '사각형', '오각형', '육각형']); return MP('이 도형에서 각은 몇 개일까요?', SIDES[k], { vis: vShape(k) }); },
+    () => { const k = mPick(Object.keys(RA_COUNT)); return MP('이 도형에서 직각은 몇 개일까요?', RA_COUNT[k], { vis: `<div class="mc-row"><svg viewBox="0 0 100 85" width="130" height="110"><polygon points="${RA_SHAPES[k].map(p => p.join(',')).join(' ')}" fill="#bae7ff" stroke="#0050b3" stroke-width="3"/></svg></div>` }); }
+  ])(),
+  () => { const ks = mShuf(['직각삼각형', '삼각형', '평행사변형', '직사각형']).slice(0, 3); if (!ks.includes('직각삼각형')) ks[mR(0, 2)] = '직각삼각형'; const L = ['㉠', '㉡', '㉢'];
+    return mPick([() => MC2('직각삼각형은 어느 것일까요?', L[ks.indexOf('직각삼각형')], [], { fixed: L, vis: vLabeled(ks) }),
+      () => { const j = ks.findIndex(k => k === '직사각형' || k === '평행사변형'); return j < 0 ? MP('직각삼각형에는 직각이 몇 개?', 1) : MC2(`${L[j]}의 이름은?`, ks[j] === '직사각형' ? '직사각형' : '평행사변형', ['직사각형', '평행사변형', '정사각형'].filter(x => x !== ks[j]), { vis: vLabeled(ks) }); }])(); },
+  () => mPick([
+    () => { const w = mR(4, 12), h = mR(2, w - 1); return MP('직사각형의 네 변의 길이의 합은 몇 cm일까요?', 2 * (w + h), { vis: vRect(w, h, w + ' cm', h + ' cm'), exp: `${w} + ${h} + ${w} + ${h}` }); },
+    () => { const a = mR(3, 12); return MP(`한 변이 ${a} cm인 정사각형의 네 변의 길이의 합은?`, 4 * a, { vis: vRect(a, a, a + ' cm', '') }); }
+  ])(),
+  () => mPick([
+    () => MC2('정사각형은 직사각형이라고 할 수 있을까요?', '예', ['아니요'], { fixed: ['예', '아니요'], exp: '네 각이 모두 직각이라 직사각형이에요' }),
+    () => MC2('직사각형은 정사각형이라고 할 수 있을까요?', '아니요', ['예'], { fixed: ['예', '아니요'], exp: '네 변의 길이가 모두 같아야 정사각형' }),
+    () => { const a = mR(3, 15); return MP(`네 변의 길이의 합이 ${4 * a} cm인 정사각형의 한 변은 몇 cm?`, a); },
+    () => { const w = mR(5, 12), h = mR(2, w - 1); return MP(`네 변의 길이의 합이 ${2 * (w + h)} cm인 직사각형의 가로가 ${w} cm일 때 세로는?`, h, { exp: `(${2 * (w + h)} − ${w} − ${w}) ÷ 2` }); },
+    () => { const k = mR(2, 4); return MP(`직사각형 ${k}개와 직각삼각형 ${k + 1}개에 있는 직각은 모두 몇 개?`, k * 4 + k + 1); }
+  ])()
+]);
+U('3-1', 3, '나눗셈', '', [
+  () => { const g = mR(2, 4), per = mR(2, 5), e = mPick(GEM); return MP(`${e} ${g * per}개를 ${g}명에게 똑같이 나누면 한 명에게 몇 개씩?`, per, { vis: vItems(g * per, e), exp: `${g * per} ÷ ${g} = ${per}` }); },
+  () => { const d = mR(2, 9), q = mR(2, 9); return MP(`${d * q} ÷ ${d} = ?`, q, { exp: `${d} × ${q} = ${d * q}` }); },
+  () => mPick([
+    () => { const d = mR(2, 9), q = mR(2, 9); return MP(`${d} × □ = ${d * q}`, q); },
+    () => { const d = mR(2, 9), q = mR(2, 9); return MC2(`${d} × ${q} = ${d * q} 로 만들 수 있는 나눗셈식은?`, `${d * q} ÷ ${d} = ${q}`, [`${d} ÷ ${q} = ${d * q}`, `${d * q} ÷ ${q} = ${d + q}`, `${q} ÷ ${d * q} = ${d}`]); },
+    () => { const d = mR(2, 9), q = mR(2, 9); return MP(`□ ÷ ${d} = ${q}`, d * q, { exp: `${d} × ${q}` }); }
+  ])(),
+  () => mPick([
+    () => { const d = mR(2, 9), q = mR(2, 9); return MP(`색종이 ${d * q}장을 ${d}명이 똑같이 나누어 가지면 한 명이 몇 장씩?`, q); },
+    () => { const d = mR(2, 9), q = mR(2, 9); return MP(`쿠키 ${d * q}개를 한 봉지에 ${d}개씩 담으면 몇 봉지?`, q); },
+    () => { const d = mR(3, 8), q = mR(3, 9); return MP(`${d * q}명이 한 줄에 ${d}명씩 서면 몇 줄이 될까요?`, q); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(3, 9), b = mR(2, 9), c = mR(2, 9), d = mR(2, 9); if (a === c) return MP(`${a * b} ÷ ${a} = ?`, b); return MC2('몫이 더 큰 것은?', b > d ? `${a * b} ÷ ${a}` : `${c * d} ÷ ${c}`, [b > d ? `${c * d} ÷ ${c}` : `${a * b} ÷ ${a}`], { exp: `몫은 ${b}와 ${d}` }); },
+    () => { const d = mR(2, 9), q = mR(2, 9), k = mR(2, 5); return MP(`어떤 수를 ${josa(d, '으로', '로')} 나누었더니 몫이 ${q}이었어요. 어떤 수에 ${josa(k, '을', '를')} 더하면?`, d * q + k); },
+    () => { const d = mR(2, 6), q = mR(2, 6); return MP(`한 명에게 ${q}개씩 ${d}명에게 나누어 주었더니 딱 맞았어요. 나누어 준 사탕은 모두 몇 개?`, d * q); },
+    () => { const d = mR(3, 9), q = mR(3, 9); return MP(`${d * q} ÷ ${d} ÷ ${q} = ?`, 1); }
+  ])()
+]);
+U('3-1', 4, '곱셈', 'blocks', [
+  () => { const a = mR(1, 9) * 10, b = mR(2, 9); return MP(`${a} × ${b} = ?`, a * b, { exp: `${a / 10} × ${b} = ${a / 10 * b} → ${a * b}` }); },
+  () => { let a, b; do { a = mR(11, 44); b = mR(2, 4); } while ((a % 10) * b >= 10 || Math.floor(a / 10) * b >= 10); return MP(`${a} × ${b} = ?`, a * b); },
+  () => { let a, b; do { a = mR(12, 89); b = mR(2, 9); } while (!(((a % 10) * b >= 10) !== (Math.floor(a / 10) * b >= 10))); return MP(`${a} × ${b} = ?`, a * b, { exp: `${Math.floor(a / 10) * 10} × ${b} + ${a % 10} × ${b}` }); },
+  () => mPick([
+    () => { let a, b; do { a = mR(23, 99); b = mR(3, 9); } while ((a % 10) * b < 10 || Math.floor(a / 10) * b < 10); return MP(`${a} × ${b} = ?`, a * b, { exp: `${Math.floor(a / 10) * 10 * b} + ${(a % 10) * b}` }); },
+    () => { const a = mR(21, 89), b = mR(3, 9), est = Math.round(a / 10) * 10 * b; return MC2(`${a} × ${josa(b, '을', '를')} 어림하면 약 얼마일까요?`, est, [est + 10 * b, est - 10 * b, est * 2].filter(x => x > 0), { exp: `약 ${Math.round(a / 10) * 10} × ${b}` }); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(12, 48), b = mR(3, 9); return MP(`한 상자에 구슬이 ${a}개씩 들어 있어요. ${b}상자에는 모두 몇 개?`, a * b); },
+    () => { const ds = mShuf([2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 3).sort((x, y) => y - x); const best = Math.max((ds[1] * 10 + ds[2]) * ds[0], (ds[0] * 10 + ds[2]) * ds[1]); return MP(`수 카드 <b class="cards">${mShuf(ds).join(' ')}</b>로 (두 자리 수) × (한 자리 수)를 만들 때 가장 큰 곱은?`, best, { exp: `가장 큰 수를 곱하는 수로: ${ds[1]}${ds[2]} × ${ds[0]}` }); },
+    () => { const a = mR(13, 29), b = mR(3, 6), k = mR(5, 20); return MP(`하루에 ${a}쪽씩 ${b}일 동안 읽고, 마지막 날 ${k}쪽을 더 읽었어요. 모두 몇 쪽?`, a * b + k); },
+    () => { const a = mR(15, 40), b = mR(4, 9); return MP(`□ ÷ ${b} = ${a}`, a * b, { exp: `${a} × ${b}` }); }
+  ])()
+]);
+U('3-1', 5, '길이와 시간', 'clock', [
+  () => mPick([() => { const c = mR(1, 15), m = mR(1, 9); return MP(`${c} cm ${m} mm = □ mm`, c * 10 + m, { exp: '1 cm = 10 mm' }); }, () => { const n = mR(21, 159); return MN2(`${n} mm = □ cm □ mm`, Math.floor(n / 10), n % 10, '□ cm □ mm'); }, () => { const L = mR(2, 8) + mR(1, 9) / 10; return MP('막대의 길이는 몇 mm일까요?', Math.round(L * 10), { vis: vRuler(L, 0, true) }); }])(),
+  () => mPick([() => { const k = mR(1, 9), m = mR(1, 999); return MP(`${k} km ${m} m = □ m`, k * 1000 + m, { exp: '1 km = 1000 m' }); }, () => { const n = mR(1100, 9900); return MN2(`${n} m = □ km □ m`, Math.floor(n / 1000), n % 1000, '□ km □ m'); }])(),
+  () => mPick([() => { const m = mR(1, 4), s = mR(1, 59); return MP(`${m}분 ${s}초 = □초`, m * 60 + s, { exp: '1분 = 60초' }); }, () => { const n = mR(70, 290); return MN2(`${n}초 = □분 □초`, Math.floor(n / 60), n % 60, '□분 □초'); },
+    () => { const h = mR(1, 12), m = mR(0, 59), s = mR(1, 59); return MP('초바늘(주황)이 가리키는 초는? 몇 초일까요?', s, { vis: vClock(h, m, s), exp: `초바늘이 작은 눈금 ${s}칸` }); }])(),
+  () => mPick([
+    () => { const h = mR(1, 9), m = mR(10, 50), dh = mR(1, 3), dm = mR(10, 59); const t = h * 60 + m + dh * 60 + dm; return MN2(`${h}시 ${m}분 + ${dh}시간 ${dm}분 = ?`, Math.floor(t / 60), t % 60, '□시 □분', { exp: '분끼리 더해 60분이 넘으면 1시간으로' }); },
+    () => { const a = mR(2, 9), b = mR(20, 59), c = mR(1, 5), d = mR(20, 59); const t = a * 60 + b + c * 60 + d; return MN2(`${a}분 ${b}초 + ${c}분 ${d}초 = ?`, Math.floor(t / 60), t % 60, '□분 □초'); }
+  ])(),
+  () => mPick([
+    () => { const h = mR(4, 11), m = mR(0, 30), dh = mR(1, 3), dm = mR(m + 1, 59); const t = h * 60 + m - dh * 60 - dm; return MN2(`${h}시 ${m}분 − ${dh}시간 ${dm}분 = ?`, Math.floor(t / 60), t % 60, '□시 □분', { exp: '분이 모자라면 1시간을 60분으로' }); },
+    () => { const s = mR(8, 10) * 60 + mR(0, 5) * 10, d = mR(45, 130); const e = s + d; return MP(`${Math.floor(s / 60)}시 ${s % 60}분에 출발해서 ${Math.floor(e / 60)}시 ${e % 60}분에 도착했어요. 몇 분 걸렸을까요?`, d); },
+    () => { const a = mR(2, 5), b = mR(100, 900); return MP(`집에서 학교까지 ${a} km ${b} m예요. 몇 m일까요?`, a * 1000 + b); }
+  ])()
+]);
+U('3-1', 6, '분수와 소수', '', [
+  () => { const n = mPick([2, 3, 4, 5, 6, 8]), k = mR(1, n - 1), kind = mPick(['circle', 'bar']); return MC2('색칠한 부분은 전체의 얼마일까요?', fr(k, n), fracOpts(k, n), { vis: `<div class="mc-row">${vFrac(kind, n, k)}</div>`, exp: `전체를 똑같이 ${josa(n, '으로', '로')} 나눈 것 중 ${k}` }); },
+  () => mPick([
+    () => { const n = mR(3, 9), k = mR(1, n - 1); return MC2(`전체를 똑같이 ${josa(n, '으로', '로')} 나눈 것 중의 ${josa(k, '은', '는')}?`, fr(k, n), fracOpts(k, n)); },
+    () => { const n = mR(3, 9), k = mR(1, n - 1); return MC2('색칠하지 않은 부분은 전체의 얼마일까요?', fr(n - k, n), fracOpts(n - k, n), { vis: `<div class="mc-row">${vFrac('bar', n, k)}</div>` }); },
+    () => { const n = mR(3, 10); return MP(`${fr(1, n)}이 몇 개 모이면 1이 될까요?`, n); }
+  ])(),
+  () => mPick([
+    () => { const d = mR(4, 12), a = mR(1, d - 1); let b = mR(1, d - 1); if (b === a) b = a === 1 ? 2 : a - 1; return MCmp(`${fr(a, d)} ○ ${fr(b, d)}`, a, b, { exp: '분모가 같으면 분자가 클수록 커요' }); },
+    () => { const a = mR(2, 9); let b = mR(2, 9); if (b === a) b = a + 1; return MCmp(`${fr(1, a)} ○ ${fr(1, b)}`, 1 / a, 1 / b, { exp: '단위분수는 분모가 작을수록 커요' }); }
+  ])(),
+  () => mPick([
+    () => { const k = mR(1, 9); return MP(`0.1이 ${k}개인 수는?`, '0.' + k); },
+    () => { const c = mR(1, 12), m = mR(1, 9); return MP(`${c} cm ${m} mm = □ cm (소수로)`, c + '.' + m, { exp: `1 mm = 0.1 cm` }); },
+    () => { const k = mR(1, 9); return MP(`${fr(k, 10)}를 소수로 나타내면?`, '0.' + k); },
+    () => { const k = mR(1, 9); return MP('색칠한 부분을 소수로 나타내면?', '0.' + k, { vis: `<div class="mc-row">${vFrac('bar', 10, k)}</div>` }); }
+  ])(),
+  () => mPick([
+    () => { const a = mR(1, 99) / 10; let b = mR(1, 99) / 10; if (b === a) b = a + 0.1; b = Math.round(b * 10) / 10; return MCmp(`${a} ○ ${b}`, a, b); },
+    () => { const a = mR(1, 9) + mR(1, 9) / 10; return MP(`${josa(a, '은', '는')} 0.1이 몇 개인 수일까요?`, Math.round(a * 10)); },
+    () => { const a = mR(1, 5), b = a + mR(2, 4); return MP(`0.${a}보다 크고 0.${b}보다 작은 소수 한 자리 수는 몇 개?`, b - a - 1); },
+    () => { const d = mR(5, 12), a = mR(1, d - 2), b = mR(a + 1, d - 1), c = mR(1, d - 1); const arr = [a, b, c].filter((v, i, s) => s.indexOf(v) === i); const mx = Math.max(...arr); return MC2('가장 큰 분수는?', fr(mx, d), arr.filter(v => v !== mx).map(v => fr(v, d)).concat([fr(1, d)]).filter((v, i, s) => s.indexOf(v) === i && v !== fr(mx, d))); }
+  ])()
+]);
+
+/* 3-2 */
+U('3-2', 1, '곱셈', '', [
+  () => { const a = mR(111, 499), b = mR(2, 9); return MP(`${a} × ${b} = ?`, a * b, { exp: `${Math.floor(a / 100) * 100 * b} + ${Math.floor(a / 10) % 10 * 10 * b} + ${a % 10 * b}` }); },
+  () => mPick([() => { const a = mR(2, 9) * 10, b = mR(2, 9) * 10; return MP(`${a} × ${b} = ?`, a * b, { exp: `${a / 10} × ${b / 10} = ${a * b / 100} → 0 두 개` }); }, () => { const a = mR(12, 89), b = mR(2, 9) * 10; return MP(`${a} × ${b} = ?`, a * b, { exp: `${a} × ${b / 10} = ${a * b / 10} → 0 하나` }); }])(),
+  () => { const a = mR(2, 9), b = mR(12, 89); return MP(`${a} × ${b} = ?`, a * b); },
+  () => { const a = mR(12, 89), b = mR(12, 89); return MP(`${a} × ${b} = ?`, a * b, { exp: `${a} × ${b % 10} + ${a} × ${Math.floor(b / 10) * 10}` }); },
+  () => mPick([
+    () => { const a = mR(15, 45), b = mR(12, 30); return MP(`한 상자에 사과가 ${a}개씩 있어요. ${b}상자의 사과는 모두 몇 개?`, a * b); },
+    () => { const a = mR(120, 380), b = mR(3, 7); return MP(`하루에 줄넘기를 ${a}번씩 ${b}일 했어요. 모두 몇 번?`, a * b); },
+    () => { const a = mR(21, 79), b = mR(21, 69), est = Math.round(a / 10) * 10 * Math.round(b / 10) * 10; return MC2(`${a} × ${josa(b, '을', '를')} 어림하면 약 얼마일까요?`, est, [est * 10, Math.round(est / 10), est + 1000].filter(x => x > 0), { exp: `약 ${Math.round(a / 10) * 10} × ${Math.round(b / 10) * 10}` }); },
+    () => { const a = mR(12, 40), b = mR(11, 30), k = mR(10, 50); return MP(`어떤 수에 ${josa(b, '을', '를')} 곱해야 할 것을 잘못하여 더했더니 ${a + b}이(가) 되었어요. 바르게 계산하면?`, a * b, { exp: `어떤 수 ${a} → ${a} × ${b}` }); }
+  ])()
+]);
+U('3-2', 2, '나눗셈', '', [
+  () => mPick([() => { const d = mR(2, 9), q = mR(1, Math.floor(9 / d)) * 10; return MP(`${d * q} ÷ ${d} = ?`, q, { exp: `${d * q / 10} ÷ ${d} = ${q / 10} → ${q}` }); }, () => { const [n, d] = mPick([[30, 2], [50, 2], [70, 2], [90, 2], [60, 4], [80, 5], [90, 5], [70, 5], [60, 5], [90, 6]]); return MP(`${n} ÷ ${d} = ?`, n / d, { exp: `${d} × ${n / d} = ${n}` }); }])(),
+  () => { const d = mR(2, 7), q = mR(11, Math.floor(99 / d)); return MP(`${d * q} ÷ ${d} = ?`, q, { exp: `${d} × ${q} = ${d * q}` }); },
+  () => { const d = mR(3, 9), q = mR(3, Math.floor(98 / d)), r = mR(1, d - 1), n = d * q + r; return n > 99 ? MN2(`${d * (q - 2) + r} ÷ ${d}`, q - 2, r, '몫 □ 나머지 □') : MN2(`${n} ÷ ${d}`, q, r, '몫 □ 나머지 □', { exp: `${d} × ${q} = ${d * q}, ${n} − ${d * q} = ${r}` }); },
+  () => mPick([() => { const d = mR(2, 9), q = mR(Math.ceil(100 / d), Math.floor(999 / d)); return MP(`${d * q} ÷ ${d} = ?`, q, { exp: `${d} × ${q} = ${d * q}` }); }, () => { const d = mR(3, 9), q = mR(Math.ceil(100 / d), Math.floor(980 / d)), r = mR(1, d - 1); return MN2(`${d * q + r} ÷ ${d}`, q, r, '몫 □ 나머지 □'); }])(),
+  () => mPick([
+    () => { const d = mR(4, 9), q = mR(5, 12), r = mR(1, d - 1); return MP(`어떤 수를 ${josa(d, '으로', '로')} 나누었더니 몫이 ${q}, 나머지가 ${r}이었어요. 어떤 수는?`, d * q + r, { exp: `${d} × ${q} + ${r}` }); },
+    () => { const d = mR(4, 9), q = mR(5, 15), r = mR(1, d - 1); return MP(`구슬 ${d * q + r}개를 한 상자에 ${d}개씩 남김없이 담으려면 상자는 적어도 몇 개 필요할까요?`, q + 1, { exp: `몫 ${q}, 나머지 ${r} → 남은 것도 상자 1개` }); },
+    () => { const d = mR(3, 8), q = mR(12, 30); return MP(`색종이 ${d * q}장을 ${d}명에게 똑같이 나누면 한 명이 몇 장?`, q); },
+    () => { const d = mR(3, 9), q = mR(10, 40), r = mR(1, d - 1); return MP(`${d * q + r} ÷ ${d}의 나머지는?`, r); }
+  ])()
+]);
+U('3-2', 3, '원', '', [
+  () => { const r = mR(2, 12); return MP(`반지름이 ${r} cm인 원의 지름은 몇 cm?`, 2 * r, { vis: vCircle(r + ' cm', 'r'), exp: '지름 = 반지름 × 2' }); },
+  () => { const r = mR(2, 15); return MP(`지름이 ${2 * r} cm인 원의 반지름은 몇 cm?`, r, { vis: vCircle(2 * r + ' cm', 'd'), exp: '반지름 = 지름 ÷ 2' }); },
+  () => mPick([
+    () => MP('한 원에서 원의 중심은 몇 개일까요?', 1),
+    () => MC2('한 원에서 반지름은 몇 개 그을 수 있을까요?', '셀 수 없이 많아요', ['1개', '2개', '4개']),
+    () => MC2('원 안에 그을 수 있는 가장 긴 선분은?', '지름', ['반지름', '원의 중심', '선분 ㄱㄴ']),
+    () => MC2('한 원에서 지름은 반지름의 몇 배일까요?', '2배', ['같아요', '3배', '반']),
+    () => { const r = mR(3, 9); return MP(`컴퍼스를 ${r} cm만큼 벌려서 원을 그렸어요. 이 원의 지름은?`, 2 * r); }
+  ])(),
+  () => { const n = mR(2, 5), r = mR(2, 6); return MP(`반지름이 ${r} cm인 원 ${n}개를 맞닿게 이었어요. 전체 길이(?)는 몇 cm?`, 2 * r * n, { vis: vCircles(n, r + ' cm'), exp: `지름 ${2 * r} × ${n}` }); },
+  () => mPick([
+    () => { const r = mR(3, 9); return MP(`정사각형 안에 꼭 맞게 그린 원의 반지름이 ${r} cm예요. 정사각형의 한 변은?`, 2 * r); },
+    () => { const R = mR(6, 14); return MP(`큰 원의 지름이 ${2 * R} cm예요. 큰 원의 반지름은?`, R); },
+    () => { const r = mR(2, 6), n = mR(3, 5); return MP(`지름이 ${2 * r} cm인 원 ${n}개를 맞닿게 늘어놓았어요. 첫 원의 중심부터 마지막 원의 중심까지는?`, 2 * r * (n - 1), { exp: `지름 ${2 * r} × ${n - 1}` }); },
+    () => { const r = mR(3, 8); return MP(`반지름 ${r} cm인 원 2개가 맞닿아 있어요. 두 원의 중심 사이의 거리는?`, 2 * r); }
+  ])()
+]);
+U('3-2', 4, '분수와 소수', '', [
+  () => { const d = mPick([2, 3, 4, 5]), per = mR(2, 4), n = d * per, e = mPick(GEM); return MP(`${e} ${n}개의 ${fr(1, d)}은 몇 개일까요?`, per, { vis: vGroups(d, per, e), exp: `${josa(n, '을', '를')} ${d}묶음으로 → 한 묶음 ${per}` }); },
+  () => { const d = mPick([3, 4, 5, 6]), per = mR(2, 5), k = mR(2, d - 1), n = d * per; return MP(`${n}의 ${fr(k, d)}은 얼마일까요?`, per * k, { exp: `${n}의 ${fr(1, d)} = ${per} → ${per} × ${k}` }); },
+  () => { const d = mR(3, 9), kind = mPick(['진분수', '가분수', '대분수']); const pick = { 진분수: fr(mR(1, d - 1), d), 가분수: fr(mR(d, d * 2), d), 대분수: mixf(mR(1, 3), mR(1, d - 1), d) }; return MC2(`${pick[kind]} 는 어떤 분수일까요?`, kind, [], { fixed: ['진분수', '가분수', '대분수'], exp: '진분수: 분자 &lt; 분모 / 가분수: 분자 ≥ 분모 / 대분수: 자연수 + 진분수' }); },
+  () => mPick([
+    () => { const d = mR(2, 9), w = mR(1, 4), n = mR(1, d - 1); return MP(`${mixf(w, n, d)} ${josa(n, '을', '를').slice(-1)} 가분수로 나타내면 ${fr('□', d)} 예요. □는?`, w * d + n, { exp: `${w} × ${d} + ${n}` }); },
+    () => { const d = mR(2, 9), w = mR(1, 4), n = mR(1, d - 1); return MN2(`${fr(w * d + n, d)} ${josa(w * d + n, '을', '를').slice(-1)} 대분수로 나타내요`, w, n, `□와 □/${d}`, { exp: `${w * d + n} ÷ ${d} = ${w} … ${n}` }); }
+  ])(),
+  () => mPick([
+    () => { const d = mR(3, 9), w = mR(1, 3), n = mR(1, d - 1), g = w * d + n + mPick([-1, 1, 2]); return MCmp(`${mixf(w, n, d)} ○ ${fr(g, d)}`, w * d + n, g, { exp: `${mixf(w, n, d)} = ${fr(w * d + n, d)}` }); },
+    () => { const a = mR(11, 99) / 10, b = mR(11, 99) / 10; return a === b ? MP('0.1이 25개인 수는?', '2.5') : MCmp(`${a} ○ ${b}`, a, b); },
+    () => { const d = mPick([3, 4, 6]), per = mR(3, 6), k = mR(1, d - 1); return MP(`색종이 ${d * per}장의 ${fr(k, d)}을 썼어요. 남은 색종이는 몇 장?`, d * per - per * k); },
+    () => { const d = mR(4, 9), a = mR(d + 1, 2 * d), b = mR(d + 1, 2 * d); return a === b ? MP(`${fr(a, d)} 에서 자연수 부분은?`, Math.floor(a / d)) : MCmp(`${fr(a, d)} ○ ${fr(b, d)}`, a, b); }
+  ])()
+]);
+U('3-2', 5, '들이와 무게', '', [
+  () => mPick([() => { const l = mR(1, 9); return MP(`${l} L = □ mL`, l * 1000, { exp: '1 L = 1000 mL' }); }, () => { const l = mR(1, 5), m = mR(100, 900); return MP(`${l} L ${m} mL = □ mL`, l * 1000 + m); }])(),
+  () => { const n = mR(1100, 8900); return MN2(`${n} mL = □ L □ mL`, Math.floor(n / 1000), n % 1000, '□ L □ mL'); },
+  () => mPick([
+    () => { const a = mR(1, 4), b = mR(100, 600), c = mR(1, 3), d = mR(100, 900); const t = (a + c) * 1000 + b + d; return MN2(`${a} L ${b} mL + ${c} L ${d} mL = ?`, Math.floor(t / 1000), t % 1000, '□ L □ mL', { exp: 'mL끼리 1000이 넘으면 1 L로' }); },
+    () => { const a = mR(3, 7), b = mR(100, 400), c = mR(1, a - 1), d = mR(b + 1, 900); const t = a * 1000 + b - c * 1000 - d; return MN2(`${a} L ${b} mL − ${c} L ${d} mL = ?`, Math.floor(t / 1000), t % 1000, '□ L □ mL'); }
+  ])(),
+  () => mPick([() => { const k = mR(1, 9), g = mR(100, 900); return MP(`${k} kg ${g} g = □ g`, k * 1000 + g, { exp: '1 kg = 1000 g' }); }, () => { const n = mR(1100, 8900); return MN2(`${n} g = □ kg □ g`, Math.floor(n / 1000), n % 1000, '□ kg □ g'); }, () => { const t = mR(1, 9); return MP(`${t} t = □ kg`, t * 1000, { exp: '1 t = 1000 kg' }); }])(),
+  () => mPick([
+    () => { const a = mR(2, 6), b = mR(100, 800), c = mR(1, 3), d = mR(100, 800); const t = (a + c) * 1000 + b + d; return MN2(`가방 ${a} kg ${b} g과 상자 ${c} kg ${d} g의 무게의 합은?`, Math.floor(t / 1000), t % 1000, '□ kg □ g'); },
+    () => MC2('사과 한 개의 무게는 약 얼마일까요?', '300 g', ['3 kg', '30 kg', '3 g']),
+    () => MC2('트럭 한 대의 무게를 나타내기에 알맞은 단위는?', 't', ['g', 'mL', 'cm']),
+    () => MC2('물병 하나의 들이는 약 얼마일까요?', '500 mL', ['5 mL', '50 L', '5000 L']),
+    () => { const a = mR(2, 5), b = mR(200, 800), c = mR(1, a - 1), d = mR(100, b - 1); const t = a * 1000 + b - c * 1000 - d; return MN2(`물 ${a} L ${b} mL 중에서 ${c} L ${d} mL를 마셨어요. 남은 물은?`, Math.floor(t / 1000), t % 1000, '□ L □ mL'); }
+  ])()
+]);
+const CLS = ['1반', '2반', '3반', '4반'];
+function picData(big, lo, hi) { let vals; do { vals = CLS.map(() => mR(lo, hi)); } while (new Set(vals).size < 4); return vals; }
+U('3-2', 6, '그림그래프', '', [
+  () => { const v = picData(10, 11, 45), i = mR(0, 3); return MP(`${CLS[i]}에서 모은 보석은 몇 개일까요?`, v[i], { vis: vPicGraph(CLS, v, 10, '💎', '개'), exp: '큰 그림 10개, 작은 그림 1개' }); },
+  () => { const v = picData(10, 11, 35); return MP('네 반에서 모은 보석은 모두 몇 개일까요?', v.reduce((a, b) => a + b), { vis: vPicGraph(CLS, v, 10, '💎', '개') }); },
+  () => { const v = picData(10, 11, 45), big = Math.random() < 0.5, x = big ? Math.max(...v) : Math.min(...v); return MC2(`보석을 가장 ${big ? '많이' : '적게'} 모은 반은?`, CLS[v.indexOf(x)], CLS.filter(c => c !== CLS[v.indexOf(x)]), { fixed: CLS, vis: vPicGraph(CLS, v, 10, '💎', '개') }); },
+  () => { const v = picData(10, 11, 45), i = v.indexOf(Math.max(...v)), j = v.indexOf(Math.min(...v)); return MP(`${CLS[i]}은 ${CLS[j]}보다 보석을 몇 개 더 모았을까요?`, v[i] - v[j], { vis: vPicGraph(CLS, v, 10, '💎', '개') }); },
+  () => mPick([
+    () => { const v = CLS.map(() => mR(1, 4) * 100 + mR(1, 5) * 10); return MP(`${CLS[1]}의 독서량은 몇 권일까요?`, v[1], { vis: vPicGraph(CLS, v.map(x => x / 10), 10, '📕', '권', '100권', '10권'), exp: '큰 그림 100권, 작은 그림 10권' }); },
+    () => { const v = picData(10, 11, 35), tot = v.reduce((a, b) => a + b), i = mR(0, 3); const shown = vPicGraph(CLS.filter((_, k) => k !== i), v.filter((_, k) => k !== i), 10, '💎', '개'); return MP(`네 반이 모은 보석은 모두 ${tot}개예요. 그래프에 없는 ${CLS[i]}은 몇 개 모았을까요?`, v[i], { vis: shown, exp: `${tot}에서 나머지 세 반을 빼요` }); },
+    () => { const v = picData(10, 11, 45), i = mR(0, 3); return MP(`${CLS[i]}의 보석을 큰 그림과 작은 그림으로 그리면 그림은 모두 몇 개일까요?`, Math.floor(v[i] / 10) + v[i] % 10, { vis: vPicGraph(CLS, v, 10, '💎', '개') }); }
+  ])()
+]);
+
+function mcMakeStage(unit, st) {
+  const out = [], seen = new Set(); let guard = 0;
+  while (out.length < 10 && guard++ < 400) { let p; try { p = unit.gens[st](); } catch (e) { continue; } if (!p) continue;
+    const key = p.q + '|' + JSON.stringify(p.ans) + '|' + (p.vis || ''); if (seen.has(key) && guard < 300) continue; seen.add(key); out.push(p); }
+  return out;
+}
+
+/* ---------- 보석 계산실 화면: 학기 → 단원 → 5단계 ---------- */
+const MC_SEMS = ['2-1', '2-2', '3-1', '3-2'];
+const MC_PASS = 8;   /* 10문제 중 8문제 이상 한 번에 맞혀야 통과 */
+const MC_TOOLS = { blocks: { name: '수 모형 공방', icon: '🧱' }, clock: { name: '시계 맞추기', icon: '🕐' }, tangram: { name: '칠교 놀이', icon: '🧩' } };
+let mcSem = '2-1', mcUnit = null, mcStage = 0, mcQ = [], mcCur = null, mcIn = ['', ''], mcAct = 0, mcFirstOk = 0, mcDone = 0, mcWait = false, mcPadReady = false;
+const mcEl = id => document.getElementById(id);
+function mcData() { const sv = getSave(); return sv.mc || { st: {} }; }
+function mcStars(id) { const d = mcData(); return (d.st && d.st[id]) || [0, 0, 0, 0, 0]; }
+function mcUnitDone(id) { return mcStars(id).every(s => s > 0); }
+function mcUnitsOf(sem) { return MC_UNITS.filter(u => u.sem === sem); }
+function mcSemOpen(sem) { const i = MC_SEMS.indexOf(sem); return i <= 0 || mcUnitsOf(MC_SEMS[i - 1]).every(u => mcUnitDone(u.id)); }
+function mcUnitOpen(u) { if (!mcSemOpen(u.sem)) return false; const us = mcUnitsOf(u.sem), i = us.indexOf(u); return i === 0 || mcUnitDone(us[i - 1].id); }
+function mcStageOpen(u, k) { return mcUnitOpen(u) && (k === 0 || mcStars(u.id)[k - 1] > 0); }
+function mcSaveMc(fn) { updateSave(sv => { sv.mc = sv.mc || { st: {} }; sv.mc.st = sv.mc.st || {}; fn(sv.mc, sv); }); }
+function mcView(which) { mcEl('mcHub').style.display = which === 'hub' ? '' : 'none'; mcEl('mcPlay').style.display = which === 'play' ? '' : 'none'; mcEl('mcTool').style.display = which === 'tool' ? '' : 'none'; }
+
+function mcEnter() {
+  mcInitPad();
+  const d = mcData(); const open = MC_SEMS.filter(mcSemOpen);
+  mcSem = (d.sem && mcSemOpen(d.sem)) ? d.sem : open[open.length - 1];
+  mcShowHub();
+}
+function mcShowHub() {
+  mcView('hub'); mcWait = false;
+  const tabs = mcEl('mcSemTabs'); tabs.innerHTML = '';
+  MC_SEMS.forEach(sem => { const b = document.createElement('button'), open = mcSemOpen(sem);
+    b.className = 'tab-btn' + (sem === mcSem ? ' active' : ''); b.textContent = (open ? '' : '🔒 ') + sem.replace('-', '학년 ') + '학기';
+    b.onclick = () => { playSfx('click'); if (!open) return showToast('앞 학기 단원을 모두 마치면 열려요! 🔒'); mcSem = sem; mcSaveMc(m => { m.sem = sem; }); mcShowHub(); };
+    tabs.appendChild(b); });
+  const hub = mcEl('mcHub'); hub.innerHTML = '';
+  mcUnitsOf(mcSem).forEach(u => {
+    const st = mcStars(u.id), open = mcUnitOpen(u), done = st.every(s => s > 0), next = st.findIndex(s => s === 0);
+    const c = document.createElement('div'); c.className = 'mc-card' + (open ? '' : ' lock') + (done ? ' done' : '');
+    c.innerHTML = `<div class="mc-card-h"><span class="mc-no">${u.no}</span><b>${u.name}</b>${open ? '' : '<span class="mc-lk">🔒</span>'}${done ? '<span class="mc-lk">👑</span>' : ''}</div>
+      <div class="mc-gems">${MC_STAGE.map((n, k) => `<span class="mc-gem ${st[k] ? 'on' : (open && k === next ? 'next' : '')}">${n} ${st[k] ? '⭐'.repeat(st[k]) : (open && k === next ? '▶' : '')}</span>`).join('')}</div>
+      <div class="mc-card-f">${done ? '다 익혔어요! 다시 풀어도 좋아요' : open ? `${next + 1}단계 ${MC_STAGE[next]} 차례 · 50문제` : '앞 단원을 마치면 열려요'}</div>
+      ${u.tool ? `<button class="btn-3d mc-toolbtn">${MC_TOOLS[u.tool].icon} ${MC_TOOLS[u.tool].name}</button>` : ''}`;
+    c.onclick = e => { if (e.target.closest('.mc-toolbtn')) { playSfx('click'); return mcShowTool(u.tool); }
+      playSfx('click'); if (!open) return showToast('앞 단원을 모두 마치면 열려요! 🔒'); mcStartStage(u, done ? 0 : next); };
+    hub.appendChild(c);
+  });
+  const note = document.createElement('div'); note.className = 'mc-note';
+  note.innerHTML = `💡 한 단원은 <b>개념 → 기본 → 연습 → 응용 → 도전</b> 5단계(50문제)예요. 단계마다 10문제 중 <b>${MC_PASS}문제 이상 한 번에</b> 맞히면 다음 단계가 열려요.`;
+  hub.appendChild(note);
+}
+function mcSide() {
+  const u = mcUnit, st = mcStars(u.id), box = mcEl('mathTrackList');
+  box.innerHTML = `<button class="btn-3d" id="mcBackHub" style="font-size:0.82rem;">◀ 단원 목록</button><div class="mc-side-t">${u.sem.replace('-', '학년 ')}학기<br>${u.no}. ${u.name}</div>`;
+  MC_STAGE.forEach((n, k) => { const b = document.createElement('button'), open = mcStageOpen(u, k);
+    b.className = 'btn-3d mc-stbtn' + (k === mcStage ? ' primary' : ''); b.innerHTML = `${open ? '' : '🔒 '}${k + 1}. ${n} <span>${st[k] ? '⭐'.repeat(st[k]) : ''}</span>`;
+    b.onclick = () => { playSfx('click'); if (!open) return showToast('앞 단계를 먼저 통과해요! 🔒'); mcStartStage(u, k); };
+    box.appendChild(b); });
+  if (u.tool) { const t = document.createElement('button'); t.className = 'btn-3d mc-stbtn'; t.textContent = `${MC_TOOLS[u.tool].icon} ${MC_TOOLS[u.tool].name}`; t.onclick = () => { playSfx('click'); mcShowTool(u.tool); }; box.appendChild(t); }
+  mcEl('mcBackHub').onclick = () => { playSfx('click'); mcShowHub(); };
+}
+function mcStartStage(u, k) {
+  mcUnit = u; mcStage = k; mcQ = mcMakeStage(u, k).map(p => Object.assign(p, { retry: false })); mcFirstOk = 0; mcDone = 0;
+  mcView('play'); mcSide(); const r = mcEl('mcRes'); if (r) r.remove(); mcNext();
+}
+function mcNext() {
+  if (!mcQ.length) return mcFinish();
+  mcCur = mcQ.shift(); mcIn = ['', '']; mcAct = 0; mcWait = false;
+  mcEl('mathStageTitle').textContent = `${mcUnit.no}. ${mcUnit.name} · ${mcStage + 1}단계 ${MC_STAGE[mcStage]}`;
+  mcEl('mathProgressChip').textContent = `푼 문제 ${mcDone}/10 · 한 번에 ${mcFirstOk}`;
+  mcEl('mathRetryBadge').style.display = mcCur.retry ? 'block' : 'none';
+  mcEl('mcVis').innerHTML = mcCur.vis || ''; mcEl('mcVis').style.display = mcCur.vis ? '' : 'none';
+  mcEl('mathQuestionText').innerHTML = mcCur.q;
+  const fb = mcEl('mcFeedback'); fb.className = 'mc-fb'; fb.innerHTML = '';
+  const isC = mcCur.type === 'choice';
+  mcEl('mathNumpad').style.display = isC ? 'none' : ''; mcEl('mcChoices').style.display = isC ? '' : 'none';
+  mcEl('mathAnswerBox').style.display = isC ? 'none' : ''; mcEl('btnMathSubmit').style.display = isC ? 'none' : '';
+  if (isC) { const ch = mcEl('mcChoices'); ch.innerHTML = ''; ch.classList.toggle('one', mcCur.opts.length > 4);
+    mcCur.opts.forEach(o => { const b = document.createElement('button'); b.className = 'btn-3d mc-choice'; b.innerHTML = o; b.onclick = () => { if (mcWait) return; playSfx('click'); mcJudge(o === mcCur.ans, b); }; ch.appendChild(b); }); }
+  mcRenderAns();
+}
+function mcRenderAns() {
+  if (!mcCur || mcCur.type === 'choice') return;
+  const box = mcEl('mathAnswerBox');
+  if (mcCur.type === 'num') { box.innerHTML = `<span class="mc-box act" data-i="0">${mcIn[0]}</span>`; }
+  else { let i = 0; box.innerHTML = mcCur.tpl.replace(/□/g, () => { const k = i++; return `<span class="mc-box${k === mcAct ? ' act' : ''}" data-i="${k}">${mcIn[k]}</span>`; }); }
+  box.querySelectorAll('.mc-box').forEach(b => { b.onclick = () => { if (mcWait) return; mcAct = Number(b.dataset.i); mcRenderAns(); }; });
+}
+function mcKey(k) {
+  if (mcWait || !mcCur || mcCur.type === 'choice') return;
+  if (k === '⌫') mcIn[mcAct] = mcIn[mcAct].slice(0, -1);
+  else if (mcIn[mcAct].length < 7) mcIn[mcAct] += k;
+  mcRenderAns();
+}
+function mcEq(a, b) { if (a === b) return true; if (!/^\d*\.?\d+$/.test(a) || !/^\d*\.?\d+$/.test(b)) return false; return Math.abs(parseFloat(a) - parseFloat(b)) < 1e-9; }
+function mcSubmit() {
+  if (mcWait || !mcCur || mcCur.type === 'choice') return;
+  if (mcCur.type === 'num') { if (!mcIn[0]) return; return mcJudge(mcEq(mcIn[0], mcCur.ans)); }
+  if (!mcIn[0]) { mcAct = 0; return mcRenderAns(); }
+  if (!mcIn[1]) { mcAct = 1; return mcRenderAns(); }
+  mcJudge(mcEq(mcIn[0], mcCur.ans[0]) && mcEq(mcIn[1], mcCur.ans[1]));
+}
+function mcAnsText(p) { if (p.type === 'num2') { let i = 0; return p.tpl.replace(/□/g, () => `<b>${p.ans[i++]}</b>`); } return `<b>${p.ans}</b>`; }
+function mcJudge(ok, btn) {
+  mcWait = true; const fb = mcEl('mcFeedback');
+  if (ok) {
+    mcDone++; if (!mcCur.retry) { mcFirstOk++; updateSave(sv => { sv.s = (Number(sv.s) || 0) + 1; }); }
+    playSfx('coin'); if (btn) btn.classList.add('ok');
+    fb.className = 'mc-fb ok'; fb.innerHTML = mcCur.retry ? '정답! 이번엔 맞혔어요 👍' : '정답! ✨ +1 🪙';
+    mcEl('mathProgressChip').textContent = `푼 문제 ${mcDone}/10 · 한 번에 ${mcFirstOk}`;
+    setTimeout(mcNext, 750);
+  } else {
+    playSfx('wrong'); if (btn) btn.classList.add('no');
+    mcCur.retry = true; mcQ.push(mcCur);
+    fb.className = 'mc-fb no'; fb.innerHTML = `정답은 ${mcAnsText(mcCur)}${mcCur.exp ? `<br><small>💡 ${mcCur.exp}</small>` : ''}<br><button class="btn-3d primary" id="mcGotIt">알겠어요! 이 문제는 뒤에 다시 나와요 ▶</button>`;
+    mcEl('mcGotIt').onclick = () => { playSfx('click'); mcNext(); };
+  }
+}
+function mcFinish() {
+  const u = mcUnit, k = mcStage, stars = mcFirstOk >= 10 ? 3 : mcFirstOk >= 9 ? 2 : mcFirstOk >= MC_PASS ? 1 : 0;
+  let unitNow = false;
+  if (stars) mcSaveMc((m, sv) => { const a = (m.st[u.id] || [0, 0, 0, 0, 0]).slice(), was = a.every(s => s > 0); a[k] = Math.max(a[k], stars); m.st[u.id] = a; sv.s = (Number(sv.s) || 0) + 3; if (!was && a.every(s => s > 0)) { unitNow = true; sv.s += 10; } });
+  mcSide();
+  const us = mcUnitsOf(u.sem), ui = us.indexOf(u), nextU = us[ui + 1] || MC_UNITS[MC_UNITS.indexOf(u) + 1];
+  const box = document.querySelector('#mcPlay .problem-stage-box'); const r = document.createElement('div'); r.id = 'mcRes'; r.className = 'mc-res';
+  if (stars) {
+    playSfx('coin');
+    r.innerHTML = `<div class="mc-res-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}</div><div class="jua mc-res-t">${unitNow ? `👑 「${u.name}」 단원을 다 익혔어요!` : `${k + 1}단계 ${MC_STAGE[k]} 통과!`}</div>
+      <div>10문제 중 <b>${mcFirstOk}문제</b>를 한 번에 맞혔어요. ${unitNow ? '+3 +10 🪙' : '+3 🪙'}</div>
+      <div class="mc-res-b">${k < 4 ? `<button class="btn-3d primary" id="mcResNext">다음 단계 ${MC_STAGE[k + 1]} ▶</button>` : (nextU ? `<button class="btn-3d primary" id="mcResNext">다음 단원 ${nextU.name} ▶</button>` : '')}
+      <button class="btn-3d" id="mcResAgain">🔁 한 번 더</button><button class="btn-3d" id="mcResHub">단원 목록</button></div>`;
+  } else {
+    r.innerHTML = `<div class="mc-res-stars">💪</div><div class="jua mc-res-t">조금만 더 연습해요!</div><div>10문제 중 <b>${mcFirstOk}문제</b>를 한 번에 맞혔어요.<br>${MC_PASS}문제 이상 한 번에 맞히면 다음 단계가 열려요.<br>숫자가 바뀐 새 문제로 다시 해 봐요!</div>
+      <div class="mc-res-b"><button class="btn-3d primary" id="mcResAgain">🔁 새 문제로 다시 연습</button><button class="btn-3d" id="mcResHub">단원 목록</button></div>`;
+  }
+  box.appendChild(r);
+  const nb = mcEl('mcResNext'); if (nb) nb.onclick = () => { playSfx('click'); if (k < 4) mcStartStage(u, k + 1); else if (mcUnitOpen(nextU)) { if (nextU.sem !== mcSem) { mcSem = nextU.sem; mcSaveMc(m => { m.sem = mcSem; }); } mcStartStage(nextU, 0); } else mcShowHub(); };
+  mcEl('mcResAgain').onclick = () => { playSfx('click'); mcStartStage(u, k); };
+  mcEl('mcResHub').onclick = () => { playSfx('click'); mcShowHub(); };
+}
+function mcInitPad() {
+  if (mcPadReady) return; mcPadReady = true;
+  const pad = mcEl('mathNumpad'); pad.innerHTML = '';
+  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '⌫'].forEach(k => { const b = document.createElement('button'); b.className = 'btn-3d num-key'; b.textContent = k; b.onclick = () => { playSfx('click'); mcKey(k); }; pad.appendChild(b); });
+  mcEl('btnMathSubmit').onclick = () => { playSfx('click'); mcSubmit(); };
+  mcEl('btnMathPass').onclick = () => { if (mcWait || !mcCur) return; playSfx('click'); mcCur.retry = true; mcQ.push(mcCur); mcNext(); };
+  mcEl('mcToolBtn').onclick = () => { playSfx('click'); mcShowTool('blocks'); };
+  document.addEventListener('keydown', e => {
+    if (typeof currentScreen === 'undefined' || currentScreen !== 'math' || mcEl('mcPlay').style.display === 'none') return;
+    if (/^[0-9.]$/.test(e.key)) mcKey(e.key); else if (e.key === 'Backspace') mcKey('⌫'); else if (e.key === 'Enter') mcSubmit(); else return;
+    e.preventDefault();
+  });
+}
+
+/* ---------- 교구 놀이 3가지 ---------- */
+let mcToolNow = 'blocks';
+function mcShowTool(which) {
+  mcToolNow = which; mcView('tool');
+  const t = mcEl('mcTool');
+  t.innerHTML = `<div class="mc-tool-h"><button class="btn-3d" id="mcToolBack">◀ 단원 목록</button>${Object.keys(MC_TOOLS).map(k => `<button class="tab-btn${k === which ? ' active' : ''}" data-t="${k}">${MC_TOOLS[k].icon} ${MC_TOOLS[k].name}</button>`).join('')}</div><div class="mc-tool-b" id="mcToolBody"></div>`;
+  mcEl('mcToolBack').onclick = () => { playSfx('click'); mcShowHub(); };
+  t.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { playSfx('click'); mcShowTool(b.dataset.t); });
+  if (which === 'blocks') blkStart(blk.lv || 0); else if (which === 'clock') clkStart(clk.lv || 0); else tanStart(tan.i || 0);
+}
+function mcToolCoin(n, why) { updateSave(sv => { sv.s = (Number(sv.s) || 0) + n; }); playSfx('coin'); showToast(`${why} +${n} 🪙`); }
+function mcLvBtns(names, cur, fn) { return `<div class="mc-lv">${names.map((n, i) => `<button class="btn-3d${i === cur ? ' primary' : ''}" data-lv="${i}">${n}</button>`).join('')}</div>`; }
+function mcBindLv(fn) { mcEl('mcToolBody').querySelectorAll('[data-lv]').forEach(b => b.onclick = () => { playSfx('click'); fn(Number(b.dataset.lv)); }); }
+
+/* 🧱 수 모형 공방 */
+const blk = { lv: 0, n: 0, h: 0, t: 0, o: 0, a: 0, b: 0, rt: 0, ro: 0, round: 0, done: false };
+const BLK_LV = ['① 수 만들기', '② 덧셈 받아올림', '③ 뺄셈 받아내림'];
+function blkStart(lv) {
+  blk.lv = lv; blk.round = 0; blkNew();
+}
+function blkNew() {
+  blk.done = false;
+  if (blk.lv === 0) { blk.n = mR(101, 999); blk.h = blk.t = blk.o = 0; }
+  else if (blk.lv === 1) { do { blk.a = mR(15, 89); blk.b = mR(15, 89); } while (blk.a % 10 + blk.b % 10 < 10); blk.h = 0; blk.t = Math.floor(blk.a / 10) + Math.floor(blk.b / 10); blk.o = blk.a % 10 + blk.b % 10; }
+  else { do { blk.a = mR(112, 499); blk.b = mR(11, 89); } while (blk.b % 10 <= blk.a % 10 || Math.floor(blk.b / 10) % 10 <= Math.floor(blk.a / 10) % 10 && Math.random() < 0.5 || blk.b >= blk.a); blk.h = Math.floor(blk.a / 100); blk.t = Math.floor(blk.a / 10) % 10; blk.o = blk.a % 10; blk.rt = Math.floor(blk.b / 10); blk.ro = blk.b % 10; }
+  blkRender();
+}
+function blkRender() {
+  const b = mcEl('mcToolBody'), cur = blk.h * 100 + blk.t * 10 + blk.o;
+  let task = '', btns = '';
+  if (blk.lv === 0) { task = `<div class="mc-big">${blk.n}</div>${josa(blk.n, '을', '를').slice(-1)} 수 모형으로 만들어요`; btns = ['+100', '+10', '+1', '−100', '−10', '−1'].map(x => `<button class="btn-3d" data-op="${x}">${x}</button>`).join('') + `<button class="btn-3d primary" data-op="ok">✅ 다 만들었어요</button>`; }
+  else if (blk.lv === 1) { task = `<div class="mc-big">${blk.a} + ${blk.b}</div>낱개(분홍)가 10개 넘으면 묶어서 십 모형으로 바꿔요`; btns = `<button class="btn-3d" data-op="o2t" ${blk.o >= 10 ? '' : 'disabled'}>🔗 낱개 10개 → 십 모형 1개</button><button class="btn-3d" data-op="t2h" ${blk.t >= 10 ? '' : 'disabled'}>🔗 십 모형 10개 → 백 모형 1개</button>`; }
+  else { task = `<div class="mc-big">${blk.a} − ${blk.b}</div>빼야 할 것: 십 모형 <b>${blk.rt}</b>개, 낱개 <b>${blk.ro}</b>개`; btns = `<button class="btn-3d" data-op="-o" ${blk.o > 0 && blk.ro > 0 ? '' : 'disabled'}>낱개 1개 빼기</button><button class="btn-3d" data-op="-t" ${blk.t > 0 && blk.rt > 0 ? '' : 'disabled'}>십 모형 1개 빼기</button><button class="btn-3d" data-op="t2o" ${blk.t > 0 ? '' : 'disabled'}>💥 십 모형 → 낱개 10개</button><button class="btn-3d" data-op="h2t" ${blk.h > 0 ? '' : 'disabled'}>💥 백 모형 → 십 모형 10개</button>`; }
+  b.innerHTML = `${mcLvBtns(BLK_LV, blk.lv)}<div class="mc-tool-main"><div class="mc-tool-info">${task}<div class="mc-cnt">백 <b>${blk.h}</b> · 십 <b>${blk.t}</b> · 낱개 <b>${blk.o}</b>${blk.lv === 0 ? ` → 지금 <b>${cur}</b>` : ''}</div><div class="mc-tool-btns">${btns}</div><div id="blkMsg" class="mc-fb"></div><div class="mc-small">이번 판 ${blk.round + 1}/5</div></div>
+    <div class="mc-tool-stage">${(blk.h + blk.t + blk.o) ? vBlocks(0, blk.h, blk.t, blk.o) : '<div class="mc-small">버튼을 눌러 수 모형을 놓아요</div>'}</div></div>`;
+  mcBindLv(blkStart);
+  b.querySelectorAll('[data-op]').forEach(x => x.onclick = () => blkOp(x.dataset.op));
+}
+function blkOp(op) {
+  if (blk.done) return; playSfx('click');
+  const lim = (k, v) => Math.max(0, Math.min(18, v));
+  if (op === '+100') blk.h = lim(0, blk.h + 1); if (op === '+10') blk.t = lim(0, blk.t + 1); if (op === '+1') blk.o = lim(0, blk.o + 1);
+  if (op === '−100') blk.h = lim(0, blk.h - 1); if (op === '−10') blk.t = lim(0, blk.t - 1); if (op === '−1') blk.o = lim(0, blk.o - 1);
+  if (op === 'o2t' && blk.o >= 10) { blk.o -= 10; blk.t++; } if (op === 't2h' && blk.t >= 10) { blk.t -= 10; blk.h++; }
+  if (op === 't2o' && blk.t > 0) { blk.t--; blk.o += 10; } if (op === 'h2t' && blk.h > 0) { blk.h--; blk.t += 10; }
+  if (op === '-o' && blk.o > 0 && blk.ro > 0) { blk.o--; blk.ro--; } if (op === '-t' && blk.t > 0 && blk.rt > 0) { blk.t--; blk.rt--; }
+  blkRender();
+  let win = false, msg = '';
+  if (blk.lv === 0 && op === 'ok') { if (blk.h * 100 + blk.t * 10 + blk.o === blk.n && blk.t < 10 && blk.o < 10) { win = true; msg = `백 ${blk.h}, 십 ${blk.t}, 낱개 ${blk.o} → ${blk.n} 🎉`; } else { playSfx('wrong'); mcEl('blkMsg').className = 'mc-fb no'; mcEl('blkMsg').textContent = `아직 ${blk.n}이 아니에요. 백·십·낱개 개수를 다시 세어 봐요!`; } }
+  if (blk.lv === 1 && blk.o < 10 && blk.t < 10) { win = true; msg = `${blk.a} + ${blk.b} = ${blk.h * 100 + blk.t * 10 + blk.o} 🎉`; }
+  if (blk.lv === 2 && blk.ro === 0 && blk.rt === 0) { win = true; msg = `${blk.a} − ${blk.b} = ${blk.h * 100 + blk.t * 10 + blk.o} 🎉`; }
+  if (blk.lv === 2 && !win && op === '-o' && false) {}
+  if (win) { blk.done = true; mcToolCoin(2, '수 모형 성공!'); const m = mcEl('blkMsg'); m.className = 'mc-fb ok'; m.innerHTML = msg + `<br><button class="btn-3d primary" id="blkNext">${blk.round >= 4 ? '이 단계 끝! 다시 하기 ▶' : '다음 ▶'}</button>`;
+    mcEl('blkNext').onclick = () => { playSfx('click'); blk.round = blk.round >= 4 ? 0 : blk.round + 1; blkNew(); }; }
+}
+
+/* 🕐 시계 맞추기 (긴바늘을 끌면 짧은바늘도 함께 움직임) */
+const clk = { lv: 0, T: 0, target: 0, start: 0, round: 0, done: false, prevM: 0 };
+const CLK_LV = ['① 정각·30분', '② 5분 단위', '③ 1분 단위', '④ 몇 분 뒤'];
+const clkTxt = T => { const h = Math.floor(T / 60) % 12 || 12, m = T % 60; return `${h}시${m ? ' ' + m + '분' : ''}`; };
+function clkStart(lv) { clk.lv = lv; clk.round = 0; clkNew(); }
+function clkNew() {
+  clk.done = false; const step = [30, 5, 1, 5][clk.lv];
+  clk.target = mR(0, 719 / step | 0) * step % 720;
+  if (clk.lv === 3) { clk.start = mR(0, 143) * 5; clk.add = mPick([15, 20, 25, 30, 35, 40, 45, 50, 70, 90]); clk.target = (clk.start + clk.add) % 720; clk.T = clk.start; }
+  else { do { clk.T = mR(0, 11) * 60; } while (clk.T === clk.target); }
+  clkRender();
+}
+function clkSvg() {
+  const T = clk.T, ma = (T % 60) * 6 * Math.PI / 180, ha = (T % 720) / 2 * Math.PI / 180;
+  let s = vClock(0, 0).replace(/<line x1="80" y1="80"[^>]*\/>/g, '').replace('<circle cx="80" cy="80" r="5" fill="#391085"/>', '');
+  s = s.replace('</svg>', `<line x1="80" y1="80" x2="${80 + 34 * Math.sin(ha)}" y2="${80 - 34 * Math.cos(ha)}" stroke="#391085" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="80" x2="${80 + 60 * Math.sin(ma)}" y2="${80 - 60 * Math.cos(ma)}" stroke="#eb2f96" stroke-width="5" stroke-linecap="round"/><circle cx="${80 + 60 * Math.sin(ma)}" cy="${80 - 60 * Math.cos(ma)}" r="9" fill="#eb2f96" fill-opacity="0.35"/><circle cx="80" cy="80" r="5" fill="#391085"/></svg>`);
+  return s.replace('width="150" height="150"', 'id="clkSvg" width="250" height="250" style="touch-action:none;cursor:grab"');
+}
+function clkRender() {
+  const b = mcEl('mcToolBody');
+  const task = clk.lv === 3 ? `지금은 <b>${clkTxt(clk.start)}</b>이에요.<br><div class="mc-big">${clk.add >= 60 ? `${Math.floor(clk.add / 60)}시간 ${clk.add % 60 ? clk.add % 60 + '분' : ''}` : clk.add + '분'} 뒤</div>로 맞춰요` : `<div class="mc-big">${clkTxt(clk.target)}</div>에 맞춰요`;
+  b.innerHTML = `${mcLvBtns(CLK_LV, clk.lv)}<div class="mc-tool-main"><div class="mc-tool-info">${task}<div class="mc-small">분홍 긴바늘을 끌어서 돌려요. 긴바늘이 한 바퀴 돌면 짧은바늘이 한 칸 가요.</div>
+    <div class="mc-tool-btns"><button class="btn-3d" data-c="-60">◀ 1시간</button><button class="btn-3d" data-c="60">1시간 ▶</button><button class="btn-3d primary" data-c="ok">✅ 다 맞췄어요</button></div><div id="clkMsg" class="mc-fb"></div><div class="mc-small">이번 판 ${clk.round + 1}/5</div></div>
+    <div class="mc-tool-stage">${clkSvg()}</div></div>`;
+  mcBindLv(clkStart);
+  b.querySelectorAll('[data-c]').forEach(x => x.onclick = () => { if (clk.done) return; playSfx('click'); if (x.dataset.c === 'ok') return clkCheck(); clk.T = (clk.T + Number(x.dataset.c) + 720) % 720; clkRedraw(); });
+  const svg = mcEl('clkSvg'); let drag = false;
+  const ang = e => { const r = svg.getBoundingClientRect(), x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2; let a = Math.atan2(x, -y) * 180 / Math.PI; if (a < 0) a += 360; return a; };
+  const move = e => { if (!drag || clk.done) return; const step = [30, 5, 1, 5][clk.lv]; let m = Math.round(ang(e) / 6 / step) * step % 60; let d = m - clk.T % 60; if (d < -30) d += 60; if (d > 30) d -= 60; if (d) { clk.T = (clk.T + d + 720) % 720; clkRedraw(); } };
+  svg.addEventListener('pointerdown', e => { drag = true; svg.setPointerCapture(e.pointerId); move(e); });
+  svg.addEventListener('pointermove', move);
+  svg.addEventListener('pointerup', () => { drag = false; });
+}
+function clkRedraw() { const st = document.querySelector('#mcToolBody .mc-tool-stage'); const keep = mcEl('clkSvg'); const tmp = document.createElement('div'); tmp.innerHTML = clkSvg(); const ns = tmp.firstElementChild; keep.innerHTML = ns.innerHTML; }
+function clkCheck() {
+  const m = mcEl('clkMsg');
+  if (clk.T % 720 === clk.target % 720) { clk.done = true; mcToolCoin(2, '시계 맞추기 성공!'); m.className = 'mc-fb ok'; m.innerHTML = `${clkTxt(clk.target)} 딩동댕! 🎉<br><button class="btn-3d primary" id="clkNext">${clk.round >= 4 ? '이 단계 끝! 다시 하기 ▶' : '다음 ▶'}</button>`;
+    mcEl('clkNext').onclick = () => { playSfx('click'); clk.round = clk.round >= 4 ? 0 : clk.round + 1; clkNew(); }; }
+  else { playSfx('wrong'); m.className = 'mc-fb no'; m.textContent = `지금 시계는 ${clkTxt(clk.T)}예요. 다시 맞춰 봐요!`; }
+}
+
+/* 🧩 칠교 놀이: 조각을 끌어 그림자 안에 채우기 (돌리기·뒤집기) */
+const TAN_STD = { big1: [[0, 0], [4, 0], [2, 2]], big2: [[0, 0], [2, 2], [0, 4]], med: [[2, 4], [4, 4], [4, 2]], sm1: [[4, 0], [4, 2], [3, 1]], sq: [[3, 1], [4, 2], [3, 3], [2, 2]], sm2: [[2, 2], [3, 3], [1, 3]], par: [[1, 3], [3, 3], [2, 4], [0, 4]] };
+const TAN_COL = { big1: '#ff85c0', big2: '#b37feb', med: '#69c0ff', sm1: '#95de64', sq: '#ffd666', sm2: '#ff9c6e', par: '#5cdbd3' };
+const TAN_PUZ = [
+  { name: '다이아몬드', p: [['sm1', [[0, 0], [2, 0], [1, 1]]], ['sm2', [[0, 0], [2, 0], [1, -1]]]] },
+  { name: '세모 지붕', p: [['sm1', [[0, 0], [2, 0], [1, -1]]], ['sm2', [[2, 0], [4, 0], [3, -1]]], ['sq', [[1, -1], [2, 0], [3, -1], [2, -2]]]] },
+  { name: '큰 세모', p: [['big1', TAN_STD.big1], ['big2', TAN_STD.big2]] },
+  { name: '큰 다이아몬드', p: [['big1', [[0, 0], [4, 0], [2, 2]]], ['big2', [[0, 0], [4, 0], [2, -2]]]] },
+  { name: '날개', p: ['med', 'sm1', 'sq', 'sm2', 'par'].map(k => [k, TAN_STD[k]]) },
+  { name: '왕관', p: ['big2', 'med', 'sm1', 'sq', 'sm2', 'par'].map(k => [k, TAN_STD[k]]) },
+  { name: '큰 정사각형', p: Object.keys(TAN_STD).map(k => [k, TAN_STD[k]]) }
+];
+const tan = { i: 0, pieces: [], sil: [], sel: -1, done: false };
+const tCen = pts => pts.reduce((a, p) => [a[0] + p[0] / pts.length, a[1] + p[1] / pts.length], [0, 0]);
+function tanStart(i) {
+  tan.i = i; tan.done = false; tan.sel = -1;
+  const P = TAN_PUZ[i], all = P.p.flatMap(x => x[1]), minX = Math.min(...all.map(p => p[0])), minY = Math.min(...all.map(p => p[1])), maxX = Math.max(...all.map(p => p[0])), maxY = Math.max(...all.map(p => p[1]));
+  const ox = 0.5 + (5 - (maxX - minX)) / 2 - minX, oy = 0.5 + (6.8 - (maxY - minY)) / 2 - minY;
+  tan.sil = P.p.map(([k, pts]) => pts.map(p => [p[0] + ox, p[1] + oy]));
+  const slots = [[8.7, 2.2], [12.3, 2.2], [15.5, 2.3], [8.7, 5.6], [12.3, 5.6], [15.5, 5.6], [10.5, 4.0]];
+  tan.pieces = P.p.map(([k], j) => { const c = tCen(TAN_STD[k]), s = slots[j]; let pts = TAN_STD[k].map(p => [p[0] - c[0] + s[0], p[1] - c[1] + s[1]]);
+    const rot = mPick([0, 1, 2, 3]) * 90; pts = tanRot(pts, rot); return { k, pts }; });
+  tanRender();
+}
+function tanRot(pts, deg) { const c = tCen(pts), a = deg * Math.PI / 180, co = Math.cos(a), si = Math.sin(a); return pts.map(p => { const x = p[0] - c[0], y = p[1] - c[1]; return [c[0] + x * co - y * si, c[1] + x * si + y * co]; }); }
+function tanFlip(pts) { const c = tCen(pts); return pts.map(p => [2 * c[0] - p[0], p[1]]); }
+function tanRender() {
+  const b = mcEl('mcToolBody'), done = (mcData().tt || []);
+  b.innerHTML = `<div class="mc-lv">${TAN_PUZ.map((p, i) => `<button class="btn-3d${i === tan.i ? ' primary' : ''}" data-lv="${i}">${done.includes(i) ? '⭐' : ''}${i + 1}. ${p.name}</button>`).join('')}</div>
+    <div class="mc-tan-w"><svg id="tanSvg" viewBox="0 0 17.6 7.8" style="touch-action:none">${tan.sil.map(pts => `<polygon points="${pts.map(p => p.join(',')).join(' ')}" fill="#4a3a66" stroke="#4a3a66" stroke-width="0.05" stroke-linejoin="round"/>`).join('')}<g id="tanG"></g></svg>
+    <div class="mc-tool-btns"><button class="btn-3d" data-a="rot">↻ 돌리기</button><button class="btn-3d" data-a="flip">⇋ 뒤집기</button><button class="btn-3d" data-a="reset">처음부터</button><span id="tanMsg" class="mc-small">조각을 끌어서 보라색 그림자를 꼭 맞게 채워요. 조각을 누른 뒤 ↻로 돌려요.</span></div></div>`;
+  mcBindLv(tanStart);
+  b.querySelectorAll('[data-a]').forEach(x => x.onclick = () => { if (tan.done) return; playSfx('click'); const a = x.dataset.a;
+    if (a === 'reset') return tanStart(tan.i); if (tan.sel < 0) return showToast('먼저 조각을 하나 눌러요!');
+    const pc = tan.pieces[tan.sel]; pc.pts = a === 'rot' ? tanRot(pc.pts, 45) : tanFlip(pc.pts); tanSnap(pc); tanDraw(); tanCheck(); });
+  tanDraw(); tanBind();
+}
+function tanDraw() {
+  mcEl('tanG').innerHTML = tan.pieces.map((pc, i) => `<polygon data-i="${i}" points="${pc.pts.map(p => p.join(',')).join(' ')}" fill="${TAN_COL[pc.k]}" stroke="${i === tan.sel ? '#fff' : '#3d2466'}" stroke-width="${i === tan.sel ? 0.09 : 0.04}" stroke-linejoin="round" style="cursor:grab"/>`).join('');
+}
+function tanBind() {
+  const svg = mcEl('tanSvg'); let drag = null;
+  const pt = e => { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; const q = p.matrixTransform(svg.getScreenCTM().inverse()); return [q.x, q.y]; };
+  svg.addEventListener('pointerdown', e => { if (tan.done) return; const el = e.target.closest('[data-i]'); if (!el) return; const i = Number(el.dataset.i);
+    tan.sel = i; const pc = tan.pieces.splice(i, 1)[0]; tan.pieces.push(pc); tan.sel = tan.pieces.length - 1; drag = { last: pt(e) }; svg.setPointerCapture(e.pointerId); tanDraw(); });
+  svg.addEventListener('pointermove', e => { if (!drag) return; const p = pt(e), dx = p[0] - drag.last[0], dy = p[1] - drag.last[1]; drag.last = p; const pc = tan.pieces[tan.sel]; pc.pts = pc.pts.map(q => [q[0] + dx, q[1] + dy]); tanDraw(); });
+  svg.addEventListener('pointerup', () => { if (!drag) return; drag = null; const pc = tan.pieces[tan.sel]; tanSnap(pc); tanDraw(); tanCheck(); });
+}
+function tanSnap(pc) {
+  const targets = tan.sil.flat().concat(tan.pieces.filter(q => q !== pc).flatMap(q => q.pts)); let best = null;
+  pc.pts.forEach(v => targets.forEach(t => { const d = Math.hypot(t[0] - v[0], t[1] - v[1]); if (d < 0.5 && (!best || d < best.d)) best = { d, dx: t[0] - v[0], dy: t[1] - v[1] }; }));
+  if (best) pc.pts = pc.pts.map(q => [q[0] + best.dx, q[1] + best.dy]);
+}
+function tanCheck() {
+  const S = 24, W = Math.ceil(17.6 * S), H = Math.ceil(7.8 * S);
+  const draw = list => { const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); x.fillStyle = '#000';
+    list.forEach(pts => { x.beginPath(); pts.forEach((p, i) => i ? x.lineTo(p[0] * S, p[1] * S) : x.moveTo(p[0] * S, p[1] * S)); x.closePath(); x.fill(); }); return x.getImageData(0, 0, W, H).data; };
+  const a = draw(tan.sil), b = draw(tan.pieces.map(p => p.pts)); let sil = 0, miss = 0, extra = 0;
+  for (let i = 3; i < a.length; i += 4) { const A = a[i] > 128, B = b[i] > 128; if (A) sil++; if (A && !B) miss++; if (B && !A) extra++; }
+  if (miss < sil * 0.03 && extra < sil * 0.03) {
+    tan.done = true; tan.sel = -1; tanDraw(); const first = !(mcData().tt || []).includes(tan.i);
+    mcSaveMc(m => { m.tt = m.tt || []; if (!m.tt.includes(tan.i)) m.tt.push(tan.i); });
+    mcToolCoin(first ? 5 : 1, `칠교 「${TAN_PUZ[tan.i].name}」 완성!`);
+    const msg = mcEl('tanMsg'); msg.innerHTML = `🎉 「${TAN_PUZ[tan.i].name}」 완성! ${tan.i < TAN_PUZ.length - 1 ? '<button class="btn-3d primary" id="tanNext">다음 모양 ▶</button>' : ''}`;
+    const nb = mcEl('tanNext'); if (nb) nb.onclick = () => { playSfx('click'); tanStart(tan.i + 1); };
+    tanRender(); const msg2 = mcEl('tanMsg'); msg2.innerHTML = msg.innerHTML; const nb2 = mcEl('tanNext'); if (nb2) nb2.onclick = () => { playSfx('click'); tanStart(tan.i + 1); };
+  }
+}
 
 /* 모형 하나 만들기: 앞(+z)이 카메라(45°)를 보게 돌리고, 그림과 같은 크기로 맞춤 */
 function toyMake(id, anims) {
@@ -6165,7 +7184,7 @@ function switchScreen(targetKey, pushHistory = true) {
     if (targetKey === 'home') { rebuildThreeWorldEntities(); if (pendingMove) moveModeFor(); }
     else if (targetKey === 'dress') renderDressScreen();
     else if (targetKey === 'shop') renderShopScreen();
-    else if (targetKey === 'math') startMathStage(curMathTrack, curMathStage);
+    else if (targetKey === 'math') mcEnter();
     else if (targetKey === 'gugu') { curGuguStep = 'map'; renderGuguScreen(); }
     else if (targetKey === 'crossword') libShowHub();
     else if (targetKey === 'reading') rdShowList();
