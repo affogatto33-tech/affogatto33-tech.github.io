@@ -642,6 +642,27 @@
   .gd-kind, .gd-cnt { font-size: 0.78rem; color: #7a8f6c; }
   .gd-buy { font-size: 0.86rem; padding: 6px 10px; }
   .gd-foot { display: flex; justify-content: center; }
+  .world-label.place.shop .wl-pin { background: #fa8c16; }
+  #scr-boutique, #scr-salon { overflow-y: auto; justify-content: flex-start; }
+  #scr-boutique { background: linear-gradient(180deg, #fff0f6 0%, #fffaf0 100%); }
+  #scr-salon { background: linear-gradient(180deg, #f0fbf8 0%, #f9f0ff 100%); }
+  .ss-wrap { width: 100%; max-width: 980px; margin: 0 auto; padding: 10px 6px 90px; display: flex; flex-direction: column; gap: 10px; }
+  .ss-head { text-align: center; }
+  .ss-title { font-size: 1.7rem; font-weight: 800; color: #c41d7f; }
+  .salon .ss-title { color: #722ed1; }
+  .ss-sub { color: #8c6b7d; font-size: 0.92rem; }
+  .ss-note { background: #fff; border: 2px dashed #ffadd2; border-radius: 14px; padding: 9px 12px; color: #7a4b62; font-size: 0.9rem; text-align: center; }
+  .salon .ss-note { border-color: #d3adf7; color: #5b3f80; }
+  .ss-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .ss-card { position: relative; background: #fff; border-radius: 14px; padding: 8px; text-align: center; box-shadow: 0 3px 0 rgba(200, 110, 160, 0.25); display: flex; flex-direction: column; gap: 4px; align-items: center; border: 3px solid transparent; }
+  .salon .ss-card { box-shadow: 0 3px 0 rgba(140, 100, 200, 0.25); }
+  .ss-card.on { border-color: #95de64; }
+  .ss-thumb { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 55%, #fff7fb 0%, #ffe4f0 100%); border-radius: 10px; overflow: hidden; }
+  .salon .ss-thumb { background: radial-gradient(circle at 50% 55%, #f7fffd 0%, #e8dcff 100%); }
+  .ss-thumb canvas { width: 100%; height: 100%; }
+  .ss-name { font-weight: 700; color: #5a3a4f; font-size: 0.92rem; min-height: 2.4em; display: flex; align-items: center; }
+  .ss-buy { font-size: 0.86rem; padding: 6px 10px; }
+  .ss-foot { display: flex; justify-content: center; }
   .world-label.place .wl-pin span { transform: rotate(45deg); font-size: 1.2rem; line-height: 1; text-shadow: none; }
   .world-label.place .wl-name { white-space: nowrap; }
   @keyframes wlBounce {
@@ -690,7 +711,7 @@
         <div class="world-hud-top">
           <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
             <button id="btnFriends" class="btn-3d mint">👭 친구 마을</button>
-            <button id="btnEditMode" class="btn-3d">✏️ 마을 꾸미기</button>
+            <button id="btnEditMode" class="btn-3d">✋ 자리 옮기기</button>
             <button id="btnToggleTray" class="btn-3d mint" style="display:none;">📦 창고에서 꺼내 놓기</button>
             <button id="btnRotateDeco" class="btn-3d" style="display:none;">↻ 돌리기</button>
             <button id="btnRemoveDeco" class="btn-3d danger" style="display:none;">📦 창고에 넣기</button>
@@ -747,7 +768,7 @@
             <button id="shopTabBld" class="tab-btn active">🏠 건물 짓기 (4종)</button>
             <button id="shopTabDeco" class="tab-btn">🌷 마을 꾸미기 (24종)</button>
             <button id="shopTabAdv" class="tab-btn">🚀 탈것·모험 (12종)</button>
-            <button id="shopTabDress" class="tab-btn">👗 드레스·헤어 세트 (18종)</button>
+            <button id="shopTabDress" class="tab-btn" style="display:none">👗 드레스·헤어 세트 (18종)</button>
           </div>
           <span style="font-size:0.8rem; color:#7c5295;">산 건물과 장식은 마을에 마음껏 놓을 수 있어요!</span>
         </div>
@@ -894,6 +915,8 @@
     <section id="scr-room" class="screen"></section>
     <section id="scr-playground" class="screen"></section>
     <section id="scr-garden" class="screen"></section>
+    <section id="scr-boutique" class="screen"></section>
+    <section id="scr-salon" class="screen"></section>
   </main>
 
   <nav id="bottomnav">
@@ -925,7 +948,7 @@
     <div id="pmBar" class="pm-bar"></div>
     <div id="pmMsg" class="pm-msg"></div>
     <div id="pmNote" class="pm-note">📢 물을 줘야 다음 단계로 자라요!<br>물은 한 단계에 한 번만 줄 수 있어요. (물 주기 ⚡-10)</div>
-    <div class="pm-move" style="font-size:0.78rem; opacity:0.75;">↔️ 자리를 옮기려면 '마을 꾸미기'를 누르고 끌어서 옮겨요 (자라던 단계 그대로)</div>
+    <div class="pm-move" style="font-size:0.78rem; opacity:0.75;">↔️ 자리를 옮기려면 '✋ 자리 옮기기'를 누르고 끌어서 옮겨요 (자라던 단계 그대로)</div>
     <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
       <button id="pmWater" class="btn-3d primary" onclick="plantWater()">💧 물 주기 (⚡-10)</button>
       <button class="btn-3d" onclick="plantClose()">닫기</button>
@@ -1747,9 +1770,9 @@ const PLANT_DEFS = [
   { id: 'pt_blossom_white', name: '하얀 벚꽃나무',   icon: '🤍', cost: 25, fw: 1.0, plant: 'tree', leaf: 0xfff0f5, petals: 0xffffff },
   { id: 'pt_round_green',   name: '둥근 초록나무',   icon: '🌳', cost: 15, fw: 1.0, plant: 'tree', leaf: 0x6cc85a },
   { id: 'pt_round_lime',    name: '연두 몽글나무',   icon: '🌿', cost: 15, fw: 1.0, plant: 'tree', leaf: 0xa6e36a },
-  { id: 'pt_ginkgo',        name: '노란 은행나무',   icon: '💛', cost: 20, fw: 1.0, plant: 'tree', leaf: 0xffd43b },
-  { id: 'pt_maple_red',     name: '빨간 단풍나무',   icon: '🍁', cost: 20, fw: 1.0, plant: 'tree', leaf: 0xf0453a },
-  { id: 'pt_maple_orange',  name: '주황 단풍나무',   icon: '🍂', cost: 20, fw: 1.0, plant: 'tree', leaf: 0xff922b },
+  { id: 'pt_ginkgo',        name: '노란 은행나무',   icon: '💛', cost: 20, fw: 1.0, plant: 'tree', leaf: 0xffd43b, petals: 0xffd21f, petals2: 0xffb703 },
+  { id: 'pt_maple_red',     name: '빨간 단풍나무',   icon: '🍁', cost: 20, fw: 1.0, plant: 'tree', leaf: 0xf0453a, petals: 0xe8362b, petals2: 0xff7a45 },
+  { id: 'pt_maple_orange',  name: '주황 단풍나무',   icon: '🍂', cost: 20, fw: 1.0, plant: 'tree', leaf: 0xff922b, petals: 0xff8c1a, petals2: 0xffc069 },
   { id: 'pt_pine',          name: '뾰족 전나무',     icon: '🌲', cost: 15, fw: 0.9, plant: 'tree', leaf: 0x3fae74 },
   { id: 'pt_pine_snow',     name: '반짝 크리스마스 트리', icon: '🎄', cost: 30, fw: 0.9, plant: 'tree', leaf: 0x3fae74 },
   { id: 'pt_apple',         name: '사과나무',        icon: '🍎', cost: 25, fw: 1.0, plant: 'tree', leaf: 0x74c95c },
@@ -1770,7 +1793,7 @@ const PLANT_DEFS = [
 ];
 PLANT_DEFS.forEach(p => {
   const ex = decoById(p.id);
-  const add = { name: p.name, icon: p.icon, cost: p.cost, grp: 'plant', plant: p.plant, leaf: p.leaf, petals: p.petals || 0 };
+  const add = { name: p.name, icon: p.icon, cost: p.cost, grp: 'plant', plant: p.plant, leaf: p.leaf, petals: p.petals || 0, petals2: p.petals2 || 0 };
   if (ex) Object.assign(ex, add);
   else DECOS.push(Object.assign({ id: p.id, fw: p.fw, fh: p.fw, type: 'deco', shape: p.plant === 'flower' ? 'flower' : 'toy', color: p.leaf }, add));
 });
@@ -2075,10 +2098,10 @@ function plantSprout(meta, st) {
   }
   return g;
 }
-function plantPetals(model, col, anims) {
+function plantPetals(model, col, anims, col2) {
   model.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(model), top = box.max.y, rad = Math.max(box.max.x - box.min.x, box.max.z - box.min.z) / 2;
-  const geo = new THREE.CircleGeometry(0.075, 6), mats = [new THREE.MeshBasicMaterial({ color: col, side: THREE.DoubleSide }), new THREE.MeshBasicMaterial({ color: 0xfff0f6, side: THREE.DoubleSide })], P = [];
+  const geo = new THREE.CircleGeometry(0.075, 6), mats = [new THREE.MeshBasicMaterial({ color: col, side: THREE.DoubleSide }), new THREE.MeshBasicMaterial({ color: col2 || 0xfff0f6, side: THREE.DoubleSide })], P = [];
   geo.scale(1, 0.62, 1);   /* 꽃잎 모양(납작한 타원), 빛 상관없이 늘 밝은 분홍 */
   const spawn = (p, first) => { const a = Math.random() * Math.PI * 2, r = Math.sqrt(Math.random()) * rad * 0.8;
     p.position.set(Math.cos(a) * r, first ? 0.05 + Math.random() * top * 0.9 : top * (0.6 + Math.random() * 0.3), Math.sin(a) * r);
@@ -2096,10 +2119,11 @@ function plantMesh(ent) {
     model.rotation.y = Math.PI / 4 + (ent.ry || 0) * Math.PI / 4;
     s = meta.plant === 'tree' ? 0.4 + (st - 4) * 0.1 : 0.3 + (st - 3) * 0.1;
     model.scale.setScalar(s);
-    if (st >= 10 && meta.petals) plantPetals(model, meta.petals, anims);
-  } else model = plantSprout(meta, st);
+    if (st >= 10 && meta.petals) plantPetals(model, meta.petals, anims, meta.petals2);
+  } else { model = plantSprout(meta, st); model.scale.setScalar(1.35); }   /* 새싹을 조금 크게(잘 보이게) */
   model.traverse(o => { if (o.isMesh && !o.userData.noShadow) o.castShadow = true; });
   group.add(model); group.userData.toy = model;
+  if (st < 10 && !(ent.g && ent.g.w) && !friendVisit) plantDrop(group, model, anims);   /* 물이 필요하면 식물 위에 물방울이 톡톡 */
   group.add(makeBlobShadow(Math.max(0.3, (full ? (model.userData.fp || 1) * s : 0.6) * 0.42)));
   anims.forEach(a => animated3DObjects.push(a));
   return group;
@@ -2120,7 +2144,23 @@ function plantGrowTick() {
   }));
   return grown;
 }
+/* 물이 필요한 식물 바로 위 3D 물방울: 톡 튀어올랐다가 내려와 납작해짐 */
+function plantDrop(group, model, anims) {
+  model.updateMatrixWorld(true);
+  const top = new THREE.Box3().setFromObject(model).max.y, d = new THREE.Group();
+  const blue = new THREE.MeshBasicMaterial({ color: 0x3d9bff }), rim = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide });
+  const ball = new THREE.SphereGeometry(0.11, 18, 12), tip = new THREE.ConeGeometry(0.1, 0.17, 18);
+  d.add(new THREE.Mesh(ball, blue)); const c = new THREE.Mesh(tip, blue); c.position.y = 0.13; d.add(c);
+  const o1 = new THREE.Mesh(ball, rim); o1.scale.setScalar(1.22); d.add(o1); const o2 = new THREE.Mesh(tip, rim); o2.position.y = 0.13; o2.scale.set(1.22, 1.14, 1.22); d.add(o2);
+  const hl = new THREE.Mesh(new THREE.SphereGeometry(0.032, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff })); hl.position.set(-0.045, 0.04, 0.085); d.add(hl);
+  const base = top + 0.2, S = 1.55; d.position.y = base; d.scale.setScalar(S); group.add(d);   /* 잘 보이게 크게 */
+  const ph = Math.random();
+  anims.push({ fn: (t) => { const k = (t * 1.25 + ph) % 1;
+    if (k < 0.62) { const u = k / 0.62; d.position.y = base + Math.sin(u * Math.PI) * 0.4; d.scale.set(S, S, S); }
+    else { const u = (k - 0.62) / 0.38, q = Math.sin(u * Math.PI) * 0.28; d.position.y = base; d.scale.set(S * (1 + q * 0.6), S * (1 - q), S * (1 + q * 0.6)); } } });
+}
 function plantLabels() {
+  return;   /* 11-20: 떠다니는 💧 말풍선 대신 식물 위 3D 물방울(plantDrop) */
   const lc = document.getElementById('worldLabels'); if (!lc || friendVisit) return;
   worldMeshes.forEach(wm => {
     if (wm.labelEl || wm.ent.kind !== 'placed' || !plantMeta(wm.ent.id)) return;
@@ -2231,10 +2271,9 @@ function gardenBuy(d) {
   if ((Number(sv.s) || 0) < d.cost) { playSfx('wrong'); return showToast('코인이 조금 더 필요해요!'); }
   const gpos = worldPlacementGrid(), iid = 'pl_' + Date.now() + '_' + Math.floor(Math.random() * 999);
   updateSave(s => { s.s -= d.cost; s.pl.push({ iid, id: d.id, c: snapHalf(gpos.c), r: snapHalf(gpos.r), g: { st: 1, w: 0 } }); });
-  justBought = { id: d.id, iid };
-  rebuildThreeWorldEntities(); playSfx('coin');
-  showToast(`🌱 [${d.name}] ${d.plant === 'tree' ? '묘목' : '씨앗'}을 마을에 심었어요! 눌러서 물을 주세요 💧`);
-  gardenRender();
+  justBought = { id: d.id, iid }; playSfx('coin');
+  showToast(`🌱 [${d.name}] ${d.plant === 'tree' ? '묘목' : '씨앗'}을 샀어요! 마을에서 심고 싶은 자리로 끌어 옮겨요 ✋`);
+  goMoveAfterBuy(iid);
 }
 
 /* ---- 마을 끌어서 옆으로 보기 ---- */
@@ -2249,6 +2288,192 @@ function worldPanBy(dx, dy) {
   camPan.z += -rz * dx * upp + fz * dy * upp / sinE;
   const lim = worldLandRadius() + 10, tx = playerState.x + camPan.x, tz = playerState.z + camPan.z, d = Math.hypot(tx, tz);
   if (d > lim) { camPan.x = tx * lim / d - playerState.x; camPan.z = tz * lim / d - playerState.z; }
+}
+
+
+/* ============================================================================
+ * 11-20(7) 옷가게 · 미용실 · 산 뒤 바로 자리 옮기기
+ * ============================================================================ */
+DECOS.push({ id: 'deco_boutique', name: '옷가게', icon: '👗', cost: 0, fw: 2.1, fh: 2.1, type: 'bld', shape: 'toy', toyBld: true, hidden: true,
+  roof: 0xff85c0, wall: 0xffd6e7, doorScreen: 'boutique', sign: '👗 옷가게' });
+DECOS.push({ id: 'deco_salon', name: '미용실', icon: '💇', cost: 0, fw: 2.1, fh: 2.1, type: 'bld', shape: 'toy', toyBld: true, hidden: true,
+  roof: 0xd3adf7, wall: 0xc9f2e8, doorScreen: 'salon', sign: '💇 미용실' });
+
+function drawShopSign(bg, bd, fg, txt) {
+  return (c, w, h) => { c.fillStyle = bg; c.fillRect(0, 0, w, h); c.strokeStyle = bd; c.lineWidth = 10; c.strokeRect(5, 5, w - 10, h - 10);
+    c.fillStyle = fg; c.font = 'bold 62px ' + KFONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(txt, w / 2, h / 2 + 4); };
+}
+function drawPoleStripes(c, w, h) {
+  c.fillStyle = '#ffffff'; c.fillRect(0, 0, w, h);
+  for (let i = -4; i < 10; i++) { c.fillStyle = i % 2 ? '#ff85c0' : '#b37feb';
+    c.beginPath(); c.moveTo(0, i * 32); c.lineTo(w, i * 32 - 40); c.lineTo(w, i * 32 - 26); c.lineTo(0, i * 32 + 14); c.closePath(); c.fill(); }
+}
+/* 쇼윈도 마네킹 */
+function shopMannequin(g, x, y, z, col) {
+  const m = TK.grp(g, x, y, z), gold = toyM(0xffc53d, { metalness: 0.35, roughness: 0.35 });
+  TK.add(m, TK.cyl(0.08, 0.08, 0.02, 16), gold, 0, 0.01, 0);
+  TK.add(m, TK.cyl(0.014, 0.014, 0.2, 8), gold, 0, 0.1, 0);
+  TK.add(m, TK.cyl(0.03, 0.2, 0.34, 20), toyM(col, { roughness: 0.6 }), 0, 0.36, 0);
+  TK.add(m, TK.sph(0.085, 14, 10), toyM(col, { roughness: 0.6 }), 0, 0.56, 0).scale.set(1, 1.25, 0.8);
+  TK.add(m, TK.sph(0.058, 12, 10), toyM(0xfff1e6), 0, 0.72, 0);
+  TK.add(m, TK.sph(0.03, 8, 6), toyM(0xffffff), 0.06, 0.6, 0.06);
+  return m;
+}
+Object.assign(TOY_BUILD, {
+  /* 옷가게: 분홍 부티크 · 줄무늬 차양 · 쇼윈도 마네킹 2 · 지붕 위 금색 드레스 */
+  deco_boutique(g, k, anims) {
+    const P = 0xffd6e7, PD = 0xff85c0, CR = 0xfff6ea, gold = toyM(0xffc53d, { metalness: 0.35, roughness: 0.35 });
+    TK.add(g, TK.box(3.1, 0.04, 2.7, 0.015), toyM(0xf6e8ef), 0, 0.02, 0.25);
+    TK.add(g, TK.box(2.7, 1.9, 1.6, 0.08), toyM(P), 0, 1.0, -0.1);
+    TK.add(g, TK.box(2.9, 0.18, 1.8, 0.06), toyM(CR), 0, 2.02, -0.1);
+    TK.add(g, TK.box(2.5, 0.5, 1.4, 0.1), toyM(PD), 0, 2.35, -0.15);
+    for (const sx of [-1, 1]) TK.add(g, TK.box(0.18, 1.9, 0.18, 0.05), toyM(CR), sx * 1.3, 1.0, 0.68);
+    TK.add(g, TK.box(1.72, 0.46, 0.08, 0.03), toyM(CR), 0, 2.36, 0.6);
+    const sg = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.4), toyTextMat('bt_sign', 400, 104, drawShopSign('#fff0f6', '#ff85c0', '#c41d7f', '👗 옷가게'))); sg.position.set(0, 2.36, 0.65); g.add(sg);
+    const glow = toyM(0xfff4e6, { emissive: 0xffd8a8, emissiveIntensity: 0.45, roughness: 0.4 });
+    const mans = [];
+    [[-0.8, 0xb37feb], [0.8, 0x5cdbd3]].forEach(([x, col]) => {
+      TK.add(g, TK.box(0.9, 1.0, 0.08, 0.03), toyM(CR), x, 0.95, 0.72);
+      TK.add(g, TK.box(0.78, 0.88, 0.03, 0.01), glow, x, 0.95, 0.75);
+      mans.push(shopMannequin(g, x, 0.48, 0.84, col));
+    });
+    TK.add(g, TK.box(0.56, 1.0, 0.08, 0.03), toyM(CR), 0, 0.55, 0.72);
+    TK.add(g, TK.box(0.46, 0.92, 0.05, 0.02), toyM(0xd46a9a), 0, 0.52, 0.76);
+    TK.add(g, TK.cyl(0.04, 0.04, 0.03, 16), toyM(0xfff0f6), 0, 0.82, 0.79, Math.PI / 2);
+    TK.add(g, TK.sph(0.03, 8, 6), gold, 0.15, 0.5, 0.8);
+    TK.add(g, TK.box(0.7, 0.02, 0.42, 0.008), toyM(PD, { roughness: 0.9 }), 0, 0.05, 1.0);
+    for (let i = 0; i < 9; i++) {
+      const x = -1.2 + i * 0.3, col = toyM(i % 2 ? 0xffffff : PD, { roughness: 0.6 });
+      TK.add(g, TK.box(0.3, 0.03, 0.55, 0.01), col, x, 1.62, 0.95, 0.5);
+      TK.add(g, TK.cyl(0.15, 0.15, 0.03, 18), col, x, 1.44, 1.19, Math.PI / 2);
+    }
+    const top = TK.grp(g, 0, 2.6, -0.15);
+    TK.add(top, TK.cyl(0.02, 0.24, 0.38, 22), gold, 0, 0.2, 0);
+    TK.add(top, TK.sph(0.1, 14, 10), gold, 0, 0.44, 0).scale.set(1, 1.2, 0.8);
+    TK.add(top, TK.tor(0.06, 0.015, null, 16), gold, 0, 0.62, 0);
+    TK.add(top, TK.cyl(0.006, 0.006, 0.05, 6), gold, 0, 0.55, 0);
+    anims.push({ fn: (t) => { top.rotation.y = t * 0.8; mans.forEach((m, i) => { m.rotation.y = Math.sin(t * 0.9 + i * 2) * 0.6; }); } });
+  },
+
+  /* 미용실: 민트 벽 · 보라 둥근 지붕 · 거울과 의자 쇼윈도 · 빙글 도는 줄무늬 기둥 · 지붕 위 가위(찰칵) */
+  deco_salon(g, k, anims) {
+    const M = 0xc9f2e8, L = 0xd3adf7, CR = 0xfffaf0, gold = toyM(0xffc53d, { metalness: 0.35, roughness: 0.35 });
+    TK.add(g, TK.box(3.0, 0.04, 2.6, 0.015), toyM(0xe6f6f2), 0, 0.02, 0.25);
+    TK.add(g, TK.box(2.5, 1.8, 1.6, 0.08), toyM(M), 0, 0.95, -0.1);
+    TK.add(g, TK.box(2.7, 0.16, 1.8, 0.06), toyM(CR), 0, 1.93, -0.1);
+    TK.add(g, new THREE.CylinderGeometry(0.85, 0.85, 2.6, 28, 1, false, 0, Math.PI), toyM(L, { roughness: 0.6 }), 0, 2.01, -0.1, 0, 0, Math.PI / 2).scale.set(0.6, 1, 1);
+    TK.add(g, TK.box(1.6, 0.44, 0.08, 0.03), toyM(CR), 0, 2.2, 0.76);
+    const sg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.39), toyTextMat('sl_sign', 400, 104, drawShopSign('#f9f0ff', '#b37feb', '#722ed1', '💇 미용실'))); sg.position.set(0, 2.2, 0.81); g.add(sg);
+    const WX = -0.45;
+    TK.add(g, TK.box(1.3, 1.05, 0.08, 0.03), toyM(CR), WX, 0.98, 0.72);
+    TK.add(g, TK.box(1.18, 0.93, 0.03, 0.01), toyM(0xf0fffb, { emissive: 0xb5f5ec, emissiveIntensity: 0.4, roughness: 0.4 }), WX, 0.95, 0.75);
+    TK.add(g, TK.cyl(0.24, 0.24, 0.03, 28), toyM(0xa9dcff, { emissive: 0x6fb8ff, emissiveIntensity: 0.25, metalness: 0.2, roughness: 0.15 }), WX, 1.02, 0.78, Math.PI / 2).scale.set(0.75, 1, 1);
+    TK.add(g, TK.tor(0.24, 0.03, null, 28), gold, WX, 1.02, 0.8).scale.set(0.75, 1, 1);
+    TK.add(g, TK.cyl(0.1, 0.1, 0.02, 16), gold, WX, 0.49, 0.86);
+    TK.add(g, TK.cyl(0.02, 0.02, 0.14, 8), gold, WX, 0.56, 0.86);
+    TK.add(g, TK.box(0.32, 0.08, 0.2, 0.03), toyM(0xff85c0, { roughness: 0.6 }), WX, 0.66, 0.86);
+    TK.add(g, TK.box(0.32, 0.18, 0.06, 0.03), toyM(0xff85c0, { roughness: 0.6 }), WX, 0.76, 0.8);
+    for (let i = 0; i < 5; i++) {
+      const x = WX - 0.52 + i * 0.26, col = toyM(i % 2 ? 0xffffff : L, { roughness: 0.6 });
+      TK.add(g, TK.box(0.26, 0.03, 0.42, 0.01), col, x, 1.7, 0.9, 0.5);
+      TK.add(g, TK.cyl(0.13, 0.13, 0.03, 18), col, x, 1.56, 1.09, Math.PI / 2);
+    }
+    const DX = 0.75;
+    TK.add(g, TK.box(0.56, 1.0, 0.08, 0.03), toyM(CR), DX, 0.55, 0.72);
+    TK.add(g, TK.box(0.46, 0.92, 0.05, 0.02), toyM(0x9b7be0), DX, 0.52, 0.76);
+    TK.add(g, TK.cyl(0.1, 0.1, 0.03, 18), toyM(0xf0fffb, { emissive: 0xb5f5ec, emissiveIntensity: 0.5 }), DX, 0.76, 0.79, Math.PI / 2);
+    TK.add(g, TK.sph(0.03, 8, 6), gold, DX + 0.15, 0.5, 0.8);
+    /* 줄무늬 기둥 */
+    for (const y of [0.78, 1.42]) TK.add(g, TK.box(0.2, 0.04, 0.04, 0.01), gold, -1.32, y, 0.74);
+    const pole = TK.add(g, TK.cyl(0.075, 0.075, 0.56, 24), toyTextMat('sl_pole', 64, 128, drawPoleStripes), -1.43, 1.1, 0.74);
+    TK.add(g, TK.cyl(0.09, 0.09, 0.6, 24), toyM(0xffffff, { transparent: true, opacity: 0.25, roughness: 0.05, depthWrite: false }), -1.43, 1.1, 0.74).userData.noShadow = true;
+    for (const y of [0.8, 1.4]) TK.add(g, TK.sph(0.095, 14, 10), gold, -1.43, y, 0.74);
+    /* 화분 */
+    [[0.33, 0xff85c0], [1.15, 0xffd23f]].forEach(([x, c]) => { TK.add(g, TK.cyl(0.12, 0.09, 0.2, 14), toyM(0xd9824f, { roughness: 0.8 }), x, 0.14, 0.95); TK.add(g, TK.sph(0.12, 12, 10), toyM(0x6cc85a), x, 0.3, 0.95);
+      for (let i = 0; i < 5; i++) { const a = i * 1.26; TK.add(g, TK.sph(0.045, 8, 6), toyM(c), x + Math.cos(a) * 0.08, 0.36, 0.95 + Math.sin(a) * 0.08); } });
+    /* 지붕 위 가위 */
+    const sc = TK.grp(g, 0, 2.8, 0.1), steel = toyM(0xf2f6fa, { metalness: 0.15, roughness: 0.3 }), ringM = toyM(0xff85c0, { roughness: 0.5 });
+    const blades = [-1, 1].map(s => { const b = TK.grp(sc); TK.add(b, TK.box(0.12, 0.5, 0.04, 0.015), steel, 0, 0.26, 0); TK.add(b, TK.sph(0.035, 8, 6), steel, 0, 0.51, 0).scale.set(1, 1.4, 0.45);
+      TK.add(b, TK.tor(0.1, 0.035, null, 18), ringM, 0, -0.13, 0); return { b, s }; });
+    sc.scale.setScalar(1.4);
+    TK.add(sc, TK.sph(0.04, 10, 8), gold, 0, 0, 0.03);
+    anims.push({ fn: (t) => { pole.rotation.y = t * 2.2; const a = 0.12 + Math.abs(Math.sin(t * 2.4)) * 0.32; blades.forEach(({ b, s }) => { b.rotation.z = s * a; }); } });
+  }
+});
+
+/* 옷가게·미용실 기록에 놓기 (빈 자리 찾기) */
+function styleShopsFill(sv) {
+  if (!Array.isArray(sv.pl)) sv.pl = [];
+  const spots = [[-1.5, 9.0], [8.5, 9.0], [-1.5, 5.0], [8.5, 5.0], [-1.5, 12.0], [8.5, 12.0], [1.0, 12.5], [6.0, 12.5], [-2.5, 1.5], [9.5, 1.5]];
+  const studyDef = { crossword: { c: 0.5, r: 1.0 }, math: { c: 6.5, r: 1.0 }, tetris: { c: 0.5, r: 6.0 }, sentence: { c: 6.5, r: 6.0 } };
+  ['deco_boutique', 'deco_salon'].forEach(id => {
+    if (sv.pl.some(p => p && p.id === id)) return;
+    const taken = [...sv.pl.map(p => [Number(p.c) || 0, Number(p.r) || 0]), ...Object.keys(studyDef).map(k => { const p = (sv.gp && sv.gp[k]) || studyDef[k]; return [p.c, p.r]; })];
+    const sp = spots.find(([c, r]) => taken.every(([c2, r2]) => Math.hypot(c - c2, r - r2) >= 2.8)) || spots[id === 'deco_boutique' ? 0 : 1];
+    sv.pl.push({ iid: 'init_' + id.slice(5), id, c: sp[0], r: sp[1] });
+  });
+}
+
+/* ---- 공주 세트 옷·머리 나눠 사기 ---- */
+function hairCostOf(l) { return l.cost ? Math.max(10, Math.round(l.cost * 0.4 / 5) * 5) : 0; }
+function dressCostOf(l) { return l.outfitOnly || isPrinceId(l.id) ? l.cost : Math.max(0, l.cost - hairCostOf(l)); }
+function ownsLook(sv, id, tab) { const o = (sv && sv.o) || []; return o.includes(id) || o.includes((tab === 'hair' ? 'h:' : 'd:') + id); }
+
+/* ---- 옷가게 · 미용실 화면 ---- */
+function styleShopRender(kind) {
+  const el = document.getElementById('scr-' + kind); if (!el) return;
+  const sv = getSave(), pr = isPrinceSave(sv), hair = kind === 'salon';
+  const list = hair ? (pr ? PRINCE_HAIRS : PRINCESS_LOOKS) : (pr ? PRINCE_OUTFITS : [...PRINCESS_LOOKS, ...PRINCESS_OUTFITS_X]);
+  const title = hair ? '💇 미용실' : '👗 옷가게', sub = hair ? '마음에 드는 머리 모양을 사서 바로 바꿔 봐요' : '예쁜 옷을 사서 바로 입어 봐요';
+  el.innerHTML = `<div class="ss-wrap ${hair ? 'salon' : 'boutique'}">
+    <div class="ss-head"><div class="ss-title">${title}</div><div class="ss-sub">${sub}</div></div>
+    <div class="ss-note">${hair ? '산 머리는 <b>침실 화장대</b>에서도 언제든 바꿀 수 있어요 ✨' : '산 옷은 <b>침실 옷장</b>에서도 언제든 갈아입을 수 있어요 ✨'}</div>
+    <div class="ss-grid"></div>
+    <div class="ss-foot"><button class="btn-3d primary" data-goto="home">🏡 마을로 돌아가기</button></div>
+  </div>`;
+  const grid = el.querySelector('.ss-grid');
+  list.forEach(l => {
+    if (!l) return;
+    const tab = hair ? 'hair' : 'dress', owned = ownsLook(sv, l.id, tab) || (!hair && !pr && !l.cost && !l.outfitOnly);
+    const on = hair ? (sv.hr || sv.lk) === l.id : sv.lk === l.id, cost = hair ? (pr ? l.cost : hairCostOf(l)) : dressCostOf(l);
+    const name = hair && !pr ? l.hairName : l.name;
+    const card = document.createElement('div'); card.className = 'ss-card' + (on ? ' on' : '');
+    const cv = document.createElement('canvas'); cv.width = 132; cv.height = 132;
+    if (hair) drawPrincessCombined(cv.getContext('2d'), 66, 272, 1.75, sv.lk, l.id, 0);   /* 얼굴·머리 크게 */
+    else drawPrincessCombined(cv.getContext('2d'), 66, 128, 0.9, l.id, sv.hr || sv.lk, 0);
+    card.innerHTML = `<div class="ss-thumb"></div><div class="ss-name">${name}</div>
+      <button class="btn-3d ss-buy ${owned ? '' : 'primary'}">${on ? (hair ? '✓ 지금 머리' : '✓ 입고 있어요') : owned ? (hair ? '💇 이 머리로' : '👗 입어 보기') : `🪙 ${cost} · 사기`}</button>`;
+    card.querySelector('.ss-thumb').appendChild(cv);
+    card.querySelector('.ss-buy').onclick = () => {
+      if (on) return;
+      if (owned) { playSfx('click'); updateSave(s => { if (hair) s.hr = l.id; else s.lk = l.id; }); updatePlayer3DTexture(); styleShopRender(kind); return showToast(hair ? `💇 [${name}]로 바꿨어요!` : `👗 [${name}]으로 갈아입었어요!`); }
+      if ((Number(sv.s) || 0) < cost) { playSfx('wrong'); return showToast('코인이 조금 더 필요해요!'); }
+      updateSave(s => { s.s -= cost; const key = (pr || l.outfitOnly) ? l.id : (hair ? 'h:' : 'd:') + l.id; if (!s.o.includes(key)) s.o.push(key); if (hair) s.hr = l.id; else s.lk = l.id; });
+      justBought = { id: l.id, iid: null }; playSfx('coin'); updatePlayer3DTexture();
+      showToast(hair ? `🎉 [${name}] 머리를 샀어요! 바로 바꿨어요 💇` : `🎉 [${name}]을 샀어요! 바로 입었어요 👗`);
+      styleShopRender(kind);
+    };
+    if (justBought && justBought.id === l.id) markJustCard(card);
+    grid.appendChild(card);
+  });
+}
+
+/* ---- 산 뒤 바로 마을에서 자리 옮기기 ---- */
+let pendingMove = null;
+function goMoveAfterBuy(iid) {
+  pendingMove = iid;
+  setTimeout(() => { if (navStack[navStack.length - 1] === 'home') navStack.pop(); switchScreen('home', false); }, 650);
+}
+function moveModeFor() {
+  const iid = pendingMove; pendingMove = null;
+  const p = (getSave().pl || []).find(x => x && x.iid === iid); if (!p || friendVisit) return;
+  if (!editMode) document.getElementById('btnEditMode').onclick();
+  selectedDecoIid = iid;
+  document.getElementById('btnRemoveDeco').style.display = 'inline-flex'; document.getElementById('btnRotateDeco').style.display = 'inline-flex';
+  try { plantSelUI(); } catch (e) {}
+  rebuildThreeWorldEntities();
+  const w = gridToWorld3D(p.c, p.r); camPan.x = w.x - playerState.x; camPan.z = w.z - playerState.z;
+  setTimeout(() => showToast('✋ 새 물건을 끌어서 원하는 자리에 놓아요!'), 400);
 }
 
 /* 모형 하나 만들기: 앞(+z)이 카메라(45°)를 보게 돌리고, 그림과 같은 크기로 맞춤 */
@@ -3996,7 +4221,7 @@ function roomOpenCloset(tab) {
   document.getElementById('roomClosetTitle').textContent = tab === 'dress' ? '옷장' : '화장대';
   document.getElementById('roomStateChip').textContent = tab === 'dress' ? '옷장에서 옷 고르기' : '화장대에서 머리 꾸미기';
   const grid = document.getElementById('roomClosetGrid'); grid.innerHTML = '';
-  closetList(sv, tab).filter(l => l && sv.o.includes(l.id)).forEach(look => {
+  closetList(sv, tab).filter(l => l && ownsLook(sv, l.id, tab)).forEach(look => {
     const isSel = tab === 'dress' ? sv.lk === look.id : (sv.hr || sv.lk) === look.id;
     const card = document.createElement('div'); card.className = 'look-card' + (isSel ? ' selected' : '');
     const tc = document.createElement('canvas'); tc.width = 240; tc.height = 240;
@@ -4340,7 +4565,7 @@ function getWorldEntities() {
       c: Number(inst.c) || 0, r: Number(inst.r) || 0, fw: meta.fw, fh: meta.fh, ry: Number(inst.ry) || 0, g: inst.g || null,
       type: meta.type, shape: meta.shape, roof: meta.roof, wall: meta.wall,
       color: meta.color, doorScreen: meta.doorScreen, sign: meta.sign || `${meta.icon} ${meta.name}`,
-      redRoof: meta.id !== 'deco_castle' && meta.id !== 'deco_greenhouse' && meta.type === 'bld'
+      redRoof: meta.id !== 'deco_castle' && meta.id !== 'deco_greenhouse' && meta.id !== 'deco_boutique' && meta.id !== 'deco_salon' && meta.type === 'bld'
     });
   });
   return list;
@@ -4364,7 +4589,7 @@ function rebuildThreeWorldEntities() {
     let labelEl = null;
     if (ent.doorScreen || ent.shape === 'carousel') {
       labelEl = document.createElement('div');
-      labelEl.className = 'world-label place ' + (ent.id === 'deco_greenhouse' ? 'garden' : ent.redRoof ? 'red-sign' : (ent.id === 'tetris' ? 'play' : 'study'));
+      labelEl.className = 'world-label place ' + (ent.id === 'deco_greenhouse' ? 'garden' : (ent.id === 'deco_boutique' || ent.id === 'deco_salon') ? 'shop' : ent.redRoof ? 'red-sign' : (ent.id === 'tetris' ? 'play' : 'study'));
       { const _sg = String(ent.sign), _m = _sg.match(/^(\S+)\s+(.*)$/);
         const _bob = document.createElement('div'); _bob.className = 'wl-bob'; _bob.style.animationDelay = (-Math.random() * 3.2).toFixed(2) + 's';
         const _pin = document.createElement('div'); _pin.className = 'wl-pin'; const _ic = document.createElement('span'); _ic.textContent = _m ? _m[1] : '📍'; _pin.appendChild(_ic); _bob.appendChild(_pin);
@@ -4572,6 +4797,7 @@ function loadAllUsers() {
     merged.pl = (Array.isArray(merged.pl) ? merged.pl : def.pl).filter(p => p && p.id !== 'deco_amuse' && decoById(p.id));
     if (!(entry.save && entry.save.bld5)) { baseBuildingsFill(merged); merged.bld5 = 1; }
     if (!(entry.save && entry.save.gh1)) { greenhouseFill(merged); merged.gh1 = 1; }   /* 11-20(6) 식물원 */
+    if (!(entry.save && entry.save.sh1)) { styleShopsFill(merged); merged.sh1 = 1; }   /* 11-20(7) 옷가게·미용실 */
     merged.pl.forEach(p => { if (p && !p.g && plantMeta(p.id)) p.g = { st: 10, w: 0 }; });   /* 예전에 산 나무·꽃 = 다 자란 것 */
     if (!(entry.save && entry.save.cg1120)) { merged.s = Math.max(Number(merged.s) || 0, 30000); merged.cg1120 = 1; }   /* 11-20(4) 확인용 코인 */   /* def에도 bld5가 있어서 원래 기록으로 판단 */
     normalized[nk] = { pw: String(entry.pw || ''), save: merged };
@@ -5823,7 +6049,7 @@ function switchScreen(targetKey, pushHistory = true) {
   try {
     renderTopBar();
     if (targetKey !== 'tetris') { try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (e) {} }
-    if (targetKey === 'home') rebuildThreeWorldEntities();
+    if (targetKey === 'home') { rebuildThreeWorldEntities(); if (pendingMove) moveModeFor(); }
     else if (targetKey === 'dress') renderDressScreen();
     else if (targetKey === 'shop') renderShopScreen();
     else if (targetKey === 'math') startMathStage(curMathTrack, curMathStage);
@@ -5833,6 +6059,7 @@ function switchScreen(targetKey, pushHistory = true) {
     else if (targetKey === 'sentence') renderSentenceScreen();
     else if (targetKey === 'tetris') startTetris();
     else if (targetKey === 'garden') gardenRender();
+    else if (targetKey === 'boutique' || targetKey === 'salon') styleShopRender(targetKey);
     else if (['cafe','rest','theater','room','playground'].includes(targetKey)) {
       renderVenueAvatars();
       if (targetKey === 'room') enterRoom3D();
@@ -5867,7 +6094,7 @@ function renderDressScreen() {
   document.getElementById('tabBtnHair').classList.toggle('active', activeClosetTab === 'hair');
 
   const grid = document.getElementById('closetGrid'); grid.innerHTML = '';
-  closetList(sv, activeClosetTab).filter(item => item && sv.o.includes(item.id)).forEach(look => {
+  closetList(sv, activeClosetTab).filter(item => item && ownsLook(sv, item.id, activeClosetTab)).forEach(look => {
     const isSel = activeClosetTab === 'dress' ? (sv.lk === look.id) : (sv.hr === look.id);
     const card = document.createElement('div'); card.className = 'look-card' + (isSel ? ' selected' : '');
     const thumbCanvas = document.createElement('canvas'); thumbCanvas.width = 80; thumbCanvas.height = 80;
@@ -5910,7 +6137,7 @@ function renderShopScreen() {
           s.pl.push({ iid: _iid, id: deco.id, c: snapHalf(gpos.c), r: snapHalf(gpos.r) });
         });
         justBought = { id: deco.id, iid: _iid };
-        playSfx('coin'); showToast(`🎉 [${deco.name}] 구매! 마을에 초록 네모로 표시해 둘게요`); renderShopScreen();
+        playSfx('coin'); showToast(`🎉 [${deco.name}] 구매! 마을에서 원하는 자리로 끌어 옮겨요 ✋`); goMoveAfterBuy(_iid);
       };
       if (justBought && justBought.id === deco.id) markJustCard(card);
       grid.appendChild(card);
@@ -6156,7 +6383,7 @@ function initWorldControls() {
   document.getElementById('btnEditMode').onclick = () => {
     editMode = !editMode; selectedDecoIid = null;
     document.getElementById('btnEditMode').classList.toggle('primary', editMode);
-    document.getElementById('btnEditMode').textContent = editMode ? '✅ 꾸미기 완료' : '✏️ 마을 꾸미기';
+    document.getElementById('btnEditMode').textContent = editMode ? '✅ 옮기기 완료' : '✋ 자리 옮기기';
     document.getElementById('btnToggleTray').style.display = editMode ? 'inline-flex' : 'none';
     document.getElementById('btnRemoveDeco').style.display = 'none'; document.getElementById('btnRotateDeco').style.display = 'none';
     if (!editMode) document.getElementById('placeTray').classList.remove('open');
