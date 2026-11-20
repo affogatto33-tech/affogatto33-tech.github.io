@@ -925,6 +925,7 @@
     <div id="pmBar" class="pm-bar"></div>
     <div id="pmMsg" class="pm-msg"></div>
     <div id="pmNote" class="pm-note">📢 물을 줘야 다음 단계로 자라요!<br>물은 한 단계에 한 번만 줄 수 있어요. (물 주기 ⚡-10)</div>
+    <div class="pm-move" style="font-size:0.78rem; opacity:0.75;">↔️ 자리를 옮기려면 '마을 꾸미기'를 누르고 끌어서 옮겨요 (자라던 단계 그대로)</div>
     <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
       <button id="pmWater" class="btn-3d primary" onclick="plantWater()">💧 물 주기 (⚡-10)</button>
       <button class="btn-3d" onclick="plantClose()">닫기</button>
@@ -1740,7 +1741,7 @@ Object.assign(TOY_BUILD, {
  * 11-20(6) 식물원 · 나무·꽃 키우기 · 공연장 · 식물원 건물 모형
  * ============================================================================ */
 var envLockMat = null;
-const PLANT_GROW_MS = 3 * 24 * 3600 * 1000;   /* 물 주고 3일 뒤 한 단계 */
+const PLANT_GROW_MS = 24 * 3600 * 1000;   /* 물 주고 하루 뒤 한 단계 (11-20 3일→하루) */
 const PLANT_DEFS = [
   { id: 'deco_tree',        name: '분홍 벚꽃나무',   icon: '🌸', cost: 25, fw: 1.0, plant: 'tree', leaf: 0xffb3d1, petals: 0xffc2da },
   { id: 'pt_blossom_white', name: '하얀 벚꽃나무',   icon: '🤍', cost: 25, fw: 1.0, plant: 'tree', leaf: 0xfff0f5, petals: 0xffffff },
@@ -2104,7 +2105,7 @@ function plantMesh(ent) {
   return group;
 }
 
-/* ---- 자라기: 물 준 지 3일이 지나면 한 단계 ---- */
+/* ---- 자라기: 물 준 지 하루가 지나면 한 단계 ---- */
 function plantGrowDue() {
   if (!currentUser || friendVisit) return false;
   const now = Date.now();
@@ -2162,7 +2163,7 @@ function plantOpen(iid) {
   const msg = document.getElementById('pmMsg'), btn = document.getElementById('pmWater');
   if (st >= 10) msg.innerHTML = '🎉 다 자랐어요! 100%' + (m.petals ? '<br>🌸 꽃잎이 바람에 흩날려요' : '');
   else if (g.w) msg.innerHTML = `💧 물을 줬어요!<br><b>${plantLeft(g.w)}</b> 뒤에 ${st + 1}단계로 자라요`;
-  else msg.innerHTML = `💧 물을 주면 <b>3일 뒤</b>에 ${st + 1}단계로 자라요!`;
+  else msg.innerHTML = `💧 물을 주면 <b>하루 뒤</b>에 ${st + 1}단계로 자라요!`;
   if (friendVisit) msg.innerHTML += '<br><small>(친구 마을이라 구경만 해요)</small>';
   btn.style.display = friendVisit || st >= 10 ? 'none' : '';
   btn.disabled = !!g.w; btn.textContent = g.w ? '💧 이번 단계는 물을 줬어요' : '💧 물 주기 (⚡-10)';
@@ -2190,7 +2191,7 @@ function plantWater() {
   updateSave(s => { const q = (s.pl || []).find(x => x && x.iid === iid); if (q) { q.g = Object.assign({ st }, q.g || {}); q.g.w = Date.now(); } });
   addEnergy(-10); playSfx('coin');
   plantClose(); rebuildThreeWorldEntities(); plantWaterFx(p.c, p.r);
-  showToast(`💧 물을 줬어요! 3일 뒤에 ${st + 1}단계로 자라요 (⚡-10)`);
+  showToast(`💧 물을 줬어요! 하루 뒤에 ${st + 1}단계로 자라요 (⚡-10)`);
 }
 function plantSelUI() {
   const b = document.getElementById('btnRemoveDeco'); if (!b) return;
@@ -2206,7 +2207,7 @@ function gardenRender() {
   const trees = DECOS.filter(d => d.grp === 'plant' && d.plant === 'tree'), flowers = DECOS.filter(d => d.grp === 'plant' && d.plant === 'flower');
   el.innerHTML = `<div class="gd-wrap">
     <div class="gd-head"><div class="gd-title">🌿 식물원</div><div class="gd-sub">묘목과 씨앗을 사서 마을에 심어요</div></div>
-    <div class="gd-note">📢 <b>물을 줘야 자라요!</b> 심은 나무·꽃을 눌러 물을 주면(⚡-10) <b>3일 뒤</b>에 한 단계 자라요.<br>
+    <div class="gd-note">📢 <b>물을 줘야 자라요!</b> 심은 나무·꽃을 눌러 물을 주면(⚡-10) <b>하루 뒤</b>에 한 단계 자라요.<br>
       물은 한 단계에 <b>한 번만</b> 줄 수 있어요. 10단계가 되면 다 자라요(100%) 🌸</div>
     <div class="gd-tabs"><button class="tab-btn ${gardenTab === 'tree' ? 'active' : ''}" data-gt="tree">🌳 묘목 (${trees.length}종)</button>
       <button class="tab-btn ${gardenTab === 'flower' ? 'active' : ''}" data-gt="flower">🌷 씨앗 (${flowers.length}종)</button></div>
