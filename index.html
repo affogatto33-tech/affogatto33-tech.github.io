@@ -2476,6 +2476,92 @@ function moveModeFor() {
   setTimeout(() => showToast('✋ 새 물건을 끌어서 원하는 자리에 놓아요!'), 400);
 }
 
+
+/* ============================================================================
+ * 11-20(8) 공연장 = 음악당(오페라 하우스)
+ * ============================================================================ */
+Object.assign(decoById('deco_theater') || {}, { name: '공연장', icon: '🎻', sign: '🎻 공연장', toyBld: true });
+function drawOperaSign(c, w, h) {
+  c.fillStyle = '#7a1f2b'; c.fillRect(0, 0, w, h); c.strokeStyle = '#ffd666'; c.lineWidth = 8; c.strokeRect(5, 5, w - 10, h - 10);
+  c.fillStyle = '#ffe7a3'; c.font = 'bold 60px ' + KFONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('♪ 공연장 ♪', w / 2, h / 2 + 3);
+}
+function drawNote(ch) {
+  return (c, w, h) => { c.clearRect(0, 0, w, h); c.font = 'bold 50px ' + KFONT; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.lineWidth = 6; c.strokeStyle = '#8a5a00'; c.strokeText(ch, w / 2, h / 2); c.fillStyle = '#ffd23f'; c.fillText(ch, w / 2, h / 2); };
+}
+TOY_BUILD.deco_theater = function (g, k, anims) {
+  const IV = 0xfff4dc, CR = 0xfffaf0, ST = 0xe9e1d3, CU = 0x63c3a0;
+  const gold = toyM(0xffc53d, { metalness: 0.4, roughness: 0.3 }), white = toyM(0xffffff, { roughness: 0.45 });
+  const glow = toyM(0xffe7a3, { emissive: 0xffb84d, emissiveIntensity: 0.6, roughness: 0.4 });
+  /* 바닥 광장 · 받침 · 계단 · 빨간 카펫 */
+  TK.add(g, TK.box(3.4, 0.04, 3.0, 0.015), toyM(0xeee6da), 0, 0.02, 0.2);
+  TK.add(g, TK.box(2.9, 0.36, 1.9, 0.05), toyM(ST), 0, 0.18, -0.2);
+  for (let i = 0; i < 3; i++) { const h = 0.12 * (3 - i); TK.add(g, TK.box(2.3 - i * 0.1, h, 0.19, 0.02), toyM(i % 2 ? 0xf3ece1 : ST), 0, h / 2, 0.84 + i * 0.18); }
+  for (let i = 0; i < 3; i++) TK.add(g, TK.box(0.62, 0.012, 0.19, 0.004), toyM(0xc8102e, { roughness: 0.9 }), 0, 0.12 * (3 - i) + 0.006, 0.84 + i * 0.18);
+  TK.add(g, TK.box(0.62, 0.012, 0.3, 0.004), toyM(0xc8102e, { roughness: 0.9 }), 0, 0.366, 0.6);
+  /* 본관 */
+  TK.add(g, TK.box(2.6, 1.5, 1.6, 0.06), toyM(IV), 0, 1.11, -0.25);
+  TK.add(g, TK.box(2.72, 0.14, 1.72, 0.05), toyM(CU, { roughness: 0.5 }), 0, 1.9, -0.25);   /* 초록 구리 지붕 */
+  TK.add(g, TK.box(2.66, 0.03, 1.66, 0.01), gold, 0, 1.83, -0.25);
+  for (const sx of [-1, 1]) for (const z of [-0.7, 0.1]) { TK.add(g, TK.box(0.04, 0.5, 0.26, 0.01), toyM(CR), sx * 1.305, 1.15, z); TK.add(g, TK.box(0.03, 0.42, 0.2, 0.005), glow, sx * 1.315, 1.15, z); }
+  /* 안쪽 문 3개(아치·불빛) · 위 둥근 창 2개 */
+  for (const x of [-0.4, 0, 0.4]) {
+    TK.add(g, TK.box(0.3, 0.74, 0.04, 0.01), toyM(CR), x, 0.74, 0.56);
+    TK.add(g, TK.box(0.24, 0.66, 0.03, 0.005), glow, x, 0.72, 0.58);
+    TK.add(g, TK.cyl(0.12, 0.12, 0.03, 18), glow, x, 1.05, 0.58, Math.PI / 2);
+  }
+  for (const x of [-0.8, 0.8]) { TK.add(g, TK.cyl(0.13, 0.13, 0.04, 20), toyM(CR), x, 1.28, 0.56, Math.PI / 2); TK.add(g, TK.cyl(0.1, 0.1, 0.03, 20), glow, x, 1.28, 0.58, Math.PI / 2); TK.add(g, TK.tor(0.115, 0.015, null, 20), gold, x, 1.28, 0.6); }
+  /* 하얀 기둥 6개 + 금빛 머리 */
+  for (let i = 0; i < 6; i++) {
+    const x = -1.0 + i * 0.4;
+    TK.add(g, TK.box(0.2, 0.06, 0.2, 0.02), white, x, 0.39, 0.75);
+    TK.add(g, TK.cyl(0.07, 0.08, 1.14, 18), white, x, 0.99, 0.75);
+    TK.add(g, TK.box(0.2, 0.06, 0.2, 0.02), gold, x, 1.59, 0.75);
+  }
+  /* 처마(간판) + 삼각 박공 */
+  TK.add(g, TK.box(2.55, 0.3, 0.44, 0.04), toyM(CR), 0, 1.75, 0.66);
+  TK.add(g, TK.box(2.6, 0.035, 0.46, 0.01), gold, 0, 1.635, 0.66);
+  const sg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.25), toyTextMat('op_sign', 420, 70, drawOperaSign)); sg.position.set(0, 1.75, 0.905); g.add(sg);
+  const tri = new THREE.Shape(); tri.moveTo(-1.28, 0); tri.lineTo(1.28, 0); tri.lineTo(0, 0.46); tri.closePath();
+  const pg = new THREE.ExtrudeGeometry(tri, { depth: 0.4, bevelEnabled: false }); pg.translate(0, 0, 0.46);
+  TK.add(g, pg, toyM(CR), 0, 1.88, 0);
+  const tri2 = new THREE.Shape(); tri2.moveTo(-1.05, 0); tri2.lineTo(1.05, 0); tri2.lineTo(0, 0.34); tri2.closePath();
+  TK.add(g, new THREE.ShapeGeometry(tri2), toyM(0xf3e2c4), 0, 1.93, 0.88);
+  const lyre = TK.grp(g, 0, 2.05, 0.91);
+  TK.add(lyre, TK.tor(0.09, 0.016, Math.PI, 16), gold, 0, 0.0, 0, 0, 0, Math.PI);
+  for (const s of [-1, 1]) TK.add(lyre, TK.cyl(0.012, 0.012, 0.16, 6), gold, s * 0.09, 0.06, 0);
+  TK.add(lyre, TK.cyl(0.01, 0.01, 0.2, 6), gold, 0, 0.14, 0, 0, 0, Math.PI / 2);
+  for (const x of [-0.04, 0, 0.04]) TK.add(lyre, TK.cyl(0.004, 0.004, 0.16, 4), gold, x, 0.05, 0);
+  /* 박공 위 금빛 장식 3개 */
+  for (const [x, y] of [[0, 2.36], [-1.22, 1.93], [1.22, 1.93]]) { TK.add(g, TK.box(0.14, 0.08, 0.14, 0.02), toyM(CR), x, y, 0.66); TK.add(g, TK.sph(0.07, 12, 10), gold, x, y + 0.1, 0.66); TK.add(g, TK.cyl(0.0, 0.035, 0.12, 10), gold, x, y + 0.21, 0.66); }
+  /* 초록 구리 돔 */
+  TK.add(g, TK.cyl(0.6, 0.62, 0.36, 28), toyM(IV), 0, 2.08, -0.45);
+  for (let i = 0; i < 10; i++) { const a = i / 10 * Math.PI * 2; TK.add(g, TK.box(0.06, 0.26, 0.04, 0.01), glow, Math.sin(a) * 0.61, 2.08, -0.45 + Math.cos(a) * 0.61, 0, a, 0); }
+  TK.add(g, TK.cyl(0.66, 0.66, 0.05, 28), gold, 0, 2.28, -0.45);
+  TK.add(g, new THREE.SphereGeometry(0.6, 28, 16, 0, Math.PI * 2, 0, Math.PI / 2), toyM(CU, { roughness: 0.5 }), 0, 2.29, -0.45);
+  for (let i = 0; i < 4; i++) TK.add(g, TK.tor(0.6, 0.018, Math.PI, 28), gold, 0, 2.29, -0.45, 0, i * Math.PI / 4, 0);
+  TK.add(g, TK.cyl(0.08, 0.1, 0.18, 14), toyM(IV), 0, 2.97, -0.45);
+  TK.add(g, TK.sph(0.09, 14, 10), gold, 0, 3.12, -0.45);
+  TK.add(g, TK.cyl(0.0, 0.04, 0.22, 10), gold, 0, 3.3, -0.45);
+  /* 계단 옆 가로등 */
+  const lamps = [];
+  for (const sx of [-1, 1]) {
+    TK.add(g, TK.cyl(0.06, 0.08, 0.06, 12), toyM(0x3d3d4a), sx * 1.3, 0.05, 1.1);
+    TK.add(g, TK.cyl(0.022, 0.03, 0.7, 10), toyM(0x3d3d4a), sx * 1.3, 0.42, 1.1);
+    lamps.push(TK.add(g, TK.sph(0.09, 14, 10), toyGlow(0xfff3c4), sx * 1.3, 0.83, 1.1));
+    TK.add(g, TK.cyl(0.0, 0.07, 0.06, 10), gold, sx * 1.3, 0.94, 1.1);
+  }
+  /* 돔 위로 음표가 둥실 */
+  const notes = ['♪', '♫', '♪', '♬'].map((ch, i) => { const m = new THREE.SpriteMaterial({ map: toyTextMat('op_note' + i, 64, 64, drawNote(ch)).map, transparent: true, depthWrite: false });
+    const s = new THREE.Sprite(m); s.scale.set(0.34, 0.34, 1); g.add(s); return { s, m, ph: i / 4 }; });
+  anims.push({ fn: (t) => {
+    notes.forEach(({ s, m, ph }, i) => { const u = (t * 0.28 + ph) % 1;
+      s.position.set(Math.sin(u * 6.28 + i) * 0.45 + (i % 2 ? 0.35 : -0.35), 3.0 + u * 1.3, -0.45 + Math.cos(u * 5 + i) * 0.2);
+      m.opacity = u < 0.15 ? u / 0.15 : u > 0.75 ? (1 - u) / 0.25 : 1; });
+    lamps.forEach((l, i) => { l.scale.setScalar(1 + Math.sin(t * 2 + i) * 0.05); });
+  } });
+};
+
 /* 모형 하나 만들기: 앞(+z)이 카메라(45°)를 보게 돌리고, 그림과 같은 크기로 맞춤 */
 function toyMake(id, anims) {
   const outer = new THREE.Group(), g = new THREE.Group(); outer.add(g);
@@ -4301,7 +4387,7 @@ function roomWakeUp() {
 function roomOpenDoor() {
   if (room3.doorAnim > 0) return;
   room3.doorAnim = 0.0001; playSfx('click');
-  document.getElementById('roomStateChip').textContent = '마을으로 나가요!';
+  document.getElementById('roomStateChip').textContent = '마을로 나가요!';
 }
 
 function roomFrame(now) {
@@ -5987,7 +6073,7 @@ function tetBindTouch() {
 function buildLeisureScreens() {
   const buildFoodVenue = (scrKey, title, menus, bgGradient) => {
     const sec = document.getElementById('scr-' + scrKey);
-    sec.innerHTML = `<div class="leisure-scene" style="background:${bgGradient};"><div class="leisure-princess-stage" id="${scrKey}Stage"><div class="chip" style="margin-bottom:auto;">✨ 맛있게 먹으면 에너지 ⚡+5!</div><canvas id="${scrKey}AvatarCanvas" width="220" height="220" style="width:200px;height:200px;"></canvas></div><div class="leisure-menu-panel"><div class="closet-header"><h3 style="margin:0;">${title}</h3><button class="btn-3d" data-goto="home">🏡 마을으로</button></div><div class="look-grid" id="${scrKey}MenuGrid"></div></div></div>`;
+    sec.innerHTML = `<div class="leisure-scene" style="background:${bgGradient};"><div class="leisure-princess-stage" id="${scrKey}Stage"><div class="chip" style="margin-bottom:auto;">✨ 맛있게 먹으면 에너지 ⚡+5!</div><canvas id="${scrKey}AvatarCanvas" width="220" height="220" style="width:200px;height:200px;"></canvas></div><div class="leisure-menu-panel"><div class="closet-header"><h3 style="margin:0;">${title}</h3><button class="btn-3d" data-goto="home">🏡 마을로</button></div><div class="look-grid" id="${scrKey}MenuGrid"></div></div></div>`;
     const grid = sec.querySelector(`#${scrKey}MenuGrid`);
     menus.forEach(m => {
       const card = document.createElement('div'); card.className = 'look-card';
@@ -6010,16 +6096,16 @@ function buildLeisureScreens() {
   buildFoodVenue('cafe', '🥐 베이커리 카페', CAFE_MENUS, 'linear-gradient(135deg, #ffeef8 0%, #fff1b8 100%)');
   buildFoodVenue('rest', '🍽️ 왕실 식당', REST_MENUS, 'linear-gradient(135deg, #fff0f6 0%, #ffd8bf 100%)');
 
-  document.getElementById('scr-theater').innerHTML = `<div class="leisure-scene" style="background:linear-gradient(180deg, #1f1135 0%, #4a2559 100%); color:#fff;"><div class="leisure-princess-stage" style="background:rgba(255,255,255,0.12);"><canvas id="theaterAvatarCanvas" width="220" height="220" style="width:190px;height:190px;"></canvas></div><div class="leisure-menu-panel" style="align-items:center; justify-content:center; background:rgba(30,15,48,0.85); color:#fff;"><div id="cinemaScreen" style="width:90%; height:190px; background:#fffbe6; color:#4a354f; border:6px solid #ffc53d; border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:1.5rem;" class="jua">🎭 뮤지컬 공연장에 오신 것을 환영해요!</div><div style="display:flex; gap:10px; margin-top:10px;"><button id="btnWatchMovie" class="btn-3d primary" style="font-size:1.1rem; padding:10px 24px;">🎭 뮤지컬 보기 (무료 · ⚡+5)</button><button class="btn-3d" data-goto="home">🏡 마을으로</button></div></div></div>`;
+  document.getElementById('scr-theater').innerHTML = `<div class="leisure-scene" style="background:linear-gradient(180deg, #1f1135 0%, #4a2559 100%); color:#fff;"><div class="leisure-princess-stage" style="background:rgba(255,255,255,0.12);"><canvas id="theaterAvatarCanvas" width="220" height="220" style="width:190px;height:190px;"></canvas></div><div class="leisure-menu-panel" style="align-items:center; justify-content:center; background:rgba(30,15,48,0.85); color:#fff;"><div id="cinemaScreen" style="width:90%; height:190px; background:#fffbe6; color:#4a354f; border:6px solid #ffc53d; border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:1.5rem;" class="jua">🎻 음악당 공연장에 오신 것을 환영해요!</div><div style="display:flex; gap:10px; margin-top:10px;"><button id="btnWatchMovie" class="btn-3d primary" style="font-size:1.1rem; padding:10px 24px;">🎻 음악회 보기 (무료 · ⚡+5)</button><button class="btn-3d" data-goto="home">🏡 마을로</button></div></div></div>`;
   document.getElementById('btnWatchMovie').onclick = () => {
     const scr = document.getElementById('cinemaScreen'); playSfx('coin');
-    scr.innerHTML = '🎶✨ 👑 마법 왕국 뮤지컬 공연 중... ✨🎶';
-    setTimeout(() => { addEnergy(5); scr.innerHTML = '👏 재미있었다! (에너지 ⚡+5 충전 완료)'; showToast('🎭 뮤지컬 관람 완료!'); }, 3200);
+    scr.innerHTML = '🎶✨ 🎻 왕국 오케스트라 연주 중... ✨🎶';
+    setTimeout(() => { addEnergy(5); scr.innerHTML = '👏 재미있었다! (에너지 ⚡+5 충전 완료)'; showToast('🎻 음악회 관람 완료!'); }, 3200);
   };
 
   initRoom3DShell();
 
-  document.getElementById('scr-playground').innerHTML = `<div class="leisure-scene" style="background:linear-gradient(180deg, #bae0ff 0%, #d9f7be 100%);"><div class="leisure-princess-stage"><canvas id="playgroundAvatarCanvas" width="220" height="220" style="width:200px;height:200px;"></canvas></div><div class="leisure-menu-panel" style="align-items:center; justify-content:center; text-align:center;"><div style="font-size:3.4rem;">🛝🎠🎈</div><h2 style="margin:4px 0;">신나는 무지개 놀이터</h2><p style="color:#555;">놀이터에 들어오면 에너지가 <strong>⚡+10</strong> 올라가요!</p><button class="btn-3d primary" data-goto="home">🏡 마을으로 돌아가기</button></div></div>`;
+  document.getElementById('scr-playground').innerHTML = `<div class="leisure-scene" style="background:linear-gradient(180deg, #bae0ff 0%, #d9f7be 100%);"><div class="leisure-princess-stage"><canvas id="playgroundAvatarCanvas" width="220" height="220" style="width:200px;height:200px;"></canvas></div><div class="leisure-menu-panel" style="align-items:center; justify-content:center; text-align:center;"><div style="font-size:3.4rem;">🛝🎠🎈</div><h2 style="margin:4px 0;">신나는 무지개 놀이터</h2><p style="color:#555;">놀이터에 들어오면 에너지가 <strong>⚡+10</strong> 올라가요!</p><button class="btn-3d primary" data-goto="home">🏡 마을로 돌아가기</button></div></div>`;
 }
 
 function renderVenueAvatars() {
