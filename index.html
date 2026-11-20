@@ -359,6 +359,19 @@
   .en-room { font-family: 'Jua', sans-serif; color: #006d75; background: #e6fffb; border: 2px solid #87e8de; border-radius: 999px; padding: 3px 12px; font-size: 1rem; }
   @media (max-width: 760px) { .en-play { grid-template-columns: 140px minmax(0, 1fr); } .en-wlist { grid-template-columns: 1fr; } .en-word { font-size: 1.7rem; } }
   /* 11-20 보석 계산실 (교과서 단원별) */
+  .mc-room { flex: 1; min-height: 260px; position: relative; margin-top: 6px; border-radius: 16px; overflow: hidden; background: #f6d3de; border: 4px solid #f2c14e; box-shadow: inset 0 0 0 3px #fff3c4; }
+  .mc-room canvas.mc3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+  .mc3d-wrap { display: none; position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+  .mc-room.is3d .mc3d-wrap { display: block; }
+  .mc3d-sub { position: absolute; transform: translate(-50%, 0); background: linear-gradient(#fffdf5, #fff1c9); color: #8a3050; border: 3px solid #e2a92b; border-radius: 16px; padding: 3px 14px 4px; font-size: 1rem; text-align: center; white-space: nowrap; box-shadow: 0 4px 0 #c98a12, 0 8px 14px rgba(120,40,70,0.18); transition: opacity .2s; font-family: 'Jua', sans-serif; }
+  .mc3d-sub b { font-weight: normal; display: block; font-size: 1.1rem; }
+  .mc3d-sub small { display: block; font-size: 0.76rem; color: #b0587a; font-family: sans-serif; font-weight: 700; }
+  .mc-room2d { display: none; position: absolute; inset: 0; grid-template-columns: 1fr 1fr; gap: 16px; padding: 22px; }
+  .mc-room.no3d .mc-room2d { display: grid; }
+  .mc-room2d-b { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 1.5rem; background: linear-gradient(#fffdf5, #fde3ec); border: 5px solid #e2a92b; border-radius: 22px; }
+  .mc-room2d-b small { font-size: 0.85rem; color: #b0587a; }
+  .mc-roomhint { font-family: 'Jua', sans-serif; color: #8a3050; background: #fff1c9; border: 2px solid #e2a92b; border-radius: 999px; padding: 3px 12px; font-size: 0.98rem; }
+  @media (max-width: 560px) { .mc3d-sub { font-size: 0.8rem; padding: 2px 8px; } .mc3d-sub b { font-size: 0.9rem; } .mc3d-sub small { font-size: 0.66rem; } .mc-room2d { grid-template-columns: 1fr; } }
   .mc-hub { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 8px 2px; align-content: start; }
   .mc-card { background: #fff; border: 3px solid #ffadd2; border-radius: 18px; padding: 10px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 4px 0 #ffd6e7; min-width: 0; }
   .mc-card:hover { transform: translateY(-2px); }
@@ -1006,11 +1019,11 @@
             <div id="mcSemTabs" class="closet-tabs"></div>
           </div>
           <div style="display:flex; gap:6px; align-items:center;">
-            <button class="btn-3d" id="mcToolBtn">🧰 교구 놀이</button>
-            <button class="btn-3d primary" data-goto="gugu">💎 구구단 보석방</button>
+            <button class="btn-3d" id="mcToRoom">🏛️ 방으로</button>
           </div>
         </div>
-        <div id="mcHub" class="mc-hub"></div>
+        <div id="mcRoom" class="mc-room"></div>
+        <div id="mcHub" class="mc-hub" style="display:none;"></div>
         <div id="mcPlay" class="math-layout" style="display:none;">
           <div id="mathTrackList" class="track-list-box"></div>
           <div class="problem-stage-box">
@@ -3642,13 +3655,13 @@ function mcSemOpen(sem) { const i = MC_SEMS.indexOf(sem); return i <= 0 || mcUni
 function mcUnitOpen(u) { if (!mcSemOpen(u.sem)) return false; const us = mcUnitsOf(u.sem), i = us.indexOf(u); return i === 0 || mcUnitDone(us[i - 1].id); }
 function mcStageOpen(u, k) { return mcUnitOpen(u) && (k === 0 || mcStars(u.id)[k - 1] > 0); }
 function mcSaveMc(fn) { updateSave(sv => { sv.mc = sv.mc || { st: {} }; sv.mc.st = sv.mc.st || {}; fn(sv.mc, sv); }); }
-function mcView(which) { mcEl('mcHub').style.display = which === 'hub' ? '' : 'none'; mcEl('mcPlay').style.display = which === 'play' ? '' : 'none'; mcEl('mcTool').style.display = which === 'tool' ? '' : 'none'; }
+function mcView(which) { mcEl('mcRoom').style.display = which === 'room' ? '' : 'none'; mcEl('mcToRoom').style.display = which === 'room' ? 'none' : ''; mcEl('mcHub').style.display = which === 'hub' ? '' : 'none'; mcEl('mcPlay').style.display = which === 'play' ? '' : 'none'; mcEl('mcTool').style.display = which === 'tool' ? '' : 'none'; }
 
 function mcEnter() {
   mcInitPad();
   const d = mcData(); const open = MC_SEMS.filter(mcSemOpen);
   mcSem = (d.sem && mcSemOpen(d.sem)) ? d.sem : open[open.length - 1];
-  mcShowHub();
+  mcShowRoom();   /* 11-20 먼저 대리석 책상 방 */
 }
 function mcShowHub() {
   mcView('hub'); mcWait = false;
@@ -3665,7 +3678,7 @@ function mcShowHub() {
       <div class="mc-gems">${MC_STAGE.map((n, k) => `<span class="mc-gem ${st[k] ? 'on' : (open && k === next ? 'next' : '')}">${n} ${st[k] ? '⭐'.repeat(st[k]) : (open && k === next ? '▶' : '')}</span>`).join('')}</div>
       <div class="mc-card-f">${done ? '다 익혔어요! 다시 풀어도 좋아요' : open ? `${next + 1}단계 ${MC_STAGE[next]} 차례 · 50문제` : '앞 단원을 마치면 열려요'}</div>
       ${u.tool ? `<button class="btn-3d mc-toolbtn">${MC_TOOLS[u.tool].icon} ${MC_TOOLS[u.tool].name}</button>` : ''}`;
-    c.onclick = e => { if (e.target.closest('.mc-toolbtn')) { playSfx('click'); return mcShowTool(u.tool); }
+    c.onclick = e => { if (e.target.closest('.mc-toolbtn')) { playSfx('click'); return mcShowTool(u.tool, 'hub'); }
       playSfx('click'); if (!open) return showToast('앞 단원을 모두 마치면 열려요! 🔒'); mcStartStage(u, done ? 0 : next); };
     hub.appendChild(c);
   });
@@ -3680,7 +3693,7 @@ function mcSide() {
     b.className = 'btn-3d mc-stbtn' + (k === mcStage ? ' primary' : ''); b.innerHTML = `${open ? '' : '🔒 '}${k + 1}. ${n} <span>${st[k] ? '⭐'.repeat(st[k]) : ''}</span>`;
     b.onclick = () => { playSfx('click'); if (!open) return showToast('앞 단계를 먼저 통과해요! 🔒'); mcStartStage(u, k); };
     box.appendChild(b); });
-  if (u.tool) { const t = document.createElement('button'); t.className = 'btn-3d mc-stbtn'; t.textContent = `${MC_TOOLS[u.tool].icon} ${MC_TOOLS[u.tool].name}`; t.onclick = () => { playSfx('click'); mcShowTool(u.tool); }; box.appendChild(t); }
+  if (u.tool) { const t = document.createElement('button'); t.className = 'btn-3d mc-stbtn'; t.textContent = `${MC_TOOLS[u.tool].icon} ${MC_TOOLS[u.tool].name}`; t.onclick = () => { playSfx('click'); mcShowTool(u.tool, 'hub'); }; box.appendChild(t); }
   mcEl('mcBackHub').onclick = () => { playSfx('click'); mcShowHub(); };
 }
 function mcStartStage(u, k) {
@@ -3768,7 +3781,7 @@ function mcInitPad() {
   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '⌫'].forEach(k => { const b = document.createElement('button'); b.className = 'btn-3d num-key'; b.textContent = k; b.onclick = () => { playSfx('click'); mcKey(k); }; pad.appendChild(b); });
   mcEl('btnMathSubmit').onclick = () => { playSfx('click'); mcSubmit(); };
   mcEl('btnMathPass').onclick = () => { if (mcWait || !mcCur) return; playSfx('click'); mcCur.retry = true; mcQ.push(mcCur); mcNext(); };
-  mcEl('mcToolBtn').onclick = () => { playSfx('click'); mcShowTool('blocks'); };
+  mcEl('mcToRoom').onclick = () => { playSfx('click'); mcShowRoom(); };
   document.addEventListener('keydown', e => {
     if (typeof currentScreen === 'undefined' || currentScreen !== 'math' || mcEl('mcPlay').style.display === 'none') return;
     if (/^[0-9.]$/.test(e.key)) mcKey(e.key); else if (e.key === 'Backspace') mcKey('⌫'); else if (e.key === 'Enter') mcSubmit(); else return;
@@ -3778,11 +3791,11 @@ function mcInitPad() {
 
 /* ---------- 교구 놀이 2가지: 수 모형 공방 · 칠교 놀이 (11-20 시계 맞추기 뺌) ---------- */
 let mcToolNow = 'blocks';
-function mcShowTool(which) {
-  mcToolNow = which; mcView('tool');
+function mcShowTool(which, from) {
+  if (from) mcToolFrom = from; mcToolNow = which; mcView('tool');
   const t = mcEl('mcTool');
-  t.innerHTML = `<div class="mc-tool-h"><button class="btn-3d" id="mcToolBack">◀ 단원 목록</button>${Object.keys(MC_TOOLS).map(k => `<button class="tab-btn${k === which ? ' active' : ''}" data-t="${k}">${MC_TOOLS[k].icon} ${MC_TOOLS[k].name}</button>`).join('')}</div><div class="mc-tool-b" id="mcToolBody"></div>`;
-  mcEl('mcToolBack').onclick = () => { playSfx('click'); mcShowHub(); };
+  t.innerHTML = `<div class="mc-tool-h"><button class="btn-3d" id="mcToolBack">${mcToolFrom === 'room' ? '🏛️ 방으로' : '◀ 단원 목록'}</button>${Object.keys(MC_TOOLS).map(k => `<button class="tab-btn${k === which ? ' active' : ''}" data-t="${k}">${MC_TOOLS[k].icon} ${MC_TOOLS[k].name}</button>`).join('')}</div><div class="mc-tool-b" id="mcToolBody"></div>`;
+  mcEl('mcToolBack').onclick = () => { playSfx('click'); mcToolFrom === 'room' ? mcShowRoom() : mcShowHub(); };
   t.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { playSfx('click'); mcShowTool(b.dataset.t); });
   if (which === 'blocks') blkStart(blk.lv || 0); else tanStart(tan.i || 0);
 }
@@ -3939,6 +3952,289 @@ function tanCheck() {
     const nb = mcEl('tanNext'); if (nb) nb.onclick = () => { playSfx('click'); tanStart(tan.i + 1); };
     tanRender(); const msg2 = mcEl('tanMsg'); msg2.innerHTML = msg.innerHTML; const nb2 = mcEl('tanNext'); if (nb2) nb2.onclick = () => { playSfx('click'); tanStart(tan.i + 1); };
   }
+}
+
+/* ---------- 11-20 💎 보석 계산실 방: 화려한 유럽 궁전풍 3D (동글동글 장난감 느낌) ----------
+   긴 대리석 책상 위 💻 노트북 → 연산 문제(단원 목록), 💎 보석 상자 → 교구 놀이. 공주가 걸어가서 들어감
+   WebGL이 안 되면 큰 단추 2개 */
+const MC3D = { ok: null, r: null, scene: null, cam: null, pr: null, prTex: null, prCv: null, raf: 0, walk: null, cv: null, w: 0, h: 0, obj: {}, anim: [], hover: '' };
+const MC_ROOM_OBJ = [
+  { k: 'laptop', x: -2.1, name: '💻 연산 문제' },
+  { k: 'jewel',  x: 2.1,  name: '💎 교구 놀이' }
+];
+let mcWalking = false, mcToolFrom = 'hub';
+function mcMarbleTex(base, vein, w, h, seed) {   /* 대리석 무늬 */
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'), rnd = cwRng(seed);
+  g.fillStyle = base; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 9; i++) {
+    g.strokeStyle = vein; g.globalAlpha = 0.18 + rnd() * 0.3; g.lineWidth = 0.8 + rnd() * 2.2;
+    let x = rnd() * w, y = rnd() * h; g.beginPath(); g.moveTo(x, y);
+    for (let s = 0; s < 6; s++) { const nx = x + (rnd() - 0.3) * w * 0.45, ny = y + (rnd() - 0.5) * h * 0.5; g.quadraticCurveTo((x + nx) / 2 + (rnd() - 0.5) * 60, (y + ny) / 2 + (rnd() - 0.5) * 60, nx, ny); x = nx; y = ny; }
+    g.stroke();
+  }
+  g.globalAlpha = 1; const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 4; return t;
+}
+function mcCheckTex() {   /* 크림·분홍 체크 대리석 바닥 */
+  const c = document.createElement('canvas'); c.width = 512; c.height = 512; const g = c.getContext('2d'), rnd = cwRng(77);
+  for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { g.fillStyle = (i + j) % 2 ? '#f4c9d6' : '#fff7ec'; g.fillRect(i * 128, j * 128, 128, 128); }
+  g.strokeStyle = 'rgba(190,150,160,0.35)'; for (let k = 0; k < 14; k++) { g.lineWidth = 0.6 + rnd() * 1.4; g.beginPath(); let x = rnd() * 512, y = rnd() * 512; g.moveTo(x, y); for (let s = 0; s < 4; s++) { x += (rnd() - 0.5) * 160; y += (rnd() - 0.2) * 120; g.lineTo(x, y); } g.stroke(); }
+  g.strokeStyle = 'rgba(200,160,90,0.55)'; g.lineWidth = 3; for (let i = 0; i <= 4; i++) { g.beginPath(); g.moveTo(i * 128, 0); g.lineTo(i * 128, 512); g.stroke(); g.beginPath(); g.moveTo(0, i * 128); g.lineTo(512, i * 128); g.stroke(); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; return t;
+}
+function mcPicTex(bg1, bg2, emo) {   /* 액자 그림 */
+  const c = document.createElement('canvas'); c.width = 256; c.height = 320; const g = c.getContext('2d');
+  const gr = g.createLinearGradient(0, 0, 0, 320); gr.addColorStop(0, bg1); gr.addColorStop(1, bg2); g.fillStyle = gr; g.fillRect(0, 0, 256, 320);
+  g.fillStyle = 'rgba(255,255,255,0.5)'; g.beginPath(); g.ellipse(128, 300, 150, 60, 0, 0, Math.PI * 2); g.fill();
+  g.font = '150px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(emo, 128, 165);
+  return new THREE.CanvasTexture(c);
+}
+function mcScreenTex() {   /* 노트북 화면 */
+  const c = document.createElement('canvas'); c.width = 512; c.height = 320; const g = c.getContext('2d');
+  const gr = g.createLinearGradient(0, 0, 0, 320); gr.addColorStop(0, '#fff0f6'); gr.addColorStop(1, '#efdbff'); g.fillStyle = gr; g.fillRect(0, 0, 512, 320);
+  g.fillStyle = '#ff85c0'; g.fillRect(0, 0, 512, 46); g.fillStyle = '#fff'; g.font = 'bold 30px "Malgun Gothic",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('💎 연산 문제', 256, 24);
+  g.fillStyle = '#531dab'; g.font = 'bold 84px "Segoe UI",sans-serif'; g.fillText('27 + 15', 256, 140);
+  g.fillStyle = '#fff'; g.strokeStyle = '#ff85c0'; g.lineWidth = 6; g.beginPath(); g.roundRect ? g.roundRect(176, 205, 160, 80, 18) : g.rect(176, 205, 160, 80); g.fill(); g.stroke();
+  g.fillStyle = '#eb2f96'; g.font = 'bold 60px "Segoe UI",sans-serif'; g.fillText('?', 256, 247);
+  const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
+}
+function mc3dInit() {
+  if (MC3D.ok !== null) return MC3D.ok;
+  try {
+    if (typeof THREE === 'undefined' || typeof libRBox !== 'function') throw new Error('no three');
+    const box = mcEl('mcRoom'), cv = document.createElement('canvas'); cv.className = 'mc3d'; box.insertBefore(cv, box.firstChild);
+    const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); r.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+    const S = new THREE.Scene(); S.background = new THREE.Color(0xf6d3de);
+    const cam = new THREE.PerspectiveCamera(38, 1.6, 0.1, 100);
+    S.add(new THREE.HemisphereLight(0xfff8f0, 0xe7b9c6, 0.62));
+    const sun = new THREE.DirectionalLight(0xfff1dc, 0.55); sun.position.set(-3, 11, 9); sun.castShadow = true;
+    sun.shadow.mapSize.set(1024, 1024); Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 10, bottom: -4, near: 1, far: 40 }); sun.shadow.radius = 4; S.add(sun);
+    const M = (c, o) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.7, metalness: 0 }, o || {}));
+    const GOLD = M(0xf2c14e, { roughness: 0.32, metalness: 0.55, emissive: 0x3a2400, emissiveIntensity: 0.25 });
+    const add = (geo, mat, x, y, z, o) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = !(o && o.noCast); m.receiveShadow = true; (o && o.parent || S).add(m); return m; };
+    const WZ = -4.2;   /* 뒷벽 */
+    /* 체크 대리석 바닥 */
+    const ft = mcCheckTex(); ft.repeat.set(5, 4);
+    add(new THREE.PlaneGeometry(32, 24), M(0xffffff, { map: ft, roughness: 0.28 }), 0, 0, 4, { noCast: true }).rotation.x = -Math.PI / 2;
+    /* 분홍 벽 + 흰 징두리 + 금 몰딩 */
+    add(new THREE.PlaneGeometry(32, 16), M(0xf7d5e0), 0, 8, WZ, { noCast: true });
+    for (const sx of [-1, 1]) { const sd = add(new THREE.PlaneGeometry(16, 16), M(0xf3cbd8), sx * 10.5, 8, 3.6, { noCast: true }); sd.rotation.y = -sx * Math.PI / 2; }
+    add(libRBox(32, 1.5, 0.14, 0.05), M(0xfffaf3), 0, 0.75, WZ + 0.05);
+    add(libRBox(32, 0.14, 0.24, 0.06), GOLD, 0, 1.55, WZ + 0.08);
+    add(libRBox(32, 0.24, 0.3, 0.1), GOLD, 0, 7.4, WZ + 0.1);
+    add(libRBox(32, 0.5, 0.2, 0.1), M(0xfffaf3), 0, 7.75, WZ + 0.06);
+    /* 벽 판넬(흰 판 + 금 테) */
+    for (const px of [-7.6, -4.9, 4.9, 7.6]) {
+      add(libRBox(1.9, 3.6, 0.06, 0.25), GOLD, px, 4.0, WZ + 0.04, { noCast: true });
+      add(libRBox(1.72, 3.42, 0.08, 0.22), M(0xfde7ee), px, 4.0, WZ + 0.06, { noCast: true });
+    }
+    /* 기둥 */
+    for (const cx of [-6.25, -3.15, 3.15, 6.25]) {
+      add(new THREE.CylinderGeometry(0.3, 0.3, 5.4, 24), M(0xfffaf3, { roughness: 0.4 }), cx, 4.25, WZ + 0.35);
+      add(libRBox(0.95, 0.35, 0.95, 0.1), GOLD, cx, 1.62, WZ + 0.35);
+      add(libRBox(0.95, 0.35, 0.95, 0.1), GOLD, cx, 6.95, WZ + 0.35);
+      add(new THREE.TorusGeometry(0.33, 0.07, 10, 24), GOLD, cx, 6.6, WZ + 0.35).rotation.x = Math.PI / 2;
+    }
+    /* 가운데 큰 아치 창 + 하늘 + 벨벳 커튼 */
+    const WY = 1.75, WW = 3.6, WH = 5.0;
+    const sky = document.createElement('canvas'); sky.width = 64; sky.height = 128; { const g = sky.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 128); gr.addColorStop(0, '#9fd4ff'); gr.addColorStop(0.7, '#dff1ff'); gr.addColorStop(1, '#fff3e0'); g.fillStyle = gr; g.fillRect(0, 0, 64, 128); }
+    const glass = new THREE.Mesh(new THREE.ShapeGeometry(libArch(WW, WH), 32), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sky) }));
+    glass.position.set(0, WY, WZ + 0.03); S.add(glass);
+    glass.geometry.computeBoundingBox(); { const bb = glass.geometry.boundingBox, uv = glass.geometry.attributes.uv, pos = glass.geometry.attributes.position; for (let i = 0; i < uv.count; i++) uv.setXY(i, (pos.getX(i) - bb.min.x) / (bb.max.x - bb.min.x), (pos.getY(i) - bb.min.y) / (bb.max.y - bb.min.y)); }
+    const wf = libArch(WW + 0.5, WH + 0.25); wf.holes.push(libArch(WW, WH));
+    add(new THREE.ExtrudeGeometry(wf, { depth: 0.16, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 3, curveSegments: 32 }), GOLD, 0, WY, WZ + 0.02);
+    add(libRBox(0.12, WH - 0.2, 0.1, 0.04), M(0xfffaf3), 0, WY + (WH - 0.2) / 2, WZ + 0.1, { noCast: true });
+    add(libRBox(WW, 0.12, 0.1, 0.04), M(0xfffaf3), 0, WY + 2.2, WZ + 0.1, { noCast: true });
+    const VEL = M(0xd9467a, { roughness: 0.85 });
+    for (const sx of [-1, 1]) {
+      for (let f = 0; f < 4; f++) add(new THREE.CylinderGeometry(0.2, 0.24, 5.6, 14), VEL, sx * (WW / 2 + 0.05 + f * 0.3), WY + 2.8 - 0.1, WZ + 0.45 + (f % 2) * 0.08);
+      add(new THREE.TorusGeometry(0.62, 0.08, 10, 24), GOLD, sx * (WW / 2 + 0.5), 3.0, WZ + 0.55).rotation.y = Math.PI / 2;
+      add(new THREE.SphereGeometry(0.15, 14, 10), GOLD, sx * (WW / 2 + 1.25), 3.0, WZ + 0.6);
+    }
+    add(libRBox(WW + 3.0, 0.75, 0.55, 0.25), VEL, 0, WY + WH + 0.45, WZ + 0.55);   /* 커튼 위 덮개 */
+    add(libRBox(WW + 3.1, 0.14, 0.62, 0.06), GOLD, 0, WY + WH + 0.08, WZ + 0.58);
+    for (let i = -4; i <= 4; i++) add(new THREE.SphereGeometry(0.09, 10, 8), GOLD, i * 0.6, WY + WH - 0.05, WZ + 0.86, { noCast: true });   /* 술 */
+    /* 금 액자 그림 2개 */
+    [[-4.9, '#ffd6e7', '#fff0f6', '👑'], [4.9, '#d6e4ff', '#f0f5ff', '🦄']].forEach(([px, a, b, e]) => {
+      add(libRBox(1.55, 1.9, 0.16, 0.12), GOLD, px, 4.35, WZ + 0.18);
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(1.25, 1.58), new THREE.MeshBasicMaterial({ map: mcPicTex(a, b, e) })); p.position.set(px, 4.35, WZ + 0.27); S.add(p);
+    });
+    /* 둥근 양탄자 */
+    [[4.1, 0xb8325f, 0.02], [3.85, 0xf2c14e, 0.025], [3.6, 0xd9467a, 0.03], [2.4, 0xffe7ba, 0.035], [1.2, 0xd9467a, 0.04]].forEach(([rr, c, y]) => { add(new THREE.CylinderGeometry(rr, rr, y * 2, 64), M(c, { roughness: 0.95 }), 0, y, 2.6, { noCast: true }).scale.z = 0.5; });
+    /* 긴 대리석 책상 */
+    const DZ = -0.4, DY = 1.3, DW = 7.6, DD = 1.8;
+    const mt = mcMarbleTex('#fffaf6', '#b9a3ad', 1024, 256, 5); mt.repeat.set(1, 1);
+    const MARB = M(0xffffff, { map: mt, roughness: 0.22 });
+    add(libRBox(DW, 0.3, DD, 0.14), MARB, 0, DY, DZ);
+    add(libRBox(DW - 0.15, 0.12, DD - 0.12, 0.05), GOLD, 0, DY - 0.2, DZ);
+    const apron = add(libRBox(DW - 0.7, 0.42, 0.14, 0.12), M(0xffffff, { map: mcMarbleTex('#fff5f8', '#d4b2c0', 512, 128, 9), roughness: 0.25 }), 0, DY - 0.47, DZ + DD / 2 - 0.25);
+    add(new THREE.SphereGeometry(0.2, 18, 14), GOLD, 0, DY - 0.47, DZ + DD / 2 - 0.15).scale.z = 0.5;
+    for (const ax of [-2.2, 2.2]) add(libRBox(1.2, 0.08, 0.06, 0.03), GOLD, ax, DY - 0.47, DZ + DD / 2 - 0.17, { noCast: true });
+    for (const lx of [-1, 1]) for (const lz of [-1, 1]) {
+      const x = lx * (DW / 2 - 0.45), z = DZ + lz * (DD / 2 - 0.35);
+      add(new THREE.CylinderGeometry(0.2, 0.12, DY - 0.55, 18), MARB, x, (DY - 0.55) / 2 + 0.18, z);
+      add(new THREE.SphereGeometry(0.21, 16, 12), GOLD, x, 0.18, z);
+      add(new THREE.CylinderGeometry(0.26, 0.22, 0.16, 18), GOLD, x, DY - 0.42, z);
+    }
+    const TOP = DY + 0.15;
+    /* 촛대(책상 양 끝) */
+    for (const sx of [-1, 1]) {
+      const cx = sx * 3.3, cz = DZ - 0.2;
+      add(new THREE.CylinderGeometry(0.22, 0.28, 0.08, 18), GOLD, cx, TOP + 0.04, cz);
+      add(new THREE.CylinderGeometry(0.05, 0.07, 0.75, 10), GOLD, cx, TOP + 0.42, cz);
+      add(new THREE.TorusGeometry(0.28, 0.035, 8, 20, Math.PI), GOLD, cx, TOP + 0.78, cz);
+      for (const dx of [-0.28, 0, 0.28]) {
+        const yy = TOP + (dx ? 0.8 : 0.85);
+        add(new THREE.CylinderGeometry(0.06, 0.06, 0.32, 10), M(0xfffaf0), cx + dx, yy + 0.16, cz);
+        const fl = add(new THREE.SphereGeometry(0.06, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffc94d }), cx + dx, yy + 0.38, cz, { noCast: true }); fl.scale.y = 1.6;
+        MC3D.anim.push(t => { fl.scale.y = 1.5 + Math.sin(t / 110 + dx * 9 + sx) * 0.25; });
+      }
+    }
+    /* 💻 노트북 */
+    const lap = new THREE.Group(); lap.position.set(-2.1, TOP, DZ + 0.05); S.add(lap);
+    const SHELL = M(0xeadff7, { roughness: 0.35, metalness: 0.15 });
+    add(libRBox(1.55, 0.08, 1.0, 0.05), SHELL, 0, 0.04, 0.1, { parent: lap });
+    add(libRBox(1.35, 0.02, 0.5, 0.02), M(0xc9b6e4), 0, 0.085, 0.0, { parent: lap, noCast: true });
+    add(libRBox(0.5, 0.02, 0.28, 0.02), M(0xd8cbee), 0, 0.085, 0.42, { parent: lap, noCast: true });
+    const lid = new THREE.Group(); lid.position.set(0, 0.08, -0.38); lid.rotation.x = -0.22; lap.add(lid);
+    add(libRBox(1.55, 1.0, 0.06, 0.06), SHELL, 0, 0.5, 0, { parent: lid });
+    const scr = new THREE.Mesh(new THREE.PlaneGeometry(1.38, 0.86), new THREE.MeshBasicMaterial({ map: mcScreenTex() })); scr.position.set(0, 0.5, 0.035); lid.add(scr);
+    add(new THREE.SphereGeometry(0.05, 10, 8), M(0xff85c0), 0, 0.5, -0.04, { parent: lid, noCast: true });
+    /* 💎 보석 상자 */
+    const jb = new THREE.Group(); jb.position.set(2.1, TOP, DZ + 0.05); S.add(jb);
+    const BOXC = M(0xb37feb, { roughness: 0.45 });
+    add(libRBox(1.4, 0.62, 0.95, 0.14), BOXC, 0, 0.31, 0, { parent: jb });
+    for (const bx of [-0.45, 0.45]) add(libRBox(0.12, 0.66, 1.0, 0.04), GOLD, bx, 0.31, 0, { parent: jb });
+    add(libRBox(1.45, 0.1, 1.0, 0.04), GOLD, 0, 0.06, 0, { parent: jb });
+    add(libRBox(0.26, 0.3, 0.08, 0.06), GOLD, 0, 0.45, 0.5, { parent: jb });   /* 자물쇠 */
+    const jlid = new THREE.Group(); jlid.position.set(0, 0.62, -0.47); jlid.rotation.x = -1.05; jb.add(jlid);
+    add(libRBox(1.4, 0.2, 0.95, 0.1), BOXC, 0, 0.1, 0.47, { parent: jlid });
+    add(libRBox(1.42, 0.06, 0.97, 0.03), GOLD, 0, 0.0, 0.47, { parent: jlid });
+    add(libRBox(1.25, 0.04, 0.8, 0.04), M(0xffadd2), 0, 0.6, 0, { parent: jb, noCast: true });   /* 안쪽 비단 */
+    const GEMC = [0xff4d7d, 0x40a9ff, 0x52c41a, 0xffc53d, 0xb37feb, 0x36cfc9, 0xff85c0];
+    const gems = [];
+    [[-0.4, 0.72, -0.15, 0.17], [-0.05, 0.75, 0.05, 0.2], [0.35, 0.72, -0.1, 0.16], [0.15, 0.7, 0.25, 0.14], [-0.3, 0.7, 0.25, 0.13], [0.45, 0.7, 0.25, 0.12]].forEach(([x, y, z, s], i) => {
+      const gm = add(new THREE.OctahedronGeometry(s, 0), M(GEMC[i % GEMC.length], { roughness: 0.15, metalness: 0.2, emissive: GEMC[i % GEMC.length], emissiveIntensity: 0.25, flatShading: true }), x, y, z, { parent: jb });
+      gm.scale.y = 1.25; gems.push(gm);
+    });
+    [[1.0, 0.1, 0.45, 0.12, 0], [-0.95, 0.09, 0.5, 0.1, 3], [0.8, 0.09, 0.75, 0.09, 1]].forEach(([x, y, z, s, c]) => { const gm = add(new THREE.OctahedronGeometry(s, 0), M(GEMC[c], { roughness: 0.15, emissive: GEMC[c], emissiveIntensity: 0.25, flatShading: true }), x, y, z, { parent: jb }); gm.rotation.z = 0.6; });
+    MC3D.anim.push(t => { gems.forEach((gm, i) => { gm.rotation.y = t / 900 + i; gm.position.y = 0.72 + Math.sin(t / 400 + i) * 0.03; }); });
+    /* 반짝이 */
+    const spk = document.createElement('canvas'); spk.width = spk.height = 64; { const g = spk.getContext('2d'); g.fillStyle = '#fff'; g.beginPath(); for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? 7 : 30; g.lineTo(32 + Math.cos(a) * rr, 32 + Math.sin(a) * rr); } g.fill(); }
+    const spkT = new THREE.CanvasTexture(spk);
+    for (let i = 0; i < 6; i++) {
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: spkT, color: [0xfff1b8, 0xffffff, 0xffd6e7][i % 3], transparent: true, depthWrite: false }));
+      const bx = 2.1 + (i % 3 - 1) * 0.5, by = TOP + 1.0 + (i > 2 ? 0.35 : 0), bz = DZ + 0.2; sp.position.set(bx, by, bz); S.add(sp);
+      MC3D.anim.push(t => { const s = Math.max(0, Math.sin(t / 380 + i * 1.7)); sp.scale.setScalar(0.05 + s * 0.32); sp.material.rotation = t / 700 + i; });
+    }
+    /* 크리스털 샹들리에 */
+    const ch = new THREE.Group(); ch.position.set(0, 6.4, -1.2); S.add(ch);
+    add(new THREE.CylinderGeometry(0.04, 0.04, 2.5, 8), GOLD, 0, 1.55, 0, { parent: ch, noCast: true });
+    add(new THREE.TorusGeometry(1.0, 0.07, 10, 40), GOLD, 0, 0, 0, { parent: ch, noCast: true }).rotation.x = Math.PI / 2;
+    add(new THREE.TorusGeometry(0.55, 0.06, 10, 32), GOLD, 0, 0.45, 0, { parent: ch, noCast: true }).rotation.x = Math.PI / 2;
+    add(new THREE.SphereGeometry(0.22, 16, 12), GOLD, 0, -0.25, 0, { parent: ch, noCast: true });
+    const CRY = new THREE.MeshStandardMaterial({ color: 0xe6f4ff, roughness: 0.05, metalness: 0.1, emissive: 0xbfe3ff, emissiveIntensity: 0.35, flatShading: true });
+    for (let i = 0; i < 10; i++) {
+      const a = i / 10 * Math.PI * 2, x = Math.cos(a), z = Math.sin(a);
+      add(new THREE.CylinderGeometry(0.06, 0.06, 0.22, 10), M(0xfffaf0), x, 0.16, z, { parent: ch, noCast: true });
+      add(new THREE.SphereGeometry(0.06, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffd666 }), x, 0.33, z, { parent: ch, noCast: true }).scale.y = 1.5;
+      const d = add(new THREE.OctahedronGeometry(0.09, 0), CRY, x * 0.98, -0.25, z * 0.98, { parent: ch, noCast: true }); d.scale.y = 1.8;
+    }
+    for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; const d = add(new THREE.OctahedronGeometry(0.08, 0), CRY, Math.cos(a) * 0.55, 0.15, Math.sin(a) * 0.55, { parent: ch, noCast: true }); d.scale.y = 1.8; }
+    MC3D.anim.push(t => { ch.rotation.y = Math.sin(t / 2600) * 0.15; });
+    const cl = new THREE.PointLight(0xffe6b0, 0.35, 12); cl.position.set(0, 5.6, -0.6); S.add(cl);
+    /* 큰 화분(장미 나무) */
+    for (const sx of [-1, 1]) {
+      const px = sx * 7.0, pz = -2.2;
+      add(new THREE.CylinderGeometry(0.55, 0.4, 0.9, 22), M(0xfffaf3, { roughness: 0.4 }), px, 0.45, pz);
+      add(new THREE.TorusGeometry(0.55, 0.06, 8, 24), GOLD, px, 0.88, pz).rotation.x = Math.PI / 2;
+      add(new THREE.CylinderGeometry(0.06, 0.08, 1.2, 8), M(0x8a5a2b), px, 1.4, pz);
+      add(new THREE.SphereGeometry(0.85, 22, 16), M(0x73c46a, { roughness: 0.9 }), px, 2.55, pz);
+      for (let i = 0; i < 9; i++) { const a = i * 2.4, yy = 2.55 + Math.sin(i * 1.3) * 0.5; add(new THREE.SphereGeometry(0.14, 12, 10), M(0xff7aa8, { roughness: 0.6 }), px + Math.cos(a) * 0.72, yy, pz + Math.sin(a) * 0.5 + 0.25, { noCast: true }); }
+    }
+    /* 공주(뒷모습 판) */
+    const pc = document.createElement('canvas'); pc.width = 256; pc.height = 256; const pt = new THREE.CanvasTexture(pc);
+    const PH = 2.7, pr = new THREE.Mesh(new THREE.PlaneGeometry(PH, PH), new THREE.MeshBasicMaterial({ map: pt, transparent: true, alphaTest: 0.05, depthWrite: false }));
+    pr.userData.yOff = PH / 2 - PH * 16 / 256; S.add(pr);
+    const sh = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), new THREE.MeshBasicMaterial({ color: 0x8a3050, transparent: true, opacity: 0.22, depthWrite: false }));
+    sh.rotation.x = -Math.PI / 2; sh.scale.y = 0.45; S.add(sh); pr.userData.shadow = sh;
+    /* 누르기 쉬운 투명 상자 */
+    const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+    for (const [k, g, w, h] of [['laptop', lap, 1.9, 1.5], ['jewel', jb, 1.9, 1.6]]) { const hb = new THREE.Mesh(new THREE.BoxGeometry(w, h, 1.4), hitMat); hb.position.set(0, h / 2, 0); g.add(hb); MC3D.obj[k] = { g, hb, base: g.position.clone() }; }
+    Object.assign(MC3D, { ok: true, r, scene: S, cam, pr, prTex: pt, prCv: pc, cv, TOP, DZ });
+    const hit = e => { const rc = cv.getBoundingClientRect(), v = new THREE.Vector2((e.clientX - rc.left) / rc.width * 2 - 1, -(e.clientY - rc.top) / rc.height * 2 + 1);
+      const ray = new THREE.Raycaster(); ray.setFromCamera(v, cam); return MC_ROOM_OBJ.map(o => o.k).find(k => ray.intersectObject(MC3D.obj[k].hb, false).length); };
+    cv.addEventListener('pointerdown', e => { const k = hit(e); if (k) mcRoomGo(k); });
+    cv.addEventListener('pointermove', e => { MC3D.hover = hit(e) || ''; cv.style.cursor = MC3D.hover ? 'pointer' : ''; });
+    cv.addEventListener('pointerleave', () => { MC3D.hover = ''; });
+    box.classList.add('is3d');
+  } catch (e) { console.warn('mc3d off', e); MC3D.ok = false; }
+  return MC3D.ok;
+}
+function mc3dSize() {
+  const box = mcEl('mcRoom'), w = box.clientWidth || 800, h = box.clientHeight || 500, a = w / h;
+  MC3D.w = box.clientWidth; MC3D.h = box.clientHeight; MC3D.r.setSize(w, h, false); MC3D.cam.aspect = a;
+  const dist = Math.max(11.2, (a < 1 ? 4.6 : 7.4) / (Math.tan(19 * Math.PI / 180) * a)), back = dist + MC3D.DZ;   /* 책상이 크게 보이게 */
+  MC3D.cam.position.set(0, 4.3 + (dist - 11.2) * 0.2, back); MC3D.cam.lookAt(0, 2.45, MC3D.DZ); MC3D.cam.updateProjectionMatrix();
+}
+function mc3dPrincess(x, z, phase, op) {
+  const g = MC3D.prCv.getContext('2d'), sv = getSave(); g.clearRect(0, 0, 256, 256);
+  try { if (!drawPrincessBack(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0)) drawPrincessCombined(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0, false); } catch (e) {}
+  MC3D.prTex.needsUpdate = true;
+  const pr = MC3D.pr; pr.position.set(x, pr.userData.yOff, z); pr.material.opacity = op; pr.userData.shadow.position.set(x, 0.08, z + 0.05); pr.userData.shadow.material.opacity = 0.22 * op;
+  pr.lookAt(MC3D.cam.position.x, pr.position.y, MC3D.cam.position.z);
+}
+function mc3dLabels() {
+  const box = mcEl('mcRoom'), w = box.clientWidth, h = box.clientHeight;
+  for (const o of MC_ROOM_OBJ) {
+    const v = new THREE.Vector3(o.x, MC3D.TOP + 1.75, MC3D.DZ).project(MC3D.cam), el = mcEl('mcSub_' + o.k);
+    el.style.left = ((v.x + 1) / 2 * w) + 'px'; el.style.top = ((1 - v.y) / 2 * h - 40) + 'px';
+  }
+}
+function mc3dLoop(t) {
+  const box = mcEl('mcRoom');
+  if (currentScreen !== 'math' || box.style.display === 'none') { MC3D.raf = 0; return; }
+  MC3D.raf = requestAnimationFrame(mc3dLoop);
+  if (box.clientWidth && (box.clientWidth !== MC3D.w || box.clientHeight !== MC3D.h)) { mc3dSize(); mc3dLabels(); if (!MC3D.walk) mc3dPrincess(0, 3.0, 0, 1); }
+  mc3dLabels(); MC3D.anim.forEach(f => f(t));
+  for (const k in MC3D.obj) { const o = MC3D.obj[k], on = MC3D.hover === k || (MC3D.walk && MC3D.walk.k === k); o.g.position.y = o.base.y + (on ? 0.08 + Math.sin(t / 120) * 0.03 : Math.sin(t / 700 + (k === 'jewel' ? 2 : 0)) * 0.015); }
+  const W = MC3D.walk;
+  if (W) {
+    const p = Math.min(1, (t - W.t0) / 1000), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    mc3dPrincess(W.x0 + (W.x1 - W.x0) * e, W.z0 + (W.z1 - W.z0) * e, (t - W.t0) / 90, p < 0.8 ? 1 : 1 - (p - 0.8) / 0.2 * 0.6);
+  }
+  MC3D.r.render(MC3D.scene, MC3D.cam);
+}
+function mcRoomBuild() {
+  const box = mcEl('mcRoom'); if (box.dataset.built) return; box.dataset.built = '1';
+  box.innerHTML = `<div class="mc3d-wrap">${MC_ROOM_OBJ.map(o => `<div class="mc3d-sub" id="mcSub_${o.k}"><b>${o.name}</b><small id="mcSubS_${o.k}"></small></div>`).join('')}</div>
+    <div class="mc-room2d">${MC_ROOM_OBJ.map(o => `<button class="btn-3d mc-room2d-b" data-k="${o.k}"><b>${o.name}</b><small id="mcSub2_${o.k}"></small></button>`).join('')}</div>`;
+  box.querySelectorAll('.mc-room2d-b').forEach(b => { b.onclick = () => { playSfx('click'); mcRoomGo(b.dataset.k); }; });
+}
+function mcRoomSubs() {
+  const us = mcUnitsOf(mcSem), dn = us.filter(u => mcUnitDone(u.id)).length;
+  const s = { laptop: `${mcSem.replace('-', '학년 ')}학기 · ${dn ? `👑 ${dn}/${us.length}` : `${us.length}단원`}`, jewel: '🧱 수 모형 · 🧩 칠교' };
+  for (const k in s) { mcEl('mcSubS_' + k).textContent = s[k]; mcEl('mcSub2_' + k).textContent = s[k]; }
+}
+function mcShowRoom() {
+  mcView('room'); mcWait = false; mcWalking = false;
+  mcEl('mcSemTabs').innerHTML = '<span class="mc-roomhint">💎 노트북이나 보석 상자를 눌러 봐요!</span>';
+  mcRoomBuild(); mcRoomSubs();
+  const box = mcEl('mcRoom');
+  if (!mc3dInit()) { box.classList.add('no3d'); return; }
+  box.querySelectorAll('.mc3d-sub').forEach(e => { e.style.opacity = 1; });
+  MC3D.walk = null; MC3D.hover = '';
+  mc3dSize(); mc3dPrincess(0, 3.0, 0, 1); mc3dLabels();
+  if (!MC3D.raf) MC3D.raf = requestAnimationFrame(mc3dLoop);
+}
+function mcRoomGo(k) {
+  const go = () => { mcWalking = false; MC3D.walk = null; if (k === 'laptop') mcShowHub(); else { mcToolFrom = 'room'; mcShowTool(mcToolNow || 'blocks'); } };
+  if (!MC3D.ok) return go();
+  if (mcWalking) return; mcWalking = true; playSfx('click');
+  mcEl('mcRoom').querySelectorAll('.mc3d-sub').forEach(e => { e.style.opacity = 0; });
+  const o = MC_ROOM_OBJ.find(x => x.k === k);
+  MC3D.walk = { k, t0: performance.now(), x0: MC3D.pr.position.x, z0: MC3D.pr.position.z, x1: o.x, z1: MC3D.DZ + 1.35 };
+  setTimeout(() => { if (currentScreen === 'math' && mcWalking) go(); else mcWalking = false; }, 1150);
 }
 
 
