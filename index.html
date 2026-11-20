@@ -399,7 +399,7 @@
   .gd-row span { text-align: left; }
   .gd-row b { font-family: 'Jua', sans-serif; font-weight: normal; color: #1d4e89; font-size: 1.02rem; }
   .gd-foot { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
-  .gd-dots { flex: 1; display: flex; gap: 5px; } .gd-dots i { width: 9px; height: 9px; border-radius: 50%; background: #d6e4ff; } .gd-dots i.on { background: #2f54eb; width: 22px; border-radius: 6px; }
+  .gd-dots { flex: 1; display: flex; gap: 5px; min-width: 0; } .gd-cnt { font-family: 'Jua', sans-serif; font-weight: normal; color: #2f54eb; font-size: 1rem; } .gd-foot button { white-space: nowrap; } .gd-dots i { width: 9px; height: 9px; border-radius: 50%; background: #d6e4ff; } .gd-dots i.on { background: #2f54eb; width: 22px; border-radius: 6px; }
   .gd-hl { position: relative; z-index: 9600 !important; box-shadow: 0 0 0 4px #ffd666, 0 0 18px 6px rgba(255,214,102,0.9) !important; animation: gdGlow 1s ease-in-out infinite; }
   @keyframes gdGlow { 50% { box-shadow: 0 0 0 6px #ffc53d, 0 0 26px 10px rgba(255,197,61,0.95) !important; } }
   @media (max-width: 560px) { .gd-row { grid-template-columns: 1fr; gap: 2px; } .gd-scr { height: 150px; } .gd-ttl { font-size: 1.15rem; } #btnHelp { padding: 4px 8px; } .gd-hlbl { display: none; } }
@@ -3810,14 +3810,18 @@ function mcJudge(ok, btn) {
 function mcFinish() {
   const u = mcUnit, k = mcStage, stars = mcFirstOk >= 10 ? 3 : mcFirstOk >= 9 ? 2 : mcFirstOk >= MC_PASS ? 1 : 0;
   let unitNow = false;
-  if (stars) mcSaveMc((m, sv) => { const a = (m.st[u.id] || [0, 0, 0, 0, 0]).slice(), was = a.every(s => s > 0); a[k] = Math.max(a[k], stars); m.st[u.id] = a; sv.s = (Number(sv.s) || 0) + 3; if (!was && a.every(s => s > 0)) { unitNow = true; sv.s += 10; } });
+  let gain = 0, gainTxt = '';   /* 11-20 코인: 처음 통과 +5 · 다시 하면 +1 · ⭐⭐⭐ 처음 +2 · 단원 다 마치면 +10 */
+  if (stars) mcSaveMc((m, sv) => { const a = (m.st[u.id] || [0, 0, 0, 0, 0]).slice(), was = a.every(s => s > 0), prev = a[k] || 0; a[k] = Math.max(a[k], stars); m.st[u.id] = a;
+    const parts = [prev ? ['다시 해서', 1] : ['처음 통과', 5]]; if (stars === 3 && prev < 3) parts.push(['⭐⭐⭐', 2]);
+    if (!was && a.every(s => s > 0)) { unitNow = true; parts.push(['단원 완성', 10]); }
+    gain = parts.reduce((t, x) => t + x[1], 0); sv.s = (Number(sv.s) || 0) + gain; gainTxt = parts.map(x => `${x[0]} +${x[1]}`).join(' · '); });
   mcSide();
   const us = mcUnitsOf(u.sem), ui = us.indexOf(u), nextU = us[ui + 1] || MC_UNITS[MC_UNITS.indexOf(u) + 1];
   const box = document.querySelector('#mcPlay .problem-stage-box'); const r = document.createElement('div'); r.id = 'mcRes'; r.className = 'mc-res';
   if (stars) {
     playSfx('coin');
     r.innerHTML = `<div class="mc-res-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}</div><div class="jua mc-res-t">${unitNow ? `👑 「${u.name}」 단원을 다 익혔어요!` : `${k + 1}단계 ${MC_STAGE[k]} 통과!`}</div>
-      <div>10문제 중 <b>${mcFirstOk}문제</b>를 한 번에 맞혔어요. ${unitNow ? '+3 +10 🪙' : '+3 🪙'}</div>
+      <div>10문제 중 <b>${mcFirstOk}문제</b>를 한 번에 맞혔어요. <br><b class="mc-gain">🪙 코인이 ${gain} 늘어요</b> <small>(${gainTxt})</small></div>
       <div class="mc-res-b">${k < 4 ? `<button class="btn-3d primary" id="mcResNext">다음 단계 ${MC_STAGE[k + 1]} ▶</button>` : (nextU ? `<button class="btn-3d primary" id="mcResNext">다음 단원 ${nextU.name} ▶</button>` : '')}
       <button class="btn-3d" id="mcResAgain">🔁 한 번 더</button><button class="btn-3d" id="mcResHub">단원 목록</button></div>`;
   } else {
@@ -5289,14 +5293,18 @@ function enJudge(ok, btn) {
 function enFinish() {
   const u = enUnit, k = enStage, SG = enStages(u), N = enTotal, PASS = Math.round(N * EN_PASS / 10), stars = enFirstOk >= N ? 3 : enFirstOk >= N - 1 ? 2 : enFirstOk >= PASS ? 1 : 0;
   let unitNow = false;
-  if (stars) enSaveEng((m, sv) => { const a = (m.st[u.id] || [0, 0, 0, 0, 0]).slice(), was = a.every(s => s > 0); a[k] = Math.max(a[k], stars); m.st[u.id] = a; sv.s = (Number(sv.s) || 0) + 3; if (!was && a.every(s => s > 0)) { unitNow = true; sv.s += 10; } });
+  let gain = 0, gainTxt = '';   /* 11-20 코인: 처음 통과 +5 · 다시 하면 +1 · ⭐⭐⭐ 처음 +2 · 단원 다 마치면 +10 */
+  if (stars) enSaveEng((m, sv) => { const a = (m.st[u.id] || [0, 0, 0, 0, 0]).slice(), was = a.every(s => s > 0), prev = a[k] || 0; a[k] = Math.max(a[k], stars); m.st[u.id] = a;
+    const parts = [prev ? ['다시 해서', 1] : ['처음 통과', 5]]; if (stars === 3 && prev < 3) parts.push(['⭐⭐⭐', 2]);
+    if (!was && a.every(s => s > 0)) { unitNow = true; parts.push(['단원 완성', 10]); }
+    gain = parts.reduce((t, x) => t + x[1], 0); sv.s = (Number(sv.s) || 0) + gain; gainTxt = parts.map(x => `${x[0]} +${x[1]}`).join(' · '); });
   enSide();
   const list = enUnitsOf(u), nextU = list[list.indexOf(u) + 1];
   const box = document.querySelector('#enPlay .problem-stage-box'); const r = document.createElement('div'); r.id = 'enRes'; r.className = 'mc-res';
   if (stars) {
     playSfx('coin');
     r.innerHTML = `<div class="mc-res-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}</div><div class="jua mc-res-t">${unitNow ? `👑 「${u.name}」 단원을 다 익혔어요!` : `${k + 1}단계 ${SG[k]} 통과!`}</div>
-      <div>${N}문제 중 <b>${enFirstOk}문제</b>를 한 번에 맞혔어요. ${unitNow ? '+3 +10 🪙' : '+3 🪙'}</div>
+      <div>${N}문제 중 <b>${enFirstOk}문제</b>를 한 번에 맞혔어요. <br><b class="mc-gain">🪙 코인이 ${gain} 늘어요</b> <small>(${gainTxt})</small></div>
       <div class="mc-res-b">${k < 4 ? `<button class="btn-3d primary" id="enResNext">다음 단계 ${SG[k + 1]} ▶</button>` : (nextU && enUnitOpen(nextU) ? `<button class="btn-3d primary" id="enResNext">다음 단원 ${nextU.name} ▶</button>` : '')}
       <button class="btn-3d" id="enResAgain">🔁 한 번 더</button><button class="btn-3d" id="enResHub">단원 목록</button></div>`;
   } else {
@@ -5511,21 +5519,30 @@ const GUIDES = {
       demo: [{ it: [gdI('3 + 4 = ?', 50, 30, 1.8, 'gd-txt'), gdI('6', 28, 72, 1.5, 'gd-key'), gdI('7', 50, 72, 1.5, 'gd-key'), gdI('8', 72, 72, 1.5, 'gd-key')], h: [50, 74], c: '답을 골라요' },
              { it: [gdI('3 + 4 = 7', 50, 30, 1.8, 'gd-txt'), gdI('⭕', 50, 72, 2.2, 'gd-pop')], h: [50, 74], tap: 1, c: '정답!' },
              { it: [gdI('+1 🪙', 50, 45, 2.6, 'gd-pop gd-coin')], c: '코인이 생겼어요' }] },
-    { t: '⚡ 에너지가 뭐예요?', d: '에너지는 <b>공주의 힘</b>이에요. 위쪽 <b>⚡ 막대</b>에서 볼 수 있고, 가장 많이 <b>100</b>까지 찰 수 있어요.<br>⚡ <b>20 아래</b>로 떨어지면 쉬러 가자는 알림이 떠요.', hl: '#energyFill',
-      demo: [{ it: [gdI('⚡ 100', 50, 32, 2, 'gd-txt gd-up'), gdI('💪', 50, 70, 2.4)], c: '힘이 가득!' },
-             { it: [gdI('⚡ 50', 50, 32, 2, 'gd-txt'), gdI('🙂', 50, 70, 2.4)], c: '조금 썼어요' },
-             { it: [gdI('⚡ 20', 50, 32, 2, 'gd-txt gd-down'), gdI('🥱', 50, 70, 2.4, 'gd-pop')], c: '이제 쉬러 가요!' }] },
-    { t: '⚡ 에너지가 줄어요', d: '앱을 켜 두면 <b>1분에 ⚡ 에너지가 1 줄어요</b> (침대에서 잘 때는 안 줄어요)<br>공부 건물에 들어가면 <b>⚡ 에너지가 3 줄어요</b> · 블록 공방은 <b>⚡ 에너지가 5 줄어요</b><br>식물원에서 물을 주면 <b>⚡ 에너지가 10 줄어요</b>', hl: '#energyFill',
-      demo: [{ it: [gdI('⏰ 1분', 50, 30, 1.6, 'gd-txt'), gdI('⚡ 에너지가 1 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '켜 두기만 해도' },
-             { it: [gdI('📚 💎 🔤 🌟', 50, 30, 1.6), gdI('⚡ 에너지가 3 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '공부 건물에 들어가면' },
-             { it: [gdI('💠', 50, 30, 2.2), gdI('⚡ 에너지가 5 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '블록 공방에 들어가면' },
-             { it: [gdI('🌱💧', 50, 30, 2.2), gdI('⚡ 에너지가 10 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '물을 주면' }] },
-    { t: '⚡ 에너지 채우기', d: '앱을 쉬면 <b>1분에 ⚡ 에너지가 1 늘어요</b><br>침대에서 자면 <b>10분마다 ⚡ 에너지가 5 늘어요</b><br>카페·식당에서 먹으면 <b>⚡ 에너지가 5 늘어요</b> (코인을 써요)<br>공연장 음악회 <b>⚡ 에너지가 5 늘어요</b> · 놀이터에 가면 <b>⚡ 에너지가 10 늘어요</b>', hl: '#energyFill',
-      demo: [{ it: [gdI('📱💤', 50, 30, 2.2), gdI('1분 ⚡ 에너지가 1 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '앱을 쉬면' },
-             { it: [gdI('🛏️', 50, 30, 2.4), gdI('10분 ⚡ 에너지가 5 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '침대에서 쿨쿨' },
-             { it: [gdI('🥐 🍝', 50, 30, 2.2), gdI('⚡ 에너지가 5 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '맛있게 먹으면' },
-             { it: [gdI('🎻', 50, 30, 2.4), gdI('⚡ 에너지가 5 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '음악회를 보면' },
-             { it: [gdI('🛝', 50, 30, 2.4), gdI('⚡ 에너지가 10 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '놀이터에서 놀면' }] },
+    { t: '⚡ 에너지가 뭐예요?', d: '에너지는 <b>공주의 힘</b>이에요.', hl: '#energyFill',
+      demo: [{ it: [gdI('👸', 50, 40, 3), gdI('💪', 72, 30, 2, 'gd-pop')], c: '공주의 힘' }] },
+    { t: '⚡ 에너지가 뭐예요?', d: '위쪽 <b>⚡ 막대</b>에서 볼 수 있고, 가장 많이 <b>100</b>까지 차요.', hl: '#energyFill',
+      demo: [{ it: [gdI('⚡ 100', 50, 32, 2, 'gd-txt gd-up'), gdI('💪', 50, 70, 2.4)], c: '힘이 가득!' }, { it: [gdI('⚡ 50', 50, 32, 2, 'gd-txt'), gdI('🙂', 50, 70, 2.4)], c: '조금 썼어요' }] },
+    { t: '⚡ 에너지가 뭐예요?', d: '⚡ <b>20 아래</b>로 떨어지면 쉬러 가자는 알림이 떠요.', hl: '#energyFill',
+      demo: [{ it: [gdI('⚡ 20', 50, 32, 2, 'gd-txt gd-down'), gdI('🥱', 50, 70, 2.4, 'gd-pop')], c: '이제 쉬러 가요!' }] },
+    { t: '⚡ 에너지가 줄어요', d: '앱을 켜 두면 <b>1분에 ⚡ 에너지가 1 줄어요</b>. (침대에서 잘 때는 안 줄어요)', hl: '#energyFill',
+      demo: [{ it: [gdI('⏰ 1분', 50, 30, 1.6, 'gd-txt'), gdI('⚡ 에너지가 1 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 줄어요', d: '공부 건물에 들어가면 <b>⚡ 에너지가 3 줄어요</b>.', hl: '#energyFill',
+      demo: [{ it: [gdI('📚 💎 🔤 🌟', 50, 30, 1.6), gdI('⚡ 에너지가 3 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 줄어요', d: '블록 공방에 들어가면 <b>⚡ 에너지가 5 줄어요</b>.', hl: '#energyFill',
+      demo: [{ it: [gdI('💠', 50, 30, 2.2), gdI('⚡ 에너지가 5 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 줄어요', d: '식물원에서 물을 주면 <b>⚡ 에너지가 10 줄어요</b>.', hl: '#energyFill',
+      demo: [{ it: [gdI('🌱💧', 50, 30, 2.2), gdI('⚡ 에너지가 10 줄어요', 50, 70, 1.25, 'gd-txt gd-down gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 늘어요', d: '앱을 쉬면 <b>1분에 ⚡ 에너지가 1 늘어요</b>.', hl: '#energyFill',
+      demo: [{ it: [gdI('📱💤', 50, 30, 2.2), gdI('1분 ⚡ 에너지가 1 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 늘어요', d: '침대에서 자면 <b>10분마다 ⚡ 에너지가 5 늘어요</b>.', hl: '#energyFill',
+      demo: [{ it: [gdI('🛏️', 50, 30, 2.4), gdI('10분 ⚡ 에너지가 5 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 늘어요', d: '카페·식당에서 먹으면 <b>⚡ 에너지가 5 늘어요</b>. (코인을 써요)', hl: '#energyFill',
+      demo: [{ it: [gdI('🥐 🍝', 50, 30, 2.2), gdI('⚡ 에너지가 5 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 늘어요', d: '공연장에서 음악회를 보면 <b>⚡ 에너지가 5 늘어요</b>.', hl: '#energyFill',
+      demo: [{ it: [gdI('🎻', 50, 30, 2.4), gdI('⚡ 에너지가 5 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '' }] },
+    { t: '⚡ 에너지가 늘어요', d: '놀이터에 가면 <b>⚡ 에너지가 10 늘어요</b>.', hl: '#energyFill',
+      demo: [{ it: [gdI('🛝', 50, 30, 2.4), gdI('⚡ 에너지가 10 늘어요', 50, 70, 1.25, 'gd-txt gd-up gd-pop')], c: '' }] },
     { t: '🏛️ 새 건물 짓기', d: '<b>시청</b>에서 새 건물을 신청하면 하루(24시간) 뒤에 마을에 생겨요. 건물마다 100~600 코인이에요.<br>처음 들어가는 건물마다 이런 설명이 나와요.',
       demo: [{ it: [gdI('🏛️', 50, 40, 3.4), gdI('🪙 300', 50, 80, 1.3, 'gd-txt')], h: [50, 42], c: '시청에서 신청' },
              { it: [gdI('🏗️', 50, 45, 3.4, 'gd-pop'), gdI('⏰ 24시간', 50, 82, 1.2, 'gd-txt')], c: '뚝딱뚝딱 공사 중' },
@@ -5543,19 +5560,21 @@ const GUIDES = {
   reading: { same: 'crossword' },
   math: { title: '💎 보석 계산실', bg: 'pink', kind: 'earn',
     what: '긴 대리석 책상에서 골라요. <b>💻 노트북</b>을 누르면 교과서 단원별 연산 문제, <b>💎 보석 상자</b>를 누르면 교구 놀이(수 모형·칠교)예요. 한 단원은 5단계, 10문제 중 8문제를 한 번에 맞히면 다음 단계가 열려요.',
-    coin: '한 번에 맞히면 <b>+1</b> · 단계 통과 <b>+3</b> · 단원 다 마치면 <b>+10</b> · 수 모형 성공 +2 · 칠교 처음 완성 +5',
+    coin: '한 번에 맞히면 <b>+1</b> · 단계 처음 통과 <b>+5</b> · 통과한 단계 다시 하면 <b>+1</b> · ⭐⭐⭐ 처음 받으면 <b>+2</b> 더 · 단원 다 마치면 <b>+10</b> · 수 모형 성공 +2 · 칠교 처음 완성 +5',
     energy: '들어갈 때 <b>⚡ 에너지가 3 줄어요</b>',
     demo: [{ it: [gdI('💻', 32, 50, 3), gdI('💎', 70, 50, 3)], h: [32, 52], c: '노트북을 눌러요' },
            { it: [gdI('27 + 15 = ?', 50, 30, 1.8, 'gd-txt'), gdI('4', 36, 72, 1.4, 'gd-key'), gdI('2', 52, 72, 1.4, 'gd-key'), gdI('✅', 72, 72, 1.4, 'gd-key')], h: [36, 74], tap: 1, c: '숫자를 눌러요' },
            { it: [gdI('27 + 15 = 42', 50, 30, 1.8, 'gd-txt'), gdI('✅', 72, 72, 1.4, 'gd-key')], h: [72, 74], tap: 1, c: '정답 확인!' },
-           { it: [gdI('+1 🪙', 50, 45, 2.6, 'gd-pop gd-coin')], c: '한 번에 맞혔어요' }] },
+           { it: [gdI('+1 🪙', 50, 45, 2.6, 'gd-pop gd-coin')], c: '한 번에 맞혔어요' },
+           { it: [gdI('⭐⭐⭐', 50, 32, 2.2, 'gd-pop'), gdI('처음 통과 +5 🪙', 50, 72, 1.5, 'gd-coin')], c: '단계를 처음 통과하면' }] },
   english: { title: '🔤 영어 학교', bg: 'mint', kind: 'earn',
     what: '복도의 문 세 개 중에 골라요. <b>📘 기본 Voca</b> · <b>✏️ Grammar</b> · <b>📗 Journeys</b>(학원 교재 낱말). 단원마다 5단계, 80% 이상 한 번에 맞히면 다음 단계예요. 🔊를 누르면 영어로 읽어 줘요.',
-    coin: '한 번에 맞히면 <b>+1</b> · 단계 통과 <b>+3</b> · 단원 다 마치면 <b>+10</b>',
+    coin: '한 번에 맞히면 <b>+1</b> · 단계 처음 통과 <b>+5</b> · 통과한 단계 다시 하면 <b>+1</b> · ⭐⭐⭐ 처음 받으면 <b>+2</b> 더 · 단원 다 마치면 <b>+10</b>',
     energy: '들어갈 때 <b>⚡ 에너지가 3 줄어요</b>',
     demo: [{ it: [gdI('🚪', 22, 48, 2.6), gdI('🚪', 50, 48, 2.6), gdI('🚪', 78, 48, 2.6), gdI('📘', 22, 20, 1.3), gdI('✏️', 50, 20, 1.3), gdI('📗', 78, 20, 1.3)], h: [22, 52], tap: 1, c: '교실 문을 골라요' },
            { it: [gdI('🍎', 50, 28, 2.4), gdI('apple', 30, 74, 1.2, 'gd-key'), gdI('bread', 70, 74, 1.2, 'gd-key')], h: [30, 76], tap: 1, c: '알맞은 낱말을 골라요' },
-           { it: [gdI('⭕ apple', 50, 40, 2, 'gd-txt gd-pop'), gdI('+1 🪙', 50, 75, 1.6, 'gd-coin')], c: '정답!' }] },
+           { it: [gdI('⭕ apple', 50, 40, 2, 'gd-txt gd-pop'), gdI('+1 🪙', 50, 75, 1.6, 'gd-coin')], c: '정답!' },
+           { it: [gdI('⭐⭐⭐', 50, 32, 2.2, 'gd-pop'), gdI('처음 통과 +5 🪙', 50, 72, 1.5, 'gd-coin')], c: '단계를 처음 통과하면' }] },
   sentence: { title: '🌟 별빛 관측소', bg: 'night', kind: 'earn',
     what: '빈칸에 알맞은 말을 넣어 <b>문장을 완성</b>하고, <b>반대말</b>을 찾아요.',
     coin: '맞힐 때마다 <b>+1</b>',
@@ -5653,7 +5672,7 @@ function gdShow(key) {
       if (S.hl) { const el = document.querySelector(S.hl); const tgt = el && (el.closest('.chip') || el); if (tgt) tgt.classList.add('gd-hl'); }
       ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${S.t}</div><button class="gd-skip">건너뛰기 ⏭️</button></div>
         <div class="gd-demo"></div><div class="gd-desc">${S.d}</div>
-        <div class="gd-foot"><div class="gd-dots">${G.steps.map((_, j) => `<i class="${j === s ? 'on' : ''}"></i>`).join('')}</div>
+        <div class="gd-foot"><div class="gd-dots">${G.steps.length > 9 ? `<b class="gd-cnt">${s + 1} / ${G.steps.length}</b>` : G.steps.map((_, j) => `<i class="${j === s ? 'on' : ''}"></i>`).join('')}</div>
         ${s ? '<button class="btn-3d gd-prev">◀ 앞으로</button>' : ''}<button class="btn-3d primary gd-next">${s < G.steps.length - 1 ? '다음 ▶' : '시작하기! 🎉'}</button></div></div>`;
       gdPlay(ov.querySelector('.gd-demo'), S.demo, G.bg);
       ov.querySelector('.gd-skip').onclick = () => { playSfx('click'); gdClose(); };
