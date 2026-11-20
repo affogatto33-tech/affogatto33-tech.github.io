@@ -4092,13 +4092,13 @@ DECOS.push({ id: 'deco_construct', name: '공사 중', icon: '🏗️', cost: 0,
   roof: 0xffd666, wall: 0xffe7ba, doorScreen: 'cityhall', sign: '🏗️ 공사 중' });
 const CITY_BUILD_MS = 24 * 3600 * 1000;
 const CITY_LIST = [
+  { id: 'deco_rest', name: '식당', icon: '🍽️', cost: 100, note: '요리하고 먹기' },
+  { id: 'deco_greenhouse', name: '식물원', icon: '🌿', cost: 100, note: '나무·꽃 키우기' },
+  { id: 'deco_boutique', name: '옷가게', icon: '👗', cost: 100, note: '옷 사기' },
+  { id: 'deco_salon', name: '미용실', icon: '💇', cost: 100, note: '머리 꾸미기' },
   { id: 'tetris', name: '블록 공방', icon: '🧱', cost: 300, study: true, note: '블록 쌓기 도형 놀이' },
   { id: 'deco_cafe', name: '베이커리 카페', icon: '🥐', cost: 300, note: '빵 만들기' },
   { id: 'deco_playground', name: '놀이터', icon: '🛝', cost: 300, note: '미끄럼틀·그네' },
-  { id: 'deco_rest', name: '식당', icon: '🍽️', cost: 400, note: '요리하고 먹기' },
-  { id: 'deco_greenhouse', name: '식물원', icon: '🌿', cost: 400, note: '나무·꽃 키우기' },
-  { id: 'deco_boutique', name: '옷가게', icon: '👗', cost: 500, note: '옷 사기' },
-  { id: 'deco_salon', name: '미용실', icon: '💇', cost: 500, note: '머리 꾸미기' },
   { id: 'deco_theater', name: '공연장', icon: '🎻', cost: 600, note: '음악회 보기' }
 ];
 const cityItem = id => CITY_LIST.find(x => x.id === id) || null;
