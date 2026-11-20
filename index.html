@@ -929,7 +929,7 @@
   <div class="modal-card" style="width:min(400px, 92vw); text-align:center; gap:10px;">
     <div style="font-size:2.6rem; line-height:1;">⚡😴</div>
     <h3 style="margin:0;">에너지가 <span id="energyModalVal">20</span>밖에 안 남았어요!</h3>
-    <div style="font-size:0.92rem; color:#7a5f43; line-height:1.5;">성에 가서 침대에서 푹 쉬거나,<br><b style="color:#a8071a;">빨간 간판</b> 장소(카페·식당·공연장·놀이터)에 가서<br>에너지를 채워 주세요.</div>
+    <div style="font-size:0.92rem; color:#7a5f43; line-height:1.5;">성 침대에서 자거나(10분마다 ⚡+5), 앱을 쉬거나(1분마다 ⚡+1),<br><b style="color:#a8071a;">빨간 간판</b> 장소(카페·식당·공연장·놀이터)에 가서<br>에너지를 채워 주세요.</div>
     <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
       <button class="btn-3d primary" onclick="energyGo('room')">🏰 성에서 쉬기</button>
       <button class="btn-3d" onclick="energyGo('cafe')">🍰 카페 가기</button>
@@ -4368,10 +4368,11 @@ function roomGoToSleep() {
   room3.zzz.forEach(z => z.visible = true);
   document.getElementById('btnSleepBed').classList.remove('show');
   document.getElementById('btnWakeUp').classList.add('show');
-  document.getElementById('roomStateChip').textContent = '잠옷 입고 쿨쿨 자는 중...';
+  document.getElementById('roomStateChip').textContent = '잠옷 입고 쿨쿨 자는 중... (10분마다 ⚡+5)';
   if (_sTex) { roomView.tYaw = 0; roomView.tPitch = -0.12; roomView.tFov = 50; }
   else { roomView.tYaw = 0; roomView.tPitch = -0.5; roomView.tFov = 58; }
-  addEnergy(100); playSfx('coin'); showToast('잘 자요, ' + chTitle() + '님! 에너지가 100이 되었어요');
+  room3.sleepT0 = Date.now(); room3.sleepPaid = 0;   /* 11-20(9) 자는 동안 10분마다 ⚡+5 */
+  playSfx('coin'); showToast('잘 자요, ' + chTitle() + '님! 자는 동안 10분마다 에너지 ⚡+5 회복돼요');
 }
 function roomWakeUp() {
   if (!room3 || !room3.asleep) return;
@@ -4924,13 +4925,36 @@ function energyLowCheck() {
   document.getElementById('energyModalVal').textContent = en;
   m.classList.add('open');
 }
+/* 11-20(9) 앱을 안 쓰는 동안 1분에 ⚡+1 · 침대에서 자면 10분에 ⚡+5 */
+function enAwayKey() { return 'princess_enT_' + (currentUser || ''); }
+function energyRestTick() {
+  try {
+    if (!currentUser || friendVisit || document.visibilityState !== 'visible') return;
+    const now = Date.now(), k = enAwayKey(); let last = 0;
+    try { last = Number(localStorage.getItem(k)) || 0; } catch (e) {}
+    if (last && now - last >= 60000) {
+      const n = Math.floor((now - last) / 60000), before = Number(getSave().en) || 0;
+      addEnergy(n);
+      const got = Math.min(100, before + n) - before;
+      if (got > 0) showToast(`😴 쉬는 동안 에너지가 ⚡+${got} 회복됐어요!`);
+      if (typeof room3 !== 'undefined' && room3 && room3.asleep) { room3.sleepT0 = now; room3.sleepPaid = 0; }
+    }
+    try { localStorage.setItem(k, String(now)); } catch (e) {}
+    if (typeof room3 !== 'undefined' && room3 && room3.asleep && room3.sleepT0 && currentScreen === 'room') {
+      const due = Math.floor((now - room3.sleepT0) / 600000);
+      if (due > (room3.sleepPaid || 0)) { const add = (due - (room3.sleepPaid || 0)) * 5; room3.sleepPaid = due; addEnergy(add); playSfx('coin'); showToast(`💤 푹 잤더니 에너지 ⚡+${add}!`); }
+    }
+  } catch (e) {}
+}
+setInterval(energyRestTick, 5000);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') energyRestTick(); });
 function energyGo(where) {
   document.getElementById('energyModal').classList.remove('open');
   if (where === 'room') switchScreen('room', true);
   else if (where) switchScreen(where, true);
 }
 setInterval(() => {
-  try { if (currentUser && !friendVisit && document.visibilityState === 'visible' && !document.getElementById('authModal').classList.contains('open')) addEnergy(-1); } catch (e) {}
+  try { if (currentUser && !friendVisit && document.visibilityState === 'visible' && !document.getElementById('authModal').classList.contains('open') && !(typeof room3 !== 'undefined' && room3 && room3.asleep)) addEnergy(-1); } catch (e) {}
 }, 60000);
 
 /* ============================================================================
