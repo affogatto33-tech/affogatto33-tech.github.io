@@ -4815,7 +4815,7 @@ function enEnter() { const d = enData(); enTab = ['g', 'j'].includes(d.tab) ? d.
 function enShowHub() {
   enView('hub'); enWait = false; try { speechSynthesis.cancel(); } catch (e) {}
   const tabs = enEl('enTabs'), R = enRoomOf(enTab);   /* 11-20(2) 탭 대신: 복도로 나가는 단추 + 지금 교실 이름 */
-  tabs.innerHTML = `<button class="btn-3d en-tolobby">🚪 복도로</button><span class="en-room">${R.emo} ${R.name} 교실</span>`;
+  tabs.innerHTML = `<button class="btn-3d en-tolobby">🚪 복도로</button><span class="en-room">${R.emo} ${R.name}</span>`;
   tabs.querySelector('.en-tolobby').onclick = () => { playSfx('click'); enShowLobby(); };
   const hub = enEl('enHub'); hub.innerHTML = '';
   if (enTab === 'j') return enJourHub(hub);
@@ -4973,9 +4973,9 @@ function englishSchoolFill(sv) {
 /* ---------- 11-20(2) 🔤 영어 학교 복도: 3D 문 3개 (Voca · Grammar · Journey 2.2) — 도서관 입구와 같은 방식 ----------
    문을 누르면 공주가 걸어가서 문이 열리고, 그 교실(단원 목록)로 들어감. WebGL이 안 되면 큰 문 단추 3개 */
 const EN_ROOMS = [
-  { t: 'v', name: 'Voca 낱말',    emo: '📘', x: -4.3, col: 0x9cc3ea, deco: 0xcfe1f5 },
-  { t: 'g', name: 'Grammar 문법', emo: '✏️', x: 0,    col: 0xf3d27f, deco: 0xfbe9b8 },
-  { t: 'j', name: 'Journey 2.2',  emo: '📗', x: 4.3,  col: 0xa3d6a5, deco: 0xd2ecd0 }
+  { t: 'v', name: '기본 Voca 교실', emo: '📘', x: -4.3, col: 0x9cc3ea, deco: 0xcfe1f5 },
+  { t: 'g', name: 'Grammar 교실', emo: '✏️', x: 0,    col: 0xf3d27f, deco: 0xfbe9b8 },
+  { t: 'j', name: 'Journeys 교실', emo: '📗', x: 4.3,  col: 0xa3d6a5, deco: 0xd2ecd0 }
 ];
 const EN3D = { ok: null, r: null, scene: null, cam: null, doors: {}, pr: null, prTex: null, prCv: null, raf: 0, walk: null, cv: null, w: 0, h: 0 };
 let enWalking = false;
