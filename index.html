@@ -358,6 +358,50 @@
   @media (max-width: 560px) { .en3d-sub { font-size: 0.72rem; padding: 2px 7px; border-width: 2px; } .en-doors2d { grid-template-columns: 1fr; } }
   .en-room { font-family: 'Jua', sans-serif; color: #006d75; background: #e6fffb; border: 2px solid #87e8de; border-radius: 999px; padding: 3px 12px; font-size: 1rem; }
   @media (max-width: 760px) { .en-play { grid-template-columns: 140px minmax(0, 1fr); } .en-wlist { grid-template-columns: 1fr; } .en-word { font-size: 1.7rem; } }
+
+  /* 11-20 설명 가이드 */
+  .gd-ov { position: fixed; inset: 0; z-index: 9500; background: rgba(40,60,110,0.45); display: flex; align-items: center; justify-content: center; padding: 14px; }
+  .gd-card { width: min(560px, 100%); max-height: calc(100vh - 28px); overflow-y: auto; background: #fff; border: 6px solid #fff; border-radius: 30px; box-shadow: 0 0 0 4px #69c0ff, 0 14px 0 #3d8fd6, 0 24px 40px rgba(20,40,90,0.35); padding: 12px 16px 14px; display: flex; flex-direction: column; align-items: stretch !important; gap: 10px; text-align: left; animation: gdIn .35s cubic-bezier(.2,1.4,.4,1); }
+  @keyframes gdIn { from { transform: scale(.7); opacity: 0; } to { transform: none; opacity: 1; } }
+  .gd-top { display: flex; align-items: center; gap: 8px; }
+  .gd-fairy { font-size: 2.1rem; animation: gdBob 1.6s ease-in-out infinite; }
+  @keyframes gdBob { 50% { transform: translateY(-5px) rotate(-6deg); } }
+  .gd-ttl { flex: 1; font-family: 'Jua', sans-serif; font-size: 1.35rem; color: #1d4e89; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .gd-kind { font-size: 0.82rem; padding: 2px 10px; border-radius: 999px; font-family: sans-serif; font-weight: 800; }
+  .gd-kind.earn { background: #fff7cc; color: #ad6800; border: 2px solid #ffd666; }
+  .gd-kind.spend { background: #fff0f6; color: #c41d7f; border: 2px solid #ffadd2; }
+  .gd-kind.charge { background: #e6fffb; color: #08979c; border: 2px solid #87e8de; }
+  .gd-skip { border: 0; background: #f0f5ff; color: #2f54eb; border-radius: 999px; padding: 6px 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; white-space: nowrap; }
+  .gd-skip:hover { background: #d6e4ff; }
+  .gd-demo { display: flex; flex-direction: column; align-items: stretch; gap: 4px; text-align: center; width: 100%; }
+  .gd-scr { position: relative; width: 100%; height: 170px; border-radius: 22px; overflow: hidden; border: 4px solid #fff; box-shadow: inset 0 -6px 0 rgba(0,0,0,0.06), 0 0 0 3px #d6e4ff; }
+  .gd-it { position: absolute; transform: translate(-50%, -50%); line-height: 1; white-space: nowrap; transition: left .55s ease, top .55s ease; filter: drop-shadow(0 3px 0 rgba(0,0,0,0.12)); }
+  .gd-txt { font-family: 'Jua', sans-serif; color: #2b2b52; background: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 14px; }
+  .gd-light { color: #fff; background: rgba(255,255,255,0.15); }
+  .gd-key { font-family: 'Jua', sans-serif; background: #fff; color: #1d4e89; border: 3px solid #91caff; border-radius: 14px; padding: 4px 12px; box-shadow: 0 4px 0 #69b1ff; }
+  .gd-coin { color: #ad6800; background: #fff7cc; border-radius: 16px; padding: 4px 12px; font-family: 'Jua', sans-serif; }
+  .gd-up { color: #08979c !important; } .gd-down { color: #cf1322 !important; }
+  .gd-pop { animation: gdPop .5s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes gdPop { from { transform: translate(-50%,-50%) scale(.3); } to { transform: translate(-50%,-50%) scale(1); } }
+  .gd-pulse, .gd-ring { animation: gdPulse 1s ease-in-out infinite; }
+  @keyframes gdPulse { 50% { transform: translate(-50%,-50%) scale(1.25); opacity: .7; } }
+  .gd-hand { position: absolute; font-size: 2.1rem; transform: translate(-30%, 0); animation: gdHand .9s ease-in-out infinite; filter: drop-shadow(0 3px 2px rgba(0,0,0,0.25)); }
+  .gd-hand.tap { animation: gdTap .5s ease-in-out 2; }
+  .gd-hand.tap::after { content: ''; position: absolute; left: 22%; top: -6px; width: 26px; height: 26px; border: 4px solid #ff4d8d; border-radius: 50%; transform: translate(-50%,-50%); animation: gdRip .5s ease-out 2; }
+  @keyframes gdHand { 50% { transform: translate(-30%, 8px); } }
+  @keyframes gdTap { 50% { transform: translate(-30%, -4px) scale(.88); } }
+  @keyframes gdRip { from { transform: translate(-50%,-50%) scale(.3); opacity: 1; } to { transform: translate(-50%,-50%) scale(1.6); opacity: 0; } }
+  .gd-cap { font-family: 'Jua', sans-serif; color: #2f54eb; font-size: 1rem; min-height: 1.3em; }
+  .gd-desc { font-size: 1.02rem; line-height: 1.6; color: #333; text-align: center; padding: 0 4px; }
+  .gd-rows { display: flex; flex-direction: column; gap: 6px; }
+  .gd-row { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: start; background: #f6faff; border: 2px solid #d6e4ff; border-radius: 16px; padding: 7px 10px; font-size: 0.95rem; line-height: 1.5; color: #333; }
+  .gd-row span { text-align: left; }
+  .gd-row b { font-family: 'Jua', sans-serif; font-weight: normal; color: #1d4e89; font-size: 1.02rem; }
+  .gd-foot { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .gd-dots { flex: 1; display: flex; gap: 5px; } .gd-dots i { width: 9px; height: 9px; border-radius: 50%; background: #d6e4ff; } .gd-dots i.on { background: #2f54eb; width: 22px; border-radius: 6px; }
+  .gd-hl { position: relative; z-index: 9600 !important; box-shadow: 0 0 0 4px #ffd666, 0 0 18px 6px rgba(255,214,102,0.9) !important; animation: gdGlow 1s ease-in-out infinite; }
+  @keyframes gdGlow { 50% { box-shadow: 0 0 0 6px #ffc53d, 0 0 26px 10px rgba(255,197,61,0.95) !important; } }
+  @media (max-width: 560px) { .gd-row { grid-template-columns: 1fr; gap: 2px; } .gd-scr { height: 150px; } .gd-ttl { font-size: 1.15rem; } #btnHelp { padding: 4px 8px; } .gd-hlbl { display: none; } }
   /* 11-20 보석 계산실 (교과서 단원별) */
   .mc-room { flex: 1; min-height: 260px; position: relative; margin-top: 6px; border-radius: 16px; overflow: hidden; background: #f6d3de; border: 4px solid #f2c14e; box-shadow: inset 0 0 0 3px #fff3c4; }
   .mc-room canvas.mc3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
@@ -901,6 +945,7 @@
     </div>
     <div class="top-right">
       <button id="btnOpenImgLoaderTop" class="chip clickable" style="display:none;">📦 3D 그림 합치기 / 파일 추출</button>
+      <button id="btnHelp" class="chip clickable" onclick="gdHelp()">❓<span class="gd-hlbl"> 도움말</span></button>
       <button id="btnSound" class="chip clickable">🔊 소리 켜짐</button>
       <button id="btnUser" class="chip clickable">👤 <span id="userLabel">로그인</span></button>
     </div>
@@ -2422,10 +2467,18 @@ function greenhouseFill(sv) {
   const sp = spots.find(([c, r]) => taken.every(([c2, r2]) => Math.hypot(c - c2, r - r2) >= 2.6)) || spots[0];
   sv.pl.push({ iid: 'init_greenhouse', id: 'deco_greenhouse', c: sp[0], r: sp[1] });
 }
+const BLD_DOOR_FACE = {   /* 11-20 그림마다 문이 그려진 쪽 (뷰 0·1·2·3) */
+  crossword: [0, 0, 0, 1], math: [0, 0, 0, 1], tetris: [0, 0, 0, 1], sentence: [0, 0, 0, 1], english: [1, 1, 0, 0],
+  deco_castle: [0, 0, 0, 1], deco_cafe: [1, 1, 0, 1], deco_rest: [1, 0, 0, 1], deco_playground: [0, 0, 0, 0], deco_theater: [1, 0, 0, 0],
+  deco_boutique: [1, 0, 0, 0], deco_salon: [1, 0, 0, 1], deco_cityhall: [1, 0, 0, 0]
+};
 function doorAng(ent, camAng) {
   const m = decoById(ent.id) || {};
   if (m.toyBld) return (Number(ent.ry) || 0) * Math.PI / 4;
-  return bldFixed(ent) ? -bldRot(ent) * Math.PI / 2 : camAng;
+  if (!bldFixed(ent)) return camAng;
+  const F = BLD_DOOR_FACE[ent.id]; if (!F) return -bldRot(ent) * Math.PI / 2;
+  const q = ((Math.round((camAng - Math.PI / 4) / (Math.PI / 2)) % 4) + 4) % 4, k = (q + bldRot(ent)) % 4;
+  return (q + F[k]) * Math.PI / 2;   /* 카메라 쪽 왼쪽 앞면 = q·90°, 오른쪽 앞면 = +90° */
 }
 
 /* ---- 물 주기 창 ---- */
@@ -5433,6 +5486,214 @@ function enGoRoom(t) {
   EN3D.walk = { t0: performance.now(), x0: EN3D.pr.position.x, z0: EN3D.pr.position.z, x1: d.x, z1: -2.6 };
   setTimeout(() => { if (currentScreen === 'english' && enWalking) go(); else enWalking = false; }, 1150);
 }
+
+/* ---------- 11-20 📖 설명 가이드 ----------
+   ① 처음 시작하면 마을 안내(7장)  ② 건물에 처음 들어가면 그 건물 설명(하는 일·코인·에너지 + 손가락 시연)
+   모든 카드에 ⏭️ 건너뛰기, 위쪽 ❓ 도움말 단추로 언제든 다시 보기. 본 기록: sv.gd = { _start: 1, math: 1, ... } */
+const GD_BG = { sky: 'linear-gradient(#bfe6ff,#e9f7ff)', grass: 'linear-gradient(#d9f7be,#b7eb8f)', pink: 'linear-gradient(#fff0f6,#ffd6e7)', wood: 'linear-gradient(#fbe3c4,#e9c48e)', mint: 'linear-gradient(#e6fffb,#b5f5ec)', night: 'linear-gradient(#2b1d52,#5b3a8c)', cream: 'linear-gradient(#fffbe6,#fff1b8)' };
+/* 장면: it = [[글자/그림, x%, y%, 크기rem, 꾸밈], ...], h = 손가락 [x%, y%] (tap: 누르기), c = 아래 설명 */
+const gdI = (t, x, y, s, k) => [t, x, y, s || 2.2, k || ''];
+const GUIDES = {
+  _start: { title: '공주의 성에 온 걸 환영해요!', icon: '🏰', bg: 'grass', steps: [
+    { t: '👋 반가워요!', d: '여기는 공부하고 <b>🪙 코인</b>을 모아서 내 마을을 꾸미는 곳이에요. 제가 하나씩 알려 줄게요!',
+      demo: [{ it: [gdI('🏰', 50, 38, 3.4), gdI('📚', 18, 55), gdI('💎', 82, 55), gdI('🌳', 30, 82, 1.6), gdI('🌷', 70, 84, 1.4), gdI('👸', 50, 72, 2.4)], c: '내 마을' }] },
+    { t: '🚶 걸어 다니기', d: '땅을 <b>톡</b> 누르면 공주가 그곳으로 걸어가요. 왼쪽 아래 동그란 조이스틱으로도 움직일 수 있어요.',
+      demo: [{ it: [gdI('👸', 25, 70), gdI('🌳', 70, 30, 1.8), gdI('🌷', 85, 80, 1.4)], h: [72, 72], c: '가고 싶은 곳을 눌러요' },
+             { it: [gdI('👸', 25, 70), gdI('🌳', 70, 30, 1.8), gdI('🌷', 85, 80, 1.4), gdI('⭕', 72, 72, 1.4, 'gd-pulse')], h: [72, 72], tap: 1, c: '톡!' },
+             { it: [gdI('👸', 70, 70), gdI('🌳', 70, 30, 1.8), gdI('🌷', 85, 80, 1.4)], c: '공주가 걸어왔어요 🎵' }] },
+    { t: '🚪 건물 들어가기', d: '건물을 누르거나 건물 문 앞 <b>노란 동그라미</b>까지 걸어가면 안으로 들어가요.',
+      demo: [{ it: [gdI('🏫', 55, 38, 3.4), gdI('🟡', 42, 68, 1.2, 'gd-ring'), gdI('👸', 18, 75)], h: [56, 40], c: '건물을 눌러요' },
+             { it: [gdI('🏫', 55, 38, 3.4), gdI('🟡', 42, 68, 1.2, 'gd-ring'), gdI('👸', 18, 75)], h: [56, 40], tap: 1, c: '톡!' },
+             { it: [gdI('🏫', 55, 38, 3.4), gdI('🟡', 42, 68, 1.2, 'gd-ring'), gdI('👸', 42, 64)], c: '노란 동그라미에 서면…' },
+             { it: [gdI('🚪', 50, 45, 3.6, 'gd-pop'), gdI('✨', 30, 30, 1.6), gdI('✨', 70, 30, 1.6)], c: '쏙! 건물 안으로' }] },
+    { t: '🪙 코인 벌기', d: '공부 건물에서 문제를 맞히면 <b>코인</b>이 쌓여요. 코인으로 음식·옷·머리, 새 건물을 살 수 있어요.', hl: '#coinChip',
+      demo: [{ it: [gdI('3 + 4 = ?', 50, 30, 1.8, 'gd-txt'), gdI('6', 28, 72, 1.5, 'gd-key'), gdI('7', 50, 72, 1.5, 'gd-key'), gdI('8', 72, 72, 1.5, 'gd-key')], h: [50, 74], c: '답을 골라요' },
+             { it: [gdI('3 + 4 = 7', 50, 30, 1.8, 'gd-txt'), gdI('⭕', 50, 72, 2.2, 'gd-pop')], h: [50, 74], tap: 1, c: '정답!' },
+             { it: [gdI('+1 🪙', 50, 45, 2.6, 'gd-pop gd-coin')], c: '코인이 생겼어요' }] },
+    { t: '⚡ 에너지', d: '앱을 켜 두면 <b>1분에 ⚡1</b>씩 줄고, 공부 건물에 들어가면 <b>⚡−3</b>, 블록 공방은 <b>⚡−5</b>예요.<br>앱을 쉬면 1분에 ⚡+1, <b>침대에서 자면 10분에 ⚡+5</b>, 카페·식당에서 먹으면 ⚡+5, 놀이터에 가면 ⚡+10!', hl: '#energyFill',
+      demo: [{ it: [gdI('⚡ 80', 50, 30, 2, 'gd-txt'), gdI('📚', 50, 70, 2.4)], c: '공부 건물에 들어가면' },
+             { it: [gdI('⚡ 77', 50, 30, 2, 'gd-txt gd-down'), gdI('📚', 50, 70, 2.4)], c: '⚡ −3' },
+             { it: [gdI('🛏️', 50, 62, 3.2), gdI('💤', 66, 35, 1.8, 'gd-pop')], c: '침대에서 쿨쿨' },
+             { it: [gdI('⚡ 82', 50, 30, 2, 'gd-txt gd-up'), gdI('🛏️', 50, 70, 2.4)], c: '10분마다 ⚡ +5' }] },
+    { t: '🏛️ 새 건물 짓기', d: '<b>시청</b>에서 새 건물을 신청하면 하루(24시간) 뒤에 마을에 생겨요. 건물마다 100~600 코인이에요.<br>처음 들어가는 건물마다 이런 설명이 나와요.',
+      demo: [{ it: [gdI('🏛️', 50, 40, 3.4), gdI('🪙 300', 50, 80, 1.3, 'gd-txt')], h: [50, 42], c: '시청에서 신청' },
+             { it: [gdI('🏗️', 50, 45, 3.4, 'gd-pop'), gdI('⏰ 24시간', 50, 82, 1.2, 'gd-txt')], c: '뚝딱뚝딱 공사 중' },
+             { it: [gdI('🛝', 50, 45, 3.4, 'gd-pop'), gdI('✨', 28, 30, 1.6), gdI('✨', 72, 30, 1.6)], c: '짠! 새 건물 완성' }] },
+    { t: '❓ 언제든 다시 보기', d: '위쪽 <b>❓ 도움말</b> 단추를 누르면 지금 있는 곳의 설명을 다시 볼 수 있어요. 자, 이제 시작해요!', hl: '#btnHelp',
+      demo: [{ it: [gdI('❓', 50, 45, 3.4, 'gd-pop'), gdI('👸', 25, 72, 2), gdI('🤴', 75, 72, 2)], c: '즐겁게 놀아요!' }] }
+  ] },
+  crossword: { title: '📚 마법 도서관', bg: 'wood', kind: 'earn',
+    what: '문 두 개 중에 골라 들어가요. <b>🧩 낱말 퍼즐의 방</b>은 십자말풀이, <b>📖 독해의 방</b>은 글을 읽고 문제를 풀어요.',
+    coin: '퍼즐 하나 완성 <b>+10 이상</b>(힌트를 쓰면 조금 줄어요, 적어도 +5) · 글 한 편 다 읽으면 <b>맞힌 문제 × 2 + 3</b>',
+    energy: '들어갈 때 <b>⚡ −3</b>',
+    demo: [{ it: [gdI('🧩', 30, 45, 3), gdI('📖', 70, 45, 3)], h: [30, 48], c: '방을 골라요' },
+           { it: [gdI('사 ㄱ ㅘ', 50, 35, 2, 'gd-txt'), gdI('🍎 빨간 과일', 50, 72, 1.2, 'gd-txt')], h: [62, 38], tap: 1, c: '힌트를 보고 글자를 채워요' },
+           { it: [gdI('사 과', 50, 35, 2.2, 'gd-txt'), gdI('+15 🪙', 50, 72, 1.8, 'gd-pop gd-coin')], c: '완성!' }] },
+  reading: { same: 'crossword' },
+  math: { title: '💎 보석 계산실', bg: 'pink', kind: 'earn',
+    what: '긴 대리석 책상에서 골라요. <b>💻 노트북</b>을 누르면 교과서 단원별 연산 문제, <b>💎 보석 상자</b>를 누르면 교구 놀이(수 모형·칠교)예요. 한 단원은 5단계, 10문제 중 8문제를 한 번에 맞히면 다음 단계가 열려요.',
+    coin: '한 번에 맞히면 <b>+1</b> · 단계 통과 <b>+3</b> · 단원 다 마치면 <b>+10</b> · 수 모형 성공 +2 · 칠교 처음 완성 +5',
+    energy: '들어갈 때 <b>⚡ −3</b>',
+    demo: [{ it: [gdI('💻', 32, 50, 3), gdI('💎', 70, 50, 3)], h: [32, 52], c: '노트북을 눌러요' },
+           { it: [gdI('27 + 15 = ?', 50, 30, 1.8, 'gd-txt'), gdI('4', 36, 72, 1.4, 'gd-key'), gdI('2', 52, 72, 1.4, 'gd-key'), gdI('✅', 72, 72, 1.4, 'gd-key')], h: [36, 74], tap: 1, c: '숫자를 눌러요' },
+           { it: [gdI('27 + 15 = 42', 50, 30, 1.8, 'gd-txt'), gdI('✅', 72, 72, 1.4, 'gd-key')], h: [72, 74], tap: 1, c: '정답 확인!' },
+           { it: [gdI('+1 🪙', 50, 45, 2.6, 'gd-pop gd-coin')], c: '한 번에 맞혔어요' }] },
+  english: { title: '🔤 영어 학교', bg: 'mint', kind: 'earn',
+    what: '복도의 문 세 개 중에 골라요. <b>📘 기본 Voca</b> · <b>✏️ Grammar</b> · <b>📗 Journeys</b>(학원 교재 낱말). 단원마다 5단계, 80% 이상 한 번에 맞히면 다음 단계예요. 🔊를 누르면 영어로 읽어 줘요.',
+    coin: '한 번에 맞히면 <b>+1</b> · 단계 통과 <b>+3</b> · 단원 다 마치면 <b>+10</b>',
+    energy: '들어갈 때 <b>⚡ −3</b>',
+    demo: [{ it: [gdI('🚪', 22, 48, 2.6), gdI('🚪', 50, 48, 2.6), gdI('🚪', 78, 48, 2.6), gdI('📘', 22, 20, 1.3), gdI('✏️', 50, 20, 1.3), gdI('📗', 78, 20, 1.3)], h: [22, 52], tap: 1, c: '교실 문을 골라요' },
+           { it: [gdI('🍎', 50, 28, 2.4), gdI('apple', 30, 74, 1.2, 'gd-key'), gdI('bread', 70, 74, 1.2, 'gd-key')], h: [30, 76], tap: 1, c: '알맞은 낱말을 골라요' },
+           { it: [gdI('⭕ apple', 50, 40, 2, 'gd-txt gd-pop'), gdI('+1 🪙', 50, 75, 1.6, 'gd-coin')], c: '정답!' }] },
+  sentence: { title: '🌟 별빛 관측소', bg: 'night', kind: 'earn',
+    what: '빈칸에 알맞은 말을 넣어 <b>문장을 완성</b>하고, <b>반대말</b>을 찾아요.',
+    coin: '맞힐 때마다 <b>+1</b>',
+    energy: '들어갈 때 <b>⚡ −3</b>',
+    demo: [{ it: [gdI('하늘이 ( ? )', 50, 32, 1.6, 'gd-txt gd-light'), gdI('파래요', 30, 72, 1.2, 'gd-key'), gdI('짜요', 70, 72, 1.2, 'gd-key')], h: [30, 74], tap: 1, c: '알맞은 말을 골라요' },
+           { it: [gdI('하늘이 파래요 ⭐', 50, 35, 1.6, 'gd-txt gd-light gd-pop'), gdI('+1 🪙', 50, 75, 1.6, 'gd-coin')], c: '반짝!' }] },
+  tetris: { title: '💠 블록 공방', bg: 'cream', kind: 'earn',
+    what: '떨어지는 블록을 <b>돌리고 옮겨서</b> 한 줄을 꽉 채우면 줄이 사라져요.',
+    coin: '한 줄 지울 때마다 <b>+2</b>',
+    energy: '들어갈 때 <b>⚡ −5</b> (놀이라서 조금 더 써요)',
+    demo: [{ it: [gdI('🟪', 50, 18, 1.6), gdI('🟨🟨🟨🟨🟨⬜🟨', 50, 80, 1.2)], h: [80, 45], c: '블록이 내려와요' },
+           { it: [gdI('🟪', 68, 60, 1.6), gdI('🟨🟨🟨🟨🟨⬜🟨', 50, 80, 1.2)], h: [80, 45], tap: 1, c: '빈칸으로 옮겨요' },
+           { it: [gdI('✨✨✨✨✨✨✨', 50, 80, 1.2, 'gd-pop'), gdI('+2 🪙', 50, 40, 1.8, 'gd-coin gd-pop')], c: '한 줄 완성!' }] },
+  room: { title: '🏰 공주의 성', bg: 'pink', kind: 'charge',
+    what: '내 방이에요. <b>침대</b>에서 쉬고, <b>옷장</b>과 <b>화장대</b>에서 옷·머리를 바꾸고, <b>책상</b>에 앉아 일기를 써요.',
+    coin: '일기 5문장 다 쓰면 <b>+5</b>',
+    energy: '침대에서 자면 <b>10분마다 ⚡ +5</b>',
+    demo: [{ it: [gdI('🛏️', 25, 55, 2.6), gdI('👗', 55, 50, 2.2), gdI('📔', 82, 55, 2.2)], h: [25, 58], tap: 1, c: '침대를 눌러요' },
+           { it: [gdI('🛏️', 50, 60, 3.2), gdI('💤', 66, 35, 1.8, 'gd-pop')], c: '쿨쿨…' },
+           { it: [gdI('⚡ +5', 50, 45, 2.6, 'gd-pop gd-up')], c: '10분마다 충전' }] },
+  cafe: { title: '🥐 베이커리 카페', bg: 'cream', kind: 'spend',
+    what: '맛있는 빵과 음료를 사 먹어요.',
+    coin: '메뉴 하나에 <b>🪙 10</b> (코인을 써요)',
+    energy: '먹을 때마다 <b>⚡ +5</b>',
+    demo: [{ it: [gdI('🥐', 30, 45, 2.6), gdI('🧁', 50, 45, 2.6), gdI('🥤', 70, 45, 2.6), gdI('🪙 10', 30, 78, 1, 'gd-txt')], h: [30, 48], tap: 1, c: '먹고 싶은 걸 골라요' },
+           { it: [gdI('😋', 50, 45, 3.2, 'gd-pop'), gdI('🪙 −10   ⚡ +5', 50, 82, 1.2, 'gd-txt')], c: '냠냠!' }] },
+  rest: { title: '🍽️ 왕실 식당', bg: 'cream', kind: 'spend',
+    what: '든든한 식사를 사 먹어요.',
+    coin: '메뉴마다 <b>🪙 30~50</b> (코인을 써요)',
+    energy: '먹을 때마다 <b>⚡ +5</b>',
+    demo: [{ it: [gdI('🍙', 30, 45, 2.6), gdI('🍝', 50, 45, 2.6), gdI('🍲', 70, 45, 2.6), gdI('🪙 45', 50, 78, 1, 'gd-txt')], h: [50, 48], tap: 1, c: '메뉴를 골라요' },
+           { it: [gdI('😋', 50, 45, 3.2, 'gd-pop'), gdI('🪙 −45   ⚡ +5', 50, 82, 1.2, 'gd-txt')], c: '냠냠!' }] },
+  playground: { title: '🛝 놀이터', bg: 'grass', kind: 'charge',
+    what: '미끄럼틀과 그네가 있는 놀이터예요. 신나게 놀면 힘이 나요!',
+    coin: '코인은 쓰지도 벌지도 않아요',
+    energy: '들어오면 <b>⚡ +10</b>',
+    demo: [{ it: [gdI('🛝', 50, 50, 3.4), gdI('👸', 30, 70, 2)], c: '놀이터에 오면' }, { it: [gdI('⚡ +10', 50, 45, 2.6, 'gd-pop gd-up')], c: '힘이 쑥쑥' }] },
+  theater: { title: '🎻 공연장', bg: 'night', kind: 'charge',
+    what: '왕국 오케스트라 음악회를 볼 수 있어요.',
+    coin: '공짜예요',
+    energy: '음악회를 다 보면 <b>⚡ +5</b>',
+    demo: [{ it: [gdI('▶️ 음악회 보기', 50, 72, 1.1, 'gd-key'), gdI('🎻', 50, 35, 2.8)], h: [50, 74], tap: 1, c: '단추를 눌러요' },
+           { it: [gdI('🎶', 30, 40, 2), gdI('🎻', 50, 40, 2.8), gdI('🎶', 70, 40, 2), gdI('⚡ +5', 50, 80, 1.4, 'gd-txt gd-up')], c: '감상 완료!' }] },
+  garden: { title: '🌿 식물원', bg: 'grass', kind: 'spend',
+    what: '씨앗과 묘목을 사서 마을에 심고, 물을 주면 <b>하루마다 한 단계씩</b> 자라요(10단계까지).',
+    coin: '꽃 <b>🪙 5~15</b>, 나무 <b>🪙 15~30</b> (코인을 써요)',
+    energy: '물 줄 때 <b>⚡ −10</b>',
+    demo: [{ it: [gdI('🌱', 50, 60, 2.4), gdI('💧', 62, 30, 1.8)], h: [55, 62], tap: 1, c: '물을 줘요 (⚡ −10)' },
+           { it: [gdI('🌿', 50, 58, 2.8)], c: '하루 뒤…' }, { it: [gdI('🌸', 50, 50, 3.4, 'gd-pop')], c: '쑥쑥 자라요!' }] },
+  boutique: { title: '👗 옷가게', bg: 'pink', kind: 'spend',
+    what: '예쁜 옷을 사서 바로 입어요. 산 옷은 침실 옷장에서도 언제든 갈아입을 수 있어요.',
+    coin: '옷마다 가격이 달라요 (코인을 써요)',
+    energy: '에너지는 그대로예요',
+    demo: [{ it: [gdI('👗', 30, 45, 2.6), gdI('👘', 50, 45, 2.6), gdI('🥻', 70, 45, 2.6)], h: [50, 48], tap: 1, c: '옷을 골라 사요' }, { it: [gdI('👸', 50, 50, 3.4, 'gd-pop'), gdI('✨', 30, 35, 1.6), gdI('✨', 70, 35, 1.6)], c: '짠! 갈아입었어요' }] },
+  salon: { title: '💇 미용실', bg: 'mint', kind: 'spend',
+    what: '머리 모양을 사서 바로 바꿔요. 산 머리는 침실 화장대에서도 바꿀 수 있어요.',
+    coin: '머리마다 가격이 달라요 (코인을 써요)',
+    energy: '에너지는 그대로예요',
+    demo: [{ it: [gdI('💇', 50, 45, 3), gdI('✂️', 72, 35, 2)], h: [50, 48], tap: 1, c: '머리 모양을 골라요' }, { it: [gdI('👸', 50, 50, 3.4, 'gd-pop'), gdI('✨', 30, 35, 1.6)], c: '새 머리 완성!' }] },
+  cityhall: { title: '🏛️ 시청', bg: 'sky', kind: 'spend',
+    what: '마을에 새 건물을 짓는 곳이에요. 신청하면 <b>24시간 공사</b> 뒤에 건물이 생겨요. 한 번에 하나씩 지을 수 있어요.',
+    coin: '건물마다 <b>🪙 100~600</b> (코인을 써요)',
+    energy: '에너지는 그대로예요',
+    demo: [{ it: [gdI('🍽️ 식당  🪙100', 50, 40, 1.3, 'gd-key'), gdI('📝 신청하기', 50, 72, 1.1, 'gd-key')], h: [50, 74], tap: 1, c: '짓고 싶은 건물을 신청' },
+           { it: [gdI('🏗️', 50, 45, 3.2, 'gd-pop'), gdI('⏰ 24시간', 50, 82, 1.1, 'gd-txt')], c: '공사 중' }, { it: [gdI('🍽️', 50, 45, 3.4, 'gd-pop'), gdI('✨', 30, 30, 1.6), gdI('✨', 70, 30, 1.6)], c: '완성!' }] }
+};
+let gdOpen = null, gdTimer = 0;
+function gdSeen(k) { try { const g = getSave().gd || {}; return !!g[k]; } catch (e) { return true; } }
+function gdMark(k) { try { updateSave(sv => { sv.gd = sv.gd || {}; sv.gd[k] = 1; }); } catch (e) {} }
+function gdDemoHtml(fr, bg) {
+  return `<div class="gd-scr" style="background:${GD_BG[bg] || GD_BG.sky}">${(fr.it || []).map(([t, x, y, s, k]) => `<span class="gd-it ${k}" style="left:${x}%;top:${y}%;font-size:${(s * 1.35).toFixed(2)}rem">${t}</span>`).join('')}
+    ${fr.h ? `<span class="gd-hand${fr.tap ? ' tap' : ''}" style="left:${fr.h[0]}%;top:${fr.h[1]}%">👆</span>` : ''}</div><div class="gd-cap">${fr.c || ''}</div>`;
+}
+function gdPlay(box, frames, bg) {   /* 시연: 장면을 1.6초마다 넘기며 되풀이 */
+  clearInterval(gdTimer); let i = 0;
+  const show = () => { if (!box.isConnected) return clearInterval(gdTimer); box.innerHTML = gdDemoHtml(frames[i % frames.length], bg); i++; };
+  show(); if (frames.length > 1) gdTimer = setInterval(show, 1600);
+}
+function gdClose(mark) {
+  clearInterval(gdTimer); document.querySelectorAll('.gd-hl').forEach(e => e.classList.remove('gd-hl'));
+  const ov = document.getElementById('gdOverlay'); if (ov) ov.remove();
+  if (gdOpen && mark !== false) gdMark(gdOpen); gdOpen = null;
+}
+function gdShow(key) {
+  let G = GUIDES[key]; if (!G) return; if (G.same) { key = G.same; G = GUIDES[key]; }
+  gdClose(false); gdOpen = key;
+  const ov = document.createElement('div'); ov.id = 'gdOverlay'; ov.className = 'gd-ov'; document.body.appendChild(ov);
+  if (G.steps) {   /* 처음 안내: 여러 장 */
+    let s = 0;
+    const draw = () => {
+      const S = G.steps[s]; document.querySelectorAll('.gd-hl').forEach(e => e.classList.remove('gd-hl'));
+      if (S.hl) { const el = document.querySelector(S.hl); const tgt = el && (el.closest('.chip') || el); if (tgt) tgt.classList.add('gd-hl'); }
+      ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${S.t}</div><button class="gd-skip">건너뛰기 ⏭️</button></div>
+        <div class="gd-demo"></div><div class="gd-desc">${S.d}</div>
+        <div class="gd-foot"><div class="gd-dots">${G.steps.map((_, j) => `<i class="${j === s ? 'on' : ''}"></i>`).join('')}</div>
+        ${s ? '<button class="btn-3d gd-prev">◀ 앞으로</button>' : ''}<button class="btn-3d primary gd-next">${s < G.steps.length - 1 ? '다음 ▶' : '시작하기! 🎉'}</button></div></div>`;
+      gdPlay(ov.querySelector('.gd-demo'), S.demo, G.bg);
+      ov.querySelector('.gd-skip').onclick = () => { playSfx('click'); gdClose(); };
+      ov.querySelector('.gd-next').onclick = () => { playSfx('click'); if (s < G.steps.length - 1) { s++; draw(); } else gdClose(); };
+      const pv = ov.querySelector('.gd-prev'); if (pv) pv.onclick = () => { playSfx('click'); s--; draw(); };
+    };
+    draw(); return;
+  }
+  const K = { earn: ['🪙 코인을 벌어요', 'earn'], spend: ['🪙 코인을 써요', 'spend'], charge: ['⚡ 에너지를 채워요', 'charge'] }[G.kind] || ['', ''];
+  ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${G.title}<span class="gd-kind ${K[1]}">${K[0]}</span></div><button class="gd-skip">건너뛰기 ⏭️</button></div>
+    <div class="gd-demo"></div>
+    <div class="gd-rows"><div class="gd-row"><b>🎮 여기서는</b><span>${G.what}</span></div><div class="gd-row"><b>🪙 코인</b><span>${G.coin}</span></div><div class="gd-row"><b>⚡ 에너지</b><span>${G.energy}</span></div></div>
+    <div class="gd-foot"><button class="btn-3d primary gd-next">알겠어요! 해 볼게요 👍</button></div></div>`;
+  gdPlay(ov.querySelector('.gd-demo'), G.demo, G.bg);
+  ov.querySelector('.gd-skip').onclick = () => { playSfx('click'); gdClose(); };
+  ov.querySelector('.gd-next').onclick = () => { playSfx('click'); gdClose(); };
+}
+function gdHelp() { playSfx('click'); const k = currentScreen === 'home' ? '_start' : currentScreen; gdShow(GUIDES[k] ? k : '_start'); }
+function gdAuto() {   /* 처음 시작·처음 들어간 건물이면 저절로 */
+  try {
+    if (gdOpen || !currentUser || friendVisit) return;
+    if (document.querySelector('.modal-backdrop.open')) return;
+    const k = currentScreen === 'home' ? '_start' : currentScreen; let G = GUIDES[k]; if (!G) return;
+    const key = G.same || k; if (gdSeen(key)) return;
+    if (k !== '_start' && !gdSeen('_start')) return;
+    gdShow(key);
+  } catch (e) {}
+}
+setInterval(gdAuto, 1500);
+
+/* ---------- 11-20 건물 안 3D: 아기 애니메이션처럼 매끈·반짝·밝게 (도서관·영어 학교·보석 계산실) ----------
+   모든 물체를 반들반들한 장난감 재질(겉칠 광택)로, 색은 조금 더 맑고 진하게, 빛은 부드럽고 밝게, 그림자는 연하게 */
+function toyLook(r, S) {
+  const cache = new Map();
+  S.traverse(o => {
+    if (!o.isMesh || !o.material || !o.material.isMeshStandardMaterial || o.material.isMeshPhysicalMaterial) return;
+    const m = o.material; let p = cache.get(m);
+    if (!p) {
+      p = new THREE.MeshPhysicalMaterial({ color: m.color.clone(), map: m.map, roughness: Math.min(m.roughness, m.map ? 0.55 : 0.45), metalness: m.metalness * 0.6,
+        clearcoat: 0.55, clearcoatRoughness: 0.18, emissive: m.emissive.clone(), emissiveIntensity: m.emissiveIntensity, flatShading: m.flatShading, transparent: m.transparent, opacity: m.opacity, side: m.side });
+      if (!m.map) { const h = {}; p.color.getHSL(h); p.color.setHSL(h.h, Math.min(1, h.s * 1.22 + 0.06), h.l * 0.97); }
+      cache.set(m, p);
+    }
+    o.material = p;
+  });
+  S.traverse(o => { if (o.isLight && o.isDirectionalLight && o.shadow) { o.shadow.radius = 8; o.intensity *= 0.85; } });   /* 그림자는 부드럽게 */
+}
+(function () {
+  const wrap = (name, st) => {
+    const f = window[name]; if (typeof f !== 'function') return;
+    window[name] = function () { const first = st().ok === null, ok = f.apply(this, arguments); if (first && ok) { try { toyLook(st().r, st().scene); } catch (e) { console.warn('toyLook', e); } } return ok; };
+  };
+  wrap('lib3dInit', () => LIB3D); wrap('en3dInit', () => EN3D); wrap('mc3dInit', () => MC3D);
+})();
 
 /* 모형 하나 만들기: 앞(+z)이 카메라(45°)를 보게 돌리고, 그림과 같은 크기로 맞춤 */
 function toyMake(id, anims) {
