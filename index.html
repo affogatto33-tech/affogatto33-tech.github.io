@@ -7978,16 +7978,16 @@ const PATH_COLORS = [
   { n: '회색 돌', base: '#b9b4ae', cols: ['#f2f0ec', '#e4e1dc', '#ebe8e3', '#dcd8d2', '#f5f3ef', '#e0ddd8'], edge: 0xd6d1ca, sw: '#dedad4' }
 ];
 const PATH_DEF = {
-  deco_brick:       { path: 's', name: '벽돌길 · 직선', icon: '🧱', cost: 10 },
-  deco_brick_curve: { path: 'c', name: '벽돌길 · 곡선', icon: '↪️', cost: 15 },
-  deco_brick_t:     { path: 't', name: '벽돌길 · 갈림길', icon: '🔱', cost: 15 },
-  deco_brick_x:     { path: 'x', name: '벽돌길 · 네거리', icon: '➕', cost: 20 },
-  deco_plaza:       { path: 'p', name: '동그란 광장', icon: '⭕', cost: 30 },
+  deco_brick:       { path: 's', name: '벽돌길 · 직선', icon: '🧱', cost: 2 },
+  deco_brick_curve: { path: 'c', name: '벽돌길 · 곡선', icon: '↪️', cost: 3 },
+  deco_brick_t:     { path: 't', name: '벽돌길 · 갈림길', icon: '🔱', cost: 3 },
+  deco_brick_x:     { path: 'x', name: '벽돌길 · 네거리', icon: '➕', cost: 4 },
+  deco_plaza:       { path: 'p', name: '동그란 광장', icon: '⭕', cost: 10 },
   deco_lake_s:      { lake: 2.2, name: '작은 연못', icon: '💧', cost: 40, r: 2.4, pads: 4 },
   deco_lake:        { lake: 4.2, name: '호수', icon: '🌊', cost: 80, r: 4.6, pads: 9 }
 };
 (function pathDecosInit() {
-  const old = decoById('deco_brick'); if (old) Object.assign(old, { name: PATH_DEF.deco_brick.name, cost: 10, grp: 'path' });
+  const old = decoById('deco_brick'); if (old) Object.assign(old, { name: PATH_DEF.deco_brick.name, cost: PATH_DEF.deco_brick.cost, grp: 'path' });
   const add = [];
   Object.keys(PATH_DEF).forEach(id => {
     if (decoById(id)) return;
@@ -8186,7 +8186,7 @@ function pathButtonsSync() {
 function pathButtonsInit() {
   pathCss();
   const rot = document.getElementById('btnRotateDeco'); if (!rot || document.getElementById('btnPathMore')) return;
-  const more = document.createElement('button'); more.id = 'btnPathMore'; more.className = 'btn-3d mint'; more.innerHTML = '➕ 이어 놓기 <small>(🪙 10개)</small>';
+  const more = document.createElement('button'); more.id = 'btnPathMore'; more.className = 'btn-3d mint'; more.innerHTML = '➕ 이어 놓기 <small>(🪙 ' + PATH_DEF.deco_brick.cost + '개)</small>';
   const col = document.createElement('button'); col.id = 'btnPathColor'; col.className = 'btn-3d'; col.textContent = '🎨 색 바꾸기';
   rot.insertAdjacentElement('afterend', col); rot.insertAdjacentElement('afterend', more);
   more.onclick = () => pathContinue();
