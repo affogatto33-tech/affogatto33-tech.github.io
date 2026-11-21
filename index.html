@@ -11723,7 +11723,8 @@ function addStars(amount, reasonText) {
   if (reasonText) showToast(`${reasonText} (🪙 ${amount >= 0 ? '+' : ''}${amount}개)`);
 }
 function addEnergy(delta) {
-  updateSave(sv => { sv.en = Math.min(100, Math.max(0, (Number(sv.en) || 0) + delta)); });
+  /* 11-21 원장님: 지영(시험 계정)은 에너지 늘 100 */
+  updateSave(sv => { sv.en = (typeof isTesterUser === 'function' && isTesterUser()) ? 100 : Math.min(100, Math.max(0, (Number(sv.en) || 0) + delta)); });
   try { renderTopBar(); energyLowCheck(); } catch (e) {}
 }
 /* 11-20(4) 에너지가 20 이하 → 팝업 */
@@ -15012,6 +15013,7 @@ function acctDeleteInit() {
 function isTesterUser() { try { return !!currentUser && currentUser === normId('지영'); } catch (e) { return false; } }
 function testerFill(sv) {
   sv.lock = [];
+  sv.en = 100;   /* 11-21 지영은 에너지 늘 100 */
   if (!Array.isArray(sv.pl)) sv.pl = []; if (!Array.isArray(sv.o)) sv.o = [];
   sv.pl = sv.pl.filter(p => p && p.id !== 'deco_construct');   /* 공사 중 → 바로 완성 */
   const need = ['deco_castle', 'deco_cityhall', ...CITY_LIST.filter(it => !it.study).map(it => it.id)];
