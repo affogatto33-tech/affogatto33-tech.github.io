@@ -519,7 +519,7 @@
   .sc-cpic { width: 130px; height: 130px; border-radius: 16px; animation: scPop 0.5s; }
   .sc-pe { font-size: 1rem; color: #0958d9; font-weight: bold; margin-top: 4px; letter-spacing: 0; }
   .sc-item i, .sc-dots span { display: inline-flex; align-items: center; }
-  .mc-room.sc-room3d { flex: 1 0 320px; margin-top: 0; background: #d8efff; border-color: #69b1ff; box-shadow: inset 0 0 0 3px #e6f4ff; }
+  .mc-room.sc-room3d { flex: 1 1 auto; min-height: 260px; margin-top: 0; background: #d8efff; border-color: #69b1ff; box-shadow: inset 0 0 0 3px #e6f4ff; }
   .sc-room3d .mc3d-sub { background: linear-gradient(#ffffff, #e6f4ff); color: #003a8c; border-color: #69b1ff; box-shadow: 0 4px 0 #1677ff, 0 8px 14px rgba(0,60,140,0.18); }
   .sc-room3d .mc3d-sub small { color: #0958d9; }
   .sc-room3d .mc-room2d { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -528,7 +528,10 @@
   .sc-room3d.narrow .mc3d-sub { padding: 2px 8px; } .sc-room3d.narrow .mc3d-sub small { font-size: 0.62rem; }
   .sc-linfo { display: flex; flex-direction: column; gap: 8px; }
   .sc-linfo .sc-roomhint { align-self: center; color: #003a8c; background: #e6f4ff; border-color: #69b1ff; text-align: center; }
-  @media (max-width: 560px) { .sc-qpic { width: 120px; height: 120px; } .sc-gpic { width: 150px; height: 150px; } .sc-cpic { width: 104px; height: 104px; } .mc-room.sc-room3d { flex-basis: 330px; } .sc-room3d .mc-room2d { grid-template-columns: 1fr; } }
+  /* 11-21 원장님: 들어가면 방 전체가 보이게 — 방이 화면을 채우고, 아래 단원 목록·설명은 숨김(📒 실험 노트 안에 같은 내용) */
+  #scLobby.sc-lobby { overflow: hidden; gap: 8px; padding-bottom: 2px; }
+  .sc-linfo .sc-ulist, .sc-linfo .mc-note { display: none; }
+  @media (max-width: 560px) { .sc-qpic { width: 120px; height: 120px; } .sc-gpic { width: 150px; height: 150px; } .sc-cpic { width: 104px; height: 104px; } .sc-room3d .mc-room2d { grid-template-columns: 1fr; } }
   /* 11-20 설명 가이드 */
   .gd-ov { position: fixed; inset: 0; z-index: 9500; background: rgba(40,60,110,0.45); display: flex; align-items: center; justify-content: center; padding: 14px; }
   .gd-card { width: min(560px, 100%); max-height: calc(100vh - 28px); overflow-y: auto; background: #fff; border: 6px solid #fff; border-radius: 30px; box-shadow: 0 0 0 4px #69c0ff, 0 14px 0 #3d8fd6, 0 24px 40px rgba(20,40,90,0.35); padding: 12px 16px 14px; display: flex; flex-direction: column; align-items: stretch !important; gap: 10px; text-align: left; animation: gdIn .35s cubic-bezier(.2,1.4,.4,1); }
@@ -13717,33 +13720,33 @@ function scFrameTex(bg, title, emos) {   /* 표본 액자: 핀으로 꽂은 곤�
 }
 function scPosterTex() {   /* 과학 포스터: 생물의 한살이 (11-21 반짝 하트 나라: 분홍 머리띠·하트 모서리) */
   return scCvTex(384, 256, (g, w, h) => {
-    g.fillStyle = '#fffef2'; g.fillRect(0, 0, w, h);
-    const hg = g.createLinearGradient(0, 0, w, 0); hg.addColorStop(0, '#ffd83a'); hg.addColorStop(1, '#7fd858'); g.fillStyle = hg; g.fillRect(0, 0, w, 46);
+    g.fillStyle = '#fff8fc'; g.fillRect(0, 0, w, h);
+    const hg = g.createLinearGradient(0, 0, w, 0); hg.addColorStop(0, '#ff9fc6'); hg.addColorStop(1, '#c9a6ff'); g.fillStyle = hg; g.fillRect(0, 0, w, 46);
     g.fillStyle = 'rgba(255,255,255,0.9)'; for (let x = 0; x < w; x += 24) { g.beginPath(); g.arc(x + 12, 46, 12, 0, Math.PI); g.fill(); }
-    g.fillStyle = '#fff'; g.font = 'bold 26px "Malgun Gothic",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('★ 생물의 한살이 ★', w / 2, 23);
+    g.fillStyle = '#fff'; g.font = 'bold 26px "Malgun Gothic",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('♥ 생물의 한살이 ♥', w / 2, 23);
     g.font = `52px ${SC_EMO_FONT}`; ['🥚', '🐛', '🫛', '🦋'].forEach((e, i) => g.fillText(e, 52 + i * 93, 132));
-    g.fillStyle = '#4cb847'; g.font = 'bold 30px sans-serif'; [0, 1, 2].forEach(i => g.fillText('→', 98 + i * 93, 134));
+    g.fillStyle = '#ff6fb5'; g.font = 'bold 30px sans-serif'; [0, 1, 2].forEach(i => g.fillText('→', 98 + i * 93, 134));
     g.font = `40px ${SC_EMO_FONT}`; ['🌰', '🌱', '🌿', '🌻'].forEach((e, i) => g.fillText(e, 52 + i * 93, 212));
-    g.fillStyle = '#ffd83a'; [[14, 236], [w - 14, 236]].forEach(([x, y]) => { pingStarPath(g, x, y, 11); g.fill(); });
+    g.fillStyle = '#ffb3d6'; [[14, 236], [w - 14, 236]].forEach(([x, y]) => { pingHeartPath(g, x, y, 10); g.fill(); });
   });
 }
 function scNoteTex() {   /* 펼친 실험 노트 (분홍 줄·보라 글씨) */
   return scCvTex(512, 320, (g, w, h) => {
-    g.fillStyle = '#fffef4'; g.fillRect(0, 0, w, h); g.strokeStyle = '#b9e89a'; g.lineWidth = 2;
+    g.fillStyle = '#fffafd'; g.fillRect(0, 0, w, h); g.strokeStyle = '#ffc4e1'; g.lineWidth = 2;
     for (let y = 70; y < h; y += 34) { g.beginPath(); g.moveTo(20, y); g.lineTo(w / 2 - 20, y); g.moveTo(w / 2 + 20, y); g.lineTo(w - 20, y); g.stroke(); }
-    g.fillStyle = '#2f7d1e'; g.font = 'bold 30px "Malgun Gothic",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('실험 노트', w / 4, 36);
+    g.fillStyle = '#b0307a'; g.font = 'bold 30px "Malgun Gothic",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('실험 노트', w / 4, 36);
     g.font = `46px ${SC_EMO_FONT}`; g.fillText('🌱', w / 4 - 50, 150); g.fillText('⚖️', w / 4 + 50, 150);
-    g.fillStyle = '#e0a800'; g.font = 'bold 40px sans-serif'; g.fillText('⭕ ❌', w * 3 / 4, 110); g.fillStyle = '#3f9a2c'; g.font = 'bold 28px "Malgun Gothic",sans-serif'; g.fillText('예상 → 실험', w * 3 / 4, 190); g.fillText('→ 까닭', w * 3 / 4, 232);
-    g.fillStyle = '#ffd83a'; [[40, 290], [w - 40, 290]].forEach(([x, y]) => { pingStarPath(g, x, y, 14); g.fill(); });
-    g.fillStyle = 'rgba(120,180,90,0.14)'; g.fillRect(w / 2 - 6, 0, 12, h);
+    g.fillStyle = '#ff5fa8'; g.font = 'bold 40px sans-serif'; g.fillText('⭕ ❌', w * 3 / 4, 110); g.fillStyle = '#8a5cd6'; g.font = 'bold 28px "Malgun Gothic",sans-serif'; g.fillText('예상 → 실험', w * 3 / 4, 190); g.fillText('→ 까닭', w * 3 / 4, 232);
+    g.fillStyle = '#ffb3d6'; [[40, 290], [w - 40, 290]].forEach(([x, y]) => { pingHeartPath(g, x, y, 13); g.fill(); });
+    g.fillStyle = 'rgba(200,120,180,0.12)'; g.fillRect(w / 2 - 6, 0, 12, h);
   });
 }
 function scDexTex() {   /* 도감 겉표지 (보라·분홍 + 금빛 하트 테두리) */
   return scCvTex(320, 420, (g, w, h) => {
-    const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#ffe24a'); gr.addColorStop(1, '#6fcf4a'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    g.strokeStyle = '#ffffff'; g.lineWidth = 8; g.strokeRect(18, 18, w - 36, h - 36);
-    g.fillStyle = '#ffffff'; [[18, 18], [w - 18, 18], [18, h - 18], [w - 18, h - 18]].forEach(([x, y]) => { pingStarPath(g, x, y, 15); g.fill(); });
-    g.fillStyle = '#fff'; g.shadowColor = 'rgba(40,110,20,0.55)'; g.shadowBlur = 6; g.font = 'bold 44px "Malgun Gothic",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('과학 도감', w / 2, 80);
+    const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#ffb3dc'); gr.addColorStop(1, '#b994ff'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    g.strokeStyle = '#fff0a3'; g.lineWidth = 8; g.strokeRect(18, 18, w - 36, h - 36);
+    g.fillStyle = '#ffe58a'; [[18, 18], [w - 18, 18], [18, h - 18], [w - 18, h - 18]].forEach(([x, y]) => { pingHeartPath(g, x, y, 14); g.fill(); });
+    g.fillStyle = '#fff'; g.font = 'bold 44px "Malgun Gothic",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('과학 도감', w / 2, 80);
     g.font = `70px ${SC_EMO_FONT}`; g.fillText('🦋', w / 2 - 60, 200); g.fillText('🌿', w / 2 + 60, 200); g.fillText('🐸', w / 2 - 60, 310); g.fillText('🌻', w / 2 + 60, 310);
   });
 }
@@ -13796,11 +13799,11 @@ function sc4HeartSpec(S, x, y, z, s, fc, bg, emos, GLASS) {   /* 하트 액자 �
   pingGem(g, -s * 0.62, s * 0.62, 0.14, 0.09, PING.sky).rotation.x = 0.4; pingGem(g, s * 0.62, s * 0.62, 0.14, 0.09, PING.butter).rotation.x = 0.4;
   return g;
 }
-function sc4StarLights(parent, x0, x1, y, z, n, sag, cols, wireMat) {   /* 별 모양 꼬마전구 줄 (반짝반짝) */
+function sc4StarLights(parent, x0, x1, y, z, n, sag) {   /* 별 모양 꼬마전구 줄 (반짝반짝) */
   const g = new THREE.Group(), pts = []; parent.add(g);
   for (let i = 0; i <= 24; i++) { const u = i / 24; pts.push(new THREE.Vector3(x0 + (x1 - x0) * u, y - Math.sin(u * Math.PI) * sag, z)); }
-  g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 48, 0.014, 5, false), wireMat || pingMat(0xe9d8ff)));
-  const mats = (cols || PING_RAINBOW).map(c => new THREE.MeshBasicMaterial({ color: c })), geo = pingStarGeo(0.085), st = [];
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 48, 0.014, 5, false), pingMat(0xe9d8ff)));
+  const mats = PING_RAINBOW.map(c => new THREE.MeshBasicMaterial({ color: c })), geo = pingStarGeo(0.085), st = [];
   for (let i = 1; i < n; i++) { const u = i / n, m = new THREE.Mesh(geo, mats[i % mats.length]); m.position.set(x0 + (x1 - x0) * u, y - Math.sin(u * Math.PI) * sag - 0.09, z); m.userData.ph = i * 1.3; m.userData.noPing = true; g.add(m); st.push(m); }
   g.userData.tick = t => { st.forEach(m => { const k = 0.5 + Math.sin(t / 330 + m.userData.ph) * 0.5; m.scale.setScalar(0.8 + k * 0.45); m.rotation.z = Math.sin(t / 900 + m.userData.ph) * 0.3; }); };
   return g;
@@ -13809,7 +13812,7 @@ function sc4Mobile(parent, x, z, top, items) {   /* 천장에서 내려온 별·
   const g = new THREE.Group(); g.position.set(x, top, z); parent.add(g); const wire = pingMat(0xffffff);
   items.forEach(([dx, len, kind, c], i) => {
     const w = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, len, 4), wire); w.position.set(dx, -len / 2, 0); g.add(w);
-    if (kind === 'h') pingHeart(g, dx, -len - 0.1, 0, 0.16, c); else if (kind === 'l') sc5Leaf(g, dx, -len - 0.16, 0, 0.2, c); else if (kind === 'a') sc5Atom(g, dx, -len - 0.16, 0, 0.15, SC5.lemon, c); else if (kind === 's') pingStar(g, dx, -len - 0.12, 0, 0.18, c); else pingCloud(g, dx, -len - 0.08, 0, 0.13);
+    if (kind === 'h') pingHeart(g, dx, -len - 0.1, 0, 0.16, c); else if (kind === 's') pingStar(g, dx, -len - 0.12, 0, 0.18, c); else pingCloud(g, dx, -len - 0.08, 0, 0.13);
   });
   g.traverse(o => { o.castShadow = false; });
   g.userData.tick = t => { g.rotation.z = Math.sin(t / 1300 + x) * 0.05; g.rotation.y = Math.sin(t / 1700 + x) * 0.35; };
@@ -13819,11 +13822,11 @@ function sc4Keep(m) { m.userData.pingDone = true; return m; }   /* 반짝 하트
 let _sc4BubT = null;
 function sc4Bubbles(parent, n) {   /* 둥실 떠오르는 비눗방울 (가장자리로만) */
   const tex = _sc4BubT || (_sc4BubT = pingCv(64, 64, (g) => {
-    const gr = g.createRadialGradient(32, 32, 14, 32, 32, 31); gr.addColorStop(0, 'rgba(255,255,255,0.05)'); gr.addColorStop(0.72, 'rgba(245,255,215,0.25)'); gr.addColorStop(0.9, 'rgba(170,230,110,0.85)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+    const gr = g.createRadialGradient(32, 32, 14, 32, 32, 31); gr.addColorStop(0, 'rgba(255,255,255,0.05)'); gr.addColorStop(0.72, 'rgba(255,220,245,0.25)'); gr.addColorStop(0.9, 'rgba(200,180,255,0.85)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
     g.fillStyle = gr; g.fillRect(0, 0, 64, 64); g.strokeStyle = 'rgba(255,255,255,0.95)'; g.lineWidth = 4; g.beginPath(); g.arc(32, 32, 20, 3.6, 4.5); g.stroke();
   })), g = new THREE.Group(), bs = []; parent.add(g);
   for (let i = 0; i < n; i++) {
-    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, color: SC5_POP[i % SC5_POP.length], transparent: true, depthWrite: false }));
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, color: PING_RAINBOW[i % PING_RAINBOW.length], transparent: true, depthWrite: false }));
     const side = i % 2 ? 1 : -1; s.userData = { x: side * (4.4 + (i * 0.73) % 4.2), z: -2.6 + (i * 1.37) % 3.8, y0: 0.6 + (i * 0.9) % 2, sp: 0.35 + (i % 4) * 0.08, ph: i * 1.9, sz: 0.28 + (i % 3) * 0.12 };
     s.renderOrder = 5; g.add(s); bs.push(s);
   }
@@ -13846,148 +13849,6 @@ function sc4Style() {   /* 이름표도 사탕색으로 */
   #scRoom.sc-room3d .mc3d-sub small { color: #8a5cd6; }`;
   document.head.appendChild(st);
 }
-/* ---------- 11-21(4) 과학 실험실 색: 레몬·버터 노랑 + 라임·잎 초록 + 반짝 은색(크롬) + 하양 (sc5_ 도우미) ---------- */
-const SC5 = { lemon: 0xffe14d, butter: 0xfff1a0, lime: 0xa8e85c, leaf: 0x5cc85a, mint: 0x9ff0c4, cream: 0xfffdf0, white: 0xffffff, silver: 0xe9eef3, gold: 0xffc83a };
-const SC5_POP = [0xffe14d, 0xa8e85c, 0xffffff, 0x7fdc8a, 0xfff1a0, 0xd8f56a];
-function sc5LeafPath(g, x, y, s, a) {   /* 잎 한 장 (그림) */
-  g.save(); g.translate(x, y); g.rotate(a || 0); g.beginPath(); g.moveTo(0, -s); g.quadraticCurveTo(s * 0.85, -s * 0.2, 0, s); g.quadraticCurveTo(-s * 0.85, -s * 0.2, 0, -s); g.closePath(); g.restore();
-}
-function sc5AtomPath(g, x, y, s, col) {   /* 원자 무늬 (그림) */
-  g.save(); g.translate(x, y); g.strokeStyle = col; g.lineWidth = Math.max(2, s * 0.14);
-  for (let i = 0; i < 3; i++) { g.save(); g.rotate(i * Math.PI / 3); g.beginPath(); g.ellipse(0, 0, s, s * 0.38, 0, 0, Math.PI * 2); g.stroke(); g.restore(); }
-  g.fillStyle = col; g.beginPath(); g.arc(0, 0, s * 0.2, 0, Math.PI * 2); g.fill(); g.restore();
-}
-function sc5WallTex(a, b, leaf, mo, rep) {   /* 사탕 줄무늬 벽지 + 잎·원자·물방울 (위아래 이음매 없음) */
-  return pingCv(512, 512, (g, w, h) => {
-    for (let i = 0; i < 8; i++) { g.fillStyle = i % 2 ? a : b; g.fillRect(i * 64, 0, 64, h); }
-    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) { const x = 32 + 64 * (2 * c + (r % 2)), y = r * 128 + 64, k = (r + c) % 3;
-      if (k === 0) { g.fillStyle = leaf; sc5LeafPath(g, x, y, 17, 0.5); g.fill(); g.strokeStyle = 'rgba(255,255,255,0.8)'; g.lineWidth = 2; g.beginPath(); g.moveTo(x - 6, y + 9); g.lineTo(x + 6, y - 9); g.stroke(); }
-      else if (k === 1) sc5AtomPath(g, x, y, 15, mo);
-      else { g.fillStyle = 'rgba(255,255,255,0.9)'; pingStarPath(g, x, y, 13); g.fill(); }
-      g.fillStyle = 'rgba(255,255,255,0.75)'; g.beginPath(); g.arc(x, y + 64, 4.5, 0, Math.PI * 2); g.fill(); }
-  }, rep);
-}
-function sc5FloorTex(rep) {   /* 레몬·하양 둥근 체크 타일 + 연두 줄눈 */
-  return pingCv(512, 512, (g, w, h) => {
-    g.fillStyle = '#bfe88f'; g.fillRect(0, 0, w, h);
-    const n = 4, s = w / n;
-    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
-      g.fillStyle = (r + c) % 2 ? '#fff1a0' : '#fffdf0'; const x = c * s + 5, y = r * s + 5, q = s - 10, k = 22;
-      g.beginPath(); g.moveTo(x + k, y); g.arcTo(x + q, y, x + q, y + q, k); g.arcTo(x + q, y + q, x, y + q, k); g.arcTo(x, y + q, x, y, k); g.arcTo(x, y, x + q, y, k); g.fill();
-      g.fillStyle = 'rgba(255,255,255,0.8)'; g.beginPath(); g.ellipse(x + q * 0.28, y + q * 0.24, q * 0.16, q * 0.06, -0.5, 0, Math.PI * 2); g.fill();
-      if ((r + c) % 2 === 0) { g.fillStyle = 'rgba(150,215,100,0.55)'; sc5LeafPath(g, x + q * 0.72, y + q * 0.7, 10, 0.6); g.fill(); }
-    }
-  }, rep);
-}
-function sc5CeilTex(rep) {   /* 천장: 햇살 레몬 하늘 + 구름 + 별 */
-  return pingCv(512, 512, (g, w, h) => {
-    const gr = g.createRadialGradient(w / 2, h / 2, 40, w / 2, h / 2, w * 0.75); gr.addColorStop(0, '#fffef0'); gr.addColorStop(1, '#eef9c8'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    const cloud = (x, y, s) => { g.fillStyle = 'rgba(255,255,255,0.95)'; [[0, 0, 1], [-0.9, 0.2, 0.7], [0.9, 0.2, 0.72], [-0.4, -0.35, 0.72], [0.45, -0.3, 0.68]].forEach(([dx, dy, r]) => { g.beginPath(); g.arc(x + dx * 34 * s, y + dy * 34 * s, r * 34 * s, 0, Math.PI * 2); g.fill(); }); };
-    cloud(120, 130, 0.9); cloud(380, 90, 0.7); cloud(300, 330, 1); cloud(90, 400, 0.7);
-    g.fillStyle = '#ffd83a'; [[230, 60], [460, 250], [60, 260], [420, 450], [200, 470]].forEach(([x, y]) => { pingStarPath(g, x, y, 10); g.fill(); });
-  }, rep);
-}
-function sc5FriezeTex() {   /* 천장 아래 연두 띠 + 구름 + 잎·별 */
-  return pingCv(512, 128, (g, w, h) => {
-    const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#b8e86e'); gr.addColorStop(1, '#eafbc8'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    g.fillStyle = '#fff16a'; [[60, 30, 11], [190, 50, 8], [300, 26, 12], [430, 46, 9]].forEach(([x, y, r]) => { pingStarPath(g, x, y, r); g.fill(); });
-    g.fillStyle = '#ffffff'; for (let x = -32; x < w + 64; x += 64) { g.beginPath(); g.arc(x + 32, h - 6, 34, 0, Math.PI * 2); g.fill(); g.beginPath(); g.arc(x + 64, h - 20, 22, 0, Math.PI * 2); g.fill(); }
-    g.fillStyle = '#6fcf4a'; for (let x = 32; x < w; x += 128) { sc5LeafPath(g, x + 32, h - 28, 11, 0.7); g.fill(); }
-  }, [16, 1]);
-}
-function sc5SkyTex() {   /* 둥근 창 밖: 맑은 하늘 → 연두 언덕 빛 + 구름 + 해 */
-  return scCvTex(128, 256, (g, w, h) => {
-    const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#9fdcff'); gr.addColorStop(0.55, '#e6f9d8'); gr.addColorStop(1, '#fff6b8'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    g.fillStyle = 'rgba(255,240,120,0.95)'; g.beginPath(); g.arc(92, 52, 16, 0, Math.PI * 2); g.fill();
-    g.fillStyle = 'rgba(255,255,255,0.95)'; [[34, 150, 1], [96, 196, 0.8], [56, 96, 0.7]].forEach(([x, y, s]) => [[0, 0, 13], [-12, 4, 9], [12, 4, 10], [-5, -7, 9], [6, -6, 9]].forEach(([dx, dy, r]) => { g.beginPath(); g.arc(x + dx * s * 1.4, y + dy * s * 1.4, r * s * 1.4, 0, Math.PI * 2); g.fill(); }));
-    g.fillStyle = '#8fd860'; g.beginPath(); g.moveTo(0, h); g.quadraticCurveTo(40, h - 40, 80, h - 18); g.quadraticCurveTo(108, h - 34, w, h - 22); g.lineTo(w, h); g.fill();
-  });
-}
-function sc5Env(r) {   /* 크롬 은색이 비칠 환경 그림 (빛 아님, 반사용) */
-  try {
-    const t = scCvTex(256, 128, (g, w, h) => {
-      const gr = g.createLinearGradient(0, 0, 0, h); [[0, '#ffffff'], [0.3, '#fffbe6'], [0.46, '#ffffff'], [0.5, '#a9b8ad'], [0.62, '#e2f0cf'], [1, '#c9dcb2']].forEach(([k, c]) => gr.addColorStop(k, c)); g.fillStyle = gr; g.fillRect(0, 0, w, h);
-      g.fillStyle = 'rgba(255,255,255,0.95)'; [[20, 22], [90, 30], [160, 18], [220, 34]].forEach(([x, y]) => g.fillRect(x, y, 26, 18));
-      g.fillStyle = 'rgba(110,130,120,0.45)'; [[0, 70], [120, 74], [200, 68]].forEach(([x, y]) => g.fillRect(x, y, 40, 6));
-    });
-    t.mapping = THREE.EquirectangularReflectionMapping;
-    const pm = new THREE.PMREMGenerator(r), rt = pm.fromEquirectangular(t); pm.dispose(); t.dispose(); return rt.texture;
-  } catch (e) { return null; }
-}
-function sc5Chrome(env, c, rough) {   /* 반짝 크롬 은색 (반짝 하트 나라 변환에서 빼서 금속 그대로) */
-  const m = new THREE.MeshPhysicalMaterial({ color: c == null ? SC5.silver : c, metalness: env ? 0.92 : 0.45, roughness: rough == null ? 0.16 : rough, envMap: env || null, envMapIntensity: 1.2, clearcoat: 1, clearcoatRoughness: 0.05 });
-  m.userData.pingDone = true; return m;
-}
-function sc5Leaf(parent, x, y, z, s, c) {   /* 통통한 잎 한 장 */
-  const m = new THREE.Mesh(new THREE.SphereGeometry(s, 14, 10), pingMat(c == null ? SC5.leaf : c)); m.scale.set(0.55, 1, 0.2); m.position.set(x, y, z); m.castShadow = true; parent.add(m); return m;
-}
-function sc5Atom(parent, x, y, z, s, nuc, ring, mat) {   /* 원자 모형: 가운데 구슬 + 고리 셋 (빙글빙글) */
-  const g = new THREE.Group(); g.position.set(x, y, z); parent.add(g);
-  const n = new THREE.Mesh(new THREE.SphereGeometry(s * 0.32, 18, 14), pingGlow(nuc, 0.35)); n.castShadow = true; g.add(n);
-  const rm = mat || pingMat(ring), rings = [];
-  for (let i = 0; i < 3; i++) { const t = new THREE.Mesh(new THREE.TorusGeometry(s, s * 0.07, 8, 36), rm); t.rotation.set(Math.PI / 2, i * Math.PI / 3, 0); const p = new THREE.Group(); p.rotation.z = i * Math.PI / 3; p.add(t); g.add(p); rings.push(p); }
-  g.userData.tick = tt => { g.rotation.y = tt / 1600 + x; n.scale.setScalar(1 + Math.sin(tt / 400 + x) * 0.08); };
-  return g;
-}
-function sc5DishTex(bg, emos, ring) {   /* 둥근 표본 접시 그림 */
-  return scCvTex(512, 512, (g, w, h) => {
-    const gr = g.createRadialGradient(w / 2, h * 0.45, 30, w / 2, h / 2, w * 0.62); gr.addColorStop(0, bg[0]); gr.addColorStop(1, bg[1]); g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    g.fillStyle = 'rgba(255,255,255,0.6)'; for (let i = 0; i < 18; i++) { g.beginPath(); g.arc((i * 97) % w, (i * 151) % h, 5, 0, Math.PI * 2); g.fill(); }
-    g.textAlign = 'center'; g.textBaseline = 'middle';
-    [[0.3, 0.3], [0.7, 0.3], [0.22, 0.6], [0.5, 0.52], [0.78, 0.6], [0.5, 0.8]].forEach(([u, v], i) => { const x = u * w, y = v * h; g.font = `96px ${SC_EMO_FONT}`; g.fillStyle = '#555'; g.fillText(emos[i], x, y - 6);
-      g.fillStyle = '#fffbe6'; g.fillRect(x - 30, y + 44, 60, 12); g.fillStyle = ring; g.fillRect(x - 22, y + 49, 44, 3); });
-  });
-}
-function sc5DishSpec(S, x, y, z, s, frameMat, bg, emos, GLASS, ringCss, topC) {   /* 둥근 은테 표본 접시 (곤충·잎) */
-  const g = new THREE.Group(); g.position.set(x, y, z); S.add(g);
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(s * 1.02, s * 0.1, 14, 48), frameMat); ring.castShadow = true; g.add(ring);
-  const pic = new THREE.Mesh(new THREE.CircleGeometry(s, 40), new THREE.MeshBasicMaterial({ map: sc5DishTex(bg, emos, ringCss) })); pic.position.z = 0.01; g.add(pic);
-  const gl = new THREE.Mesh(new THREE.CircleGeometry(s, 40), GLASS); gl.position.z = 0.06; g.add(gl);
-  sc5Leaf(g, -s * 0.2, s * 1.12, 0.08, 0.2, SC5.leaf).rotation.z = 0.9; sc5Leaf(g, s * 0.2, s * 1.12, 0.08, 0.2, SC5.lime).rotation.z = -0.9;
-  pingStar(g, 0, s * 1.1, 0.14, 0.16, topC == null ? SC5.lemon : topC);
-  pingGem(g, -s * 0.9, -s * 0.62, 0.12, 0.09, SC5.lime).rotation.x = 0.4; pingGem(g, s * 0.9, -s * 0.62, 0.12, 0.09, SC5.lemon).rotation.x = 0.4;
-  return g;
-}
-function sc5Floaters(parent, box, n, sz) {   /* 둥실 떠다니는 별·잎·보석·물방울 (노랑·초록) */
-  const g = new THREE.Group(), items = []; parent.add(g);
-  for (let i = 0; i < n; i++) {
-    const x = box[0] + Math.random() * (box[1] - box[0]), y = box[2] + Math.random() * (box[3] - box[2]), z = box[4] + Math.random() * (box[5] - box[4]), k = i % 4, s = sz * (0.8 + Math.random() * 0.45);
-    const m = k === 0 ? pingStar(g, x, y, z, s, SC5.lemon) : k === 1 ? sc5Leaf(g, x, y, z, s, i % 2 ? SC5.leaf : SC5.lime) : k === 2 ? pingGem(g, x, y, z, s * 0.9, i % 3 ? SC5.lime : SC5.mint)
-      : (() => { const b = new THREE.Mesh(new THREE.SphereGeometry(s * 0.7, 14, 10), pingGlow(SC5.butter, 0.3)); b.position.set(x, y, z); g.add(b); return b; })();
-    m.castShadow = false; m.userData.base = y; m.userData.ph = Math.random() * 6.28; m.userData.sp = 0.6 + Math.random() * 0.6; items.push(m);
-  }
-  g.userData.tick = t => { items.forEach(m => { const a = t / 1000 * m.userData.sp + m.userData.ph; m.position.y = m.userData.base + Math.sin(a) * 0.12; m.rotation.y = a * 0.8; m.rotation.z = Math.sin(a * 0.7) * 0.15; }); };
-  return g;
-}
-function sc5Rug(parent, x, z, s) {   /* 육각형(분자 모양) 러그: 레몬 + 연두 테 + 하얀 속 */
-  const mk = (r, c, y, o) => { const m = new THREE.Mesh(new THREE.CircleGeometry(r, 6), pingMat(c, Object.assign({ roughness: 0.7, clearcoat: 0.2 }, o || {}))); m.rotation.x = -Math.PI / 2; m.rotation.z = Math.PI / 6; m.position.set(x, y, z); m.receiveShadow = true; parent.add(m); return m; };
-  mk(s, SC5.lime, 0.012); mk(s * 0.86, 0xfff4a8, 0.015); mk(s * 0.6, 0xffffff, 0.018, { transparent: true, opacity: 0.6 });
-}
-function sc5Lights(S) {   /* 반짝 하트 나라 분홍·보라 빛을 햇살 레몬·연두 빛으로 (새 빛은 안 만듦) */
-  S.traverse(o => {
-    if (o.isHemisphereLight) { o.color.set(o.userData.ping ? 0xfffbe0 : 0xffffff); o.groundColor.set(o.userData.ping ? 0xe4f6c8 : 0xeef8d8); }
-    else if (o.isDirectionalLight && !o.castShadow) o.color.set(0xeaffd6);
-  });
-}
-function sc5Style() {   /* 이름표·방 테두리도 레몬·연두로 */
-  if (document.getElementById('sc5Style')) return;
-  const st = document.createElement('style'); st.id = 'sc5Style';
-  st.textContent = `#scr-sentence #scRoom.sc-room3d .mc3d-sub { background: linear-gradient(#fffef2, #fff3a6); color: #2f6b12; border-color: #9edb5c; border-radius: 20px; box-shadow: 0 4px 0 #6cc04a, 0 8px 16px rgba(90,140,30,0.25), inset 0 2px 0 rgba(255,255,255,0.9); }
-  #scr-sentence #scRoom.sc-room3d .mc3d-sub small { color: #4a9a1e; }
-  #scr-sentence .mc-note { background: #fbfbe0; color: #3d6b12; }
-  #scr-sentence .sc-hub .mc-card { border-color: #a8dc6a; box-shadow: 0 4px 0 #dcf2b4; } #scr-sentence .sc-hub .mc-card-h { color: #3d6b12; }
-  #scr-sentence .mc-room.sc-room3d { background: #f6fbe0; border-color: #9edb5c; box-shadow: inset 0 0 0 3px #fff6c0; }
-  #scr-sentence .sc-room3d .mc-room2d-b { background: linear-gradient(#fffef2, #fff3a6); border-color: #9edb5c; color: #2f6b12; }
-  #scr-sentence .sc-room3d .mc-room2d-b small { color: #4a9a1e; }
-  #scr-sentence .study-panel { border-color: #b5e27a; background: linear-gradient(180deg, rgba(255,253,232,0.97), rgba(240,252,222,0.97)); }
-  #scr-sentence .closet-header h3 { background: linear-gradient(#fff7b0, #ffe45a); color: #3d6b12; border-color: #8fd457; box-shadow: 0 3px 0 #6cc04a; }
-  #scr-sentence .sc-badge { color: #3d7a16; background: #f4fbdc; border-color: #b5e27a; }
-  #scr-sentence .sc-linfo .sc-roomhint { color: #3d6b12; background: #fffbe0; border-color: #a8dc6a; }
-  #scr-sentence .sc-uchip { border-color: #d6eea8; color: #5d7a3a; }
-  #scr-sentence .sc-uchip b { color: #3d6b12; } #scr-sentence .sc-uchip em { color: #4a9a1e; }
-  #scr-sentence .sc-uchip.done { border-color: #95de64; background: #f6ffed; }`;
-  document.head.appendChild(st);
-}
 function sc3dInit() {
   if (SC3D.ok !== null) return SC3D.ok;
   try {
@@ -13995,56 +13856,56 @@ function sc3dInit() {
     const box = scEl('scRoom'), cv = document.createElement('canvas'); cv.className = 'mc3d'; box.insertBefore(cv, box.firstChild);
     const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); r.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
     r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
-    const S = new THREE.Scene(); S.background = new THREE.Color(0xfbfde6);
+    const S = new THREE.Scene(); S.background = new THREE.Color(0xf6eaff);
     const cam = new THREE.PerspectiveCamera(38, 1.6, 0.1, 100);
-    S.add(new THREE.HemisphereLight(0xffffff, 0xeef8d8, 0.66));
-    const sun = new THREE.DirectionalLight(0xfffbe6, 0.55); sun.position.set(-3, 11, 9); sun.castShadow = true;
+    S.add(new THREE.HemisphereLight(0xffffff, 0xf0d8ff, 0.66));
+    const sun = new THREE.DirectionalLight(0xfff6e8, 0.55); sun.position.set(-3, 11, 9); sun.castShadow = true;
     sun.shadow.mapSize.set(1024, 1024); Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 10, bottom: -4, near: 1, far: 40 }); sun.shadow.radius = 4; S.add(sun);
     const M = (c, o) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.6, metalness: 0 }, o || {}));
-    const GLASS = new THREE.MeshPhysicalMaterial({ color: 0xf4ffe6, roughness: 0.05, metalness: 0, transparent: true, opacity: 0.32, clearcoat: 1, depthWrite: false });
-    const ENV = sc5Env(r), METAL = sc5Chrome(ENV), BRASS = sc5Chrome(ENV, 0xf4f7fa, 0.12), GOLD = sc5Chrome(ENV, 0xffd54a, 0.2);   /* 11-21(4) 은색 크롬 + 레몬 금빛 */
+    const GLASS = new THREE.MeshPhysicalMaterial({ color: 0xe6f7ff, roughness: 0.05, metalness: 0, transparent: true, opacity: 0.32, clearcoat: 1, depthWrite: false });
+    const METAL = M(0xd9dee4, { roughness: 0.25, metalness: 0.6 }), BRASS = M(0xe8b84a, { roughness: 0.28, metalness: 0.6, emissive: 0x3a2400, emissiveIntensity: 0.2 });
     const add = (geo, mat, x, y, z, o) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = !(o && o.noCast); m.receiveShadow = true; (o && o.parent || S).add(m); return m; };
     const WZ = -4.2;
     /* 바닥·벽 (11-21 반짝 하트 나라: 반들반들 분홍 사탕 타일 · 민트 하트 줄무늬 벽 · 하늘색 옆벽 · 구름 별 천장) */
-    add(new THREE.PlaneGeometry(32, 24), pingMat(0xffffff, { map: sc5FloorTex([8, 6]), roughness: 0.16, clearcoatRoughness: 0.04 }), 0, 0, 4, { noCast: true }).rotation.x = -Math.PI / 2;
-    add(new THREE.PlaneGeometry(32, 16), pingMat(0xffffff, { map: sc5WallTex('#ffef94', '#fffbe0', '#7fd451', '#6cc04a', [8, 4]), roughness: 0.6, clearcoat: 0.3 }), 0, 8, WZ, { noCast: true });
-    { const swt = sc5WallTex('#d6f3b8', '#effbe0', '#6fc94a', '#f2c200', [4, 4]); for (const sx of [-1, 1]) { const sd = add(new THREE.PlaneGeometry(16, 16), pingMat(0xffffff, { map: swt, roughness: 0.6, clearcoat: 0.3 }), sx * 10.5, 8, 3.6, { noCast: true }); sd.rotation.y = -sx * Math.PI / 2; } }
-    add(new THREE.PlaneGeometry(22, 18), pingMat(0xffffff, { map: sc5CeilTex([5, 4]), roughness: 0.7, clearcoat: 0.2 }), 0, 8.6, 1, { noCast: true }).rotation.x = Math.PI / 2;
-    add(libRBox(32, 1.5, 0.14, 0.05), M(0xb8e886), 0, 0.75, WZ + 0.05);
-    add(libRBox(32, 0.14, 0.22, 0.06), METAL, 0, 1.55, WZ + 0.08);
-    add(libRBox(32, 0.24, 0.26, 0.1), M(0xffe25a), 0, 7.4, WZ + 0.1);
-    { const fz = sc5FriezeTex(); for (const sx of [-1, 1]) add(new THREE.PlaneGeometry(14.2, 0.95), new THREE.MeshBasicMaterial({ map: fz }), sx * 8.85, 5.62, WZ + 0.03, { noCast: true }); }
+    add(new THREE.PlaneGeometry(32, 24), pingMat(0xffd2ea, { map: pingFloorTex('pink', [8, 6]), roughness: 0.16, clearcoatRoughness: 0.04 }), 0, 0, 4, { noCast: true }).rotation.x = -Math.PI / 2;
+    add(new THREE.PlaneGeometry(32, 16), pingMat(0xffffff, { map: sc4WallTex('#c9f3e4', '#e4fbf3', '#ffd56b', [8, 4]), roughness: 0.6, clearcoat: 0.3 }), 0, 8, WZ, { noCast: true });
+    { const swt = sc4WallTex('#cfe6ff', '#e8f3ff', '#ff9fc6', [4, 4]); for (const sx of [-1, 1]) { const sd = add(new THREE.PlaneGeometry(16, 16), pingMat(0xffffff, { map: swt, roughness: 0.6, clearcoat: 0.3 }), sx * 10.5, 8, 3.6, { noCast: true }); sd.rotation.y = -sx * Math.PI / 2; } }
+    add(new THREE.PlaneGeometry(22, 18), pingMat(0xffffff, { map: pingCeilTex([5, 4]), roughness: 0.7, clearcoat: 0.2 }), 0, 8.6, 1, { noCast: true }).rotation.x = Math.PI / 2;
+    add(libRBox(32, 1.5, 0.14, 0.05), M(0xffc4e1), 0, 0.75, WZ + 0.05);
+    add(libRBox(32, 0.14, 0.22, 0.06), M(0xff8fc8), 0, 1.55, WZ + 0.08);
+    add(libRBox(32, 0.24, 0.26, 0.1), M(0xd9c2ff), 0, 7.4, WZ + 0.1);
+    { const fz = sc4FriezeTex(); for (const sx of [-1, 1]) add(new THREE.PlaneGeometry(14.2, 0.95), new THREE.MeshBasicMaterial({ map: fz }), sx * 8.85, 5.62, WZ + 0.03, { noCast: true }); }
     /* 가운데 둥근 창 + 하늘 */
-    const sky = sc5SkyTex();
+    const sky = sc4SkyTex();
     const WY = 2.0, WW = 3.0, WH = 4.4;
     const glass = new THREE.Mesh(new THREE.ShapeGeometry(libArch(WW, WH), 32), new THREE.MeshBasicMaterial({ map: sky })); glass.position.set(0, WY, WZ + 0.03); S.add(glass);
     glass.geometry.computeBoundingBox(); { const bb = glass.geometry.boundingBox, uv = glass.geometry.attributes.uv, pos = glass.geometry.attributes.position; for (let i = 0; i < uv.count; i++) uv.setXY(i, (pos.getX(i) - bb.min.x) / (bb.max.x - bb.min.x), (pos.getY(i) - bb.min.y) / (bb.max.y - bb.min.y)); }
     const wf = libArch(WW + 0.4, WH + 0.2); wf.holes.push(libArch(WW, WH));
-    add(new THREE.ExtrudeGeometry(wf, { depth: 0.16, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 4, curveSegments: 32 }), METAL, 0, WY, WZ + 0.02);
+    add(new THREE.ExtrudeGeometry(wf, { depth: 0.16, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 4, curveSegments: 32 }), M(0xffb6da), 0, WY, WZ + 0.02);
     add(libRBox(0.1, WH - 0.2, 0.1, 0.04), M(0xffffff), 0, WY + (WH - 0.2) / 2, WZ + 0.1, { noCast: true });
     add(libRBox(WW, 0.1, 0.1, 0.04), M(0xffffff), 0, WY + 2.0, WZ + 0.1, { noCast: true });
     /* 표본 액자 (곤충 · 잎) → 통통한 하트 액자 + 포스터 */
-    sc5DishSpec(S, -3.35, 4.35, WZ + 0.14, 0.98, METAL, ['#fffef0', '#fff0a0'], ['🦋', '🐞', '🐝', '🦗', '🐜', '🪲'], GLASS, '#8fd860', SC5.lime);
-    sc5DishSpec(S, 3.35, 4.35, WZ + 0.14, 0.98, METAL, ['#f8fff0', '#d4f5b4'], ['🍁', '🍀', '🌿', '🍂', '🌾', '🌼'], GLASS, '#ffd83a');
-    add(libRBox(2.4, 1.65, 0.08, 0.06), M(0x8fd860), -3.3, 2.35, WZ + 0.08, { noCast: true });
+    sc4HeartSpec(S, -3.35, 4.4, WZ + 0.14, 1.12, PING.hot, ['#fffdf0', '#ffe8c4'], ['🦋', '🐞', '🐝', '🦗', '🐜', '🪲'], GLASS);
+    sc4HeartSpec(S, 3.35, 4.4, WZ + 0.14, 1.12, 0x7fe0c0, ['#f8fff4', '#d6f7c8'], ['🍁', '🍀', '🌿', '🍂', '🌾', '🌸'], GLASS);
+    add(libRBox(2.4, 1.65, 0.08, 0.06), M(0xd9c2ff), -3.3, 2.35, WZ + 0.08, { noCast: true });
     { const p = new THREE.Mesh(new THREE.PlaneGeometry(2.25, 1.5), new THREE.MeshBasicMaterial({ map: scPosterTex() })); p.position.set(-3.3, 2.35, WZ + 0.13); S.add(p); }
     /* 왼쪽: 표본 병 선반 */
     const shelf = (sx) => { const g = new THREE.Group(); g.position.set(sx * 7.0, 0, -3.2); S.add(g);
-      add(libRBox(3.1, 5.2, 0.12, 0.05), M(sx < 0 ? 0xfff4b8 : 0xdcf5c4), 0, 2.7, -0.38, { parent: g, noCast: true });   /* 뒤판 */
-      for (const sx2 of [-1, 1]) add(libRBox(0.22, 5.4, 0.95, 0.1), METAL, sx2 * 1.58, 2.7, 0, { parent: g });   /* 옆판 */
-      add(libRBox(3.4, 0.26, 1.0, 0.12), M(0x86d65a), 0, 5.35, 0, { parent: g });
-      [0.9, 2.4, 3.9].forEach(y => add(libRBox(3.0, 0.12, 0.85, 0.05), M(0xffffff), 0, y, 0, { parent: g }));
-      add(libRBox(3.0, 0.8, 0.85, 0.12), M(sx < 0 ? 0xffe25a : 0xa8e85c), 0, 0.42, 0, { parent: g });
-      add(new THREE.SphereGeometry(0.13, 16, 12), BRASS, 0, 0.42, 0.47, { parent: g });   /* 아래 칸 은색 손잡이 */
-      SC3D.ping.push(sc5Atom(g, 0, 5.95, 0.1, 0.32, sx < 0 ? SC5.lime : SC5.lemon, 0, METAL));   /* 꼭대기 원자 모형 */
+      add(libRBox(3.1, 5.2, 0.12, 0.05), M(sx < 0 ? 0xe3d4ff : 0xcfe6ff), 0, 2.7, -0.38, { parent: g, noCast: true });   /* 뒤판 */
+      for (const sx2 of [-1, 1]) add(libRBox(0.22, 5.4, 0.95, 0.1), M(0xffb6da), sx2 * 1.58, 2.7, 0, { parent: g });   /* 옆판 */
+      add(libRBox(3.4, 0.26, 1.0, 0.12), M(0xff9fc6), 0, 5.35, 0, { parent: g });
+      [0.9, 2.4, 3.9].forEach(y => add(libRBox(3.0, 0.12, 0.85, 0.05), M(0xfff8f1), 0, y, 0, { parent: g }));
+      add(libRBox(3.0, 0.8, 0.85, 0.12), M(sx < 0 ? 0xd9c2ff : 0xaef2de), 0, 0.42, 0, { parent: g });
+      pingHeart(g, 0, 0.42, 0.47, 0.17, PING.hot);   /* 아래 칸 하트 손잡이 */
+      pingHeart(g, 0, 5.78, 0.1, 0.3, sx < 0 ? PING.hot : PING.violet);   /* 꼭대기 하트 장식 */
       return g; };
     const L = shelf(-1);
-    const JLID = [0xffe14d, 0x8fd860, 0xf4f7fa, 0xc8f05a, 0x5cc85a, 0xfff1a0]; let jarN = 0;
+    const JLID = [0xff9fc6, 0xc9a6ff, 0x8fe3c9, 0xffd56b, 0x9fd0ff, 0xffb08f]; let jarN = 0;
     const jar = (g, x, y, liq, inner) => { const jg = new THREE.Group(); jg.position.set(x, y, 0.15); jg.scale.setScalar(1.35); g.add(jg); g = jg; x = 0; y = 0; const lc = JLID[jarN++ % JLID.length];
       add(new THREE.CylinderGeometry(0.28, 0.28, 0.7, 20), GLASS, x, y + 0.35, 0, { parent: g, noCast: true });
       add(new THREE.CylinderGeometry(0.25, 0.25, 0.5, 20), new THREE.MeshPhysicalMaterial({ color: liq, transparent: true, opacity: 0.45, roughness: 0.1, emissive: liq, emissiveIntensity: 0.25, depthWrite: false }), x, y + 0.27, 0, { parent: g, noCast: true });
       add(new THREE.CylinderGeometry(0.3, 0.3, 0.1, 20), M(lc), x, y + 0.74, 0, { parent: g });
-      (jarN % 2 ? sc5Leaf : pingStar)(g, x, y + 0.9, 0, jarN % 2 ? 0.1 : 0.09, jarN % 2 ? SC5.leaf : SC5.lemon);   /* 잎·별 마개 */
+      (jarN % 2 ? pingHeart : pingStar)(g, x, y + 0.88, 0, 0.09, jarN % 2 ? PING.hot : PING.butter);   /* 하트·별 마개 */
       add(libRBox(0.36, 0.18, 0.02, 0.01), M(0xffffff), x, y + 0.4, 0.29, { parent: g, noCast: true });
       inner(g, x, y + 0.3, 0);
     };
@@ -14053,16 +13914,16 @@ function sc3dInit() {
     const starIn = (g, x, y, z) => { for (let i = 0; i < 5; i++) { const a = add(libRBox(0.07, 0.22, 0.04, 0.03), M(0xff7a45), x + Math.sin(i * 1.257) * 0.09, y + Math.cos(i * 1.257) * 0.09, z, { parent: g, noCast: true }); a.rotation.z = -i * 1.257; } };
     const leafIn = (g, x, y, z) => { const b = add(new THREE.SphereGeometry(0.15, 14, 10), M(0x73d13d), x, y, z, { parent: g, noCast: true }); b.scale.set(0.5, 1.2, 0.15); b.rotation.z = 0.4; add(new THREE.CylinderGeometry(0.01, 0.01, 0.3, 6), M(0x389e0d), x - 0.06, y - 0.12, z, { parent: g, noCast: true }).rotation.z = 0.4; };
     const shellIn = (g, x, y, z) => { add(new THREE.TorusGeometry(0.09, 0.05, 10, 18), M(0xd4a373), x, y, z, { parent: g, noCast: true }); };
-    jar(L, -0.9, 0.96, 0xfff1b8, frogIn); jar(L, 0, 0.96, 0xd6f4ff, fishIn); jar(L, 0.9, 0.96, 0xfffbc8, starIn);
+    jar(L, -0.9, 0.96, 0xfff1b8, frogIn); jar(L, 0, 0.96, 0xd6f4ff, fishIn); jar(L, 0.9, 0.96, 0xffd6e7, starIn);
     jar(L, -0.9, 2.46, 0xf6ffed, leafIn); jar(L, 0, 2.46, 0xfff7e6, shellIn); jar(L, 0.9, 2.46, 0xe6fffb, frogIn);
     /* 위 칸: 화분 두 개 */
     for (const x of [-0.8, 0.8]) { add(new THREE.CylinderGeometry(0.28, 0.2, 0.4, 16), M(0xd4884a), x, 4.16, 0.15, { parent: L }); add(new THREE.SphereGeometry(0.36, 16, 12), M(0x73d13d), x, 4.6, 0.15, { parent: L }); }
     add(new THREE.SphereGeometry(0.22, 18, 14), M(0x69b1ff, { roughness: 0.3 }), 0, 4.2, 0.15, { parent: L });   /* 지구본 */
     add(new THREE.TorusGeometry(0.27, 0.025, 8, 24), BRASS, 0, 4.2, 0.15, { parent: L, noCast: true }).rotation.y = 0.5;
     /* 오른쪽: 플라스크·시험관 선반 */
-    const R = shelf(1), LIQ = [0xffd92e, 0x8ee04a, 0x4fd88f, 0xd6f03a, 0x3fbf5a, 0xffbf2a];   /* 레몬·라임 반짝 물약 */
+    const R = shelf(1), LIQ = [0xff8fcf, 0x8fd0ff, 0x7fe8c8, 0xffe070, 0xc49bff, 0xffb08f];   /* 반짝 사탕 물약 */
     const liqM = c => sc4Keep(pingMat(c, { roughness: 0.12, emissive: c, emissiveIntensity: 0.42 }));
-    let stopN = 0; const stopper = (g, x, y, z) => { const k = stopN++ % 2; (k ? pingStar : sc5Leaf)(g, x, y, z, k ? 0.13 : 0.12, k ? SC5.lemon : SC5.leaf); };
+    let stopN = 0; const stopper = (g, x, y, z) => { const k = stopN++ % 2; (k ? pingStar : pingHeart)(g, x, y, z, k ? 0.13 : 0.11, k ? PING.butter : PING.hot); };
     const flask = (g, x, y, c, s) => { s = s || 1;   /* 삼각 플라스크 */
       add(new THREE.CylinderGeometry(0.07 * s, 0.3 * s, 0.5 * s, 20), GLASS, x, y + 0.25 * s, 0.15, { parent: g, noCast: true });
       add(new THREE.CylinderGeometry(0.06 * s, 0.06 * s, 0.25 * s, 14), GLASS, x, y + 0.62 * s, 0.15, { parent: g, noCast: true });
@@ -14072,32 +13933,32 @@ function sc3dInit() {
       add(new THREE.CylinderGeometry(0.06, 0.06, 0.35, 12), GLASS, x, y + 0.72, 0.15, { parent: g, noCast: true }); stopper(g, x, y + 0.98, 0.15); return lq; };
     flask(R, -0.95, 0.96, LIQ[0]); roundF(R, 0, 0.96, LIQ[1]); flask(R, 0.95, 0.96, LIQ[2]);
     /* 시험관 꽂이 */
-    add(libRBox(2.2, 0.16, 0.45, 0.08), METAL, 0, 2.6, 0.15, { parent: R });
+    add(libRBox(2.2, 0.16, 0.45, 0.08), M(0xffb6da), 0, 2.6, 0.15, { parent: R });
     LIQ.forEach((c, i) => { const x = -0.9 + i * 0.36; add(new THREE.CylinderGeometry(0.08, 0.08, 0.7, 14), GLASS, x, 2.85, 0.15, { parent: R, noCast: true }); add(new THREE.CylinderGeometry(0.068, 0.068, 0.3, 14), liqM(c), x, 2.66, 0.15, { parent: R, noCast: true });
-      add(new THREE.SphereGeometry(0.075, 12, 10), i % 2 ? GOLD : BRASS, x, 3.24, 0.15, { parent: R, noCast: true }); });
+      (i % 2 ? pingStar : pingHeart)(R, x, 3.27, 0.15, 0.065, i % 2 ? PING.butter : PING.hot); });
     flask(R, -0.8, 3.96, LIQ[3], 0.9); flask(R, 0.8, 3.96, LIQ[4], 0.9); roundF(R, 0, 3.96, LIQ[5]);
     /* 양팔저울 + 추 (오른쪽 앞 작은 장) */
     const cab = new THREE.Group(); cab.position.set(5.6, 0, 0.7); S.add(cab);
-    add(libRBox(2.4, 1.3, 1.2, 0.2), M(0xffe96a), 0, 0.65, 0, { parent: cab });
-    add(libRBox(2.2, 0.9, 0.04, 0.12), M(0xa8e85c), 0, 0.62, 0.6, { parent: cab, noCast: true });
-    sc5Leaf(cab, 0, 0.62, 0.66, 0.2, SC5.leaf).rotation.z = 0.6;
+    add(libRBox(2.4, 1.3, 1.2, 0.2), M(0xffd9ec), 0, 0.65, 0, { parent: cab });
+    add(libRBox(2.2, 0.9, 0.04, 0.12), M(0xaef2de), 0, 0.62, 0.6, { parent: cab, noCast: true });
+    pingHeart(cab, 0, 0.62, 0.66, 0.16, PING.hot);
     const BT = 1.3, bal = new THREE.Group(); bal.position.set(-0.35, BT, 0); cab.add(bal);
-    add(libRBox(1.1, 0.1, 0.5, 0.04), M(0x6fcf4a), 0, 0.05, 0, { parent: bal });
+    add(libRBox(1.1, 0.1, 0.5, 0.04), M(0xb994ff), 0, 0.05, 0, { parent: bal });
     add(new THREE.CylinderGeometry(0.05, 0.06, 0.95, 12), METAL, 0, 0.55, 0, { parent: bal });
     add(new THREE.ConeGeometry(0.09, 0.16, 12), BRASS, 0, 1.06, 0, { parent: bal });
     const beam = new THREE.Group(); beam.position.set(0, 1.1, 0); bal.add(beam);
     add(libRBox(1.3, 0.05, 0.06, 0.02), BRASS, 0, 0, 0, { parent: beam });
     add(new THREE.ConeGeometry(0.03, 0.3, 8), BRASS, 0, -0.18, 0.05, { parent: beam, noCast: true }).rotation.z = Math.PI;   /* 바늘 */
     const pans = [-1, 1].map(s => { const p = new THREE.Group(); bal.add(p);
-      add(new THREE.CylinderGeometry(0.004, 0.004, 0.5, 4), METAL, -0.1, 0.25, 0, { parent: p, noCast: true }).rotation.z = -0.2;
-      add(new THREE.CylinderGeometry(0.004, 0.004, 0.5, 4), METAL, 0.1, 0.25, 0, { parent: p, noCast: true }).rotation.z = 0.2;
+      add(new THREE.CylinderGeometry(0.004, 0.004, 0.5, 4), M(0xd9c2ff), -0.1, 0.25, 0, { parent: p, noCast: true }).rotation.z = -0.2;
+      add(new THREE.CylinderGeometry(0.004, 0.004, 0.5, 4), M(0xd9c2ff), 0.1, 0.25, 0, { parent: p, noCast: true }).rotation.z = 0.2;
       add(new THREE.CylinderGeometry(0.24, 0.18, 0.05, 22), BRASS, 0, 0, 0, { parent: p });
       return p; });
-    add(new THREE.SphereGeometry(0.11, 14, 10), M(0xffd21f), 0, 0.1, 0, { parent: pans[0] });   /* 레몬 */
+    add(new THREE.SphereGeometry(0.11, 14, 10), M(0xff4d4f), 0, 0.1, 0, { parent: pans[0] });   /* 사과 */
     add(new THREE.CylinderGeometry(0.06, 0.06, 0.12, 12), BRASS, -0.04, 0.08, 0, { parent: pans[1] }); add(new THREE.CylinderGeometry(0.05, 0.05, 0.1, 12), BRASS, 0.08, 0.07, 0.02, { parent: pans[1] });
     SC3D.anim.push(t => { const a = Math.sin(t / 900) * 0.12; beam.rotation.z = a; pans.forEach((p, i) => { const s = i ? 1 : -1; p.position.set(s * 0.6 * Math.cos(a), 1.1 + s * 0.6 * Math.sin(a) - 0.52, 0); }); });
     /* 추 세트(나무 상자) */
-    add(libRBox(0.9, 0.12, 0.55, 0.05), M(0x8fd860), 0.6, BT + 0.06, 0.05, { parent: cab });
+    add(libRBox(0.9, 0.12, 0.55, 0.05), M(0xffc9a8), 0.6, BT + 0.06, 0.05, { parent: cab });
     [[0.35, 0.16, 0.36], [0.6, 0.13, 0.3], [0.82, 0.11, 0.25], [0.6, 0.09, 0.2]].forEach(([x, rr, h], i) => {
       const z = i === 3 ? 0.22 : -0.05;
       add(new THREE.CylinderGeometry(rr, rr, h, 18), BRASS, x, BT + 0.12 + h / 2, z, { parent: cab });
@@ -14106,104 +13967,104 @@ function sc3dInit() {
     });
     /* 과학 실험 탁자 */
     const DZ = -0.4, DY = 1.3, DW = 7.8, DD = 1.9;
-    add(libRBox(DW, 0.26, DD, 0.13), M(0xffffff, { roughness: 0.25 }), 0, DY, DZ);   /* 둥근 사탕 탁자 */
-    add(libRBox(DW + 0.12, 0.14, DD + 0.12, 0.07), M(0x7fd44e), 0, DY - 0.15, DZ);
-    add(libRBox(DW - 0.4, 0.6, 0.1, 0.1), M(0xffe25a), 0, DY - 0.55, DZ + DD / 2 - 0.2);
-    { const ap = pingCv(1024, 80, (g, w, h) => { g.fillStyle = '#fff09a'; g.fillRect(0, 0, w, h); g.fillStyle = '#ffffff'; for (let x = 0; x < w; x += 40) { g.beginPath(); g.arc(x + 20, 0, 20, 0, Math.PI); g.fill(); }
-        for (let i = 0; i < 12; i++) { const x = 42 + i * 85, y = 50; g.fillStyle = ['#6fcf4a', '#ffffff', '#3fae4a', '#b8ec6a'][i % 4]; if (i % 2) pingStarPath(g, x, y, 16); else sc5LeafPath(g, x, y, 17, 0.6); g.fill(); } });
+    add(libRBox(DW, 0.26, DD, 0.13), M(0xfff8f1, { roughness: 0.25 }), 0, DY, DZ);   /* 둥근 사탕 탁자 */
+    add(libRBox(DW + 0.12, 0.14, DD + 0.12, 0.07), M(0xff8fc8), 0, DY - 0.15, DZ);
+    add(libRBox(DW - 0.4, 0.6, 0.1, 0.1), M(0xd9c2ff), 0, DY - 0.55, DZ + DD / 2 - 0.2);
+    { const ap = pingCv(1024, 80, (g, w, h) => { g.fillStyle = '#e8dcff'; g.fillRect(0, 0, w, h); g.fillStyle = '#ffffff'; for (let x = 0; x < w; x += 40) { g.beginPath(); g.arc(x + 20, 0, 20, 0, Math.PI); g.fill(); }
+        for (let i = 0; i < 12; i++) { const x = 42 + i * 85, y = 50; g.fillStyle = ['#ff8fc8', '#ffd56b', '#7fe0c0', '#9fc8ff'][i % 4]; if (i % 2) pingStarPath(g, x, y, 16); else pingHeartPath(g, x, y, 15); g.fill(); } });
       add(new THREE.PlaneGeometry(DW - 0.6, 0.5), M(0xffffff, { map: ap, roughness: 0.5 }), 0, DY - 0.55, DZ + DD / 2 - 0.13, { noCast: true }); }
-    const LEG = METAL;
+    const LEG = M(0xffb6da, { roughness: 0.3 });
     for (const lx of [-1, 1]) for (const lz of [-1, 1]) { const x = lx * (DW / 2 - 0.35), z = DZ + lz * (DD / 2 - 0.3);
-      add(new THREE.CylinderGeometry(0.13, 0.1, DY - 0.2, 16), LEG, x, (DY - 0.2) / 2, z); add(new THREE.SphereGeometry(0.17, 16, 12), M(0xffe14d), x, 0.12, z); }
+      add(new THREE.CylinderGeometry(0.13, 0.1, DY - 0.2, 16), LEG, x, (DY - 0.2) / 2, z); add(new THREE.SphereGeometry(0.17, 16, 12), BRASS, x, 0.12, z); }
     for (const lx of [-1, 1]) add(libRBox(0.12, 0.08, DD - 0.5, 0.04), LEG, lx * (DW / 2 - 0.35), 0.35, DZ);
     const TOP = DY + 0.13;
     /* 📒 실험 노트 (펼친 공책 + 연필) */
     const nt = new THREE.Group(); nt.position.set(-2.35, TOP, DZ + 0.05); S.add(nt);
-    add(libRBox(1.7, 0.06, 1.1, 0.03), M(0x6fcf4a), 0, 0.03, 0, { parent: nt });
+    add(libRBox(1.7, 0.06, 1.1, 0.03), M(0xff9fc6), 0, 0.03, 0, { parent: nt });
     const pg = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.0), M(0xffffff, { map: scNoteTex(), roughness: 0.8 })); pg.rotation.x = -Math.PI / 2; pg.position.set(0, 0.1, 0); pg.receiveShadow = true; nt.add(pg);
     for (let i = 0; i < 6; i++) add(new THREE.TorusGeometry(0.05, 0.012, 6, 14), BRASS, 0, 0.11, -0.4 + i * 0.16, { parent: nt, noCast: true }).rotation.y = Math.PI / 2;
-    const pen = add(new THREE.CylinderGeometry(0.035, 0.035, 0.9, 10), M(0xffd21f), 0.55, 0.12, 0.15, { parent: nt }); pen.rotation.z = Math.PI / 2; pen.rotation.y = 0.5;
+    const pen = add(new THREE.CylinderGeometry(0.035, 0.035, 0.9, 10), M(0xc49bff), 0.55, 0.12, 0.15, { parent: nt }); pen.rotation.z = Math.PI / 2; pen.rotation.y = 0.5;
     add(new THREE.ConeGeometry(0.035, 0.12, 10), M(0xffe7ba), 0.55 - Math.cos(0.5) * 0.5, 0.12, 0.15 + Math.sin(0.5) * 0.5, { parent: nt, noCast: true }).rotation.set(0, 0.5, Math.PI / 2);
-    pingStar(nt, 0.55 + Math.cos(0.5) * 0.5, 0.14, 0.15 - Math.sin(0.5) * 0.5, 0.08, SC5.lime).rotation.x = -Math.PI / 2;   /* 연필 끝 별 */
-    sc5Leaf(nt, -0.62, 0.12, 0.36, 0.11, SC5.leaf).rotation.set(-Math.PI / 2, 0, 0.8);   /* 잎 스티커 */
+    pingStar(nt, 0.55 + Math.cos(0.5) * 0.5, 0.14, 0.15 - Math.sin(0.5) * 0.5, 0.08, PING.butter).rotation.x = -Math.PI / 2;   /* 연필 끝 별 */
+    pingHeart(nt, -0.62, 0.12, 0.36, 0.09, PING.hot).rotation.x = -Math.PI / 2;   /* 하트 스티커 */
     nt.rotation.set(0.32, 0.12, 0); nt.position.y = TOP + 0.2; nt.scale.setScalar(1.2);
     /* 🔬 실험대: 현미경 + 끓는 플라스크 + 비커 */
     const lb = new THREE.Group(); lb.position.set(0, TOP, DZ - 0.05); lb.scale.setScalar(1.3); S.add(lb);
-    add(libRBox(1.9, 0.08, 1.2, 0.04), METAL, 0, 0.03, 0, { parent: lb });   /* 은색 실험 쟁반 */
-    const WHITE = M(0xffffff, { roughness: 0.3 }), BLUE = M(0x7fd44e, { roughness: 0.3 });   /* 하양·연두 현미경 */
+    add(libRBox(1.9, 0.08, 1.2, 0.04), M(0xbff0e0), 0, 0.03, 0, { parent: lb });   /* 실험 쟁반 */
+    const WHITE = M(0xfff3fa, { roughness: 0.3 }), BLUE = M(0xff8fc8, { roughness: 0.3 });   /* 몽실 파스텔 현미경 */
     add(libRBox(0.6, 0.14, 0.55, 0.07), BLUE, -0.45, 0.11, -0.1, { parent: lb });
     const arm = add(libRBox(0.18, 0.75, 0.22, 0.09), WHITE, -0.45, 0.5, -0.3, { parent: lb }); arm.rotation.x = 0.25;
-    pingStar(lb, -0.45, 0.52, -0.17, 0.07, SC5.lemon).rotation.x = 0.25;
-    add(libRBox(0.42, 0.05, 0.36, 0.025), METAL, -0.45, 0.42, -0.02, { parent: lb });
+    pingHeart(lb, -0.45, 0.52, -0.17, 0.07, PING.hot).rotation.x = 0.25;
+    add(libRBox(0.42, 0.05, 0.36, 0.025), M(0xc49bff), -0.45, 0.42, -0.02, { parent: lb });
     const tube = add(new THREE.CylinderGeometry(0.08, 0.09, 0.55, 16), WHITE, -0.45, 0.85, -0.12, { parent: lb }); tube.rotation.x = -0.35;
     add(new THREE.CylinderGeometry(0.06, 0.06, 0.12, 12), BLUE, -0.45, 1.13, -0.23, { parent: lb }).rotation.x = -0.35;
     add(new THREE.CylinderGeometry(0.05, 0.03, 0.14, 12), METAL, -0.45, 0.58, -0.02, { parent: lb });
     for (const s of [-1, 1]) add(new THREE.CylinderGeometry(0.07, 0.07, 0.05, 14), BLUE, -0.45 + s * 0.12, 0.62, -0.3, { parent: lb, noCast: true }).rotation.z = Math.PI / 2;
     /* 알코올램프 위 둥근 플라스크(뽀글뽀글) */
     add(new THREE.CylinderGeometry(0.14, 0.16, 0.18, 16), GLASS, 0.4, 0.15, 0.1, { parent: lb, noCast: true });
-    const flame = add(new THREE.SphereGeometry(0.05, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffd23a }), 0.4, 0.3, 0.1, { parent: lb, noCast: true }); flame.scale.y = 1.8;
+    const flame = add(new THREE.SphereGeometry(0.05, 10, 8), new THREE.MeshBasicMaterial({ color: 0xff9fe0 }), 0.4, 0.3, 0.1, { parent: lb, noCast: true }); flame.scale.y = 1.8;
     add(new THREE.TorusGeometry(0.2, 0.02, 8, 24), BRASS, 0.4, 0.42, 0.1, { parent: lb, noCast: true }).rotation.x = Math.PI / 2;
     for (let i = 0; i < 3; i++) { const a = i * 2.094; add(new THREE.CylinderGeometry(0.014, 0.014, 0.42, 6), BRASS, 0.4 + Math.cos(a) * 0.2, 0.21, 0.1 + Math.sin(a) * 0.2, { parent: lb, noCast: true }); }
-    /* 뽀글뽀글 둥근 플라스크: 통통한 유리 구슬 안에 빛나는 라임 물약 */
-    add(new THREE.SphereGeometry(0.32, 22, 18), GLASS, 0.4, 0.74, 0.1, { parent: lb, noCast: true });
-    { const lq = add(new THREE.SphereGeometry(0.27, 22, 18, 0, Math.PI * 2, Math.PI * 0.32, Math.PI * 0.68), sc4Keep(pingMat(0x8ee83a, { roughness: 0.1, emissive: 0x6fd62a, emissiveIntensity: 0.55 })), 0.4, 0.72, 0.1, { parent: lb, noCast: true });
+    /* 뽀글뽀글 하트 플라스크: 통통한 유리 하트 안에 빛나는 분홍 물약 */
+    add(pingHeartGeo(0.34), GLASS, 0.4, 0.74, 0.1, { parent: lb, noCast: true });
+    { const lq = add(pingHeartGeo(0.27), sc4Keep(pingMat(0xff5fae, { roughness: 0.1, emissive: 0xff4fa0, emissiveIntensity: 0.55 })), 0.4, 0.72, 0.1, { parent: lb, noCast: true }); lq.scale.z = 0.8;
       SC3D.anim.push(t => { lq.material.emissiveIntensity = 0.5 + Math.sin(t / 380) * 0.18; }); }
     add(new THREE.CylinderGeometry(0.05, 0.05, 0.3, 12), GLASS, 0.4, 1.06, 0.1, { parent: lb, noCast: true });
-    const bub = [], BUBC = [0xfff06a, 0xc8f07a, 0x9ff0c4, 0xfff7c0, 0xa8e85c, 0xffe14d, 0xffffff];
+    const bub = [], BUBC = [0xffb6da, 0xd9c2ff, 0xaef2de, 0xfff0a3, 0xb3dcff, 0xff9fc6, 0xffffff];
     for (let i = 0; i < 7; i++) { const mt = new THREE.MeshPhysicalMaterial({ color: BUBC[i], emissive: BUBC[i], emissiveIntensity: 0.3, transparent: true, opacity: 0.8, roughness: 0.1, clearcoat: 1, depthWrite: false });
-      bub.push(add(new THREE.SphereGeometry(i % 3 === 1 ? 0.055 : 0.04, 12, 10), mt, 0.4, 1, 0.1, { parent: lb, noCast: true })); }
+      bub.push(add(i % 3 === 1 ? pingHeartGeo(0.06) : new THREE.SphereGeometry(0.04, 12, 10), mt, 0.4, 1, 0.1, { parent: lb, noCast: true })); }
     SC3D.anim.push(t => { flame.scale.y = 1.6 + Math.sin(t / 90) * 0.3; bub.forEach((b, i) => { const k = ((t / 1400) + i / 7) % 1; b.position.set(0.4 + Math.sin(i * 2.3 + t / 400) * 0.08, 1.15 + k * 0.95, 0.1); b.scale.setScalar(0.6 + k * 0.9); b.material.opacity = 0.9 * (1 - k); }); });
     add(new THREE.CylinderGeometry(0.13, 0.13, 0.3, 18), GLASS, 0.75, 0.21, -0.3, { parent: lb, noCast: true });   /* 비커 */
-    add(new THREE.CylinderGeometry(0.115, 0.115, 0.16, 18), liqM(0xffd92e), 0.75, 0.14, -0.3, { parent: lb, noCast: true });
-    pingStar(lb, 0.75, 0.46, -0.3, 0.08, SC5.lime);
+    add(new THREE.CylinderGeometry(0.115, 0.115, 0.16, 18), liqM(0x7fe8c8), 0.75, 0.14, -0.3, { parent: lb, noCast: true });
+    pingStar(lb, 0.75, 0.46, -0.3, 0.08, PING.butter);
     /* 📖 과학 도감 (두꺼운 책 두 권) */
     const dx = new THREE.Group(); dx.position.set(2.35, TOP, DZ + 0.05); dx.scale.setScalar(1.2); S.add(dx);
-    add(libRBox(1.25, 0.2, 0.95, 0.06), M(0x6fcf4a), 0.05, 0.1, 0, { parent: dx });
+    add(libRBox(1.25, 0.2, 0.95, 0.06), M(0xc49bff), 0.05, 0.1, 0, { parent: dx });
     add(libRBox(1.17, 0.16, 0.9, 0.02), M(0xfffbe6), 0.08, 0.1, 0, { parent: dx, noCast: true });
     const bk = new THREE.Group(); bk.position.set(0, 0.2, 0); bk.rotation.set(-1.05, 0, 0); dx.add(bk);   /* 세워서 기댄 도감 */
-    add(libRBox(1.05, 1.35, 0.22, 0.07), M(0xffd21f), 0, 0.67, 0, { parent: bk });
+    add(libRBox(1.05, 1.35, 0.22, 0.07), M(0xff8fc8), 0, 0.67, 0, { parent: bk });
     add(libRBox(0.98, 1.28, 0.18, 0.02), M(0xfffbe6), 0.03, 0.67, 0, { parent: bk, noCast: true });
     { const cvr = new THREE.Mesh(new THREE.PlaneGeometry(0.98, 1.28), new THREE.MeshBasicMaterial({ map: scDexTex() })); cvr.position.set(0, 0.67, 0.115); bk.add(cvr); }
     bk.rotation.set(-0.32, -0.25, 0); bk.position.set(0, 0.2, -0.2);
     const loupe = new THREE.Group(); loupe.position.set(0.75, 0.24, 0.3); dx.add(loupe);   /* 돋보기 */
     add(new THREE.TorusGeometry(0.16, 0.035, 10, 24), BRASS, 0, 0, 0, { parent: loupe }).rotation.x = Math.PI / 2;
     add(new THREE.CylinderGeometry(0.15, 0.15, 0.01, 22), GLASS, 0, 0, 0, { parent: loupe, noCast: true });
-    add(new THREE.CylinderGeometry(0.035, 0.04, 0.35, 10), M(0x6fcf4a), 0.26, 0, 0.12, { parent: loupe }).rotation.set(0, -0.45, Math.PI / 2);
-    sc5Leaf(dx, -0.45, 0.28, 0.32, 0.13, SC5.lime).rotation.set(-0.5, 0, 0.7);
+    add(new THREE.CylinderGeometry(0.035, 0.04, 0.35, 10), M(0xff9fc6), 0.26, 0, 0.12, { parent: loupe }).rotation.set(0, -0.45, Math.PI / 2);
+    pingHeart(dx, -0.45, 0.28, 0.32, 0.1, PING.hot).rotation.x = -0.5;
     /* 반짝이 */
     const spkT = scCvTex(64, 64, (g) => { g.fillStyle = '#fff'; g.beginPath(); for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? 7 : 30; g.lineTo(32 + Math.cos(a) * rr, 32 + Math.sin(a) * rr); } g.fill(); });
     for (let i = 0; i < 6; i++) {
-      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: spkT, color: [0xc8f07a, 0xffffff, 0xffe070][i % 3], transparent: true, depthWrite: false }));
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: spkT, color: [0xff9fc6, 0xffffff, 0xffe070][i % 3], transparent: true, depthWrite: false }));
       sp.position.set(-2.35 + (i % 3) * 2.35, TOP + 1.25 + (i > 2 ? 0.3 : 0), DZ); S.add(sp);
       SC3D.anim.push(t => { const s = Math.max(0, Math.sin(t / 420 + i * 1.9)); sp.scale.setScalar(0.04 + s * 0.28); sp.material.rotation = t / 700 + i; });
     }
     /* 11-21 반짝 하트 나라 마법 꾸밈: 별 꼬마전구 · 수정 등 · 모빌 · 비눗방울 · 떠다니는 하트·별·보석 · 하트 러그 · 빛 웅덩이 */
     try {
       const P = SC3D.ping;
-      P.push(sc4StarLights(S, -6.4, 6.4, 5.32, WZ + 0.45, 26, 0.32, [0xffe14d, 0xa8e85c, 0xffffff, 0xfff1a0, 0x7fdc8a], METAL));
-      for (const sx of [-1, 1]) P.push(pingLamp(S, sx * 3.55, TOP, DZ - 0.6, sx < 0 ? 0xfff07a : 0xb8f07a, true));
-      P.push(sc4Mobile(S, -4.85, -3.3, 6.2, [[0, 0.9, 's', SC5.lemon], [0.38, 1.35, 'l', SC5.leaf], [-0.36, 1.2, 'c']]));
-      P.push(sc4Mobile(S, 4.85, -3.3, 6.2, [[0, 0.9, 's', SC5.lemon], [-0.38, 1.35, 'l', SC5.lime], [0.36, 1.2, 'c']]));
+      P.push(sc4StarLights(S, -6.4, 6.4, 5.32, WZ + 0.45, 26, 0.32));
+      for (const sx of [-1, 1]) P.push(pingLamp(S, sx * 3.55, TOP, DZ - 0.6, sx < 0 ? PING.lav : PING.mint, true));
+      P.push(sc4Mobile(S, -4.85, -3.3, 6.2, [[0, 0.9, 's', PING.butter], [0.38, 1.35, 'h', PING.hot], [-0.36, 1.2, 'c']]));
+      P.push(sc4Mobile(S, 4.85, -3.3, 6.2, [[0, 0.9, 's', PING.butter], [-0.38, 1.35, 'h', PING.violet], [0.36, 1.2, 'c']]));
       P.push(sc4Bubbles(S, 12));
-      P.push(sc5Floaters(S, [-9.2, -5.6, 3.4, 5.0, -2.6, -0.8], 5, 0.18), sc5Floaters(S, [5.6, 9.2, 3.4, 5.0, -2.6, -0.8], 5, 0.18));
-      { const sp = pingSparkles(S, [-8, 8, 0.8, 5.4, -3.6, 2.4], 16); let i = 0; sp.traverse(o => { if (o.isSprite) { o.material = o.material.clone(); o.material.color.set(SC5_POP[i++ % SC5_POP.length]); } }); P.push(sp); }
-      sc5Rug(S, 0, 2.1, 1.5);
-      [['note', -2.35, 0xc8f07a], ['lab', 0, 0xfff07a], ['dex', 2.35, 0x9ff0c4]].forEach(([k, x, c]) => P.push(sc4GlowPuddle(S, x, TOP + 0.012, DZ, 1.1, 0.85, c)));
-      pingGem(cab, 1.0, 1.52, -0.42, 0.15, SC5.lime).rotation.y = 0.4;   /* 저울장 위 수정 */
-      sc4Style(); sc5Style();
+      P.push(pingFloaters(S, [-9.2, -5.6, 3.4, 5.0, -2.6, -0.8], 5, { size: 0.18 }), pingFloaters(S, [5.6, 9.2, 3.4, 5.0, -2.6, -0.8], 5, { size: 0.18 }));
+      P.push(pingSparkles(S, [-8, 8, 0.8, 5.4, -3.6, 2.4], 16));
+      pingHeartRug(S, 0, 2.1, 1.25, PING.lav);
+      [['note', -2.35, 0xaef2de], ['lab', 0, 0xffb6da], ['dex', 2.35, 0xd9c2ff]].forEach(([k, x, c]) => P.push(sc4GlowPuddle(S, x, TOP + 0.012, DZ, 1.1, 0.85, c)));
+      pingGem(cab, 1.0, 1.52, -0.42, 0.15, PING.violet).rotation.y = 0.4;   /* 저울장 위 수정 */
+      sc4Style();
     } catch (e) { console.warn('sc4 decor', e); }
     /* 공주(뒷모습 판) */
     const pc = document.createElement('canvas'); pc.width = 256; pc.height = 256; const pt = new THREE.CanvasTexture(pc);
     const PH = 2.7, pr = new THREE.Mesh(new THREE.PlaneGeometry(PH, PH), new THREE.MeshBasicMaterial({ map: pt, transparent: true, alphaTest: 0.05, depthWrite: false }));
     pr.userData.yOff = PH / 2 - PH * 16 / 256; S.add(pr);
-    const sh = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), new THREE.MeshBasicMaterial({ color: 0x4f6b22, transparent: true, opacity: 0.2, depthWrite: false }));
+    const sh = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), new THREE.MeshBasicMaterial({ color: 0x8a3d8c, transparent: true, opacity: 0.2, depthWrite: false }));
     sh.rotation.x = -Math.PI / 2; sh.scale.y = 0.45; S.add(sh); pr.userData.shadow = sh;
     /* 누르기 쉬운 투명 상자 */
     const hitMat = new THREE.MeshBasicMaterial({ visible: false });
     for (const [k, g, w, h] of [['note', nt, 2.0, 1.2], ['lab', lb, 2.1, 1.8], ['dex', dx, 2.0, 1.6]]) { const hb = new THREE.Mesh(new THREE.BoxGeometry(w, h, 1.5), hitMat); hb.position.set(0, h / 2, 0); g.add(hb); SC3D.obj[k] = { g, hb, base: g.position.clone() }; }
     Object.assign(SC3D, { ok: true, r, scene: S, cam, pr, prTex: pt, prCv: pc, cv, TOP, DZ });
     try { if (typeof toyLook === 'function') toyLook(r, S); } catch (e) {}
-    r.toneMapping = THREE.LinearToneMapping; r.toneMappingExposure = 0.86; try { sc5Lights(S); } catch (e) {}   /* 11-21 실험실은 사탕색이 바래지 않게 (ACES 는 파스텔을 회색으로 만듦) */
+    r.toneMapping = THREE.LinearToneMapping; r.toneMappingExposure = 0.86;   /* 11-21 실험실은 사탕색이 바래지 않게 (ACES 는 파스텔을 회색으로 만듦) */
     const hit = e => { const rc = cv.getBoundingClientRect(), v = new THREE.Vector2((e.clientX - rc.left) / rc.width * 2 - 1, -(e.clientY - rc.top) / rc.height * 2 + 1);
       const ray = new THREE.Raycaster(); ray.setFromCamera(v, cam); return SC_ROOM_OBJ.map(o => o.k).find(k => ray.intersectObject(SC3D.obj[k].hb, false).length); };
     cv.addEventListener('pointerdown', e => { const k = hit(e); if (k) scRoomGo(k); });
@@ -14216,7 +14077,7 @@ function sc3dInit() {
 function sc3dSize() {
   const box = scEl('scRoom'), w = box.clientWidth || 800, h = box.clientHeight || 500, a = w / h;
   SC3D.w = box.clientWidth; SC3D.h = box.clientHeight; SC3D.r.setSize(w, h, false); SC3D.cam.aspect = a;
-  const dist = Math.max(8.8, (a < 1.5 ? 4.3 : 6.4) / (Math.tan(19 * Math.PI / 180) * a)), back = dist + SC3D.DZ;
+  const dist = Math.max(8.8, (a < 1.5 ? 4.3 : 8.3) / (Math.tan(19 * Math.PI / 180) * a)), back = dist + SC3D.DZ;   /* 11-21 방이 화면을 채워도 양옆 선반까지 다 보이게 (6.4→8.3) */
   SC3D.cam.position.set(0, 4.1 + (dist - 8.8) * 0.2, back); SC3D.cam.lookAt(0, 2.35, SC3D.DZ); SC3D.cam.updateProjectionMatrix();
 }
 /* 11-21(3) 실험실 안에서는 하얀 실험 가운: 옷 뒷모습 위 · 머리 뒷모습 아래에 그림 (그림 420칸 기준 비율) */
@@ -14276,7 +14137,7 @@ function sc3dLoop(t) {
   SC3D.r.render(SC3D.scene, SC3D.cam);
 }
 function scRoomBuild() {
-  const box = scEl('scRoom'); try { sc5Style(); } catch (e) {} if (box.dataset.built) return; box.dataset.built = '1';
+  const box = scEl('scRoom'); if (box.dataset.built) return; box.dataset.built = '1';
   box.innerHTML = `<div class="mc3d-wrap">${SC_ROOM_OBJ.map(o => `<div class="mc3d-sub" id="scSub_${o.k}"><b>${o.name}</b><small id="scSubS_${o.k}"></small></div>`).join('')}</div>
     <div class="mc-room2d sc-room2d">${SC_ROOM_OBJ.map(o => `<button class="btn-3d mc-room2d-b" data-k="${o.k}"><b>${o.name}</b><small id="scSub2_${o.k}"></small></button>`).join('')}</div>`;
   box.querySelectorAll('.mc-room2d-b').forEach(b => { b.onclick = () => { playSfx('click'); scRoomGo(b.dataset.k); }; });
