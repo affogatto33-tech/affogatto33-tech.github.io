@@ -3908,9 +3908,9 @@ function mcData() { const sv = getSave(); return sv.mc || { st: {} }; }
 function mcStars(id) { const d = mcData(); return (d.st && d.st[id]) || [0, 0, 0, 0, 0]; }
 function mcUnitDone(id) { return mcStars(id).every(s => s > 0); }
 function mcUnitsOf(sem) { return MC_UNITS.filter(u => u.sem === sem); }
-function mcSemOpen(sem) { const i = MC_SEMS.indexOf(sem); return i <= 0 || mcUnitsOf(MC_SEMS[i - 1]).every(u => mcUnitDone(u.id)); }
-function mcUnitOpen(u) { if (!mcSemOpen(u.sem)) return false; const us = mcUnitsOf(u.sem), i = us.indexOf(u); return i === 0 || mcUnitDone(us[i - 1].id); }
-function mcStageOpen(u, k) { return mcUnitOpen(u) && (k === 0 || mcStars(u.id)[k - 1] > 0); }
+function mcSemOpen(sem) { const i = MC_SEMS.indexOf(sem); return (typeof isTesterUser === 'function' && isTesterUser()) || i <= 0 || mcUnitsOf(MC_SEMS[i - 1]).every(u => mcUnitDone(u.id)); }
+function mcUnitOpen(u) { if (!mcSemOpen(u.sem)) return false; const us = mcUnitsOf(u.sem), i = us.indexOf(u); return (typeof isTesterUser === 'function' && isTesterUser()) || i === 0 || mcUnitDone(us[i - 1].id); }
+function mcStageOpen(u, k) { return mcUnitOpen(u) && ((typeof isTesterUser === 'function' && isTesterUser()) || k === 0 || mcStars(u.id)[k - 1] > 0); }
 function mcSaveMc(fn) { updateSave(sv => { sv.mc = sv.mc || { st: {} }; sv.mc.st = sv.mc.st || {}; fn(sv.mc, sv); }); }
 function mcView(which) { mcEl('mcRoom').style.display = which === 'room' ? '' : 'none'; mcEl('mcToRoom').style.display = which === 'room' ? 'none' : ''; mcEl('mcHub').style.display = which === 'hub' ? '' : 'none'; mcEl('mcPlay').style.display = which === 'play' ? '' : 'none'; mcEl('mcTool').style.display = which === 'tool' ? '' : 'none'; }
 
@@ -5299,8 +5299,8 @@ function enData() { const sv = getSave(); return sv.eng || { st: {} }; }
 function enStars(id) { const d = enData(); return (d.st && d.st[id]) || [0, 0, 0, 0, 0]; }
 function enUnitDone(id) { return enStars(id).every(s => s > 0); }
 /* 1·2단계 묶음은 처음부터 골라서 할 수 있고, 3단계 묶음은 2단계 단원을 모두 마치면 열림 */
-function enUnitOpen(u) { if (u.jr || u.lv < 3) return true; return enUnits(u.id[0]).filter(x => x.lv === 2).every(x => enUnitDone(x.id)); }
-function enStageOpen(u, k) { return enUnitOpen(u) && (k === 0 || enStars(u.id)[k - 1] > 0); }
+function enUnitOpen(u) { if ((typeof isTesterUser === 'function' && isTesterUser()) || u.jr || u.lv < 3) return true; return enUnits(u.id[0]).filter(x => x.lv === 2).every(x => enUnitDone(x.id)); }
+function enStageOpen(u, k) { return enUnitOpen(u) && ((typeof isTesterUser === 'function' && isTesterUser()) || k === 0 || enStars(u.id)[k - 1] > 0); }
 function enSaveEng(fn) { updateSave(sv => { sv.eng = sv.eng || { st: {} }; sv.eng.st = sv.eng.st || {}; fn(sv.eng, sv); }); }
 function enView(w) { enEl('enLobby').style.display = w === 'lobby' ? '' : 'none'; enEl('enHub').style.display = w === 'hub' ? '' : 'none'; enEl('enPlay').style.display = w === 'play' ? '' : 'none'; }
 
@@ -10362,7 +10362,7 @@ function scData() { const sv = getSave(); return (sv && sv.sci) || {}; }
 function scSave(fn) { updateSave(sv => { sv.sci = sv.sci || {}; ['st', 'ex', 'dk', 'pr'].forEach(k => { sv.sci[k] = sv.sci[k] || {}; }); fn(sv.sci, sv); }); }
 function scStars(id) { const d = scData(); return (d.st && d.st[id]) || [0, 0, 0, 0, 0]; }
 function scUnitDone(id) { return scStars(id).every(s => s > 0); }
-function scStageOpen(u, k) { return k === 0 || scStars(u.id)[k - 1] > 0; }
+function scStageOpen(u, k) { return (typeof isTesterUser === 'function' && isTesterUser()) || k === 0 || scStars(u.id)[k - 1] > 0; }
 function scCard(id) { return SC_CARDS.find(c => c[0] === id); }
 /* 11-21(2) 실사풍 그림 (sci_pics.py → SC_PICS), 없으면 이모지 */
 const scPicOf = id => (typeof SC_PICS !== 'undefined' && SC_PICS[id]) || '';
@@ -11002,7 +11002,7 @@ function scDrawPrincessCoat(g, cx, bottomY, scale, sv, phase) {
 }
 function sc3dPrincess(x, z, phase, op) {
   const g = SC3D.prCv.getContext('2d'), sv = getSave(); g.clearRect(0, 0, 256, 256);
-  try { if (!scDrawPrincessCoat(g, 128, 240, 1.55, sv, phase || 0) && !drawPrincessBack(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0)) drawPrincessCombined(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0, false); } catch (e) {}
+  try { if (!drawPrincessBack(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0)) drawPrincessCombined(g, 128, 240, 1.55, sv.lk, sv.hr || sv.lk, phase || 0, false); } catch (e) {}
   SC3D.prTex.needsUpdate = true;
   const pr = SC3D.pr; pr.position.set(x, pr.userData.yOff, z); pr.material.opacity = op; pr.userData.shadow.position.set(x, 0.08, z + 0.05); pr.userData.shadow.material.opacity = 0.2 * op;
   pr.lookAt(SC3D.cam.position.x, pr.position.y, SC3D.cam.position.z);
@@ -11760,6 +11760,8 @@ function acctDeleteInit() {
 }
 /* 11-21(2) 원장님: '지영' = 시험하는 사람 계정 → 건물을 모두 넣어 둠 (공부 건물 잠금 풀기 + 시청에서 짓는 건물 모두)
  *   loadAllUsers 에서 부를 때마다 확인(이미 있으면 그대로) → 나중에 새 건물이 생겨도 지영 마을엔 바로 들어감 */
+/* 11-21(3) 지영(시험 계정)만: 공부 건물 안 단계·단원·학기 잠금을 모두 엶 (다른 계정은 그대로) */
+function isTesterUser() { try { return !!currentUser && currentUser === normId('지영'); } catch (e) { return false; } }
 function testerFill(sv) {
   sv.lock = [];
   if (!Array.isArray(sv.pl)) sv.pl = []; if (!Array.isArray(sv.o)) sv.o = [];
