@@ -365,6 +365,146 @@
   #scr-sentence .closet-header h3 { background: linear-gradient(#bae7ff, #91d5ff); color: #003a8c; border: 3px solid #69b1ff; border-radius: 14px; padding: 3px 14px; box-shadow: 0 3px 0 #4096ff; }
   #scr-sentence .problem-stage-box { border-color: #91d5ff; background-color: #fff; background-image: linear-gradient(#e6f4ff 1px, transparent 1px), linear-gradient(90deg, #e6f4ff 1px, transparent 1px); background-size: 22px 22px; }
   #scr-sentence .tab-btn.active { background: #e6f4ff; border-color: #69b1ff; color: #0958d9; }
+  /* 11-21 과학 실험실 안 */
+  .sc-panel { display: flex; flex-direction: column; min-height: 0; }
+  .sc-badge { font-size: 0.82rem; color: #0958d9; background: #e6f4ff; border: 2px solid #91d5ff; border-radius: 999px; padding: 3px 12px; font-weight: bold; }
+  .sc-room { font-family: 'Jua', sans-serif; color: #0958d9; font-size: 1.05rem; }
+  .sc-tolobby { font-size: 0.82rem; padding: 4px 10px; }
+  .sc-lobby { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 8px 2px; }
+  .sc-stations { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .sc-st { border: 4px solid #91d5ff; border-radius: 22px; background: linear-gradient(180deg, #ffffff, #e6f4ff); box-shadow: 0 6px 0 #69b1ff; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; font-family: inherit; color: #003a8c; }
+  .sc-st:hover { transform: translateY(-3px); }
+  .sc-st:active { transform: translateY(2px); box-shadow: 0 3px 0 #69b1ff; }
+  .sc-st-ic { font-size: 3rem; line-height: 1.1; }
+  .sc-st b { font-family: 'Jua', sans-serif; font-size: 1.35rem; font-weight: normal; }
+  .sc-st span { font-size: 0.85rem; color: #4b6a8a; }
+  .sc-st i { font-style: normal; font-size: 0.85rem; background: #fff; border: 2px solid #bae0ff; border-radius: 999px; padding: 2px 10px; color: #0958d9; font-weight: bold; }
+  .sc-st-note { border-color: #b7eb8f; background: linear-gradient(180deg, #fff, #f6ffed); box-shadow: 0 6px 0 #95de64; color: #135200; }
+  .sc-st-note i { border-color: #d9f7be; color: #389e0d; }
+  .sc-st-dex { border-color: #ffd591; background: linear-gradient(180deg, #fff, #fff7e6); box-shadow: 0 6px 0 #ffc069; color: #873800; }
+  .sc-st-dex i { border-color: #ffe7ba; color: #d46b08; }
+  .sc-ulist { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .sc-uchip { background: #fff; border: 2px solid #bae0ff; border-radius: 14px; padding: 6px 8px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 0.8rem; color: #4b6a8a; text-align: center; }
+  .sc-uchip span { font-size: 1.5rem; }
+  .sc-uchip b { font-family: 'Jua', sans-serif; font-weight: normal; font-size: 0.95rem; color: #003a8c; }
+  .sc-uchip em { font-style: normal; font-weight: bold; color: #0958d9; }
+  .sc-uchip.done { border-color: #95de64; background: #f6ffed; }
+  .sc-hub .mc-card { border-color: #91d5ff; box-shadow: 0 4px 0 #bae0ff; }
+  .sc-hub .mc-card.done { border-color: #95de64; box-shadow: 0 4px 0 #d9f7be; }
+  .sc-hub .mc-card-h { color: #003a8c; }
+  .sc-hub .mc-card-f { color: #4b6a8a; }
+  .sc-hub .mc-note { background: #e6f4ff; color: #10239e; }
+  .sc-g { font-size: 0.72rem; font-family: sans-serif; background: #e6f4ff; color: #0958d9; border-radius: 8px; padding: 1px 6px; }
+  .sc-lvh { grid-column: 1 / -1; font-family: 'Jua', sans-serif; color: #0958d9; font-size: 1.08rem; padding: 6px 2px 0; border-bottom: 2px dashed #91d5ff; }
+  .sc-lvh small { font-size: 0.78rem; color: #4b6a8a; }
+  .sc-play .track-list-box { background: #e6f4ff; border-color: #91d5ff; }
+  .sc-play .problem-stage-box { position: relative; overflow-y: auto; justify-content: flex-start; gap: 10px; }
+  .sc-q { width: min(680px, 100%); display: flex; justify-content: center; }
+  .sc-qcard { background: #fff; border: 3px solid #bae0ff; border-radius: 18px; padding: 12px 18px; display: flex; flex-direction: column; align-items: center; gap: 6px; width: min(680px, 100%); box-shadow: 0 4px 0 #e6f4ff; }
+  .sc-emo { font-size: 3rem; line-height: 1.1; }
+  .sc-qt { font-family: 'Jua', sans-serif; font-size: 1.45rem; color: #003a8c; text-align: center; line-height: 1.45; word-break: keep-all; }
+  .sc-ask { font-size: 0.88rem; color: #4b6a8a; text-align: center; }
+  .sc-choices, .sc-prech, .sc-spch { width: min(680px, 100%); }
+  .sc-choices .mc-choice, .sc-run .mc-choice { word-break: keep-all; }
+  .sc-choices.sc-ox .mc-choice { font-size: 1.6rem; min-height: 70px; }
+  .sc-exp { font-size: 0.95rem; color: #135200; font-weight: normal; margin-top: 4px; }
+  .sc-ord { display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(720px, 100%); }
+  .sc-slots { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; }
+  .sc-slots > b { color: #69b1ff; }
+  .sc-slots span { min-width: 64px; min-height: 40px; padding: 4px 10px; border: 3px dashed #91d5ff; border-radius: 12px; background: #fff; display: inline-flex; align-items: center; gap: 4px; color: #8c8c8c; font-size: 0.98rem; }
+  .sc-slots span.on { border-style: solid; border-color: #52c41a; background: #f6ffed; color: #135200; font-weight: bold; }
+  .sc-slots em { font-style: normal; font-size: 0.72rem; background: #69b1ff; color: #fff; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .sc-tilebox { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .sc-tile { font-size: 1.05rem; padding: 8px 14px; word-break: keep-all; }
+  .sc-tile:disabled { opacity: 0.3; }
+  .sc-shake { animation: scShake 0.45s; }
+  @keyframes scShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .sc-hub.sc-run, .sc-run { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; padding: 6px 2px; overflow: hidden; }
+  .sc-runh { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .sc-runh > b { font-family: 'Jua', sans-serif; font-size: 1.3rem; font-weight: normal; color: #003a8c; }
+  .sc-poe { margin-left: auto; display: flex; align-items: center; gap: 4px; font-size: 0.85rem; }
+  .sc-poe span { padding: 3px 10px; border-radius: 999px; background: #f0f0f0; color: #8c8c8c; font-weight: bold; }
+  .sc-poe span.on { background: #1677ff; color: #fff; }
+  .sc-poe i { color: #bfbfbf; font-style: normal; }
+  .sc-runb { flex: 1; min-height: 0; overflow-y: auto; border: 3px solid #91d5ff; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+    background-color: #fff; background-image: linear-gradient(#e6f4ff 1px, transparent 1px), linear-gradient(90deg, #e6f4ff 1px, transparent 1px); background-size: 22px 22px; text-align: center; }
+  .sc-runb > *, .sc-lobby > *, .sc-dex > *, .sc-play .problem-stage-box > * { flex-shrink: 0; }
+  .sc-phase { font-family: 'Jua', sans-serif; font-size: 1.15rem; color: #0958d9; background: #e6f4ff; border-radius: 999px; padding: 4px 16px; }
+  .sc-mine { border-color: #1677ff !important; background: #e6f4ff !important; }
+  .sc-go { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 1rem; color: #10239e; }
+  .sc-pool { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 48px; align-items: center; }
+  .sc-pool em { font-style: normal; color: #389e0d; font-weight: bold; }
+  .sc-item { font-size: 1rem; padding: 6px 12px; display: inline-flex; align-items: center; gap: 4px; }
+  .sc-item i { font-style: normal; font-size: 1.5rem; }
+  .sc-item small { color: #0958d9; font-weight: bold; }
+  .sc-item.sel { border-color: #1677ff !important; background: #bae0ff !important; transform: translateY(-3px); }
+  .sc-bins { display: grid; gap: 8px; width: 100%; }
+  .sc-bin { border: 3px dashed #91d5ff; border-radius: 16px; background: rgba(255,255,255,0.92); min-height: 120px; padding: 6px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; font-family: inherit; }
+  .sc-bin:hover { border-color: #1677ff; background: #f0f8ff; }
+  .sc-bin-h { font-family: 'Jua', sans-serif; font-size: 1.05rem; color: #003a8c; }
+  .sc-bin-in { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .sc-bin-in span { background: #f6ffed; border: 2px solid #b7eb8f; border-radius: 10px; padding: 2px 6px; font-size: 0.85rem; }
+  .sc-grow { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 1.2rem; color: #003a8c; }
+  .sc-grow-e { font-size: 5rem; line-height: 1.1; animation: scPop 0.5s; }
+  .sc-scene { letter-spacing: 4px; }
+  @keyframes scPop { 0% { transform: scale(0.4); opacity: 0; } 70% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+  .sc-dots { display: flex; gap: 4px; align-items: center; font-size: 1.4rem; }
+  .sc-dots span { opacity: 0.25; } .sc-dots span.on { opacity: 1; } .sc-dots i { font-style: normal; font-size: 0.9rem; color: #91d5ff; }
+  .sc-ssq { font-size: 1rem; color: #10239e; }
+  .sc-ss { position: relative; width: min(620px, 100%); height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+  .sc-board { width: 100%; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); border-bottom: 12px solid #c69c6d; border-radius: 4px; transition: transform 0.7s cubic-bezier(.3,1.5,.5,1); transform-origin: 50% 100%; margin-bottom: 44px; }
+  .sc-slot { height: 104px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; }
+  .sc-slot small { position: absolute; bottom: -34px; font-size: 0.8rem; color: #8c8c8c; font-weight: bold; }
+  .sc-slot.tap { cursor: pointer; }
+  .sc-slot.tap::before { content: ''; position: absolute; left: 10%; right: 10%; bottom: 0; height: 26px; border: 2px dashed #91d5ff; border-radius: 8px; }
+  .sc-slot.tap:hover::before { border-color: #1677ff; background: #e6f4ff; }
+  .sc-slot.sel::before { border-color: transparent; }
+  .sc-slot.mid small { color: #c69c6d; }
+  .sc-wts { display: flex; flex-direction: column-reverse; align-items: center; gap: 2px; margin-bottom: 2px; }
+  .sc-wt { display: block; width: 34px; height: 22px; border-radius: 6px 6px 4px 4px; background: linear-gradient(#8c8c8c, #434343); box-shadow: inset 0 3px 0 rgba(255,255,255,0.35); }
+  .sc-wt.R { background: linear-gradient(#69b1ff, #0958d9); }
+  .sc-fulcrum { position: absolute; bottom: 0; width: 0; height: 0; border-left: 26px solid transparent; border-right: 26px solid transparent; border-bottom: 46px solid #8b5e34; }
+  .sc-ssmsg { font-size: 1.05rem; color: #ad4e00; background: #fff7e6; border: 2px solid #ffd591; border-radius: 14px; padding: 6px 14px; }
+  .sc-ssmsg.ok { color: #135200; background: #f6ffed; border-color: #b7eb8f; font-weight: bold; }
+  .sc-ssmsg small { font-weight: normal; }
+  .sc-scale { display: flex; flex-direction: column; align-items: center; }
+  .sc-pan { width: 180px; height: 64px; border-radius: 50% 50% 14px 14px / 30% 30% 14px 14px; background: linear-gradient(#f5f5f5, #d9d9d9); border: 3px solid #bfbfbf; display: flex; align-items: center; justify-content: center; font-size: 2.6rem; }
+  .sc-disp { width: 200px; background: #262626; color: #73d13d; font-family: 'Consolas', monospace; font-size: 2rem; border-radius: 0 0 16px 16px; padding: 6px 0; border: 3px solid #595959; }
+  .sc-cups { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+  .sc-cup { width: 200px; background: rgba(255,255,255,0.94); border: 3px solid #bae0ff; border-radius: 18px; padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .sc-cup.up { border-color: #52c41a; background: #f6ffed; } .sc-cup.down { border-color: #d9d9d9; }
+  .sc-cup-n { font-family: 'Jua', sans-serif; font-size: 1.2rem; color: #0958d9; }
+  .sc-cup-e { font-size: 2.4rem; line-height: 1; animation: scPop 0.5s; }
+  .sc-cup-pot { width: 76px; height: 36px; margin-top: 2px; background: linear-gradient(#6b4423 0 9px, #d4884a 9px); clip-path: polygon(0 0, 100% 0, 84% 100%, 16% 100%); border-radius: 3px; }
+  .sc-cond { display: flex; flex-direction: column; gap: 3px; width: 100%; margin-top: 4px; }
+  .sc-cond span { font-size: 0.88rem; background: #f5f5f5; border-radius: 8px; padding: 2px 4px; }
+  .sc-cond span.diff { background: #fff1b8; border: 2px solid #ffc53d; font-weight: bold; }
+  .sc-diffb { background: #fff1b8; border-radius: 6px; padding: 0 6px; color: #ad4e00; }
+  .sc-why { background: #fffbe6; border: 2px solid #ffe58f; border-radius: 16px; padding: 10px 16px; font-size: 1.08rem; line-height: 1.65; color: #613400; width: min(680px, 100%); text-align: left; word-break: keep-all; }
+  .sc-pred { width: min(680px, 100%); border-radius: 14px; padding: 6px 12px; font-weight: bold; display: flex; flex-direction: column; gap: 2px; }
+  .sc-pred small { font-weight: normal; font-size: 0.9rem; }
+  .sc-pred.ok { background: #f6ffed; color: #135200; border: 2px solid #b7eb8f; }
+  .sc-pred.no { background: #e6f4ff; color: #10239e; border: 2px solid #91d5ff; }
+  .sc-new { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #d46b08; }
+  .sc-newl { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .sc-newl span { background: #fff7e6; border: 2px solid #ffd591; border-radius: 12px; padding: 4px 10px; font-size: 0.95rem; animation: scPop 0.5s; }
+  .sc-newl i { font-style: normal; font-size: 1.3rem; margin-right: 3px; }
+  .sc-seed { background: #f6ffed; border: 2px solid #b7eb8f; border-radius: 12px; padding: 4px 12px; color: #135200; }
+  .sc-dex { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 2px; }
+  .sc-dexh { font-family: 'Jua', sans-serif; font-size: 1.15rem; color: #d46b08; }
+  .sc-dexh small { font-family: sans-serif; font-size: 0.8rem; color: #8c8c8c; }
+  .sc-dgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 8px; }
+  .sc-dcard { background: #fafafa; border: 3px dashed #d9d9d9; border-radius: 16px; padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; color: #bfbfbf; min-height: 140px; }
+  .sc-dcard.on { background: linear-gradient(180deg, #fff, #fff7e6); border: 3px solid #ffd591; color: #613400; box-shadow: 0 3px 0 #ffe7ba; }
+  .sc-de { font-size: 2.4rem; line-height: 1.1; }
+  .sc-dcard b { font-family: 'Jua', sans-serif; font-weight: normal; font-size: 1.02rem; }
+  .sc-dg { font-size: 0.7rem; background: #ffe7ba; color: #ad4e00; border-radius: 8px; padding: 0 6px; }
+  .sc-dcard small { font-size: 0.76rem; line-height: 1.35; word-break: keep-all; }
+  @media (max-width: 760px) {
+    .sc-stations { grid-template-columns: 1fr; } .sc-st { flex-direction: row; flex-wrap: wrap; justify-content: center; padding: 10px; } .sc-st-ic { font-size: 2.2rem; }
+    .sc-ulist { grid-template-columns: repeat(3, minmax(0, 1fr)); } .sc-qt { font-size: 1.2rem; } .sc-poe { margin-left: 0; }
+    .sc-bins { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } .sc-cup { width: 150px; } .sc-ss { height: 150px; } .sc-slot { height: 90px; } .sc-wt { width: 24px; height: 16px; }
+  }
   /* 11-20 설명 가이드 */
   .gd-ov { position: fixed; inset: 0; z-index: 9500; background: rgba(40,60,110,0.45); display: flex; align-items: center; justify-content: center; padding: 14px; }
   .gd-card { width: min(560px, 100%); max-height: calc(100vh - 28px); overflow-y: auto; background: #fff; border: 6px solid #fff; border-radius: 30px; box-shadow: 0 0 0 4px #69c0ff, 0 14px 0 #3d8fd6, 0 24px 40px rgba(20,40,90,0.35); padding: 12px 16px 14px; display: flex; flex-direction: column; align-items: stretch !important; gap: 10px; text-align: left; animation: gdIn .35s cubic-bezier(.2,1.4,.4,1); }
@@ -1191,16 +1331,30 @@
 
     <!-- 7. sentence: 과학 실험실 -->
     <section id="scr-sentence" class="screen">
-      <div class="study-panel">
+      <div class="study-panel sc-panel">
         <div class="closet-header">
-          <div style="display:flex; gap:6px; align-items:center;">
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
             <h3 style="margin:0;">🧪 과학 실험실</h3>
-            <button id="sentTabFill" class="tab-btn active">🧩 문장 빈칸 채우기</button>
-            <button id="sentTabAnt" class="tab-btn">🔄 반대말 찾기</button>
+            <div id="scTabs" class="closet-tabs"></div>
           </div>
-          <div id="sentProgressChip" class="chip">정답마다 🪙 +1개</div>
+          <div class="sc-badge">🌱 2학년 자연 · 🔬 3학년 1학기</div>
         </div>
-        <div id="sentStageBox" class="problem-stage-box" style="flex:1; margin-top:8px;"></div>
+        <div id="scLobby" class="sc-lobby"></div>
+        <div id="scHub" class="mc-hub sc-hub" style="display:none;"></div>
+        <div id="scLab" class="mc-hub sc-hub" style="display:none;"></div>
+        <div id="scDex" class="sc-dex" style="display:none;"></div>
+        <div id="scPlay" class="en-play sc-play" style="display:none;">
+          <div id="scSide" class="track-list-box"></div>
+          <div class="problem-stage-box">
+            <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;"><div id="scStageTitle" class="chip"></div><div id="scProg" class="chip"></div></div>
+            <div id="scRetry" style="display:none; color:#d46b08; font-weight:bold; font-size:0.86rem;">🔁 아까 틀렸거나 넘긴 문제예요. 다시 풀어 봐요!</div>
+            <div id="scQ" class="sc-q"></div>
+            <div id="scChoices" class="mc-choices sc-choices"></div>
+            <div id="scOrd" class="sc-ord" style="display:none;"></div>
+            <div id="scFb" class="mc-fb"></div>
+            <button id="scPassBtn" class="btn-3d en-pass">⏭️ 나중에 풀기</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -5629,11 +5783,14 @@ const GUIDES = {
            { it: [gdI('⭕ apple', 50, 40, 2, 'gd-txt gd-pop'), gdI('🪙 +1개', 50, 75, 1.6, 'gd-coin')], c: '정답!' },
            { it: [gdI('⭐⭐⭐', 50, 32, 2.2, 'gd-pop'), gdI('처음 통과 🪙 +5개', 50, 72, 1.5, 'gd-coin')], c: '단계를 처음 통과하면' }] },
   sentence: { title: '🧪 과학 실험실', bg: 'lab', kind: 'earn',
-    what: '빈칸에 알맞은 말을 넣어 <b>문장을 완성</b>하고, <b>반대말</b>을 찾아요.',
-    coin: '맞힐 때마다 <b>+1개</b>',
+    what: '<b>🔬 실험대</b>에서 먼저 예상하고 직접 실험해 봐요. <b>📒 실험 노트</b>에서 문제를 풀고, <b>📖 과학 도감</b> 카드를 모아요. (2학년 자연 + 3학년 1학기 과학)',
+    coin: '노트 문제를 한 번에 맞히면 <b>+1개</b> · 노트 단계 처음 통과 <b>+5개</b> · 실험을 처음 마치면 <b>+3개</b> · 예상이 맞으면 <b>+1개</b> · 새 도감 카드 한 장에 <b>+2개</b>',
     energy: '들어갈 때 <b>⚡ 에너지가 3 줄어요</b>',
-    demo: [{ it: [gdI('하늘이 ( ? )', 50, 32, 1.6, 'gd-txt gd-light'), gdI('파래요', 30, 72, 1.2, 'gd-key'), gdI('짜요', 70, 72, 1.2, 'gd-key')], h: [30, 74], tap: 1, c: '알맞은 말을 골라요' },
-           { it: [gdI('하늘이 파래요 ⭐', 50, 35, 1.6, 'gd-txt gd-light gd-pop'), gdI('🪙 +1개', 50, 75, 1.6, 'gd-coin')], c: '반짝!' }] },
+    demo: [{ it: [gdI('🔬', 22, 46, 2.6), gdI('📒', 50, 46, 2.6), gdI('📖', 78, 46, 2.6), gdI('실험대', 22, 80, 0.9, 'gd-txt gd-light'), gdI('실험 노트', 50, 80, 0.9, 'gd-txt gd-light'), gdI('도감', 78, 80, 0.9, 'gd-txt gd-light')], h: [22, 50], tap: 1, c: '실험대를 골라요' },
+           { it: [gdI('어느 쪽이 싹 틀까?', 50, 26, 1.3, 'gd-txt gd-light'), gdI('💧 가', 30, 70, 1.2, 'gd-key'), gdI('🚫 나', 70, 70, 1.2, 'gd-key')], h: [30, 72], tap: 1, c: '먼저 예상해요' },
+           { it: [gdI('🌱', 30, 42, 2.8, 'gd-pop'), gdI('🫘', 70, 42, 2.8), gdI('물을 준 쪽만 싹 터요', 50, 80, 1, 'gd-txt gd-light')], c: '실험으로 확인해요' },
+           { it: [gdI('나비는 식물이에요', 50, 26, 1.2, 'gd-txt gd-light'), gdI('⭕', 30, 70, 1.4, 'gd-key'), gdI('❌', 70, 70, 1.4, 'gd-key')], h: [70, 72], tap: 1, c: '실험 노트 문제를 풀어요' },
+           { it: [gdI('🃏 새 도감 카드!', 50, 35, 1.5, 'gd-txt gd-light gd-pop'), gdI('🪙 +2개', 50, 75, 1.6, 'gd-coin')], c: '도감을 모아요' }] },
   tetris: { title: '💠 블록 공방', bg: 'cream', kind: 'earn',
     what: '떨어지는 블록을 <b>돌리고 옮겨서</b> 한 줄을 꽉 채우면 줄이 사라져요.',
     coin: '한 줄 지울 때마다 <b>+2개</b>',
@@ -5826,10 +5983,9 @@ const GD_HOW = {
     { t: '🍎 문제 풀기', d: '알맞은 낱말을 골라요. <b>🔊</b>를 누르면 영어로 읽어 줘요.', f: [1, 2] },
     { t: '⭐ 단계 올라가기', d: '단원마다 <b>5단계</b>예요. <b>80% 이상</b> 한 번에 맞히면 다음 단계가 열려요.', f: [3] }],
   sentence: [
-    { t: '✏️ 문장 완성', d: '빈칸에 알맞은 말을 넣어 <b>문장을 완성</b>해요.', f: [0, 1] },
-    { t: '↔️ 반대말 찾기', d: '낱말의 <b>반대말</b>을 찾아요.',
-      demo: [{ it: [gdI('크다 ↔ ( ? )', 50, 32, 1.6, 'gd-txt gd-light'), gdI('작다', 30, 72, 1.2, 'gd-key'), gdI('높다', 70, 72, 1.2, 'gd-key')], h: [30, 74], tap: 1, c: '반대말을 골라요' },
-             { it: [gdI('크다 ↔ 작다 ⭐', 50, 35, 1.6, 'gd-txt gd-light gd-pop')], c: '반짝!' }] }],
+    { t: '🔬 실험대', d: '먼저 <b>예상</b>하고, 직접 <b>실험</b>해 본 다음, <b>까닭</b>을 알아봐요. 분류하기 · 수평 잡기 · 저울 · 싹 트기 실험이 있어요.', f: [0, 1, 2] },
+    { t: '📒 실험 노트', d: '단원마다 <b>5단계</b>(OX · 알맞은 말 · 분류·순서 · 실험 예상 · 까닭 찾기)예요. 10문제 중 <b>8문제</b>를 한 번에 맞히면 다음 단계가 열려요.', f: [3] },
+    { t: '📖 과학 도감', d: '실험에서 만난 동물 · 식물 · 물건이 <b>도감 카드</b>로 모여요.', f: [4] }],
   tetris: [
     { t: '💠 블록 옮기기', d: '떨어지는 블록을 <b>돌리고 옮겨요</b>.', f: [0, 1] },
     { t: '✨ 줄 지우기', d: '한 줄을 꽉 채우면 그 줄이 사라져요.', f: [2] }],
@@ -8081,6 +8237,10 @@ function subBack() {   /* 건물 안 작은 화면이면 한 칸만 뒤로 */
       if (vis('mcPlay')) { mcShowHub(); return true; }
       if (vis('mcTool')) { mcToolFrom === 'room' ? mcShowRoom() : mcShowHub(); return true; }
       if (vis('mcHub')) { mcShowRoom(); return true; }
+    } else if (currentScreen === 'sentence') {
+      if (vis('scPlay')) { scShowHub(); return true; }
+      if (vis('scLab') && scExp) { scShowLab(); return true; }
+      if (vis('scHub') || vis('scLab') || vis('scDex')) { scShowLobby(); return true; }
     } else if (currentScreen === 'crossword') {
       const h = document.getElementById('libHub'); if (h && !h.classList.contains('show')) { libShowHub(); return true; }
     }
@@ -9734,49 +9894,772 @@ document.getElementById('btnRdList').onclick = () => { playSfx('click'); rdShowL
 document.getElementById('btnRdReview').onclick = () => { playSfx('click'); rdStartReview(); };
 document.getElementById('btnRdDoors').onclick = () => { playSfx('click'); libShowHub(); };
 
-const SENTENCES = [
-  ['아침에 일어나면 세수를 ○○ 해요.', '먼저', '벌써', '아직'],
-  ['비가 오니까 우산을 ○○ 나가요.', '쓰고', '입고', '신고'],
-  ['친구와 사이좋게 장난감을 ○○ 놀아요.', '나누어', '숨겨서', '던지며'],
-  ['도서관에서는 조용히 책을 ○○○.', '읽어요', '달려요', '외쳐요'],
-  ['횡단보도를 건널 때는 초록불을 ○○○.', '기다려요', '지나쳐요', '잊어요']
-];
-const ANTONYMS = [
-  ['크다', '작다', '예) 코끼리는 몸집이 크고, 개미는 작다.'],
-  ['길다', '짧다', '예) 기차는 길고, 연필은 짧다.'],
-  ['밝다', '어둡다', '예) 낮에는 환하게 밝고, 밤에는 어둡다.'],
-  ['빠르다', '느리다', '예) 토끼는 발이 빠르고, 거북이는 느리다.'],
-  ['덥다', '춥다', '예) 여름은 덥고, 겨울은 춥다.']
-];
-let sentMode = 'fill', sentIdx = 0;
+/* ============================================================================
+ * 11-21 🧪 과학 실험실 자료 — 2022 개정 교육과정
+ *   s0 = 2학년 통합교과 「자연」·「나」 다리, s1~s4 = 3학년 1학기 과학 4단원 (비상 교과서 순서 = 성취기준 [4과01]~[4과04])
+ *   성취기준 '다루지 않는 범위' 지킴: 무게와 질량 구분 안 함 / 씨가 싹 트는 조건은 물과 온도로만
+ *   문제 형식(문제집에서 흔한 형식): OX · 알맞은 말 · 분류·순서 · 실험 결과 예상 · 까닭 찾기 — 문제는 모두 새로 씀
+ *   OX: [문장, 참/거짓, 설명] · 고르기: [질문, [정답, 오답…], 설명, 그림] · 순서: ['ord', 질문, [바른 순서…], 설명]
+ * ============================================================================ */
+const SC_STAGE = ['개념 OX', '알맞은 말', '분류·순서', '실험 예상', '까닭 찾기'];
+const SC_UNITS = [
+{ id: 's0', g: '2학년 다리', name: '자연 탐험', icon: '🌱', sub: '통합교과 「자연」·「나」 · 동물과 식물, 계절, 몸으로 관찰하기', st: [
+ [ ['강아지와 고양이는 동물이에요.', true, '스스로 움직이고 먹이를 먹는 것은 동물이에요.'],
+   ['나무는 스스로 걸어 다닐 수 있어요.', false, '식물은 뿌리를 내린 곳에서 자라요.'],
+   ['식물이 자라려면 물이 필요해요.', true, '물을 주지 않으면 식물은 시들어요.'],
+   ['올챙이가 자라면 개구리가 돼요.', true, '알 → 올챙이 → 개구리로 자라요.'],
+   ['병아리가 자라면 오리가 돼요.', false, '병아리는 자라서 닭이 돼요.'],
+   ['봄이 되면 나뭇가지에 새싹이 돋아요.', true, '따뜻한 봄에 새싹과 꽃눈이 자라요.'],
+   ['가을에는 단풍이 들고 잎이 떨어지는 나무가 많아요.', true, '은행나무·단풍나무 잎이 물들고 떨어져요.'],
+   ['개구리는 겨울에 겨울잠을 자요.', true, '땅속이나 물 밑에서 겨울을 나요.'],
+   ['나비는 식물이에요.', false, '나비는 날아다니는 동물(곤충)이에요.'],
+   ['해바라기는 해가 잘 드는 곳에서 잘 자라요.', true, '햇빛을 잘 받아야 튼튼하게 자라요.'],
+   ['귀로 꽃의 색깔을 알 수 있어요.', false, '색깔은 눈으로 봐요. 귀는 소리를 들어요.'],
+   ['코로 꽃 냄새를 맡을 수 있어요.', true, '냄새는 코로 맡아요.'] ],
+ [ ['소리를 듣는 몸의 부분은?', ['귀', '눈', '코'], '귀로 소리를 들어요.', '👂'],
+   ['맛을 보는 몸의 부분은?', ['혀', '손', '귀'], '혀로 단맛·짠맛·신맛을 느껴요.', '👅'],
+   ['나뭇잎이 거친지 부드러운지 알아보려면?', ['손으로 만져 봐요', '귀로 들어 봐요', '코로 냄새를 맡아요'], '거칠고 부드러운 느낌은 손(피부)으로 알아요.', '🍂'],
+   ['애벌레가 자라면 무엇이 될까요?', ['나비', '개구리', '참새'], '애벌레는 번데기를 거쳐 나비가 돼요.', '🐛'],
+   ['올챙이가 자라면 무엇이 될까요?', ['개구리', '붕어', '거북'], '올챙이는 다리가 나오고 꼬리가 줄어 개구리가 돼요.', '🐸'],
+   ['병아리가 자라면 무엇이 될까요?', ['닭', '오리', '참새'], '병아리는 닭의 새끼예요.', '🐥'],
+   ['씨앗을 심고 꼭 해 줘야 하는 일은?', ['물 주기', '냉장고에 넣기', '상자로 꽁꽁 덮기'], '씨앗이 싹 트려면 물이 필요해요.', '🌰'],
+   ['봄에 피는 꽃은?', ['개나리', '코스모스', '국화'], '코스모스와 국화는 가을에 피어요.', '🌼'],
+   ['겨울잠을 자는 동물은?', ['곰', '참새', '강아지'], '곰은 굴에서 겨울잠을 자요.', '🐻'],
+   ['여름에 나무에서 맴맴 우는 곤충은?', ['매미', '나비', '개미'], '여름이면 매미 소리가 커요.', '🌳'],
+   ['가을에 노랗게 물드는 잎은?', ['은행잎', '소나무 잎', '선인장 가시'], '소나무는 겨울에도 늘 푸르러요.', '🍂'],
+   ['먹이를 찾아 스스로 움직이는 것은?', ['동물', '식물', '돌'], '동물은 먹이를 찾아 움직여요.', '🐾'] ],
+ [ ['ord', '씨앗 심는 순서대로 눌러요.', ['화분에 흙 담기', '씨앗 넣기', '흙 살짝 덮기', '물 주기'], '흙을 담고, 씨앗을 넣고, 덮은 뒤 물을 줘요.'],
+   ['ord', '개구리가 자라는 순서대로 눌러요.', ['🫧 알', '🐟 올챙이', '🦵 다리가 나온 올챙이', '🐸 개구리'], '알에서 올챙이가 나오고, 다리가 생겨 개구리가 돼요.'],
+   ['ord', '닭이 자라는 순서대로 눌러요.', ['🥚 알', '🐥 병아리', '🐔 큰 닭'], '알에서 병아리가 깨어나 닭으로 자라요.'],
+   ['ord', '계절이 바뀌는 순서대로 눌러요.', ['🌸 봄', '☀️ 여름', '🍁 가을', '⛄ 겨울'], '봄 → 여름 → 가을 → 겨울이 되풀이돼요.'],
+   ['다음 중 식물은?', ['🌷 튤립', '🐝 벌', '🐌 달팽이'], '튤립은 뿌리를 내리고 자라는 식물이에요.'],
+   ['다음 중 동물은?', ['🐞 무당벌레', '🌻 해바라기', '🌳 은행나무'], '무당벌레는 스스로 움직이는 곤충이에요.'],
+   ['개나리·진달래·벚꽃은 언제 피는 꽃일까요?', ['봄', '여름', '겨울'], '모두 봄에 피는 꽃이에요.'],
+   ['물에 사는 동물은?', ['붕어', '다람쥐', '참새'], '붕어는 물속에서 지느러미로 헤엄쳐요.'],
+   ['날개가 있는 동물은?', ['참새', '고양이', '붕어'], '참새는 날개로 날아요.'],
+   ['ord', '사과가 열리는 순서대로 눌러요.', ['꽃이 펴요', '꽃이 지고 작은 열매가 생겨요', '열매가 커져요', '빨갛게 익어요'], '꽃이 진 자리에 열매가 생겨 익어요.'],
+   ['다리가 여섯 개인 동물(곤충)은?', ['개미', '거미', '강아지'], '개미는 다리가 6개, 거미는 8개예요.'],
+   ['가을에 도토리를 모으는 동물은?', ['다람쥐', '붕어', '나비'], '다람쥐는 겨울에 먹으려고 도토리를 모아 둬요.'] ],
+ [ ['화분 두 개 중 하나만 며칠 동안 물을 주면, 시드는 것은?', ['물을 안 준 화분', '물을 준 화분', '둘 다 똑같아요'], '식물이 살려면 물이 필요해요.', '🪴'],
+   ['햇빛 드는 창가 화분과 어두운 상자 속 화분 중 더 튼튼하게 자라는 것은?', ['창가 화분', '상자 속 화분', '똑같아요'], '식물은 빛을 받아야 튼튼하게 자라요.', '🪟'],
+   ['마른 낙엽을 밟으면?', ['바스락 소리가 나요', '아무 소리도 안 나요', '물이 나와요'], '마른 잎은 바스락 부서지며 소리가 나요.', '🍂'],
+   ['겨울에 연못물 위가 얼면 물고기는?', ['얼음 아래 물속에서 지내요', '하늘로 날아가요', '땅으로 올라와요'], '얼음 아래 물은 얼지 않아 물고기가 지낼 수 있어요.', '🧊'],
+   ['꽃이 많이 핀 꽃밭에 많이 날아오는 것은?', ['벌과 나비', '개구리', '지렁이'], '벌과 나비는 꽃의 꿀을 먹으러 와요.', '🌸'],
+   ['비가 온 뒤 흙 위로 잘 나오는 동물은?', ['지렁이', '참새', '붕어'], '지렁이는 비 온 뒤 땅 위로 자주 나와요.', '🌧️'],
+   ['강낭콩을 물에 하룻밤 담가 두면?', ['더 커지고 말랑해져요', '더 작아져요', '파랗게 변해요'], '씨가 물을 먹어 부풀어요.', '🫘'],
+   ['그늘의 눈사람과 햇빛 아래 눈사람 중 먼저 녹는 것은?', ['햇빛 아래 눈사람', '그늘의 눈사람', '똑같아요'], '햇빛을 받으면 따뜻해져 빨리 녹아요.', '⛄'],
+   ['돋보기로 개미를 보면?', ['크게 보여요', '작게 보여요', '안 보여요'], '돋보기는 작은 것을 크게 보여 줘요.', '🔍'],
+   ['개구리알을 어항에 넣어 두면 며칠 뒤 나오는 것은?', ['올챙이', '병아리', '애벌레'], '개구리알에서는 올챙이가 나와요.', '🫧'],
+   ['봄에 땅이 따뜻해지면 겨울잠 자던 개구리는?', ['잠에서 깨어 나와요', '더 깊이 잠들어요', '물고기가 돼요'], '날이 따뜻해지면 겨울잠에서 깨어나요.', '🐸'],
+   ['가을에 감나무에서 볼 수 있는 것은?', ['주황색으로 익은 감', '하얀 눈꽃', '올챙이'], '가을은 열매가 익는 계절이에요.', '🍊'] ],
+ [ ['식물에 물을 주는 까닭은?', ['식물이 자라는 데 물이 필요해서', '잎 색을 바꾸려고', '화분을 무겁게 하려고'], '물이 없으면 식물은 시들어요.'],
+   ['가을에 다람쥐가 도토리를 모으는 까닭은?', ['먹이가 적은 겨울을 대비하려고', '장난감으로 쓰려고', '집을 지으려고'], '겨울에는 먹이를 찾기 어려워요.'],
+   ['개구리가 겨울에 땅속에서 겨울잠을 자는 까닭은?', ['추운 겨울을 견디려고', '여름이 그리워서', '먹이가 너무 많아서'], '추운 겨울에는 움직이지 않고 잠을 자며 견뎌요.'],
+   ['관찰할 때 모르는 것을 함부로 맛보면 안 되는 까닭은?', ['몸에 해로울 수 있어서', '시간이 오래 걸려서', '코가 막혀서'], '맛보기는 꼭 어른과 함께, 안전한 것만 해요.'],
+   ['봄에 나무에 새싹이 돋는 까닭은?', ['날씨가 따뜻해져서', '눈이 많이 와서', '밤이 길어져서'], '따뜻해지면 식물이 다시 자라기 시작해요.'],
+   ['벌이 꽃에 날아드는 까닭은?', ['꿀을 먹으려고', '잠을 자려고', '비를 피하려고'], '벌은 꽃의 꿀과 꽃가루를 모아요.'],
+   ['해바라기를 해가 잘 드는 곳에 심는 까닭은?', ['햇빛을 받아야 잘 자라서', '물을 안 줘도 돼서', '키가 작아지라고'], '식물은 햇빛을 받아 자라요.'],
+   ['가을에 잎을 떨어뜨리는 나무가 많은 까닭은?', ['춥고 메마른 겨울을 견디려고', '잎이 너무 무거워서', '새 옷을 입으려고'], '잎을 떨어뜨려 겨울을 견딜 준비를 해요.'],
+   ['동물을 함부로 만지면 안 되는 까닭은?', ['동물이 다치거나 내가 물릴 수 있어서', '동물이 금방 자라서', '손이 차가워져서'], '살펴볼 때는 조심조심, 눈으로 먼저 봐요.'],
+   ['돋보기를 쓰는 까닭은?', ['작은 것을 크게 보려고', '소리를 크게 들으려고', '냄새를 맡으려고'], '작은 곤충이나 꽃잎을 자세히 볼 수 있어요.'],
+   ['화분 밑에 구멍이 있는 까닭은?', ['남는 물이 빠지게 하려고', '벌레가 들어오게 하려고', '화분을 가볍게 하려고'], '물이 고이면 뿌리가 썩을 수 있어요.'],
+   ['여러 가지 몸의 부분으로 관찰하는 까닭은?', ['더 많은 특징을 알 수 있어서', '빨리 끝내려고', '친구에게 자랑하려고'], '눈·코·귀·손을 함께 쓰면 더 자세히 알 수 있어요.'] ] ] },
 
-function renderSentenceScreen() {
-  document.getElementById('sentTabFill').classList.toggle('active', sentMode === 'fill');
-  document.getElementById('sentTabAnt').classList.toggle('active', sentMode === 'ant');
-  const box = document.getElementById('sentStageBox');
-  if (sentMode === 'fill') {
-    const item = SENTENCES[sentIdx % SENTENCES.length];
-    const choices = [item[1], item[2], item[3]].sort(() => Math.random() - 0.5);
-    box.innerHTML = `<div class="chip">🧩 문장 빈칸 채우기</div><div class="jua" style="font-size:1.85rem; color:#531dab; text-align:center;">"${item[0]}"</div><div style="display:flex; gap:12px; margin-top:8px;">${choices.map(c => `<button class="btn-3d primary sent-choice" style="font-size:1.2rem; padding:10px 24px;" data-ans="${c}">${c}</button>`).join('')}</div>`;
-    box.querySelectorAll('.sent-choice').forEach(btn => {
-      btn.onclick = () => {
-        if (btn.dataset.ans === item[1]) { addStars(1, '문장 완성 정답!'); sentIdx++; renderSentenceScreen(); }
-        else { playSfx('wrong'); showToast('다시 한번 문장을 읽어 볼까요?'); }
-      };
-    });
+{ id: 's1', g: '3-1', name: '힘과 우리 생활', icon: '⚖️', sub: '밀고 당기기 · 수평 잡기 · 저울(g, kg) · 지레와 빗면', st: [
+ [ ['물체를 밀거나 당기면 물체가 움직일 수 있어요.', true, '힘을 주면 물체가 움직이거나 모양이 바뀌어요.'],
+   ['무거운 상자를 밀 때는 가벼운 상자보다 힘이 덜 들어요.', false, '무거운 물체를 움직이려면 더 큰 힘이 들어요.'],
+   ['수평을 잡을 때 무거운 물체는 받침점에 더 가까이 놓아요.', true, '무거운 쪽을 받침점 가까이 놓으면 수평을 잡을 수 있어요.'],
+   ['무게가 같은 두 물체를 받침점에서 같은 거리에 놓으면 수평이 돼요.', true, '양쪽이 똑같이 나무판을 기울이니까 수평이 돼요.'],
+   ['저울을 쓰면 물체의 무게를 정확하게 잴 수 있어요.', true, '손으로 어림하는 것보다 정확해요.'],
+   ['무게의 단위에는 g(그램)과 kg(킬로그램)이 있어요.', true, '가벼운 것은 g, 무거운 것은 kg으로 나타내요.'],
+   ['1kg은 100g과 같아요.', false, '1kg은 1000g이에요.'],
+   ['용수철저울에 무거운 물체를 걸수록 용수철이 더 많이 늘어나요.', true, '그래서 늘어난 길이로 무게를 알 수 있어요.'],
+   ['손으로 들어 보기만 해도 무게를 언제나 정확히 알 수 있어요.', false, '무게가 비슷하면 헷갈려요. 저울로 재요.'],
+   ['지레를 쓰면 무거운 물체를 더 작은 힘으로 들 수 있어요.', true, '받침점과 막대를 쓰는 도구예요.'],
+   ['빗면을 쓰면 그냥 들어 올릴 때보다 힘이 더 들어요.', false, '빗면을 따라 밀면 힘이 덜 들어요.'],
+   ['시소는 받침점이 가운데에 있어요.', true, '받침점 양쪽에 앉아 수평을 맞춰요.'] ],
+ [ ['어느 쪽으로도 기울지 않은 상태를 무엇이라고 할까요?', ['수평', '수직', '받침'], '나무판이 평평하게 멈추면 수평이에요.', '⚖️'],
+   ['나무판을 아래에서 받치고 있는 점은?', ['받침점', '꼭짓점', '출발점'], '받침점을 중심으로 나무판이 기울어요.', '🔺'],
+   ['무게를 재는 도구는?', ['저울', '자', '온도계'], '자는 길이, 온도계는 온도를 재요.', '⚖️'],
+   ['1000g은 몇 kg일까요?', ['1kg', '10kg', '100kg'], '1kg = 1000g이에요.', '🔢'],
+   ['몸무게를 나타내기 알맞은 단위는?', ['kg', 'g', 'cm'], '사람 몸무게는 kg으로 나타내요. cm는 길이 단위예요.', '🧍'],
+   ['지우개 하나의 무게를 나타내기 알맞은 단위는?', ['g', 'kg', 'm'], '가벼운 물건은 g으로 나타내요.', '🧽'],
+   ['비스듬히 기울어진 판을 따라 짐을 밀어 올리는 도구는?', ['빗면', '시소', '저울'], '경사로가 빗면이에요.', '📐'],
+   ['막대와 받침점으로 무거운 물체를 들어 올리는 도구는?', ['지레', '빗면', '용수철'], '병따개·장도리가 지레를 이용해요.', '🪵'],
+   ['용수철저울의 용수철이 많이 늘어날수록 물체는?', ['무거워요', '가벼워요', '차가워요'], '무거울수록 더 많이 늘어나요.', '🌀'],
+   ['전자저울에 물체를 올리면 무게가 무엇으로 나타나요?', ['숫자', '색깔', '소리'], '화면에 g이나 kg 숫자로 보여요.', '🔢'],
+   ['무거운 물체를 밀 때 드는 힘은 가벼운 물체보다?', ['커요', '작아요', '같아요'], '무거울수록 더 큰 힘이 들어요.', '📦'],
+   ['미끄럼틀처럼 비스듬히 기울어진 면을 무엇이라고 할까요?', ['빗면', '수평면', '받침점'], '기울어진 면을 빗면이라고 해요.', '🛝'] ],
+ [ ['ord', '가벼운 것부터 무거운 순서대로 눌러요.', ['🪶 깃털', '✏️ 연필', '🍎 사과', '🍉 수박'], '깃털 < 연필 < 사과 < 수박 순서로 무거워요.'],
+   ['ord', '용수철저울로 무게를 재는 순서대로 눌러요.', ['눈금을 0에 맞춰요', '물체를 고리에 걸어요', '용수철이 멈출 때까지 기다려요', '눈금을 정면에서 읽어요'], '0에 맞추고, 걸고, 멈추면 정면에서 읽어요.'],
+   ['수평 잡기를 이용한 것이 아닌 것은?', ['온도계', '시소', '양팔저울'], '온도계는 온도를 재는 도구예요.'],
+   ['g으로 나타내기 알맞은 것은?', ['🍬 사탕', '🧍 사람', '🚗 자동차'], '가벼운 사탕은 g으로 나타내요.'],
+   ['kg으로 나타내기 알맞은 것은?', ['🍉 수박', '🍬 사탕', '🪶 깃털'], '수박은 몇 kg이나 될 만큼 무거워요.'],
+   ['지레를 이용한 도구는?', ['병따개', '컵', '숟가락'], '병따개는 받침점을 이용해 뚜껑을 들어 올려요.'],
+   ['빗면을 이용한 것은?', ['휠체어 경사로', '연필깎이', '거울'], '경사로를 따라가면 작은 힘으로 오를 수 있어요.'],
+   ['무거운 형과 가벼운 동생이 시소에서 수평을 잡으려면?', ['형이 받침점 가까이 앉아요', '동생이 받침점 가까이 앉아요', '둘 다 끝에 앉아요'], '무거운 쪽이 받침점 가까이 앉아요.'],
+   ['무게가 같은 것끼리 짝지은 것은?', ['1kg과 1000g', '1kg과 10g', '100g과 1kg'], '1kg = 1000g이에요.'],
+   ['가장 무거운 것은?', ['2kg', '1500g', '900g'], '2kg은 2000g이라서 가장 무거워요.'],
+   ['가장 가벼운 것은?', ['500g', '1kg', '2000g'], '1kg = 1000g, 2000g = 2kg이에요.'],
+   ['같은 물체를 받침점에서 멀리 놓을수록 나무판을 기울이는 정도는?', ['커져요', '작아져요', '똑같아요'], '받침점에서 멀수록 더 많이 기울게 해요.'] ],
+ [ ['나무판 가운데를 받치고 왼쪽 끝에만 지우개를 올리면?', ['왼쪽으로 기울어요', '오른쪽으로 기울어요', '수평이에요'], '물체를 올린 쪽이 내려가요.', '🪵'],
+   ['무게가 같은 나무토막 두 개를 받침점에서 같은 거리에 하나씩 놓으면?', ['수평이 돼요', '왼쪽이 내려가요', '오른쪽이 내려가요'], '양쪽이 똑같이 기울이니까 수평이에요.', '⚖️'],
+   ['왼쪽에 추 2개, 오른쪽에 추 1개를 받침점에서 같은 거리에 놓으면?', ['왼쪽이 내려가요', '오른쪽이 내려가요', '수평이에요'], '무거운 쪽이 내려가요.', '⚖️'],
+   ['바로 앞 실험에서 수평을 잡으려면 추 2개를?', ['받침점 쪽으로 옮겨요', '더 끝으로 옮겨요', '그대로 둬요'], '무거운 쪽을 받침점 가까이 옮겨요.', '⚖️'],
+   ['용수철저울에 추 1개를 걸었다가 같은 추 2개를 걸면 용수철은?', ['더 많이 늘어나요', '덜 늘어나요', '똑같이 늘어나요'], '무거울수록 더 많이 늘어나요.', '🌀'],
+   ['지레에서 물체를 받침점 가까이 놓으면 들어 올리는 힘은?', ['작게 들어요', '크게 들어요', '똑같아요'], '물체를 받침점 가까이 두면 작은 힘으로 들 수 있어요.', '🪵'],
+   ['빗면을 더 완만하게(덜 기울게) 하면 물체를 밀어 올리는 힘은?', ['덜 들어요', '더 들어요', '똑같아요'], '완만한 빗면일수록 힘이 덜 들어요.', '📐'],
+   ['가벼운 상자와 무거운 상자를 같은 힘으로 밀면 더 잘 움직이는 것은?', ['가벼운 상자', '무거운 상자', '똑같아요'], '가벼운 물체가 더 쉽게 움직여요.', '📦'],
+   ['양팔저울에 사과와 귤을 올렸더니 사과 쪽이 내려갔어요. 더 무거운 것은?', ['사과', '귤', '알 수 없어요'], '내려간 쪽이 더 무거워요.', '🍎'],
+   ['시소에서 형 쪽이 내려가 있어요. 수평을 만들려면 형이?', ['받침점 쪽으로 다가가 앉아요', '끝으로 물러나 앉아요', '일어나서 뛰어요'], '무거운 쪽이 받침점에 가까워지면 수평이 돼요.', '🛝'],
+   ['고무줄에 무거운 필통을 매달면 가벼운 지우개를 매달 때보다?', ['더 많이 늘어나요', '덜 늘어나요', '똑같아요'], '무거울수록 더 많이 늘어나요.', '✏️'],
+   ['전자저울 화면에 350g이 나왔어요. 이 물체를 다시 재면?', ['또 350g이 나와요', '다른 숫자가 나와요', '0이 나와요'], '저울은 같은 물체를 언제나 같은 무게로 재요.', '🔢'] ],
+ [ ['무거운 물체를 받침점 가까이 놓으면 수평을 잡을 수 있는 까닭은?', ['받침점에 가까울수록 나무판을 기울이는 정도가 작아서', '물체가 가벼워져서', '받침점이 움직여서'], '받침점과의 거리에 따라 기울이는 정도가 달라져요.'],
+   ['손으로 들어서 무게를 비교하면 정확하지 않은 까닭은?', ['사람마다 느낌이 달라서', '손이 작아서', '물체 색이 달라서'], '느낌은 사람마다 달라요. 저울은 누구에게나 같아요.'],
+   ['저울 눈금을 0에 맞추고 재는 까닭은?', ['정확한 무게를 재려고', '저울을 예쁘게 하려고', '빨리 끝내려고'], '0에서 시작해야 물체 무게만 정확히 나와요.'],
+   ['무게를 g이나 kg 같은 단위로 나타내는 까닭은?', ['누구나 같은 크기로 알 수 있게', '글자를 꾸미려고', '숫자를 크게 쓰려고'], '단위가 있으면 모두 같은 기준으로 말할 수 있어요.'],
+   ['계단 옆에 휠체어 경사로(빗면)를 만드는 까닭은?', ['작은 힘으로 오를 수 있어서', '더 빨리 미끄러지려고', '길을 좁히려고'], '빗면을 따라가면 힘이 덜 들어요.'],
+   ['병따개로 병뚜껑을 쉽게 여는 까닭은?', ['지레를 이용해 작은 힘으로 들어 올려서', '병따개가 뜨거워서', '병이 약해서'], '병따개는 지레를 이용한 도구예요.'],
+   ['용수철저울로 무게를 잴 수 있는 까닭은?', ['무거울수록 용수철이 더 많이 늘어나서', '용수철 색이 바뀌어서', '소리가 나서'], '늘어난 길이를 눈금으로 읽어요.'],
+   ['가게에서 물건을 팔 때 저울을 쓰는 까닭은?', ['무게를 정확히 재서 값을 정하려고', '물건을 차갑게 하려고', '물건 색을 보려고'], '같은 무게에는 같은 값을 받아요.'],
+   ['받침점에서 같은 거리에 무게가 다른 물체를 놓으면 기우는 까닭은?', ['무거운 쪽이 나무판을 더 많이 기울여서', '가벼운 쪽이 위로 당겨서', '받침점이 기울어서'], '무게가 다르면 기울이는 정도가 달라요.'],
+   ['지레로 바위를 들 때 막대 끝을 잡는 까닭은?', ['받침점에서 멀리 잡을수록 작은 힘이 들어서', '손이 더러워지지 않게', '바위가 가벼워져서'], '받침점에서 먼 곳에 힘을 주면 힘이 덜 들어요.'],
+   ['용수철저울 눈금을 정면에서 읽는 까닭은?', ['비스듬히 보면 잘못 읽을 수 있어서', '눈이 부셔서', '용수철이 움직여서'], '눈높이를 맞춰 정면에서 읽어요.'],
+   ['택배를 보낼 때 상자 무게를 재는 까닭은?', ['무게에 따라 보내는 값이 달라서', '상자 색을 정하려고', '상자를 크게 하려고'], '무거울수록 보내는 값이 비싸져요.'] ] ] },
+
+{ id: 's2', g: '3-1', name: '동물의 생활', icon: '🐾', sub: '특징으로 분류하기 · 사는 곳과 생김새 · 동물을 본뜬 물건', st: [
+ [ ['동물을 나눌 때 「귀여운가?」는 좋은 분류 기준이에요.', false, '사람마다 다르게 판단해요. 누가 해도 결과가 같은 기준을 써요.'],
+   ['「다리가 있는가?」는 누가 해도 같은 결과가 나오는 분류 기준이에요.', true, '보고 확인할 수 있는 특징이라 좋은 기준이에요.'],
+   ['붕어는 아가미로 물속에서 숨을 쉬어요.', true, '물고기는 아가미로 숨을 쉬어요.'],
+   ['오리 발에는 물갈퀴가 있어 헤엄을 잘 쳐요.', true, '물갈퀴가 물을 많이 밀어내요.'],
+   ['사막여우는 큰 귀로 몸의 열을 내보내요.', true, '더운 사막에서 열을 식히는 데 도움이 돼요.'],
+   ['북극곰은 털이 얇아서 추위에 약해요.', false, '두꺼운 털과 지방이 있어 추위를 잘 견뎌요.'],
+   ['펭귄은 하늘을 잘 나는 새예요.', false, '펭귄은 날지 못하고 대신 헤엄을 잘 쳐요.'],
+   ['지렁이는 주로 땅속에 살아요.', true, '축축한 흙 속에서 살아요.'],
+   ['낙타는 물을 마시지 않고도 오래 견딜 수 있어 사막에서 살기 알맞아요.', true, '사막에 알맞은 몸을 가졌어요.'],
+   ['거미는 다리가 6개예요.', false, '거미는 다리가 8개예요. 곤충이 6개예요.'],
+   ['날개가 있는 동물은 모두 새예요.', false, '나비·잠자리 같은 곤충도 날개가 있어요.'],
+   ['개구리는 물과 땅을 오가며 살아요.', true, '물에서 헤엄치고 땅에서도 뛰어다녀요.'] ],
+ [ ['물고기가 헤엄칠 때 쓰는 것은?', ['지느러미', '날개', '다리'], '지느러미로 방향을 바꾸고 나아가요.', '🐟'],
+   ['물고기가 물속에서 숨 쉬는 곳은?', ['아가미', '코', '날개'], '아가미로 물속 산소를 얻어요.', '🐠'],
+   ['펭귄이 추운 곳에서 견디게 해 주는 것은?', ['두꺼운 지방과 촘촘한 깃털', '얇은 날개', '긴 꼬리'], '지방과 깃털이 몸을 따뜻하게 지켜요.', '🐧'],
+   ['낙타가 모래바람을 막는 데 도움이 되는 것은?', ['긴 속눈썹', '짧은 꼬리', '작은 발'], '긴 속눈썹이 모래가 눈에 들어가는 것을 막아요.', '🐫'],
+   ['다람쥐가 주로 사는 곳은?', ['숲', '바다', '사막'], '나무가 많은 숲에서 살아요.', '🐿️'],
+   ['고등어가 사는 곳은?', ['바다', '강', '사막'], '고등어는 바닷물고기예요.', '🐟'],
+   ['북극여우가 사는 곳은?', ['극지방', '사막', '연못'], '눈과 얼음이 많은 추운 곳에 살아요.', '🦊'],
+   ['땅속에 굴을 파고 사는 동물은?', ['두더지', '참새', '오징어'], '두더지는 넓적한 앞발로 땅을 파요.', '🕳️'],
+   ['날개가 있어 날 수 있는 곤충은?', ['잠자리', '지렁이', '달팽이'], '잠자리는 날개가 4장이에요.', '🪰'],
+   ['동물을 특징에 따라 무리 짓는 것을 무엇이라고 할까요?', ['분류', '측정', '예상'], '같은 특징끼리 나누는 것이 분류예요.', '🗂️'],
+   ['오리 발을 본떠 만든 물건은?', ['물갈퀴 오리발', '우산', '장갑'], '오리발을 끼면 헤엄을 잘 칠 수 있어요.', '🦆'],
+   ['상어 피부를 본떠 만든 것은?', ['물의 방해를 줄이는 수영복', '털장갑', '운동화 끈'], '빠르게 헤엄치도록 돕는 수영복이에요.', '🦈'] ],
+ [ ['다리가 없는 동물은?', ['뱀', '개미', '참새'], '뱀은 다리 없이 몸을 구불구불 움직여요.'],
+   ['다리가 있는 동물은?', ['개구리', '지렁이', '붕어'], '개구리는 다리가 4개예요.'],
+   ['물에서 사는 동물끼리 묶은 것은?', ['붕어 · 오징어 · 고등어', '다람쥐 · 너구리 · 참새', '낙타 · 사막여우 · 도마뱀'], '모두 물속에서 살아요.'],
+   ['극지방에 사는 동물끼리 묶은 것은?', ['북극곰 · 펭귄 · 북극여우', '낙타 · 사막여우 · 도마뱀', '붕어 · 개구리 · 수달'], '모두 추운 극지방에 살아요.'],
+   ['사막에 사는 동물은?', ['낙타', '수달', '펭귄'], '낙타는 덥고 메마른 사막에 살아요.'],
+   ['다리가 6개인 동물은?', ['나비', '거미', '지렁이'], '나비는 곤충이라 다리가 6개예요.'],
+   ['날개가 있는 동물끼리 묶은 것은?', ['참새 · 나비 · 잠자리', '뱀 · 지렁이 · 달팽이', '붕어 · 고등어 · 오징어'], '새도 곤충도 날개가 있어요.'],
+   ['「더듬이가 있는가?」로 나눌 때 「있다」에 들어가는 동물은?', ['개미', '참새', '붕어'], '개미 같은 곤충은 더듬이가 있어요.'],
+   ['물과 땅 모두에서 사는 동물은?', ['개구리', '고등어', '다람쥐'], '개구리는 물과 땅을 오가요.'],
+   ['분류 기준으로 알맞은 것은?', ['몸에 털이 있는가?', '예쁜가?', '내가 좋아하는가?'], '누가 봐도 같은 답이 나오는 기준이에요.'],
+   ['날지 못하는 새는?', ['펭귄', '참새', '독수리'], '펭귄은 날개로 헤엄을 쳐요.'],
+   ['다리가 8개인 동물은?', ['거미', '개미', '나비'], '거미는 곤충이 아니에요. 다리가 8개예요.'] ],
+ [ ['어항 속 붕어를 보면 아가미 뚜껑은?', ['계속 열렸다 닫혔다 해요', '움직이지 않아요', '물 밖으로 나와요'], '아가미로 숨을 쉬느라 움직여요.', '🐟'],
+   ['달팽이를 유리판에 올리고 아래에서 보면?', ['배를 물결처럼 움직이며 기어가요', '다리 6개로 걸어요', '날아가요'], '달팽이는 다리 없이 배로 기어가요.', '🐌'],
+   ['오리발을 끼고 헤엄치면 맨발일 때보다?', ['물을 더 많이 밀어 빨리 나아가요', '더 천천히 가요', '가라앉아요'], '넓은 물갈퀴가 물을 많이 밀어내요.', '🦆'],
+   ['사막여우를 아주 추운 극지방에 데려가면?', ['추위를 견디기 어려워요', '더 잘 살아요', '털이 갑자기 두꺼워져요'], '동물은 사는 곳에 알맞은 몸을 가졌어요.', '🦊'],
+   ['하얀 털의 북극여우는 눈밭에서?', ['눈에 잘 띄지 않아요', '눈에 잘 띄어요', '빛이 나요'], '하얀 눈과 털 색이 비슷해요.', '❄️'],
+   ['지렁이를 마른 흙과 축축한 흙 사이에 두면 주로 가는 곳은?', ['축축한 흙', '마른 흙', '그 자리에 있어요'], '지렁이는 축축한 곳을 좋아해요.', '🪱'],
+   ['돋보기로 개미를 보면 몸은 몇 부분일까요?', ['머리·가슴·배 세 부분', '두 부분', '한 부분'], '곤충의 몸은 세 부분이에요.', '🐜'],
+   ['물총새 부리를 본떠 앞을 뾰족하게 만든 고속열차는?', ['공기를 덜 받아 조용하고 빠르게 달려요', '더 시끄러워요', '느려져요'], '동물의 생김새를 본떠 문제를 해결했어요.', '🚄'],
+   ['펭귄의 날개는 무엇에 쓰일까요?', ['물속에서 헤엄칠 때', '하늘을 날 때', '먹이를 집을 때'], '지느러미처럼 물을 저어요.', '🐧'],
+   ['개구리 뒷발에 물갈퀴가 있으면?', ['헤엄을 잘 쳐요', '나무를 잘 타요', '날 수 있어요'], '물갈퀴가 물을 밀어내요.', '🐸'],
+   ['두더지의 넓적한 앞발로 잘 하는 일은?', ['땅 파기', '헤엄치기', '날기'], '삽처럼 땅을 파요.', '🕳️'],
+   ['문어 빨판을 본뜬 흡착판을 유리에 붙이면?', ['잘 붙어 있어요', '바로 떨어져요', '유리가 깨져요'], '빨판처럼 꽉 달라붙어요.', '🐙'] ],
+ [ ['북극곰의 털과 지방이 두꺼운 까닭은?', ['추운 곳에서 몸을 따뜻하게 지키려고', '헤엄을 못 치게 하려고', '더 빨리 달리려고'], '추위를 견디기 알맞은 몸이에요.'],
+   ['사막여우의 귀가 큰 까닭은?', ['몸의 열을 내보내려고', '먹이를 담으려고', '날기 위해'], '더운 사막에서 열을 식혀요.'],
+   ['물고기 몸이 앞쪽이 뾰족한 모양(유선형)인 까닭은?', ['물속에서 빠르게 헤엄치려고', '무겁게 하려고', '땅을 파려고'], '물을 가르며 쉽게 나아가요.'],
+   ['분류 기준을 「귀여운가?」로 하면 안 되는 까닭은?', ['사람마다 결과가 달라져서', '동물이 싫어해서', '너무 쉬워서'], '분류 기준은 누가 해도 같은 결과가 나와야 해요.'],
+   ['낙타 등의 혹이 도움이 되는 까닭은?', ['지방을 저장해 먹이가 없을 때 견뎌서', '물이 가득 차 있어서', '그늘을 만들려고'], '혹에는 물이 아니라 지방이 들어 있어요.'],
+   ['오리 발에 물갈퀴가 있는 까닭은?', ['헤엄칠 때 물을 많이 밀어내려고', '땅을 파려고', '나무에 오르려고'], '물에서 생활하기 알맞아요.'],
+   ['펭귄이 날지 못해도 남극에서 잘 사는 까닭은?', ['헤엄을 잘 쳐서 물속에서 먹이를 잡아서', '나무 열매를 먹어서', '땅속에 살아서'], '물속 사냥꾼이에요.'],
+   ['사람이 동물의 특징을 본떠 물건을 만드는 까닭은?', ['동물의 좋은 점을 생활에 이용하려고', '동물을 겁주려고', '모양만 예쁘게 하려고'], '생활 속 문제를 해결하는 아이디어가 돼요.'],
+   ['두더지의 눈이 작아도 살아가는 데 괜찮은 까닭은?', ['어두운 땅속에서 살아서', '낮잠을 많이 자서', '하늘을 날아서'], '땅속에서는 눈보다 냄새와 촉감이 더 중요해요.'],
+   ['거북의 등딱지가 단단한 까닭은?', ['몸을 보호하려고', '빨리 헤엄치려고', '숨을 쉬려고'], '위험하면 등딱지 속으로 몸을 숨겨요.'],
+   ['하얀 털이 북극여우의 사냥에 유리한 까닭은?', ['눈밭에서 잘 보이지 않아 몰래 다가갈 수 있어서', '털이 빛나서', '털이 가벼워서'], '주변과 비슷한 색이라 들키지 않아요.'],
+   ['도마뱀이 뜨거운 낮에 바위 그늘이나 모래 속에 숨는 까닭은?', ['뜨거운 열을 피하려고', '비를 피하려고', '눈을 피하려고'], '사막의 한낮은 아주 뜨거워요.'] ] ] },
+
+{ id: 's3', g: '3-1', name: '식물의 생활', icon: '🌿', sub: '잎 분류하기 · 들과 산, 강과 연못, 사막의 식물 · 식물을 본뜬 물건', st: [
+ [ ['잎은 모양·크기·가장자리 모양 같은 특징으로 분류할 수 있어요.', true, '눈으로 확인할 수 있는 특징으로 나눠요.'],
+   ['소나무 잎은 넓적하고 둥글어요.', false, '소나무 잎은 바늘처럼 가늘고 뾰족해요.'],
+   ['민들레는 들이나 산에서 볼 수 있어요.', true, '길가나 들판에서 흔히 자라요.'],
+   ['부레옥잠은 물 위에 떠서 살아요.', true, '잎자루 속 공기 덕분에 떠요.'],
+   ['연꽃은 뿌리를 물 밑 땅에 내려요.', true, '뿌리는 진흙 속에, 잎과 꽃은 물 위로 올라와요.'],
+   ['선인장은 굵은 줄기에 물을 저장해요.', true, '비가 적은 사막에서 견딜 수 있어요.'],
+   ['선인장의 가시는 잎이 변한 거예요.', true, '물이 빠져나가는 것을 줄여 줘요.'],
+   ['검정말처럼 물속에 잠겨 사는 식물도 있어요.', true, '줄기와 잎이 부드러워 물살에 잘 휘어요.'],
+   ['사막 식물은 대부분 잎이 크고 넓어요.', false, '잎이 작거나 가시로 되어 물을 아껴요.'],
+   ['개구리밥은 물에 떠서 살아요.', true, '작은 잎이 물 위에 떠 있어요.'],
+   ['들이나 산에 사는 풀은 대부분 뿌리를 땅에 내려요.', true, '뿌리로 흙 속의 물을 흡수해요.'],
+   ['도꼬마리 열매의 갈고리를 본떠 찍찍이(벨크로)를 만들었어요.', true, '갈고리가 고리에 걸려 붙어요.'] ],
+ [ ['물 위에 떠서 사는 식물은?', ['부레옥잠', '소나무', '선인장'], '잎자루에 공기가 들어 있어 떠요.', '💧'],
+   ['사막에 사는 식물은?', ['선인장', '연꽃', '민들레'], '굵은 줄기에 물을 저장해요.', '🌵'],
+   ['부레옥잠이 물에 뜨게 해 주는 부분은?', ['공기가 든 볼록한 잎자루', '뾰족한 가시', '단단한 껍데기'], '잎자루 속 작은 공기 방이 많아요.', '🫧'],
+   ['선인장이 물을 저장하는 곳은?', ['굵은 줄기', '꽃', '가시'], '통통한 줄기 속에 물이 많아요.', '🌵'],
+   ['물속에 잠겨 사는 식물은?', ['검정말', '강아지풀', '소나무'], '검정말은 물속에서 자라요.', '🌊'],
+   ['잎이 물 위에 떠 있고 뿌리는 물 밑 땅에 있는 식물은?', ['수련', '개구리밥', '선인장'], '수련 잎은 물 위에 동동 떠 있어요.', '🪷'],
+   ['부채 모양의 잎은?', ['은행잎', '소나무 잎', '강아지풀 잎'], '은행잎은 부채처럼 생겼어요.', '🍂'],
+   ['바늘처럼 가늘고 뾰족한 잎은?', ['소나무 잎', '은행잎', '연잎'], '소나무 잎은 바늘 모양이에요.', '🌲'],
+   ['연잎 위에 물을 떨어뜨리면 물방울이?', ['또르르 굴러가요', '쏙 스며들어요', '사라져요'], '연잎은 물에 잘 젖지 않아요.', '💧'],
+   ['연잎을 본떠 만든 것은?', ['물이 잘 스며들지 않는 옷감', '따뜻한 장갑', '찍찍이'], '비에 젖지 않는 옷을 만들 수 있어요.', '🧥'],
+   ['민들레 씨를 본떠 만든 것으로 알맞은 것은?', ['낙하산', '망치', '숟가락'], '바람을 타고 천천히 내려와요.', '🪂'],
+   ['잎을 분류하는 기준으로 알맞은 것은?', ['잎 끝이 뾰족한가?', '잎이 예쁜가?', '잎이 좋은가?'], '누가 봐도 같은 답이 나와요.', '🍃'] ],
+ [ ['들이나 산에 사는 식물끼리 묶은 것은?', ['민들레 · 소나무 · 강아지풀', '연꽃 · 부레옥잠 · 검정말', '선인장 · 용설란'], '땅에 뿌리를 내리고 살아요.'],
+   ['강이나 연못에 사는 식물끼리 묶은 것은?', ['연꽃 · 부레옥잠 · 개구리밥', '민들레 · 토끼풀 · 소나무', '선인장 · 용설란 · 민들레'], '물에서 사는 식물이에요.'],
+   ['물에 떠서 사는 식물끼리 묶은 것은?', ['부레옥잠 · 개구리밥', '연꽃 · 소나무', '검정말 · 선인장'], '둘 다 물 위에 떠서 살아요.'],
+   ['물가에서 자라는 키 큰 식물은?', ['부들', '개구리밥', '선인장'], '부들은 물가 진흙에 뿌리를 내려요.'],
+   ['넓적한 잎끼리 묶은 것은?', ['은행잎 · 단풍잎 · 감나무 잎', '소나무 잎 · 잣나무 잎', '벼 잎 · 강아지풀 잎'], '넓고 평평한 잎이에요.'],
+   ['가늘고 길쭉한 잎끼리 묶은 것은?', ['벼 잎 · 강아지풀 잎', '은행잎 · 감나무 잎', '단풍잎 · 은행잎'], '길쭉한 모양이에요.'],
+   ['사막 식물이 아닌 것은?', ['연꽃', '선인장', '용설란'], '연꽃은 연못에 살아요.'],
+   ['물속에 잠겨 사는 식물은?', ['나사말', '민들레', '부들'], '나사말은 물속에서 자라요.'],
+   ['「잎 가장자리가 여러 갈래로 갈라졌는가?」에서 「그렇다」에 들어가는 잎은?', ['단풍잎', '소나무 잎', '은행잎'], '단풍잎은 손바닥처럼 갈라졌어요.'],
+   ['ord', '잎을 분류하는 순서대로 눌러요.', ['여러 가지 잎을 모아요', '잎의 특징을 관찰해요', '분류 기준을 정해요', '기준에 따라 나눠요'], '관찰한 뒤 기준을 정하고 나눠요.'],
+   ['선인장과 그 특징을 바르게 짝지은 것은?', ['잎이 가시로 변했어요', '물 위에 떠요', '잎이 넓적해요'], '가시가 물을 아껴 줘요.'],
+   ['부레옥잠과 그 특징을 바르게 짝지은 것은?', ['잎자루에 공기 주머니가 있어요', '잎이 가시예요', '줄기가 아주 굵어요'], '그래서 물에 떠요.'] ],
+ [ ['부레옥잠 잎자루를 잘라 물속에서 꾹 누르면?', ['공기 방울이 나와요', '물이 빨개져요', '아무 일도 없어요'], '잎자루 속에 공기가 들어 있어요.', '🫧'],
+   ['부레옥잠 잎자루를 잘라 속을 보면?', ['스펀지처럼 작은 구멍이 많아요', '꽉 차 단단해요', '물만 들어 있어요'], '작은 공기 방이 많아요.', '🔍'],
+   ['선인장 줄기를 잘라 보면?', ['물기가 많아요', '바싹 말라 있어요', '텅 비어 있어요'], '줄기에 물을 저장해요.', '🌵'],
+   ['선인장을 물이 많은 연못가에 심으면?', ['뿌리가 썩기 쉬워요', '더 잘 자라요', '물에 떠요'], '선인장은 메마른 곳에 알맞아요.', '💧'],
+   ['연잎에 물을 부으면 물이?', ['스며들지 않고 굴러 떨어져요', '쏙 스며들어요', '얼어요'], '연잎은 물에 잘 젖지 않아요.', '🪷'],
+   ['메마른 사막에 잎이 넓은 식물을 심으면?', ['물이 빨리 빠져나가 시들기 쉬워요', '더 싱싱해져요', '선인장으로 바뀌어요'], '넓은 잎으로는 물이 많이 빠져나가요.', '🏜️'],
+   ['도꼬마리 열매를 털옷에 던지면?', ['옷에 달라붙어요', '튕겨 나가요', '녹아요'], '갈고리가 털에 걸려요.', '🧶'],
+   ['검정말을 물 밖에 꺼내 두면?', ['축 늘어지고 말라요', '꼿꼿이 서요', '더 잘 자라요'], '물속 식물은 줄기가 부드러워요.', '🌊'],
+   ['민들레 씨를 후 불면?', ['솜털을 달고 멀리 날아가요', '바로 떨어져요', '땅으로 파고들어요'], '바람을 타고 퍼져요.', '🌬️'],
+   ['단풍나무 열매를 높은 곳에서 떨어뜨리면?', ['빙글빙글 돌며 천천히 떨어져요', '똑바로 빨리 떨어져요', '위로 올라가요'], '날개 모양이라 돌며 떨어져요.', '🍁'],
+   ['물가에 사는 부들을 사막에 옮겨 심으면?', ['물이 모자라 잘 살지 못해요', '더 잘 자라요', '가시가 생겨요'], '식물은 사는 곳에 알맞은 모습이에요.', '🌾'],
+   ['개구리밥을 어항 물 위에 올려 두면?', ['물 위에 떠서 자라요', '바닥으로 가라앉아요', '녹아 없어져요'], '물에 떠서 사는 식물이에요.', '🍃'] ],
+ [ ['부레옥잠이 물에 뜰 수 있는 까닭은?', ['잎자루 속 공기 덕분에', '잎이 연한 색이라서', '뿌리가 짧아서'], '공기 주머니가 튜브처럼 띄워 줘요.'],
+   ['선인장 잎이 가시로 된 까닭은?', ['물이 빠져나가는 것을 줄이려고', '꽃을 피우려고', '햇빛을 많이 받으려고'], '잎이 작을수록 물을 아낄 수 있어요.'],
+   ['선인장 줄기가 굵은 까닭은?', ['물을 저장하려고', '바람에 날리려고', '물에 뜨려고'], '비가 올 때 물을 모아 둬요.'],
+   ['검정말 줄기가 부드럽고 잘 휘는 까닭은?', ['물살에 꺾이지 않으려고', '땅을 파려고', '햇빛을 피하려고'], '물 흐름을 따라 휘어져요.'],
+   ['연잎이 물에 잘 젖지 않는 까닭은?', ['잎 표면에 아주 작은 돌기가 있어 물이 굴러서', '잎이 뜨거워서', '잎이 너무 두꺼워서'], '물방울이 굴러 먼지도 함께 씻어 내요.'],
+   ['도꼬마리 열매에 갈고리가 있는 까닭은?', ['동물 털에 붙어 멀리 퍼지려고', '벌레를 잡으려고', '물에 뜨려고'], '동물이 씨를 옮겨 줘요.'],
+   ['민들레 씨에 솜털이 있는 까닭은?', ['바람을 타고 멀리 퍼지려고', '따뜻하게 지내려고', '물을 저장하려고'], '멀리 퍼져야 새 자리에서 자랄 수 있어요.'],
+   ['식물을 사는 곳에 따라 나눠 보는 까닭은?', ['사는 곳과 생김새의 관계를 알 수 있어서', '이름을 바꾸려고', '크기를 재려고'], '사는 곳에 알맞은 특징을 찾을 수 있어요.'],
+   ['부레옥잠 뿌리가 수염처럼 물속에 늘어진 까닭은?', ['물속에서 물과 양분을 흡수하려고', '헤엄을 치려고', '땅을 파려고'], '물에 뜬 채로 뿌리로 흡수해요.'],
+   ['사막 식물 중 뿌리가 깊고 넓게 퍼진 것이 많은 까닭은?', ['적은 물이라도 많이 흡수하려고', '바람에 날리려고', '물에 뜨려고'], '비가 적어서 물을 찾아 뿌리를 뻗어요.'],
+   ['연잎을 본떠 물이 스며들지 않는 옷감을 만든 까닭은?', ['비에 젖지 않게 하려고', '옷을 무겁게 하려고', '색을 바꾸려고'], '식물의 특징을 생활에 이용했어요.'],
+   ['찍찍이(벨크로)가 잘 붙는 까닭은?', ['작은 갈고리가 고리에 걸려서', '풀이 묻어 있어서', '자석이 들어 있어서'], '도꼬마리 열매를 본뜬 거예요.'] ] ] },
+
+{ id: 's4', g: '3-1', name: '생물의 한살이', icon: '🦋', sub: '배추흰나비 기르기 · 여러 동물의 한살이 · 씨가 싹 트는 조건(물·온도) · 한해살이와 여러해살이', st: [
+ [ ['배추흰나비는 알 → 애벌레 → 번데기 → 어른벌레 순서로 자라요.', true, '번데기 단계가 있는 한살이예요.'],
+   ['배추흰나비 애벌레는 허물을 벗으며 자라요.', true, '몸이 커지면 허물을 벗어요.'],
+   ['배추흰나비 번데기는 먹이를 아주 많이 먹어요.', false, '번데기 때는 먹지 않고 거의 움직이지 않아요.'],
+   ['배추흰나비 어른벌레는 다리가 6개, 날개가 4장이에요.', true, '곤충의 특징이에요.'],
+   ['잠자리는 번데기 단계를 거쳐요.', false, '잠자리는 알 → 애벌레 → 어른벌레, 번데기가 없어요.'],
+   ['강아지는 어미 배 속에서 자라 새끼로 태어나요.', true, '새끼를 낳는 동물이에요.'],
+   ['닭은 알을 낳아요.', true, '알에서 병아리가 깨어나요.'],
+   ['씨가 싹 트려면 알맞은 양의 물이 필요해요.', true, '물을 주지 않은 씨는 싹 트지 않아요.'],
+   ['씨는 아주 차가운 냉장고 속에서도 잘 싹 터요.', false, '알맞은 온도가 필요해요.'],
+   ['강낭콩은 싹이 틀 때 떡잎 두 장이 먼저 나와요.', true, '떡잎 사이에서 본잎이 나와요.'],
+   ['한해살이 식물은 한 해 안에 한살이를 마치고 죽어요.', true, '벼·옥수수·강낭콩이 한해살이예요.'],
+   ['사과나무는 한 해만 살고 죽는 한해살이 식물이에요.', false, '여러 해 살며 해마다 열매를 맺어요.'] ],
+ [ ['배추흰나비가 알을 낳는 곳은?', ['배추나 케일 잎', '돌 위', '물속'], '애벌레가 깨어나 바로 먹을 수 있는 잎에 낳아요.', '🥬'],
+   ['배추흰나비 애벌레가 먹는 것은?', ['배추나 케일 잎', '꽃의 꿀', '작은 곤충'], '잎을 갉아 먹으며 자라요.', '🐛'],
+   ['애벌레가 자라면서 껍질을 벗는 것을 무엇이라고 할까요?', ['허물 벗기', '털갈이', '탈출'], '허물을 벗을 때마다 커져요.', '🐛'],
+   ['다 자란 배추흰나비 애벌레가 되는 것은?', ['번데기', '알', '올챙이'], '번데기에서 어른벌레가 나와요.', '🫛'],
+   ['배추흰나비 어른벌레의 몸은 몇 부분일까요?', ['머리·가슴·배 세 부분', '두 부분', '네 부분'], '곤충의 몸은 세 부분이에요.', '🦋'],
+   ['강낭콩 씨에서 처음 나오는 잎은?', ['떡잎', '본잎', '꽃잎'], '떡잎이 먼저, 그다음 본잎이 나와요.', '🌱'],
+   ['씨가 싹 트는 데 필요한 조건 두 가지는?', ['물과 알맞은 온도', '흙과 바람', '소리와 색깔'], '물과 알맞은 온도가 있어야 싹 터요.', '🌡️'],
+   ['한 해 동안 한살이를 마치는 식물은?', ['벼', '사과나무', '감나무'], '벼는 한해살이 식물이에요.', '🌾'],
+   ['여러 해 동안 살며 열매 맺기를 되풀이하는 식물은?', ['감나무', '옥수수', '강낭콩'], '감나무는 여러해살이 식물이에요.', '🌳'],
+   ['알을 낳는 동물은?', ['닭', '강아지', '소'], '닭은 알을 낳아요.', '🥚'],
+   ['새끼를 낳는 동물은?', ['고양이', '개구리', '거북'], '고양이는 새끼를 낳아 젖을 먹여요.', '🐱'],
+   ['사마귀의 한살이에는 없는 단계는?', ['번데기', '알', '어른벌레'], '사마귀는 번데기 없이 자라요.', '🦗'] ],
+ [ ['ord', '배추흰나비가 자라는 순서대로 눌러요.', ['🥚 알', '🐛 애벌레', '🫛 번데기', '🦋 어른벌레'], '번데기를 거쳐 어른벌레가 돼요.'],
+   ['ord', '강낭콩이 자라는 순서대로 눌러요.', ['🫘 씨', '🌱 떡잎이 나와요', '🌿 본잎이 나와요', '🌸 꽃이 펴요', '🫛 꼬투리가 열려요'], '씨 → 싹 → 잎 → 꽃 → 열매(씨)로 한살이가 돌아요.'],
+   ['ord', '닭이 자라는 순서대로 눌러요.', ['🥚 알', '🐥 병아리', '🐔 다 자란 닭'], '알에서 깨어난 병아리가 자라요.'],
+   ['ord', '잠자리가 자라는 순서대로 눌러요.', ['🫧 알', '🐛 애벌레(물속)', '🪰 어른벌레'], '잠자리는 번데기가 없어요.'],
+   ['번데기 단계가 있는 곤충끼리 묶은 것은?', ['배추흰나비 · 무당벌레', '잠자리 · 메뚜기', '사마귀 · 잠자리'], '알 → 애벌레 → 번데기 → 어른벌레로 자라요.'],
+   ['알을 낳는 동물끼리 묶은 것은?', ['닭 · 거북 · 개구리', '개 · 고양이 · 소', '사람 · 말 · 돼지'], '모두 알을 낳아요.'],
+   ['새끼를 낳는 동물끼리 묶은 것은?', ['개 · 고양이 · 말', '닭 · 오리 · 참새', '개구리 · 붕어 · 뱀'], '모두 새끼를 낳아요.'],
+   ['한해살이 식물끼리 묶은 것은?', ['벼 · 옥수수 · 강낭콩', '사과나무 · 감나무 · 개나리', '소나무 · 은행나무'], '한 해 안에 한살이를 마쳐요.'],
+   ['여러해살이 식물끼리 묶은 것은?', ['개나리 · 감나무 · 사과나무', '벼 · 옥수수', '강낭콩 · 벼'], '여러 해를 살아요.'],
+   ['ord', '조건을 하나만 바꾸는 실험 순서대로 눌러요.', ['궁금한 것을 정해요', '다르게 할 조건 하나를 정해요', '나머지 조건을 같게 맞춰요', '관찰하고 기록해요'], '하나만 다르게 해야 무엇 때문인지 알 수 있어요.'],
+   ['물을 준 씨와 물을 주지 않은 씨를 비교할 때 다르게 한 조건은?', ['물', '온도', '씨의 종류'], '물만 다르게 하고 나머지는 같게 해요.'],
+   ['씨가 싹 트는 데 온도가 필요한지 알아볼 때 다르게 할 조건은?', ['온도', '물의 양', '씨의 종류'], '온도만 다르게 하고 물은 똑같이 줘요.'] ],
+ [ ['따뜻한 곳에서 물을 준 강낭콩과 물을 주지 않은 강낭콩을 며칠 두면?', ['물을 준 쪽만 싹 터요', '둘 다 싹 터요', '물을 안 준 쪽만 싹 터요'], '싹 트려면 물이 필요해요.', '💧'],
+   ['물을 준 강낭콩을 하나는 따뜻한 방, 하나는 냉장고에 두면?', ['따뜻한 방의 씨만 싹 터요', '냉장고 씨만 싹 터요', '둘 다 싹 터요'], '알맞은 온도가 필요해요.', '❄️'],
+   ['배추흰나비 애벌레를 기르면 몸 크기는?', ['허물을 벗을 때마다 커져요', '작아져요', '그대로예요'], '잎을 먹고 허물을 벗으며 자라요.', '🐛'],
+   ['배추흰나비 번데기를 며칠 동안 관찰하면?', ['껍질을 뚫고 어른벌레가 나와요', '애벌레로 돌아가요', '알이 돼요'], '날개를 말린 뒤 날아가요.', '🦋'],
+   ['물은 똑같이 주고 빛만 다르게 키우면, 잎이 초록색이고 튼튼한 것은?', ['빛을 받은 강낭콩', '어두운 곳 강낭콩', '똑같아요'], '식물이 자라는 데 빛이 필요해요.', '☀️'],
+   ['어두운 곳에서 키운 강낭콩 싹은?', ['가늘고 노랗게 웃자라요', '더 진한 초록색이에요', '꽃이 먼저 펴요'], '빛이 부족하면 약하게 자라요.', '🌑'],
+   ['옥수수(한해살이)는 열매를 맺고 나면?', ['시들어 죽어요', '겨울에 다시 꽃이 펴요', '나무가 돼요'], '씨를 남기고 한살이를 마쳐요.', '🌽'],
+   ['감나무(여러해살이)는 겨울이 지나면?', ['다시 잎이 나고 열매를 맺어요', '죽어서 사라져요', '씨로 돌아가요'], '해마다 열매 맺기를 되풀이해요.', '🌳'],
+   ['어미 닭이 알을 따뜻하게 품으면 몇 주 뒤?', ['병아리가 깨어 나와요', '애벌레가 나와요', '그대로예요'], '알 속에서 병아리가 자라요.', '🐔'],
+   ['올챙이를 관찰하면 먼저 나오는 다리는?', ['뒷다리', '앞다리', '날개'], '뒷다리가 먼저, 그다음 앞다리가 나와요.', '🐸'],
+   ['물을 전혀 주지 않고 씨를 심어 두면?', ['싹이 트지 않아요', '더 빨리 싹 터요', '꽃이 바로 펴요'], '물이 있어야 싹 터요.', '🫘'],
+   ['배추흰나비 어른벌레가 먹는 것은?', ['꽃의 꿀', '배춧잎', '아무것도 안 먹어요'], '애벌레는 잎, 어른벌레는 꿀을 먹어요.', '🌼'] ],
+ [ ['실험할 때 다르게 할 조건을 하나만 정하는 까닭은?', ['무엇 때문에 결과가 달라졌는지 알 수 있어서', '실험이 빨리 끝나서', '씨가 좋아해서'], '여러 개를 바꾸면 무엇 때문인지 알 수 없어요.'],
+   ['물만 다르게 하고 씨·온도·그릇을 같게 하는 까닭은?', ['물이 싹 트는 데 필요한지 정확히 알아보려고', '그릇을 아끼려고', '예쁘게 보이려고'], '같게 할 조건을 맞춰야 공정한 실험이에요.'],
+   ['배추흰나비가 배추 잎에 알을 낳는 까닭은?', ['애벌레가 깨어나 바로 먹이를 먹을 수 있어서', '잎이 따뜻해서', '비를 맞으려고'], '애벌레의 먹이가 배추 잎이에요.'],
+   ['애벌레가 허물을 벗는 까닭은?', ['몸이 커지면 원래 껍질이 작아져서', '색을 바꾸려고', '추워서'], '허물을 벗어야 더 클 수 있어요.'],
+   ['냉장고 속 씨가 싹 트지 않은 까닭은?', ['온도가 너무 낮아서', '물이 너무 많아서', '씨가 잠을 자서'], '싹 트려면 알맞은 온도가 필요해요.'],
+   ['물을 주지 않은 씨가 싹 트지 않은 까닭은?', ['싹 트려면 물이 필요해서', '씨가 잠을 자서', '흙이 없어서'], '물을 먹어야 씨가 부풀고 싹 터요.'],
+   ['한해살이 식물이 씨를 남기는 까닭은?', ['다음 해에 그 씨에서 다시 자라려고', '동물을 쫓으려고', '무거워지려고'], '씨로 한살이가 이어져요.'],
+   ['관찰 기록을 날마다 하는 까닭은?', ['자라면서 바뀌는 모습을 알 수 있어서', '공책을 채우려고', '글씨 연습을 하려고'], '날짜별 기록을 비교할 수 있어요.'],
+   ['닭이 알을 품는 까닭은?', ['알을 따뜻하게 해서 병아리로 자라게 하려고', '알을 숨기려고', '알을 차갑게 하려고'], '알맞은 온도가 필요해요.'],
+   ['강낭콩 떡잎이 점점 쭈글쭈글해지는 까닭은?', ['떡잎 속 양분을 어린 싹이 써서', '물을 너무 많이 줘서', '벌레가 먹어서'], '떡잎은 어린 싹의 도시락이에요.'],
+   ['어두운 곳에서 자란 싹이 노랗게 웃자라는 까닭은?', ['빛이 부족해서', '물이 많아서', '온도가 알맞아서'], '튼튼하게 자라려면 빛이 필요해요.'],
+   ['여러해살이 식물이 겨울에도 죽지 않는 까닭은?', ['뿌리나 줄기가 살아 있다가 봄에 다시 자라서', '겨울에 꽃이 펴서', '눈을 먹어서'], '봄이 오면 다시 잎을 내요.'] ] ] }
+];
+
+/* ---------- 📖 과학 도감 카드: 실험에서 찾으면 열림 ---------- */
+const SC_CARDS = [
+  ['c_dog', 's0', '🐶', '강아지', '동물', '냄새를 아주 잘 맡아요. 새끼를 낳아 젖을 먹여요.'],
+  ['c_sparrow', 's0', '🐦', '참새', '동물', '날개로 날고 부리로 씨앗을 쪼아 먹어요.'],
+  ['c_bee', 's0', '🐝', '꿀벌', '동물', '꽃의 꿀과 꽃가루를 모으며 꽃가루를 옮겨 줘요.'],
+  ['c_snail', 's0', '🐌', '달팽이', '동물', '다리 없이 배를 움직여 기어가요. 축축한 곳을 좋아해요.'],
+  ['c_sunflower', 's0', '🌻', '해바라기', '식물', '해가 잘 드는 곳에서 키가 크게 자라요.'],
+  ['c_tulip', 's0', '🌷', '튤립', '식물', '봄에 피는 꽃이에요. 알뿌리를 심어요.'],
+  ['c_ginkgo', 's0', '🌳', '은행나무', '식물', '부채 모양 잎이 가을에 노랗게 물들어요.'],
+  ['c_clover', 's0', '🍀', '토끼풀', '식물', '잎이 보통 세 장씩 모여 나요. 들판에서 흔히 자라요.'],
+  ['c_apple', 's1', '🍎', '사과', '무게', '이 실험실 사과는 280g이에요.'],
+  ['c_carrot', 's1', '🥕', '당근', '무게', '이 실험실 당근은 160g이에요.'],
+  ['c_banana', 's1', '🍌', '바나나', '무게', '이 실험실 바나나는 120g이에요.'],
+  ['c_tangerine', 's1', '🍊', '귤', '무게', '이 실험실 귤은 90g이에요.'],
+  ['c_seesaw', 's1', '⚖️', '수평 잡기의 비밀', '힘', '무거운 쪽은 받침점 가까이, 가벼운 쪽은 멀리 놓으면 수평이 돼요.'],
+  ['c_squirrel', 's2', '🐿️', '다람쥐', '숲', '나무를 잘 타고, 가을에 도토리를 모아 둬요.'],
+  ['c_raccoon', 's2', '🦝', '너구리', '숲', '숲과 물가를 오가며 무엇이든 잘 먹어요.'],
+  ['c_crucian', 's2', '🐟', '붕어', '물', '지느러미로 헤엄치고 아가미로 숨 쉬어요.'],
+  ['c_squid', 's2', '🦑', '오징어', '물', '바다에 살아요. 다리(팔)가 10개예요.'],
+  ['c_camel', 's2', '🐫', '낙타', '사막', '혹에 지방을 저장하고, 긴 속눈썹이 모래를 막아요.'],
+  ['c_fennec', 's2', '🦊', '사막여우', '사막', '큰 귀로 몸의 열을 내보내요.'],
+  ['c_polarbear', 's2', '🐻‍❄️', '북극곰', '극지방', '두꺼운 털과 지방으로 추위를 견뎌요.'],
+  ['c_penguin', 's2', '🐧', '펭귄', '극지방', '날지 못하지만 날개로 헤엄을 아주 잘 쳐요.'],
+  ['c_ant', 's2', '🐜', '개미', '다리 있음', '다리 6개, 더듬이 2개, 몸은 머리·가슴·배예요.'],
+  ['c_spider', 's2', '🕷️', '거미', '다리 있음', '다리가 8개라서 곤충이 아니에요.'],
+  ['c_frog', 's2', '🐸', '개구리', '다리 있음', '뒷발 물갈퀴로 헤엄치고 땅에서는 뛰어요.'],
+  ['c_duck', 's2', '🦆', '오리', '다리 있음', '발의 물갈퀴로 물을 밀어 헤엄쳐요.'],
+  ['c_snake', 's2', '🐍', '뱀', '다리 없음', '다리 없이 몸을 구불구불 움직여 기어가요.'],
+  ['c_earthworm', 's2', '🪱', '지렁이', '다리 없음', '땅속에 살며 흙을 기름지게 해요.'],
+  ['c_mackerel', 's2', '🐠', '고등어', '다리 없음', '바다에 살고 지느러미로 헤엄쳐요.'],
+  ['c_dandelion', 's3', '🌼', '민들레', '들·산', '솜털 달린 씨가 바람을 타고 멀리 날아가요.'],
+  ['c_pine', 's3', '🌲', '소나무', '들·산', '바늘 모양 잎이 겨울에도 푸르러요.'],
+  ['c_foxtail', 's3', '🌾', '강아지풀', '들·산', '이삭이 강아지 꼬리처럼 복슬복슬해요.'],
+  ['c_lotus', 's3', '🪷', '연꽃', '강·연못', '뿌리는 진흙에, 잎은 물에 잘 젖지 않아요.'],
+  ['c_hyacinth', 's3', '🫧', '부레옥잠', '강·연못', '잎자루 속 공기 덕분에 물에 떠요.'],
+  ['c_duckweed', 's3', '🍃', '개구리밥', '강·연못', '아주 작은 잎이 물 위에 떠서 살아요.'],
+  ['c_cactus', 's3', '🌵', '선인장', '사막', '가시는 잎이 변한 것, 굵은 줄기에 물을 저장해요.'],
+  ['c_agave', 's3', '🪴', '용설란', '사막', '두꺼운 잎에 물을 저장해요.'],
+  ['c_egg', 's4', '🥚', '배추흰나비 알', '한살이', '배추 잎 뒷면에 길쭉한 알을 낳아요.'],
+  ['c_larva', 's4', '🐛', '배추흰나비 애벌레', '한살이', '배춧잎을 먹고 허물을 벗으며 자라요.'],
+  ['c_pupa', 's4', '🫛', '배추흰나비 번데기', '한살이', '먹지 않고 거의 움직이지 않아요. 속에서 어른벌레가 만들어져요.'],
+  ['c_butterfly', 's4', '🦋', '배추흰나비', '한살이', '다리 6개, 날개 4장. 꽃의 꿀을 빨아 먹어요.'],
+  ['c_bean', 's4', '🫘', '강낭콩', '싹 트기', '물과 알맞은 온도가 있으면 떡잎 두 장을 내며 싹 터요.']
+];
+
+/* ---------- 🔬 실험대: 예상 → 실험 → 결과 → 까닭 ---------- */
+const SC_EXP = [
+  { id: 'x0a', u: 's0', icon: '🐾', name: '동물일까 식물일까?', kind: 'sort',
+    pre: ['달팽이는 동물일까요, 식물일까요?', ['동물', '식물'], '달팽이는 천천히라도 스스로 움직이고 먹이를 먹어요. 동물이에요.'],
+    bins: [['🐾', '동물'], ['🌱', '식물']],
+    items: [['c_dog', 0], ['c_sunflower', 1], ['c_bee', 0], ['c_tulip', 1], ['c_snail', 0], ['c_ginkgo', 1], ['c_sparrow', 0], ['c_clover', 1]],
+    how: '하나를 누르고, 들어갈 상자를 눌러요.',
+    why: '동물은 먹이를 찾아 스스로 움직여요. 식물은 뿌리를 내린 자리에서 햇빛과 물로 자라요.' },
+  { id: 'x0b', u: 's0', icon: '🪴', name: '씨앗 심기', kind: 'ord', card: 'c_sunflower',
+    pre: ['씨앗을 심고 물을 주지 않으면 어떻게 될까요?', ['싹이 트지 않아요', '더 빨리 싹 터요', '꽃이 바로 펴요'], '씨앗은 물을 먹어야 싹이 터요.'],
+    q: '해바라기 씨앗을 심는 순서대로 눌러요.', o: ['🪴 화분에 흙 담기', '🌰 씨앗 넣기', '🤲 흙 살짝 덮기', '💧 물 주기'],
+    grow: ['🌰', '🌱', '🌿', '🌻'], growTxt: ['심은 날', '며칠 뒤 싹이 터요', '잎이 자라요', '꽃이 폈어요!'],
+    why: '흙에 씨앗을 넣고 덮은 뒤 물을 주면, 씨앗이 물을 먹고 싹을 틔워요. 햇빛을 받으며 자라 꽃이 펴요.' },
+  { id: 'x1a', u: 's1', icon: '⚖️', name: '수평 잡기', kind: 'seesaw', card: 'c_seesaw',
+    pre: ['왼쪽에 추 2개가 있어요. 추 1개로 수평을 잡으려면 오른쪽 어디에 놓아야 할까요?', ['받침점에서 더 멀리', '받침점에 더 가까이', '추 2개와 같은 거리'], '가벼운 쪽은 받침점에서 더 멀리 놓아야 수평이 돼요.'],
+    rounds: [{ L: [2, 2], R: 1 }, { L: [1, 3], R: 3 }, { L: [2, 3], R: 3 }],
+    how: '오른쪽 칸을 눌러 추를 놓아요. 나무판이 평평해지면 성공!',
+    why: '받침점에서 멀수록 나무판을 더 많이 기울여요. 그래서 무거운 쪽은 받침점 가까이, 가벼운 쪽은 멀리 놓으면 수평이 돼요.' },
+  { id: 'x1b', u: 's1', icon: '🍎', name: '저울로 무게 재기', kind: 'scale',
+    pre: ['사과·당근·바나나·귤 중 가장 무거운 것은 무엇일까요?', ['🍎 사과', '🥕 당근', '🍌 바나나', '🍊 귤'], '저울로 재면 사과가 280g으로 가장 무거워요.'],
+    items: [['c_apple', 280], ['c_carrot', 160], ['c_banana', 120], ['c_tangerine', 90]],
+    how: '과일을 눌러 전자저울에 올려요. 다 재면 무거운 순서로 줄 세워요.',
+    why: '손으로 들면 비슷한 무게는 헷갈려요. 저울로 재면 g 숫자로 정확하게 비교할 수 있어요.' },
+  { id: 'x2a', u: 's2', icon: '🗺️', name: '동물이 사는 곳', kind: 'sort',
+    pre: ['북극곰의 털과 지방이 두꺼운 까닭은 무엇일까요?', ['추위를 견디려고', '더위를 피하려고', '헤엄을 못 치게 하려고'], '두꺼운 털과 지방이 몸을 따뜻하게 지켜 줘요.'],
+    bins: [['🌲', '숲(땅)'], ['💧', '물'], ['🏜️', '사막'], ['🧊', '극지방']],
+    items: [['c_squirrel', 0], ['c_crucian', 1], ['c_camel', 2], ['c_polarbear', 3], ['c_raccoon', 0], ['c_squid', 1], ['c_fennec', 2], ['c_penguin', 3]],
+    how: '동물을 누르고, 그 동물이 사는 곳을 눌러요.',
+    why: '동물은 사는 곳에 알맞은 몸을 가졌어요. 물고기는 지느러미와 아가미, 낙타는 긴 속눈썹, 북극곰은 두꺼운 털이 있어요.' },
+  { id: 'x2b', u: 's2', icon: '🦵', name: '다리로 나누기', kind: 'sort',
+    pre: ['동물을 나누는 기준으로 알맞은 것은 무엇일까요?', ['다리가 있는가?', '귀여운가?', '내가 좋아하는가?'], '누가 해도 같은 결과가 나오는 기준이 좋아요.'],
+    bins: [['🦵', '다리가 있다'], ['➖', '다리가 없다']],
+    items: [['c_ant', 0], ['c_snake', 1], ['c_spider', 0], ['c_earthworm', 1], ['c_frog', 0], ['c_mackerel', 1], ['c_duck', 0], ['c_snail', 1]],
+    how: '동물을 누르고, 알맞은 무리를 눌러요.',
+    why: '「다리가 있는가?」는 보고 확인할 수 있어서 누가 나눠도 같은 결과가 나와요. 이런 기준으로 나누는 것이 분류예요.' },
+  { id: 'x3a', u: 's3', icon: '🌍', name: '식물이 사는 곳', kind: 'sort',
+    pre: ['선인장 가시는 무엇이 변한 것일까요?', ['잎', '뿌리', '꽃'], '잎이 가시로 변해서 물이 빠져나가는 것을 줄여요.'],
+    bins: [['⛰️', '들과 산'], ['🌊', '강과 연못'], ['🏜️', '사막']],
+    items: [['c_dandelion', 0], ['c_lotus', 1], ['c_cactus', 2], ['c_pine', 0], ['c_hyacinth', 1], ['c_agave', 2], ['c_foxtail', 0], ['c_duckweed', 1]],
+    how: '식물을 누르고, 그 식물이 사는 곳을 눌러요.',
+    why: '물에 사는 식물은 물에 뜨거나 잘 휘고, 사막 식물은 물을 저장하고 아껴요. 식물도 사는 곳에 알맞은 모습이에요.' },
+  { id: 'x3b', u: 's3', icon: '🫧', name: '부레옥잠은 왜 뜰까?', kind: 'steps', card: 'c_hyacinth',
+    pre: ['부레옥잠 잎자루를 잘라 물속에서 꾹 누르면 어떻게 될까요?', ['공기 방울이 나와요', '물이 빨개져요', '아무 일도 없어요'], '잎자루 속 작은 공기 방에서 공기 방울이 나와요.'],
+    steps: [
+      { s: ['🌊', '🌿', '🌊'], c: '부레옥잠이 물 위에 동동 떠 있어요.', b: '🔍 잎자루 보기' },
+      { s: ['🫛'], c: '잎자루가 볼록하게 부풀어 있어요.', b: '✂️ 잘라 보기' },
+      { s: ['🧽'], c: '속이 스펀지처럼 작은 구멍투성이예요!', b: '👇 물속에서 꾹 누르기' },
+      { s: ['🌊', '🫧', '🫧', '🫧', '🌊'], c: '뽀글뽀글! 공기 방울이 나와요.', b: '결과 보기' }],
+    why: '부레옥잠 잎자루 속에는 공기가 든 작은 방이 아주 많아요. 이 공기가 튜브처럼 부레옥잠을 물 위에 띄워 줘요.' },
+  { id: 'x4a', u: 's4', icon: '🦋', name: '배추흰나비 한살이', kind: 'ord', cards: ['c_egg', 'c_larva', 'c_pupa', 'c_butterfly'],
+    pre: ['배추흰나비 번데기는 먹이를 먹을까요?', ['먹지 않아요', '배춧잎을 많이 먹어요', '꿀을 먹어요'], '번데기 때는 먹지 않고 거의 움직이지 않아요.'],
+    q: '배추흰나비가 자라는 순서대로 눌러요.', o: ['🥚 알', '🐛 애벌레', '🫛 번데기', '🦋 어른벌레'],
+    grow: ['🥚', '🐛', '🫛', '🦋'], growTxt: ['배추 잎 뒷면의 알', '허물을 벗으며 자라요', '먹지 않고 쉬어요', '날개를 펴고 날아요!'],
+    why: '배추흰나비는 알 → 애벌레 → 번데기 → 어른벌레로 자라요. 이렇게 번데기를 거치는 곤충이 있고, 잠자리처럼 번데기 없이 자라는 곤충도 있어요.' },
+  { id: 'x4b', u: 's4', icon: '🌱', name: '싹 트는 조건', kind: 'sprout', card: 'c_bean',
+    pre: ['따뜻한 곳에 두고 물을 주지 않은 강낭콩은 어떻게 될까요?', ['싹이 트지 않아요', '더 빨리 싹 터요', '물을 준 것과 똑같이 싹 터요'], '싹 트려면 물이 필요해요.'],
+    rounds: [
+      { v: '물', a: ['💧 물을 줘요', '🔥 따뜻한 방'], b: ['🚫 물을 안 줘요', '🔥 따뜻한 방'], q: '어느 쪽이 싹 틀까요?', ans: 'a' },
+      { v: '온도', a: ['💧 물을 줘요', '🔥 따뜻한 방'], b: ['💧 물을 줘요', '❄️ 냉장고'], q: '이번엔 어느 쪽이 싹 틀까요?', ans: 'a' }],
+    why: '씨가 싹 트려면 물과 알맞은 온도가 필요해요. 한 번에 조건 하나(물, 또는 온도)만 다르게 하고 나머지는 같게 했기 때문에 무엇 때문인지 알 수 있었어요.' }
+];
+
+/* ---------- 11-21 🧪 과학 실험실: 🔬 실험대 · 📒 실험 노트 · 📖 과학 도감 ----------
+   실험 노트: 단원마다 5단계 × 10문제(12개 중 뽑기), 8문제를 한 번에 맞히면 다음 단계 (영어 학교와 같은 규칙)
+   실험대: 예상 → 실험 → 까닭 (POE), 실험에서 만난 동물·식물·물건은 도감 카드로
+   저장: sv.sci = { st: { 단원id: [별×5] }, ex: { 실험id: 1 }, dk: { 카드id: 1 }, pr: { 실험id: 1 } }
+   코인: 노트 한 번에 맞힘 +1 · 단계 처음 통과 +5(다시 +1) · ⭐⭐⭐ 처음 +2 · 단원 완성 +10 / 실험 처음 +3 · 예상 맞힘(처음) +1 · 새 카드 +2 */
+const SC_PASS = 8;
+let scUnit = null, scStage = 0, scQ = [], scCur = null, scFirstOk = 0, scDone = 0, scTotal = 10, scWait = false, scBuilt = [], scExp = null, scPred = null;
+const scEl = id => document.getElementById(id);
+const scShuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const scShufNot = a => { if (a.length < 2) return a.slice(); let b; do { b = scShuf(a); } while (b.join('|') === a.join('|')); return b; };
+const scEsc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const SC_KIND = { sort: '분류 실험', ord: '순서 실험', seesaw: '수평 잡기', scale: '무게 재기', sprout: '조건 실험', steps: '관찰 실험' };
+function scData() { const sv = getSave(); return (sv && sv.sci) || {}; }
+function scSave(fn) { updateSave(sv => { sv.sci = sv.sci || {}; ['st', 'ex', 'dk', 'pr'].forEach(k => { sv.sci[k] = sv.sci[k] || {}; }); fn(sv.sci, sv); }); }
+function scStars(id) { const d = scData(); return (d.st && d.st[id]) || [0, 0, 0, 0, 0]; }
+function scUnitDone(id) { return scStars(id).every(s => s > 0); }
+function scStageOpen(u, k) { return k === 0 || scStars(u.id)[k - 1] > 0; }
+function scCard(id) { return SC_CARDS.find(c => c[0] === id); }
+function scView(w) { [['scLobby', 'lobby'], ['scHub', 'hub'], ['scPlay', 'play'], ['scLab', 'lab'], ['scDex', 'dex']].forEach(([id, k]) => { const e = scEl(id); if (e) e.style.display = w === k ? '' : 'none'; }); }
+function scTabs(name) {
+  const t = scEl('scTabs'); if (!t) return;
+  if (!name) { t.innerHTML = ''; return; }
+  t.innerHTML = `<button class="btn-3d sc-tolobby">🚪 실험실 가운데로</button><span class="sc-room">${name}</span>`;
+  t.querySelector('.sc-tolobby').onclick = () => { playSfx('click'); scShowLobby(); };
+}
+
+/* ---- 실험실 가운데: 세 자리 ---- */
+function scEnter() { scShowLobby(); }
+function scShowLobby() {
+  scView('lobby'); scTabs(null); scWait = false;
+  const d = scData(), exN = SC_EXP.filter(e => d.ex && d.ex[e.id]).length, dkN = SC_CARDS.filter(c => d.dk && d.dk[c[0]]).length, uN = SC_UNITS.filter(u => scUnitDone(u.id)).length;
+  const L = scEl('scLobby');
+  L.innerHTML = `<div class="sc-stations">
+      <button class="sc-st sc-st-lab" data-go="lab"><div class="sc-st-ic">🔬</div><b>실험대</b><span>예상하고 → 실험하고 → 까닭 찾기</span><i>실험 ${exN} / ${SC_EXP.length}</i></button>
+      <button class="sc-st sc-st-note" data-go="hub"><div class="sc-st-ic">📒</div><b>실험 노트</b><span>단원마다 5단계 문제 풀기</span><i>단원 완성 ${uN} / ${SC_UNITS.length}</i></button>
+      <button class="sc-st sc-st-dex" data-go="dex"><div class="sc-st-ic">📖</div><b>과학 도감</b><span>실험에서 만난 카드 모으기</span><i>카드 ${dkN} / ${SC_CARDS.length}</i></button>
+    </div>
+    <div class="sc-ulist">${SC_UNITS.map(u => { const st = scStars(u.id), n = st.filter(s => s > 0).length;
+      return `<div class="sc-uchip${n === 5 ? ' done' : ''}"><span>${u.icon}</span><b>${u.name}</b><small>${u.g}</small><em>${n === 5 ? '👑' : `${n}/5`}</em></div>`; }).join('')}</div>
+    <div class="mc-note">💡 2학년 「자연」에서 시작해서 3학년 1학기 과학 네 단원(힘과 우리 생활 · 동물의 생활 · 식물의 생활 · 생물의 한살이)을 다뤄요. 실험을 처음 마치면 <b>🪙 +3개</b>, 새 도감 카드는 <b>🪙 +2개</b>예요.</div>`;
+  L.querySelectorAll('.sc-st').forEach(b => { b.onclick = () => { playSfx('click'); const g = b.dataset.go; if (g === 'lab') scShowLab(); else if (g === 'hub') scShowHub(); else scShowDex(); }; });
+}
+
+/* ---- 📒 실험 노트 ---- */
+function scShowHub() {
+  scView('hub'); scTabs('📒 실험 노트'); scWait = false;
+  const hub = scEl('scHub'); hub.innerHTML = '';
+  SC_UNITS.forEach(u => {
+    const st = scStars(u.id), done = st.every(s => s > 0), next = st.findIndex(s => s === 0);
+    const c = document.createElement('div'); c.className = 'mc-card sc-ucard' + (done ? ' done' : '');
+    c.innerHTML = `<div class="mc-card-h"><span class="en-uic">${u.icon}</span><b>${u.name}</b><span class="sc-g">${u.g}</span>${done ? '<span>👑</span>' : ''}</div>
+      <div class="mc-gems">${SC_STAGE.map((n, k) => `<span class="mc-gem ${st[k] ? 'on' : (k === next ? 'next' : '')}">${n} ${st[k] ? '⭐'.repeat(st[k]) : (k === next ? '▶' : '')}</span>`).join('')}</div>
+      <div class="mc-card-f">${u.sub}</div>`;
+    c.onclick = () => { playSfx('click'); scStartStage(u, done ? 0 : next); };
+    hub.appendChild(c);
+  });
+  const note = document.createElement('div'); note.className = 'mc-note';
+  note.innerHTML = `💡 한 단원은 5단계예요: <b>${SC_STAGE.join(' → ')}</b>. 단계마다 10문제 중 <b>${SC_PASS}문제 이상 한 번에</b> 맞히면 다음 단계가 열려요. 틀린 문제는 설명을 보고 뒤에서 다시 풀어요.`;
+  hub.appendChild(note);
+}
+function scMakeQ(it) {
+  if (typeof it[1] === 'boolean') { const A = '⭕ 맞아요', B = '❌ 틀려요';
+    return { type: 'choice', q: it[0], opts: [A, B], ans: it[1] ? A : B, exp: it[2], ox: true, show: it[1] ? '⭕ 맞아요' : '❌ 틀려요' }; }
+  if (it[0] === 'ord') return { type: 'ord', q: it[1], seq: it[2], tiles: scShufNot(it[2]), exp: it[3], show: it[2].join(' → ') };
+  return { type: 'choice', q: it[0], opts: scShuf(it[1]), ans: it[1][0], exp: it[2], emo: it[3] || '', show: it[1][0] };
+}
+function scStartStage(u, k) {
+  scUnit = u; scStage = k; scQ = scShuf(u.st[k]).slice(0, 10).map(it => Object.assign(scMakeQ(it), { retry: false }));
+  scTotal = scQ.length; scFirstOk = 0; scDone = 0;
+  scView('play'); scTabs('📒 실험 노트'); scSide(); const r = scEl('scRes'); if (r) r.remove(); scNext();
+}
+function scSide() {
+  const u = scUnit, st = scStars(u.id), box = scEl('scSide');
+  box.innerHTML = `<button class="btn-3d" id="scBackHub" style="font-size:0.82rem;">◀ 단원 목록</button><div class="mc-side-t">${u.icon} ${u.name}<br><small>${u.g}</small></div>`;
+  SC_STAGE.forEach((n, k) => { const b = document.createElement('button'), open = scStageOpen(u, k);
+    b.className = 'btn-3d mc-stbtn' + (k === scStage ? ' primary' : ''); b.innerHTML = `${open ? '' : '🔒 '}${k + 1}. ${n} <span>${st[k] ? '⭐'.repeat(st[k]) : ''}</span>`;
+    b.onclick = () => { playSfx('click'); if (!open) return showToast('앞 단계를 먼저 통과해요! 🔒'); scStartStage(u, k); };
+    box.appendChild(b); });
+  scEl('scBackHub').onclick = () => { playSfx('click'); scShowHub(); };
+}
+function scNext() {
+  if (!scQ.length) return scFinish();
+  scCur = scQ.shift(); scWait = false; scBuilt = [];
+  scEl('scStageTitle').textContent = `${scUnit.name} · ${scStage + 1}단계 ${SC_STAGE[scStage]}`;
+  scEl('scProg').textContent = `푼 문제 ${scDone}/${scTotal} · 한 번에 ${scFirstOk}`;
+  scEl('scRetry').style.display = scCur.retry ? 'block' : 'none';
+  scEl('scQ').innerHTML = `<div class="sc-qcard${scCur.ox ? ' ox' : ''}">${scCur.emo ? `<div class="sc-emo">${scCur.emo}</div>` : ''}<div class="sc-qt">${scEsc(scCur.q)}</div>${scCur.ox ? '<div class="sc-ask">맞으면 ⭕, 틀리면 ❌</div>' : ''}</div>`;
+  const fb = scEl('scFb'); fb.className = 'mc-fb'; fb.innerHTML = '';
+  const ch = scEl('scChoices'), od = scEl('scOrd'); ch.innerHTML = ''; od.innerHTML = '';
+  if (scCur.type === 'choice') {
+    ch.style.display = ''; od.style.display = 'none';
+    ch.classList.toggle('one', !scCur.ox && scCur.opts.some(o => o.length > 13));
+    ch.classList.toggle('sc-ox', !!scCur.ox);
+    scCur.opts.forEach(o => { const b = document.createElement('button'); b.className = 'btn-3d mc-choice'; b.textContent = o;
+      b.onclick = () => { if (scWait) return; playSfx('click'); scJudge(o === scCur.ans, b); }; ch.appendChild(b); });
+  } else { ch.style.display = 'none'; od.style.display = ''; scRenderOrd(); }
+}
+function scRenderOrd() {
+  const p = scCur, od = scEl('scOrd'), used = new Set(scBuilt);
+  od.innerHTML = `<div class="sc-slots">${p.seq.map((_, n) => n < scBuilt.length ? `<span class="on"><em>${n + 1}</em>${scEsc(p.tiles[scBuilt[n]])}</span>` : `<span><em>${n + 1}</em>?</span>`).join('<b>→</b>')}</div>
+    <div class="sc-tilebox">${p.tiles.map((t, i) => `<button class="btn-3d sc-tile" data-i="${i}" ${used.has(i) ? 'disabled' : ''}>${scEsc(t)}</button>`).join('')}</div>
+    <div class="en-tctl"><button class="btn-3d" id="scOrdBack">⌫ 하나 지우기</button><button class="btn-3d" id="scOrdClear">↺ 처음부터</button></div>`;
+  od.querySelectorAll('.sc-tile').forEach(b => { b.onclick = () => { if (scWait) return; playSfx('click'); scBuilt.push(Number(b.dataset.i)); scRenderOrd();
+    if (scBuilt.length === p.seq.length) scJudge(scBuilt.map(i => p.tiles[i]).join('|') === p.seq.join('|')); }; });
+  scEl('scOrdBack').onclick = () => { if (scWait) return; playSfx('click'); scBuilt.pop(); scRenderOrd(); };
+  scEl('scOrdClear').onclick = () => { if (scWait) return; playSfx('click'); scBuilt = []; scRenderOrd(); };
+}
+function scJudge(ok, btn) {
+  scWait = true; const fb = scEl('scFb');
+  if (ok) {
+    scDone++; if (!scCur.retry) { scFirstOk++; updateSave(sv => { sv.s = (Number(sv.s) || 0) + 1; }); }
+    playSfx('coin'); if (btn) btn.classList.add('ok');
+    fb.className = 'mc-fb ok'; fb.innerHTML = (scCur.retry ? '좋아요! 이번엔 맞혔어요 👍' : '정답! 🔬 🪙 +1개') + `<div class="sc-exp">💡 ${scEsc(scCur.exp)}</div>`;
+    scEl('scProg').textContent = `푼 문제 ${scDone}/${scTotal} · 한 번에 ${scFirstOk}`;
+    setTimeout(scNext, 1700);
   } else {
-    const item = ANTONYMS[sentIdx % ANTONYMS.length];
-    const wrongPool = ANTONYMS.filter(x => x[1] !== item[1]).map(x => x[1]);
-    const choices = [item[1], wrongPool[0], wrongPool[1]].sort(() => Math.random() - 0.5);
-    box.innerHTML = `<div class="chip">🔄 반대말 찾기</div><div class="jua" style="font-size:2.1rem; color:#eb2f96;">[${item[0]}]의 반대말은?</div><div style="color:#666; font-size:0.95rem;">${item[2]}</div><div style="display:flex; gap:12px; margin-top:8px;">${choices.map(c => `<button class="btn-3d primary sent-choice" style="font-size:1.2rem; padding:10px 24px;" data-ans="${c}">${c}</button>`).join('')}</div>`;
-    box.querySelectorAll('.sent-choice').forEach(btn => {
-      btn.onclick = () => {
-        if (btn.dataset.ans === item[1]) { addStars(1, '반대말 정답!'); sentIdx++; renderSentenceScreen(); }
-        else { playSfx('wrong'); showToast('예문을 읽고 반대 뜻을 찾아보세요!'); }
-      };
-    });
+    playSfx('wrong'); if (btn) btn.classList.add('no');
+    if (scCur.type === 'choice') [...scEl('scChoices').children].forEach(b => { if (b.textContent === scCur.ans) b.classList.add('ok'); });
+    scCur.retry = true; scQ.push(scCur);
+    fb.className = 'mc-fb no'; fb.innerHTML = `<div>정답은 <b>${scEsc(scCur.show)}</b></div><small>💡 ${scEsc(scCur.exp)}</small><button class="btn-3d primary" id="scGotIt">알겠어요! 이 문제는 뒤에 다시 나와요 ▶</button>`;
+    scEl('scGotIt').onclick = () => { playSfx('click'); scNext(); };
   }
 }
+function scFinish() {
+  const u = scUnit, k = scStage, N = scTotal, PASS = Math.round(N * SC_PASS / 10), stars = scFirstOk >= N ? 3 : scFirstOk >= N - 1 ? 2 : scFirstOk >= PASS ? 1 : 0;
+  let unitNow = false, gain = 0, gainTxt = '';
+  if (stars) scSave((m, sv) => { const a = (m.st[u.id] || [0, 0, 0, 0, 0]).slice(), was = a.every(s => s > 0), prev = a[k] || 0; a[k] = Math.max(a[k], stars); m.st[u.id] = a;
+    const parts = [prev ? ['다시 해서', 1] : ['처음 통과', 5]]; if (stars === 3 && prev < 3) parts.push(['⭐⭐⭐', 2]);
+    if (!was && a.every(s => s > 0)) { unitNow = true; parts.push(['단원 완성', 10]); }
+    gain = parts.reduce((t, x) => t + x[1], 0); sv.s = (Number(sv.s) || 0) + gain; gainTxt = parts.map(x => `${x[0]} +${x[1]}개`).join(' · '); });
+  scSide();
+  const nextU = SC_UNITS[SC_UNITS.indexOf(u) + 1];
+  const box = document.querySelector('#scPlay .problem-stage-box'), r = document.createElement('div'); r.id = 'scRes'; r.className = 'mc-res';
+  if (stars) {
+    playSfx('coin');
+    r.innerHTML = `<div class="mc-res-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}</div><div class="jua mc-res-t">${unitNow ? `👑 「${u.name}」 단원을 다 익혔어요!` : `${k + 1}단계 ${SC_STAGE[k]} 통과!`}</div>
+      <div>${N}문제 중 <b>${scFirstOk}문제</b>를 한 번에 맞혔어요.<br><b class="mc-gain">🪙 코인이 ${gain}개 늘어요</b> <small>(${gainTxt})</small></div>
+      <div class="mc-res-b">${k < 4 ? `<button class="btn-3d primary" id="scResNext">다음 단계 ${SC_STAGE[k + 1]} ▶</button>` : (nextU ? `<button class="btn-3d primary" id="scResNext">다음 단원 ${nextU.name} ▶</button>` : '')}
+      <button class="btn-3d" id="scResAgain">🔁 한 번 더</button><button class="btn-3d" id="scResHub">단원 목록</button></div>`;
+  } else {
+    r.innerHTML = `<div class="mc-res-stars">💪</div><div class="jua mc-res-t">조금만 더 연습해요!</div><div>${N}문제 중 <b>${scFirstOk}문제</b>를 한 번에 맞혔어요.<br>${PASS}문제 이상 한 번에 맞히면 다음 단계가 열려요.<br>🔬 실험대에서 실험을 해 보고 다시 도전해도 좋아요!</div>
+      <div class="mc-res-b"><button class="btn-3d primary" id="scResAgain">🔁 다시 연습</button><button class="btn-3d" id="scResHub">단원 목록</button></div>`;
+  }
+  box.appendChild(r);
+  const nb = scEl('scResNext'); if (nb) nb.onclick = () => { playSfx('click'); if (k < 4) scStartStage(u, k + 1); else scStartStage(nextU, 0); };
+  scEl('scResAgain').onclick = () => { playSfx('click'); scStartStage(u, k); };
+  scEl('scResHub').onclick = () => { playSfx('click'); scShowHub(); };
+}
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('#scPassBtn'); if (!b || scWait || !scCur) return; playSfx('click'); scCur.retry = true; scQ.push(scCur); scNext(); });
+
+/* ---- 📖 과학 도감 ---- */
+function scShowDex() {
+  scView('dex'); scTabs('📖 과학 도감');
+  const d = scData(), dk = d.dk || {}, n = SC_CARDS.filter(c => dk[c[0]]).length, D = scEl('scDex');
+  D.innerHTML = `<div class="sc-dexh">모은 카드 <b>${n}</b> / ${SC_CARDS.length} <small>· 🔬 실험대에서 실험하면 카드가 열려요</small></div>` +
+    SC_UNITS.map(u => `<div class="sc-lvh">${u.icon} ${u.name} <small>${u.g}</small></div><div class="sc-dgrid">${SC_CARDS.filter(c => c[1] === u.id).map(c => dk[c[0]]
+      ? `<div class="sc-dcard on"><div class="sc-de">${c[2]}</div><b>${c[3]}</b><span class="sc-dg">${c[4]}</span><small>${c[5]}</small></div>`
+      : `<div class="sc-dcard"><div class="sc-de">❓</div><b>? ? ?</b><small>실험대에서 찾아요</small></div>`).join('')}</div>`).join('');
+}
+
+/* ---- 🔬 실험대 ---- */
+function scShowLab() {
+  scView('lab'); scTabs('🔬 실험대'); scExp = null;
+  const d = scData(), L = scEl('scLab');
+  L.className = 'mc-hub sc-hub';
+  L.innerHTML = SC_UNITS.map(u => `<div class="sc-lvh">${u.icon} ${u.name} <small>${u.g}</small></div>` + SC_EXP.filter(e => e.u === u.id).map(e => {
+    const done = d.ex && d.ex[e.id];
+    return `<div class="mc-card sc-xcard${done ? ' done' : ''}" data-x="${e.id}"><div class="mc-card-h"><span class="en-uic">${e.icon}</span><b>${e.name}</b>${done ? '<span>🏅</span>' : ''}</div><div class="mc-card-f">${SC_KIND[e.kind]} · 예상 → 실험 → 까닭</div></div>`; }).join('')).join('')
+    + `<div class="mc-note">💡 실험은 <b>먼저 예상</b>하고 → <b>직접 해 보고</b> → <b>까닭</b>을 알아봐요. 예상이 틀려도 괜찮아요. 실험 결과로 알게 되는 게 진짜 과학이에요!</div>`;
+  L.querySelectorAll('.sc-xcard').forEach(c => { c.onclick = () => { playSfx('click'); scRun(SC_EXP.find(e => e.id === c.dataset.x)); }; });
+}
+function scRun(e) {
+  scExp = e; scPred = null; scView('lab'); scTabs('🔬 실험대');
+  const L = scEl('scLab'); L.className = 'sc-run';
+  L.innerHTML = `<div class="sc-runh"><button class="btn-3d" id="scRunBack" style="font-size:0.82rem;">◀ 실험 목록</button><b>${e.icon} ${e.name}</b>
+      <div class="sc-poe"><span data-p="0">🤔 예상</span><i>→</i><span data-p="1">🔬 실험</span><i>→</i><span data-p="2">💡 까닭</span></div></div>
+    <div id="scRunBody" class="sc-runb"></div>`;
+  scEl('scRunBack').onclick = () => { playSfx('click'); scShowLab(); };
+  scPredict(e);
+}
+function scPoe(i) { document.querySelectorAll('.sc-poe span').forEach(s => s.classList.toggle('on', Number(s.dataset.p) === i)); }
+function scPredict(e) {
+  scPoe(0); const B = scEl('scRunBody'), [q, opts] = e.pre, sh = scShuf(opts);
+  B.innerHTML = `<div class="sc-phase">🤔 먼저 예상해 봐요</div><div class="sc-qcard"><div class="sc-qt">${scEsc(q)}</div><div class="sc-ask">정답이 아니어도 괜찮아요. 내 생각을 골라요!</div></div>
+    <div class="mc-choices ${sh.some(o => o.length > 13) ? 'one' : ''} sc-prech">${sh.map(o => `<button class="btn-3d mc-choice" data-o="${scEsc(o)}">${scEsc(o)}</button>`).join('')}</div>`;
+  B.querySelectorAll('.sc-prech .mc-choice').forEach(b => { b.onclick = () => {
+    playSfx('click'); scPred = { pick: b.dataset.o, ok: b.dataset.o === opts[0] };
+    B.querySelectorAll('.sc-prech .mc-choice').forEach(x => { x.disabled = true; x.classList.toggle('sc-mine', x === b); });
+    const go = document.createElement('div'); go.className = 'sc-go';
+    go.innerHTML = `<div>📝 내 예상: <b>${scEsc(scPred.pick)}</b></div><button class="btn-3d primary" id="scGoExp">🔬 실험해서 확인하기 ▶</button>`;
+    B.appendChild(go); scEl('scGoExp').onclick = () => { playSfx('click'); scAct(e); };
+  }; });
+}
+function scAct(e) {
+  scPoe(1); const B = scEl('scRunBody'), done = () => scResult(e);
+  ({ sort: scActSort, ord: scActOrd, seesaw: scActSeesaw, scale: scActScale, sprout: scActSprout, steps: scActSteps })[e.kind](e, B, done);
+}
+function scCardsOf(e) { return e.kind === 'sort' || e.kind === 'scale' ? e.items.map(x => x[0]) : (e.cards || (e.card ? [e.card] : [])); }
+function scResult(e) {
+  scPoe(2); const B = scEl('scRunBody');
+  let gain = 0, parts = [], fresh = [], first = false, seed = false;
+  scSave((m, sv) => {
+    if (!m.ex[e.id]) { m.ex[e.id] = 1; first = true; parts.push(['실험 처음 마침', 3]); }
+    if (scPred && scPred.ok && !m.pr[e.id]) { m.pr[e.id] = 1; parts.push(['예상 맞힘', 1]); }
+    scCardsOf(e).forEach(id => { if (!m.dk[id]) { m.dk[id] = 1; fresh.push(id); } });
+    if (fresh.length) parts.push([`새 도감 카드 ${fresh.length}장`, 2 * fresh.length]);
+    if (first && e.id === 'x4b') { sv.inv = sv.inv || {}; sv.inv.pf_sunflower = (sv.inv.pf_sunflower || 0) + 1; seed = true; }
+    gain = parts.reduce((t, x) => t + x[1], 0); sv.s = (Number(sv.s) || 0) + gain;
+  });
+  if (gain) playSfx('coin');
+  const nextE = SC_EXP[SC_EXP.indexOf(e) + 1];
+  B.innerHTML = `<div class="sc-phase">💡 왜 그럴까요?</div><div class="sc-why">${scEsc(e.why)}</div>
+    <div class="sc-pred ${scPred && scPred.ok ? 'ok' : 'no'}">${scPred && scPred.ok ? '🎯 내 예상이 맞았어요!' : '🤔 예상과 달랐어요. 실험 결과가 알려 줬어요!'}<small>${scEsc(e.pre[2])}</small></div>
+    ${fresh.length ? `<div class="sc-new"><div class="jua">🃏 새 도감 카드!</div><div class="sc-newl">${fresh.map(id => { const c = scCard(id); return `<span><i>${c[2]}</i>${c[3]}</span>`; }).join('')}</div></div>` : ''}
+    ${seed ? '<div class="sc-seed">🌻 식물원 <b>해바라기 씨앗</b> 1개를 선물로 받았어요! (꾸미기 창고)</div>' : ''}
+    ${gain ? `<b class="mc-gain">🪙 코인이 ${gain}개 늘어요</b> <small>(${parts.map(x => `${x[0]} +${x[1]}개`).join(' · ')})</small>` : '<small>한 번 더 해 봤어요! 실험은 여러 번 해 볼수록 정확해져요.</small>'}
+    <div class="mc-res-b">${nextE ? `<button class="btn-3d primary" id="scNextExp">다음 실험 ${nextE.icon} ${nextE.name} ▶</button>` : ''}<button class="btn-3d" id="scAgainExp">🔁 다시 하기</button><button class="btn-3d" id="scToDex">📖 도감 보기</button><button class="btn-3d" id="scToList">실험 목록</button></div>`;
+  const nb = scEl('scNextExp'); if (nb) nb.onclick = () => { playSfx('click'); scRun(nextE); };
+  scEl('scAgainExp').onclick = () => { playSfx('click'); scRun(e); };
+  scEl('scToDex').onclick = () => { playSfx('click'); scShowDex(); };
+  scEl('scToList').onclick = () => { playSfx('click'); scShowLab(); };
+}
+
+/* 분류 실험: 하나 고르고 → 상자 누르기 */
+function scActSort(e, B, done) {
+  const order = scShuf(e.items.map((_, i) => i)), placed = {}; let sel = null;
+  const draw = () => {
+    const left = order.filter(i => !(i in placed));
+    B.innerHTML = `<div class="sc-phase">🔬 ${scEsc(e.how)}</div>
+      <div class="sc-pool">${left.map(i => { const c = scCard(e.items[i][0]); return `<button class="btn-3d sc-item${sel === i ? ' sel' : ''}" data-i="${i}"><i>${c[2]}</i>${c[3]}</button>`; }).join('') || '<em>다 나눴어요! ✨</em>'}</div>
+      <div class="sc-bins" style="grid-template-columns:repeat(${e.bins.length}, minmax(0, 1fr));">${e.bins.map((b, k) => `<button class="sc-bin" data-b="${k}"><div class="sc-bin-h">${b[0]} ${b[1]}</div><div class="sc-bin-in">${order.filter(i => placed[i] === k).map(i => { const c = scCard(e.items[i][0]); return `<span>${c[2]} ${c[3]}</span>`; }).join('')}</div></button>`).join('')}</div>`;
+    B.querySelectorAll('.sc-item').forEach(x => { x.onclick = () => { playSfx('click'); sel = Number(x.dataset.i); draw(); }; });
+    B.querySelectorAll('.sc-bin').forEach(x => { x.onclick = () => {
+      if (sel === null) return showToast('먼저 위에서 하나를 골라요 👆');
+      const k = Number(x.dataset.b), c = scCard(e.items[sel][0]);
+      if (e.items[sel][1] === k) { playSfx('coin'); placed[sel] = k; sel = null; draw(); if (Object.keys(placed).length === e.items.length) setTimeout(done, 900); }
+      else { playSfx('wrong'); x.classList.add('sc-shake'); setTimeout(() => x.classList.remove('sc-shake'), 500); showToast(`다시 생각해 봐요! 💡 ${c[3]}: ${c[5]}`); }
+    }; });
+  };
+  draw();
+}
+/* 순서 실험: 차례대로 누르고 → 자라는 모습 보기 */
+function scActOrd(e, B, done) {
+  const tiles = scShufNot(e.o); let n = 0;
+  const grow = g => {
+    B.innerHTML = `<div class="sc-phase">🔬 관찰 일기 ${g + 1} / ${e.grow.length}</div><div class="sc-grow"><div class="sc-grow-e">${e.grow[g]}</div><div class="jua">${scEsc(e.growTxt[g])}</div></div>
+      <div class="sc-dots">${e.grow.map((x, i) => `<span class="${i <= g ? 'on' : ''}">${x}</span>`).join('<i>→</i>')}</div>
+      <button class="btn-3d primary" id="scGrowNext">${g < e.grow.length - 1 ? '⏩ 며칠 뒤' : '까닭 알아보기 ▶'}</button>`;
+    scEl('scGrowNext').onclick = () => { playSfx('click'); if (g < e.grow.length - 1) grow(g + 1); else done(); };
+  };
+  const draw = () => {
+    B.innerHTML = `<div class="sc-phase">🔬 ${scEsc(e.q)}</div>
+      <div class="sc-slots">${e.o.map((t, i) => i < n ? `<span class="on"><em>${i + 1}</em>${scEsc(t)}</span>` : `<span><em>${i + 1}</em>?</span>`).join('<b>→</b>')}</div>
+      <div class="sc-tilebox">${tiles.map(t => `<button class="btn-3d sc-tile" data-t="${scEsc(t)}" ${e.o.indexOf(t) < n ? 'disabled' : ''}>${scEsc(t)}</button>`).join('')}</div>`;
+    B.querySelectorAll('.sc-tile').forEach(x => { x.onclick = () => {
+      if (x.dataset.t === e.o[n]) { playSfx('coin'); n++; draw(); if (n === e.o.length) setTimeout(() => grow(0), 700); }
+      else { playSfx('wrong'); x.classList.add('sc-shake'); setTimeout(() => x.classList.remove('sc-shake'), 500); showToast(`${n + 1}번째에 올 것을 다시 생각해 봐요!`); }
+    }; });
+  };
+  draw();
+}
+/* 수평 잡기: 왼쪽 추는 놓여 있고, 오른쪽 칸을 눌러 추를 놓기 */
+function scActSeesaw(e, B, done) {
+  let r = 0, pos = null;
+  const wts = (n, s) => `<div class="sc-wts">${`<i class="sc-wt ${s}"></i>`.repeat(n)}</div>`;
+  const draw = () => {
+    const R = e.rounds[r], [ln, ld] = R.L, tq = (pos ? R.R * pos : 0) - ln * ld, ang = Math.max(-11, Math.min(11, tq * 1.6)), ok = pos && tq === 0;
+    const msg = !pos ? '👉 오른쪽 칸 하나를 눌러 추를 놓아요' : ok ? '✨ 수평이에요! 나무판이 평평해졌어요' : tq < 0 ? '⬅️ 아직 왼쪽이 내려가요 → 받침점에서 <b>더 멀리</b>' : '➡️ 오른쪽이 내려가요 → 받침점에 <b>더 가까이</b>';
+    B.innerHTML = `<div class="sc-phase">🔬 수평 잡기 ${r + 1} / ${e.rounds.length}</div>
+      <div class="sc-ssq">왼쪽: 추 <b>${ln}개</b> (받침점에서 ${ld}칸) · 오른쪽에 놓을 추: <b>${R.R}개</b></div>
+      <div class="sc-ss"><div class="sc-board" style="transform: rotate(${ang}deg);">${[-4, -3, -2, -1, 0, 1, 2, 3, 4].map(p => `<div class="sc-slot${p > 0 ? ' tap' : ''}${p === 0 ? ' mid' : ''}${p === pos ? ' sel' : ''}" data-p="${p}">${p === -ld ? wts(ln, 'L') : p === pos ? wts(R.R, 'R') : ''}<small>${p ? Math.abs(p) : '●'}</small></div>`).join('')}</div><div class="sc-fulcrum"></div></div>
+      <div class="sc-ssmsg${ok ? ' ok' : ''}">${msg}</div>
+      ${ok ? `<button class="btn-3d primary" id="scSsNext">${r < e.rounds.length - 1 ? '다음 수평 잡기 ▶' : '까닭 알아보기 ▶'}</button>` : ''}`;
+    B.querySelectorAll('.sc-slot.tap').forEach(x => { x.onclick = () => { if (ok) return; playSfx('click'); pos = Number(x.dataset.p); draw(); if ((R.R * pos) === ln * ld) playSfx('coin'); }; });
+    const nb = scEl('scSsNext'); if (nb) nb.onclick = () => { playSfx('click'); if (r < e.rounds.length - 1) { r++; pos = null; draw(); } else done(); };
+  };
+  draw();
+}
+/* 무게 재기: 전자저울에 올려 g 읽기 → 무거운 순서로 */
+function scActScale(e, B, done) {
+  const got = {}; let cur = null, shown = 0, tm = null;
+  const order = e.items.map((_, i) => i).sort((a, b) => e.items[b][1] - e.items[a][1]);
+  const weigh = () => {
+    B.innerHTML = `<div class="sc-phase">🔬 ${scEsc(e.how)}</div>
+      <div class="sc-scale"><div class="sc-pan">${cur !== null ? scCard(e.items[cur][0])[2] : ''}</div><div class="sc-disp" id="scDisp">${shown} g</div></div>
+      <div class="sc-pool">${e.items.map((it, i) => { const c = scCard(it[0]); return `<button class="btn-3d sc-item${cur === i ? ' sel' : ''}" data-i="${i}"><i>${c[2]}</i>${c[3]}${got[i] ? ` <small>${it[1]}g</small>` : ''}</button>`; }).join('')}</div>
+      ${Object.keys(got).length === e.items.length ? '<button class="btn-3d primary" id="scToOrder">무거운 순서로 줄 세우기 ▶</button>' : '<small>모두 한 번씩 올려 봐요</small>'}`;
+    B.querySelectorAll('.sc-item').forEach(x => { x.onclick = () => {
+      playSfx('click'); clearInterval(tm); cur = Number(x.dataset.i); shown = 0; weigh();
+      const w = e.items[cur][1]; let t = 0;
+      tm = setInterval(() => { t++; shown = Math.min(w, Math.round(w * t / 12)); const dsp = scEl('scDisp'); if (dsp) dsp.textContent = shown + ' g';
+        if (shown >= w) { clearInterval(tm); const fresh = !got[cur]; got[cur] = 1; if (fresh) weigh(); } }, 50);
+    }; });
+    const ob = scEl('scToOrder'); if (ob) ob.onclick = () => { playSfx('click'); clearInterval(tm); arrange(); };
+  };
+  const tiles = scShufNot(order); let n = 0;
+  const arrange = () => {
+    B.innerHTML = `<div class="sc-phase">🔬 가장 무거운 것부터 차례대로 눌러요</div>
+      <div class="sc-slots">${order.map((i, k) => k < n ? `<span class="on"><em>${k + 1}</em>${scCard(e.items[i][0])[2]} ${e.items[i][1]}g</span>` : `<span><em>${k + 1}</em>?</span>`).join('<b>＞</b>')}</div>
+      <div class="sc-tilebox">${tiles.map(i => { const c = scCard(e.items[i][0]); return `<button class="btn-3d sc-tile" data-i="${i}" ${order.indexOf(i) < n ? 'disabled' : ''}>${c[2]} ${c[3]} <small>${e.items[i][1]}g</small></button>`; }).join('')}</div>`;
+    B.querySelectorAll('.sc-tile').forEach(x => { x.onclick = () => {
+      if (Number(x.dataset.i) === order[n]) { playSfx('coin'); n++; arrange(); if (n === order.length) setTimeout(done, 800); }
+      else { playSfx('wrong'); x.classList.add('sc-shake'); setTimeout(() => x.classList.remove('sc-shake'), 500); showToast('g 숫자가 더 큰 쪽이 더 무거워요!'); }
+    }; });
+  };
+  weigh();
+}
+/* 조건 실험: 하나만 다르게 한 두 컵 → 예상 → 며칠 뒤 */
+function scActSprout(e, B, done) {
+  let r = 0, pick = null, grown = false;
+  const draw = () => {
+    const R = e.rounds[r], diff = R.a.map((c, i) => c !== R.b[i]);
+    const cup = (k, conds) => { const sprout = grown && (R.ans === k || R.ans === 'ab');
+      return `<div class="sc-cup${grown ? (sprout ? ' up' : ' down') : ''}"><div class="sc-cup-n">${k === 'a' ? '가' : '나'}</div><div class="sc-cup-e">${grown ? (sprout ? '🌱' : '🫘') : '🫘'}</div><div class="sc-cup-pot"></div>
+        <div class="sc-cond">${conds.map((c, i) => `<span class="${diff[i] ? 'diff' : ''}">${c}</span>`).join('')}</div></div>`; };
+    const L = { a: '가', b: '나', ab: '둘 다', none: '둘 다 안 터요' };
+    B.innerHTML = `<div class="sc-phase">🔬 조건 실험 ${r + 1} / ${e.rounds.length} · 다르게 한 조건은 <b class="sc-diffb">${R.v}</b> 하나뿐이에요</div>
+      <div class="sc-cups">${cup('a', R.a)}${cup('b', R.b)}</div>
+      ${!grown ? `<div class="sc-ask">${scEsc(R.q)}</div><div class="mc-choices sc-spch">${['a', 'b', 'ab', 'none'].map(k => `<button class="btn-3d mc-choice${pick === k ? ' sc-mine' : ''}" data-k="${k}" ${pick ? 'disabled' : ''}>${L[k]}</button>`).join('')}</div>
+        ${pick ? '<button class="btn-3d primary" id="scWait">⏳ 사흘 기다려 보기</button>' : ''}`
+      : `<div class="sc-ssmsg ${pick === R.ans ? 'ok' : ''}">${pick === R.ans ? '🎯 예상대로예요!' : `🤔 예상은 「${L[pick]}」였지만, 싹이 튼 것은 「${L[R.ans]}」예요.`}<br><small><b>${R.v}</b> 말고는 모두 똑같이 했어요. 그래서 싹이 트고 안 트고는 <b>${R.v}</b> 때문이에요.</small></div>
+        <button class="btn-3d primary" id="scSpNext">${r < e.rounds.length - 1 ? '다음 조건 실험 ▶' : '까닭 알아보기 ▶'}</button>`}`;
+    B.querySelectorAll('.sc-spch .mc-choice').forEach(x => { x.onclick = () => { playSfx('click'); pick = x.dataset.k; draw(); }; });
+    const wb = scEl('scWait'); if (wb) wb.onclick = () => { playSfx('click'); grown = true; draw(); if (pick === R.ans) playSfx('coin'); };
+    const nb = scEl('scSpNext'); if (nb) nb.onclick = () => { playSfx('click'); if (r < e.rounds.length - 1) { r++; pick = null; grown = false; draw(); } else done(); };
+  };
+  draw();
+}
+/* 관찰 실험: 한 단계씩 눌러 보기 */
+function scActSteps(e, B, done) {
+  let s = 0;
+  const draw = () => { const S = e.steps[s];
+    B.innerHTML = `<div class="sc-phase">🔬 관찰 ${s + 1} / ${e.steps.length}</div><div class="sc-grow"><div class="sc-grow-e sc-scene">${S.s.join('')}</div><div class="jua">${scEsc(S.c)}</div></div>
+      <button class="btn-3d primary" id="scStepNext">${scEsc(S.b)} ▶</button>`;
+    scEl('scStepNext').onclick = () => { playSfx('click'); if (s < e.steps.length - 1) { s++; draw(); } else done(); };
+  };
+  draw();
+}
+
 
 const TET_COLS = 12, TET_ROWS = 22;   /* 11-20 원장님: 가로·세로 더 크게(예전 10×18) */
 const TET_SHAPES = [
@@ -9990,7 +10873,7 @@ function switchScreen(targetKey, pushHistory = true) {
     else if (targetKey === 'gugu') { curGuguStep = 'map'; renderGuguScreen(); }
     else if (targetKey === 'crossword') libShowHub();
     else if (targetKey === 'reading') rdShowList();
-    else if (targetKey === 'sentence') renderSentenceScreen();
+    else if (targetKey === 'sentence') scEnter();
     else if (targetKey === 'tetris') startTetris();
     else if (targetKey === 'garden') gardenRender();
     else if (targetKey === 'cityhall') cityRender();
@@ -10549,8 +11432,6 @@ function initEvents() {
 
   document.getElementById('guguModeMul').onclick = () => { guguMode = 'mul'; curGuguStep = 'map'; renderGuguScreen(); };
   document.getElementById('guguModeDiv').onclick = () => { guguMode = 'div'; curGuguStep = 'map'; renderGuguScreen(); };
-  document.getElementById('sentTabFill').onclick = () => { sentMode = 'fill'; renderSentenceScreen(); };
-  document.getElementById('sentTabAnt').onclick = () => { sentMode = 'ant'; renderSentenceScreen(); };
 
   document.getElementById('btnTetRestart').onclick = startTetris;
   tetBindTouch();
