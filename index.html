@@ -399,6 +399,8 @@
   .gd-desc { text-wrap: balance; } .gd-row > span { text-wrap: pretty; }
   .gd-ln { display: block; text-wrap: balance; } .gd-ln + .gd-ln { margin-top: 2px; } .gd-ln b { white-space: nowrap; }
 
+  .en-hint { margin: 8px auto 0; display: block; background: #fffbe6 !important; color: #ad6800 !important; border: 2px solid #ffd666 !important; font-size: 0.95rem; padding: 6px 16px; }
+  .en-hint small { font-size: 0.8em; opacity: 0.85; }
   .gd-cw { display: inline-grid; gap: 3px; padding: 4px; background: rgba(255,255,255,0.55); border-radius: 10px; }
   .gd-cw i { width: 1.7em; height: 1.7em; display: flex; align-items: center; justify-content: center; font-style: normal; font-family: 'Jua', sans-serif; font-size: 1.05em; color: #1d4e89; background: #fff; border: 2px solid #91caff; border-radius: 6px; }
   .gd-cw i.x { background: #8c6b4f; border-color: #6d4f37; }
@@ -5152,8 +5154,8 @@ function enVocaQ(u, k, wi) {
     opts: enShuf([en, ...others.map(o => o[0])]), ans: en, after: en, exp, show: en, eng: true };
   if (k === 2) return { type: 'choice', q: `<div class="en-card"><div class="en-emo">🎧</div>${enSpk(en, true)}</div><div class="en-ask">잘 듣고 들린 낱말을 골라요</div>`,
     opts: enShuf([en, ...others.map(o => o[0])]), ans: en, say: en, sayF: true, after: en, exp, show: en, eng: true };
-  if (k === 3) return { type: 'choice', q: `<div class="en-card wide"><div class="en-sent big">${enEsc(sent).replace('___', '<span class="en-blank">?</span>')}</div></div><div class="en-ask">빈칸에 알맞은 낱말을 골라요</div>`,
-    opts: enShuf([en, ...others.map(o => o[0])]), ans: en, after: enPlain(sent, en), exp, show: en, eng: true };
+  if (k === 3) return { type: 'choice', q: `<div class="en-card wide"><div class="en-sent big">${enEsc(sent).replace('___', '<span class="en-blank">?</span>')}</div></div><div class="en-ask">빈칸에 알맞은 낱말을 골라요</div><button class="btn-3d en-hint" id="enHintBtn">💡 힌트: 문장 듣기 <small>(🪙 1개)</small></button>`,
+    opts: enShuf([en, ...others.map(o => o[0])]), ans: en, after: enPlain(sent, en), hint: enPlain(sent, en), exp, show: en, eng: true };
   const letters = en.replace(/[^a-z]/gi, '').split(''), abc = 'abcdefghijklmnopqrstuvwxyz'.split('').filter(c => !letters.includes(c));
   const extra = en.length >= 8 ? 1 : 2;
   return { type: 'tiles', unit: 'letter', q: `<div class="en-card"><div class="en-emo">${emo}</div><div class="en-ko">${ko}</div>${enSpk(en)}</div><div class="en-ask">글자를 차례대로 눌러 낱말을 써요</div>`,
@@ -5266,6 +5268,15 @@ function enNext() {
       b.onclick = () => { if (enWait) return; playSfx('click'); enJudge(o === enCur.ans, b); }; ch.appendChild(b); });
   } else { ch.style.display = 'none'; tl.style.display = ''; enRenderTiles(); }
   if (enCur.say) enSay(enCur.say, enCur.sayF);
+  const hb = enEl('enHintBtn'); if (hb) hb.onclick = enHint;
+}
+/* 11-21 문장 빈칸 힌트: 누르면 코인 1개를 쓰고, 빈칸에 들어갈 말까지 넣은 문장 전체를 읽어 줌 */
+function enHint() {
+  if (enWait || !enCur || !enCur.hint) return;
+  const sv = getSave(); if (!sv || (Number(sv.s) || 0) < 1) { playSfx('wrong'); return showToast('🪙 코인이 1개 있어야 힌트를 볼 수 있어요'); }
+  updateSave(v => { v.s = (Number(v.s) || 0) - 1; });
+  playSfx('click'); enSay(enCur.hint, true); enCur.hinted = (enCur.hinted || 0) + 1;
+  showToast('💡 문장을 읽어 줘요 · 🪙 코인 1개를 썼어요');
 }
 function enRenderTiles() {
   const p = enCur, tl = enEl('enTiles'), sep = p.unit === 'word' ? ' ' : '';
@@ -5605,7 +5616,7 @@ const GUIDES = {
            { it: [gdI('⭐⭐⭐', 50, 32, 2.2, 'gd-pop'), gdI('처음 통과 🪙 +5개', 50, 72, 1.5, 'gd-coin')], c: '단계를 처음 통과하면' }] },
   english: { title: '🔤 영어 학교', bg: 'mint', kind: 'earn',
     what: '복도의 문 세 개 중에 골라요. <b>📘 기본 Voca</b>, <b>✏️ Grammar</b>, <b>📗 Journeys</b> 교실이 있어요. 단원마다 5단계예요. 80% 이상 한 번에 맞히면 다음 단계가 열려요. 🔊를 누르면 영어로 읽어 줘요.',
-    coin: '한 번에 맞히면 <b>+1개</b> · 단계 처음 통과 <b>+5개</b> · 통과한 단계 다시 하면 <b>+1개</b> · ⭐⭐⭐ 처음 받으면 <b>+2개</b> 더 · 단원 다 마치면 <b>+10개</b>',
+    coin: '한 번에 맞히면 <b>+1개</b> · 단계 처음 통과 <b>+5개</b> · 통과한 단계 다시 하면 <b>+1개</b> · ⭐⭐⭐ 처음 받으면 <b>+2개</b> 더 · 단원 다 마치면 <b>+10개</b> · 문장 빈칸에서 💡 힌트를 누르면 문장을 읽어 줘요 (<b>🪙 1개</b>를 써요)',
     energy: '들어갈 때 <b>⚡ 에너지가 3 줄어요</b>',
     demo: [{ it: [gdI('🚪', 22, 48, 2.6), gdI('🚪', 50, 48, 2.6), gdI('🚪', 78, 48, 2.6), gdI('📘', 22, 20, 1.3), gdI('✏️', 50, 20, 1.3), gdI('📗', 78, 20, 1.3)], h: [22, 52], tap: 1, c: '교실 문을 골라요' },
            { it: [gdI('🍎', 50, 28, 2.4), gdI('apple', 30, 74, 1.2, 'gd-key'), gdI('bread', 70, 74, 1.2, 'gd-key')], h: [30, 76], tap: 1, c: '알맞은 낱말을 골라요' },
