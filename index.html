@@ -1038,7 +1038,7 @@
         <div class="closet-header">
           <div class="closet-tabs">
             <button id="shopTabBld" class="tab-btn" style="display:none">🏠 건물 짓기 (4종)</button>
-            <button id="shopTabDeco" class="tab-btn">🌷 마을 꾸미기 (24종)</button>
+            <button id="shopTabDeco" class="tab-btn">🌷 마을 꾸미기 (29종)</button>
             <button id="shopTabAdv" class="tab-btn">🚀 탈것·모험 (12종)</button>
             <button id="shopTabDress" class="tab-btn" style="display:none">👗 드레스·헤어 세트 (18종)</button>
           </div>
@@ -5845,6 +5845,7 @@ function toyThumb(id) {
   return TOY_THUMB[id];
 }
 function shopThumbHTML(deco) {
+  if (PATH_DEF[deco.id]) return pathThumbHTML(deco.id);
   if ((deco.type !== 'bld' || deco.toyBld) && TOY_BUILD[deco.id]) { const u = toyThumb(deco.id); if (u) return `<img src="${u}" alt="">`; }
   const cv = loaded3DSprites[deco.id];
   if (cv) { try { if (!TOY_THUMB['spr_' + deco.id]) { const t = document.createElement('canvas'); t.width = t.height = 128; t.getContext('2d').drawImage(cv, 0, 0, 128, 128); TOY_THUMB['spr_' + deco.id] = t.toDataURL('image/png'); } return `<img src="${TOY_THUMB['spr_' + deco.id]}" alt="">`; } catch (e) {} }
@@ -6529,6 +6530,7 @@ function spriteAnchorOf(id) {
 function entitySpriteSize(ent) { return (ent.fw || 1.5) * 1.15 * 2.1; }
 function entityBlocks(ent) { return !(ent.type === 'tile' || ent.shape === 'flower' || ent.shape === 'bridge'); }
 function entityRadius(ent) {
+  if (PATH_DEF[ent.id] && PATH_DEF[ent.id].r) return PATH_DEF[ent.id].r;
   const A = spriteAnchorOf(ent.id);
   return Math.max(0.3, A.w * entitySpriteSize(ent) * 0.5 * 0.78);
 }
@@ -7947,7 +7949,249 @@ function subBack() {   /* 건물 안 작은 화면이면 한 칸만 뒤로 */
   } catch (e) { console.warn('subBack', e); }
   return false;
 }
+/* ============================================================================
+ * 11-21 원장님: 길 만들기(기본 마을 벽돌길과 같은 모양) — 직선·곡선·갈림길·네거리, 색 고르기, ➕ 이어 놓기
+ *              + 마을에 놓는 작은 연못·호수(기본 마을 호수와 같은 물)
+ *   조각 크기: 길 폭 3.0(기본 십자 길과 같음), 직선 = 한 칸(2.2) 길이, 곡선·갈림길·네거리 = 두 칸(4.4) 네모
+ *   무늬는 땅 좌표로 붙여서 조각끼리 이어도 이음매 없이 같은 무늬
+ * ============================================================================ */
+const PATH_COLORS = [
+  { n: '분홍', base: '#e9cfc0', cols: ['#fff3e6', '#ffe1ea', '#f9d6e3', '#fbe9d0', '#efe2fb', '#ffeef4'], edge: 0xf3d9c4, sw: '#ffd9e6' },
+  { n: '하늘', base: '#c3d9ec', cols: ['#eef7ff', '#dcecff', '#e6f2fb', '#d4e8f7', '#f0f4ff', '#e2f0ff'], edge: 0xcfe0f0, sw: '#cfe6ff' },
+  { n: '민트', base: '#bfe0cf', cols: ['#effcf4', '#ddf5e6', '#e6f7ee', '#d2efdf', '#f0faf2', '#e0f6ec'], edge: 0xcfe8d9, sw: '#c9f0dc' },
+  { n: '노랑', base: '#ead9a8', cols: ['#fffbe6', '#fff1c2', '#fdf0cf', '#f9e6b0', '#fff6d9', '#fcecc0'], edge: 0xf2e1b5, sw: '#ffeaa0' },
+  { n: '보라', base: '#d5c6ea', cols: ['#f6f0ff', '#ebe0ff', '#efe6fb', '#e2d6f7', '#f4eeff', '#e8dcff'], edge: 0xe0d2f2, sw: '#e3d2ff' },
+  { n: '회색 돌', base: '#b9b4ae', cols: ['#f2f0ec', '#e4e1dc', '#ebe8e3', '#dcd8d2', '#f5f3ef', '#e0ddd8'], edge: 0xd6d1ca, sw: '#dedad4' }
+];
+const PATH_DEF = {
+  deco_brick:       { path: 's', name: '벽돌길 · 직선', icon: '🧱', cost: 10 },
+  deco_brick_curve: { path: 'c', name: '벽돌길 · 곡선', icon: '↪️', cost: 15 },
+  deco_brick_t:     { path: 't', name: '벽돌길 · 갈림길', icon: '🔱', cost: 15 },
+  deco_brick_x:     { path: 'x', name: '벽돌길 · 네거리', icon: '➕', cost: 20 },
+  deco_lake_s:      { lake: 2.2, name: '작은 연못', icon: '💧', cost: 40, r: 2.4, pads: 4 },
+  deco_lake:        { lake: 4.2, name: '호수', icon: '🌊', cost: 80, r: 4.6, pads: 9 }
+};
+(function pathDecosInit() {
+  const old = decoById('deco_brick'); if (old) Object.assign(old, { name: PATH_DEF.deco_brick.name, cost: 10, grp: 'path' });
+  const add = [];
+  Object.keys(PATH_DEF).forEach(id => {
+    if (decoById(id)) return;
+    const d = PATH_DEF[id];
+    add.push({ id, name: d.name, icon: d.icon, cost: d.cost, fw: d.lake ? 2.0 : 1.0, fh: d.lake ? 2.0 : 1.0, type: d.path ? 'tile' : 'water', shape: d.path ? 'tile' : 'lake', grp: 'path', color: 0x8ccff5 });
+  });
+  /* 꾸미기 목록 맨 앞(벚꽃나무 앞)에 길·연못을 모아 둔다 */
+  const all = ['deco_brick'].concat(add.map(d => d.id)).map(id => add.find(d => d.id === id) || decoById(id)).filter(Boolean);
+  all.forEach(d => { const i = DECOS.indexOf(d); if (i >= 0) DECOS.splice(i, 1); });
+  const at = DECOS.findIndex(d => d && d.id === 'deco_tree');
+  DECOS.splice(at >= 0 ? at : DECOS.length, 0, ...all);
+})();
+function pathColorNow() { const sv = getSave(); const c = Number(sv.pc) || 0; return c >= 0 && c < PATH_COLORS.length ? c : 0; }
+function pathColIdx(ent) { const c = Number(ent && ent.col) || 0; return c >= 0 && c < PATH_COLORS.length ? c : 0; }
+
+/* 무늬 그림 (기본 마을 envCobbleTexture 와 같은 그리기, 색만 바뀜) */
+const PATH_CANVAS = {}, PATH_TEX = {};
+function pathCobbleCanvas(ci) {
+  if (PATH_CANVAS[ci]) return PATH_CANVAS[ci];
+  const P = PATH_COLORS[ci] || PATH_COLORS[0];
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = P.base; g.fillRect(0, 0, 256, 256);
+  const rnd = envRng(7);
+  for (let row = 0; row < 8; row++) for (let col = 0; col < 6; col++) {
+    const w = 256 / 6, h = 256 / 8;
+    const x = col * w + (row % 2 ? w / 2 : 0) + (rnd() - 0.5) * 4, y = row * h + (rnd() - 0.5) * 3;
+    for (const dx of [0, -256, 256]) {
+      g.fillStyle = P.cols[(row * 7 + col * 3) % P.cols.length];
+      g.beginPath(); g.roundRect(x + dx + 2.5, y + 2.5, w - 5, h - 5, 9); g.fill();
+      g.fillStyle = 'rgba(255,255,255,0.55)';
+      g.beginPath(); g.ellipse(x + dx + w * 0.38, y + h * 0.34, w * 0.2, h * 0.13, 0, 0, Math.PI * 2); g.fill();
+    }
+  }
+  return (PATH_CANVAS[ci] = c);
+}
+function pathCobbleTex(ci) {
+  if (PATH_TEX[ci]) return PATH_TEX[ci];
+  const t = new THREE.CanvasTexture(pathCobbleCanvas(ci)); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 4;
+  return (PATH_TEX[ci] = t);
+}
+
+/* 조각 모양 (앞 = +z). 사각형 [x0,z0,x1,z1] 과 곡선 띠 { cx, cz, r0, r1, a0, a1 } */
+const PW = 1.5, PE = 0.25;
+function pathParts(kind, pad) {
+  const w = PW + pad;
+  if (kind === 's') return [{ rect: [-w, -1.1, w, 1.1] }];
+  if (kind === 'c') return [{ arc: { cx: 2.2, cz: 2.2, r0: 2.2 - w, r1: 2.2 + w, a0: Math.PI, a1: Math.PI * 1.5 } }];
+  if (kind === 't') return [{ rect: [-w, -2.2, w, 2.2] }, { rect: [0, -w, 2.2, w] }];
+  if (kind === 'x') return [{ rect: [-w, -2.2, w, 2.2] }, { rect: [-2.2, -w, 2.2, w] }];
+  return [];
+}
+function pathShape(part) {
+  const sh = new THREE.Shape();   /* 모양 좌표 (x, y=-z) → 눕히면 (x, z) */
+  if (part.rect) { const [x0, z0, x1, z1] = part.rect; sh.moveTo(x0, -z0); sh.lineTo(x1, -z0); sh.lineTo(x1, -z1); sh.lineTo(x0, -z1); sh.closePath(); return sh; }
+  const A = part.arc, N = 28, pt = (r, a) => [A.cx + Math.cos(a) * r, -(A.cz + Math.sin(a) * r)];
+  for (let i = 0; i <= N; i++) { const [x, y] = pt(A.r1, A.a0 + (A.a1 - A.a0) * i / N); i ? sh.lineTo(x, y) : sh.moveTo(x, y); }
+  for (let i = N; i >= 0; i--) { const [x, y] = pt(Math.max(0.001, A.r0), A.a0 + (A.a1 - A.a0) * i / N); sh.lineTo(x, y); }
+  sh.closePath(); return sh;
+}
+/* 땅 좌표로 무늬 붙이기 (2.4 마다 한 번 = 기본 길과 같은 크기) */
+function pathWorldUV(geo, wx, wz, th) {
+  const p = geo.attributes.position, uv = geo.attributes.uv, c = Math.cos(th), s = Math.sin(th);
+  for (let i = 0; i < p.count; i++) {
+    const lx = p.getX(i), lz = -p.getY(i);
+    const x = wx + lx * c + lz * s, z = wz - lx * s + lz * c;
+    uv.setXY(i, x / 2.4, -z / 2.4);
+  }
+  uv.needsUpdate = true;
+}
+function pathMesh(ent) {
+  const def = PATH_DEF[ent.id], group = new THREE.Group(), inner = new THREE.Group(); group.add(inner);
+  const th = (Number(ent.ry) || 0) * Math.PI / 4; inner.rotation.y = th;
+  const w = gridToWorld3D(ent.c, ent.r), sel = editMode && ent.iid && ent.iid === selectedDecoIid;
+  if (def.lake) return lakeMesh(ent, def, group, inner, sel);
+  const ci = pathColIdx(ent), P = PATH_COLORS[ci];
+  const edgeMat = new THREE.MeshStandardMaterial({ color: P.edge, roughness: 0.8, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
+  const cobMat = new THREE.MeshStandardMaterial({ map: pathCobbleTex(ci), roughness: 0.75, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 });
+  pathParts(def.path, PE).forEach(pt => {
+    const m = new THREE.Mesh(new THREE.ShapeGeometry(pathShape(pt), 1), edgeMat); m.rotation.x = -Math.PI / 2; m.position.y = 0.036; m.receiveShadow = true; inner.add(m);
+  });
+  pathParts(def.path, 0).forEach(pt => {
+    const geo = new THREE.ShapeGeometry(pathShape(pt), 1); pathWorldUV(geo, w.x, w.z, th);
+    const m = new THREE.Mesh(geo, cobMat); m.rotation.x = -Math.PI / 2; m.position.y = 0.046; m.receiveShadow = true; inner.add(m);
+  });
+  if (sel) pathSelGlow(inner, pathParts(def.path, PE));
+  group.userData.toy = inner; group.userData.pathPiece = true;
+  return group;
+}
+function pathSelGlow(inner, parts) {   /* 고른 조각: 노랗게 반짝 */
+  const mat = new THREE.MeshBasicMaterial({ color: 0xfff27a, transparent: true, opacity: 0.38, depthWrite: false });
+  parts.forEach(pt => { const m = new THREE.Mesh(new THREE.ShapeGeometry(pathShape(pt), 1), mat); m.rotation.x = -Math.PI / 2; m.position.y = 0.07; inner.add(m); });
+}
+/* 연못·호수: 기본 마을 호수와 같은 물(흐르는 물 그림) + 모래 둘레 + 연잎·연꽃 */
+function lakeMesh(ent, def, group, inner, sel) {
+  const R = def.lake, seed = (String(ent.iid || ent.id).split('').reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) >>> 0) % 1000;
+  const pts = []; for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, rr = R * (1 + 0.12 * Math.sin(a * 3 + 0.7 + seed) + 0.07 * Math.sin(a * 5 + 2.1 + seed * 0.3)); pts.push([Math.cos(a) * rr * 1.2, Math.sin(a) * rr]); }
+  const shape = s => { const sh = new THREE.Shape(); pts.forEach(([x, y], i) => i ? sh.lineTo(x * s, y * s) : sh.moveTo(x * s, y * s)); sh.closePath(); return sh; };
+  const shore = new THREE.Mesh(new THREE.ShapeGeometry(shape(1.13), 4), new THREE.MeshStandardMaterial({ color: sel ? 0xfff27a : 0xffe6b5, roughness: 0.9, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }));
+  shore.rotation.x = -Math.PI / 2; shore.position.y = 0.014; shore.receiveShadow = true; inner.add(shore);
+  let wt = (typeof envWaterTex !== 'undefined' && envWaterTex) || null;
+  if (!wt) { wt = envWaterTexture(); wt.wrapS = wt.wrapT = THREE.RepeatWrapping; wt.repeat.set(0.07, 0.07); }
+  const water = new THREE.Mesh(new THREE.ShapeGeometry(shape(1), 4), new THREE.MeshStandardMaterial({ map: wt, roughness: 0.3, metalness: 0.05, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 }));
+  water.rotation.x = -Math.PI / 2; water.position.y = 0.026; inner.add(water);
+  const lr = envRng(seed + 11), padMat = new THREE.MeshStandardMaterial({ color: 0x6fcf6a, roughness: 0.8 }), lotus = new THREE.MeshStandardMaterial({ color: 0xff9ecb, roughness: 0.5 });
+  for (let i = 0; i < def.pads; i++) {
+    const a = lr() * Math.PI * 2, rr = Math.sqrt(lr()) * R * 0.68, px = Math.cos(a) * rr * 1.15, pz = Math.sin(a) * rr;
+    const pad = new THREE.Mesh(new THREE.CircleGeometry(0.4 + lr() * 0.35, 20, 0.3, Math.PI * 2 - 0.6), padMat); pad.rotation.x = -Math.PI / 2; pad.rotation.z = lr() * 6; pad.position.set(px, 0.05, pz); inner.add(pad);
+    if (i % 3 === 0) { const f = new THREE.Mesh(new THREE.SphereGeometry(0.2, 10, 8), lotus); f.scale.y = 0.7; f.position.set(px + 0.12, 0.15, pz); inner.add(f); }
+  }
+  group.userData.toy = inner; group.userData.pathPiece = true;
+  return group;
+}
+
+/* 상점 그림: 위에서 본 조각 (고른 색으로) */
+const PATH_THUMB = {};
+function pathThumbHTML(id) {
+  const def = PATH_DEF[id], ci = def.lake ? -1 : pathColorNow(), key = id + ':' + ci;
+  if (!PATH_THUMB[key]) {
+    const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+    g.fillStyle = '#b7e39c'; g.beginPath(); g.roundRect(2, 2, 124, 124, 22); g.fill();   /* 잔디 바탕 */
+    g.save(); g.beginPath(); g.roundRect(2, 2, 124, 124, 22); g.clip();
+    if (def.lake) {
+      const R = def.lake === 4.2 ? 54 : 38;
+      g.fillStyle = '#ffe6b5'; g.beginPath(); g.ellipse(64, 64, R * 1.2 * 1.12, R * 1.1, 0, 0, Math.PI * 2); g.fill();
+      const gr = g.createLinearGradient(0, 0, 128, 128); gr.addColorStop(0, '#7fd6f2'); gr.addColorStop(1, '#5fc3ea');
+      g.fillStyle = gr; g.beginPath(); g.ellipse(64, 64, R * 1.2, R, 0, 0, Math.PI * 2); g.fill();
+      g.fillStyle = '#6fcf6a'; [[-0.4, -0.2], [0.35, 0.3], [0.1, -0.45]].forEach(([x, y]) => { g.beginPath(); g.arc(64 + x * R, 64 + y * R, R * 0.16, 0.3, Math.PI * 2 - 0.3); g.lineTo(64 + x * R, 64 + y * R); g.fill(); });
+      g.fillStyle = '#ff9ecb'; g.beginPath(); g.arc(64 + 0.42 * R, 64 + 0.26 * R, R * 0.09, 0, Math.PI * 2); g.fill();
+    } else {
+      const S = 128 / 4.8, P = PATH_COLORS[ci];   /* 4.8 칸 = 그림 한 장 */
+      g.save(); g.translate(64, 64); g.scale(S, S);
+      const draw = (pad, fill) => { g.fillStyle = fill; pathParts(def.path, pad).forEach(pt => {
+        g.beginPath();
+        if (pt.rect) { const [x0, z0, x1, z1] = pt.rect; g.rect(x0, z0, x1 - x0, z1 - z0); }
+        else { const A = pt.arc; g.arc(A.cx, A.cz, A.r1, A.a0, A.a1); g.arc(A.cx, A.cz, Math.max(0.001, A.r0), A.a1, A.a0, true); g.closePath(); }
+        g.fill(); }); };
+      const off = def.path === 's' ? [[0, 0], [0, 2.2], [0, -2.2]] : [[0, 0]];
+      off.forEach(([ox, oz], k) => { g.save(); g.translate(ox, oz); g.globalAlpha = k ? 0.55 : 1; draw(PE, '#' + P.edge.toString(16).padStart(6, '0')); g.restore(); });
+      const pat = g.createPattern(pathCobbleCanvas(ci), 'repeat'); pat.setTransform(new DOMMatrix().scale(3.6 / 256));
+      off.forEach(([ox, oz], k) => { g.save(); g.translate(ox, oz); g.globalAlpha = k ? 0.55 : 1; draw(0, pat); g.restore(); });
+      g.restore();
+    }
+    g.restore();
+    PATH_THUMB[key] = c.toDataURL('image/png');
+  }
+  return `<img src="${PATH_THUMB[key]}" alt="">`;
+}
+/* 상점: 길 색 고르기 줄 */
+function pathColorBar(sv) {
+  const bar = document.createElement('div'); bar.className = 'path-bar';
+  const cur = pathColorNow();
+  bar.innerHTML = `<div class="pb-t">🧱 길 만들기 <small>색을 고른 다음 길 조각을 사요</small></div><div class="pb-sw">${PATH_COLORS.map((p, i) => `<button class="pb-c${i === cur ? ' on' : ''}" data-i="${i}" style="background:${p.sw}">${p.n}</button>`).join('')}</div>`;
+  bar.querySelectorAll('.pb-c').forEach(b => b.onclick = e => { e.stopPropagation(); playSfx('click'); updateSave(s => { s.pc = Number(b.dataset.i) || 0; }); renderShopScreen(); });
+  return bar;
+}
+function pathCss() {
+  if (document.getElementById('pathCss')) return;
+  const st = document.createElement('style'); st.id = 'pathCss';
+  st.textContent = `
+    #shopGrid .path-bar { grid-column: 1 / -1; background: #fff7fb; border: 2px dashed #ffadd2; border-radius: 14px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
+    .path-bar .pb-t { font-weight: 800; color: #c41d7f; font-size: 0.98rem; }
+    .path-bar .pb-t small { font-weight: 600; color: #9e6b85; font-size: 0.78rem; margin-left: 6px; word-break: keep-all; }
+    .path-bar .pb-sw { display: flex; flex-wrap: wrap; gap: 6px; }
+    .path-bar .pb-c { border: 2px solid #fff; border-radius: 999px; padding: 5px 12px; font: inherit; font-size: 0.85rem; font-weight: 700; color: #5a4050; cursor: pointer; box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+    .path-bar .pb-c.on { border-color: #ff4d88; box-shadow: 0 0 0 3px #ffd6e7, 0 2px 0 rgba(0,0,0,.12); }
+    #btnPathMore, #btnPathColor { display: none; }
+  `;
+  document.head.appendChild(st);
+}
+
+/* 마을: 고른 길 조각에 ➕ 이어 놓기 · 🎨 색 바꾸기 */
+function pathSelected() {
+  if (!editMode || !selectedDecoIid) return null;
+  const p = (getSave().pl || []).find(x => x && x.iid === selectedDecoIid);
+  return p && PATH_DEF[p.id] ? p : null;
+}
+function pathButtonsSync() {
+  const p = pathSelected(), more = document.getElementById('btnPathMore'), col = document.getElementById('btnPathColor');
+  if (!more || !col) return;
+  const isPath = !!(p && PATH_DEF[p.id].path);
+  more.style.display = isPath ? 'inline-flex' : 'none';
+  col.style.display = isPath ? 'inline-flex' : 'none';
+}
+function pathButtonsInit() {
+  pathCss();
+  const rot = document.getElementById('btnRotateDeco'); if (!rot || document.getElementById('btnPathMore')) return;
+  const more = document.createElement('button'); more.id = 'btnPathMore'; more.className = 'btn-3d mint'; more.innerHTML = '➕ 이어 놓기 <small>(🪙 10개)</small>';
+  const col = document.createElement('button'); col.id = 'btnPathColor'; col.className = 'btn-3d'; col.textContent = '🎨 색 바꾸기';
+  rot.insertAdjacentElement('afterend', col); rot.insertAdjacentElement('afterend', more);
+  more.onclick = () => pathContinue();
+  col.onclick = () => {
+    const p = pathSelected(); if (!p) return;
+    let nm = '';
+    updateSave(s => { const q = (s.pl || []).find(x => x && x.iid === p.iid); if (!q) return; q.col = (pathColIdx(q) + 1) % PATH_COLORS.length; nm = PATH_COLORS[q.col].n; });
+    playSfx('click'); rebuildThreeWorldEntities(); showToast('🎨 ' + nm + ' 길');
+  };
+  setInterval(pathButtonsSync, 250);
+}
+/* 고른 조각 끝에 직선 길 한 조각을 이어 붙인다 (같은 색) */
+function pathContinue() {
+  const p = pathSelected(); if (!p || friendVisit) return;
+  const def = PATH_DEF[p.id], sv = getSave(), cost = PATH_DEF.deco_brick.cost;
+  if ((Number(sv.s) || 0) < cost) { playSfx('wrong'); return showToast('코인이 조금 더 필요해요!'); }
+  const r8 = Number(p.ry) || 0, th = r8 * Math.PI / 4;
+  let lx = 0, lz = 2.2, nr = r8;                       /* 직선: 앞으로 한 칸 */
+  if (def.path === 'c') { lx = 3.3; lz = 0; nr = (r8 + 2) % 8; }   /* 곡선: 꺾인 쪽으로 */
+  else if (def.path === 't' || def.path === 'x') { lx = 0; lz = 3.3; }
+  const dx = lx * Math.cos(th) + lz * Math.sin(th), dz = -lx * Math.sin(th) + lz * Math.cos(th);
+  const rc = (Number(p.c) || 0) + dx / 2.2, rr = (Number(p.r) || 0) + dz / 2.2, c = snapHalf(rc), r = snapHalf(rr);
+  if (Math.abs(c - rc) > 0.3 || Math.abs(r - rr) > 0.3) { playSfx('wrong'); return showToast('땅 끝이라 더 이을 수 없어요. 땅을 넓혀 봐요!'); }
+  const iid = 'pl_' + Date.now();
+  updateSave(s => { s.s -= cost; if (!s.o.includes('deco_brick')) s.o.push('deco_brick'); s.pl.push({ iid, id: 'deco_brick', c, r, ry: nr, col: pathColIdx(p) }); });
+  selectedDecoIid = iid; playSfx('coin'); rebuildThreeWorldEntities();
+  showToast('🧱 길을 한 칸 이었어요! (🪙 ' + cost + '개)');
+}
+
 function create3DMeshForEntity(ent) {
+  if (ent.kind === 'placed' && PATH_DEF[ent.id]) return pathMesh(ent);   /* 11-21 길 조각·연못 */
   if (ent.kind === 'placed' && plantMeta(ent.id)) return plantMesh(ent);   /* 11-20(6) 자라는 나무·꽃 */
   const _g = create3DMeshForEntity0(ent);
   if (ent.doorScreen && (decoById(ent.id) || {}).toyBld) {   /* 모형 건물도 문 앞 노란 고리 */
@@ -8052,7 +8296,7 @@ function getWorldEntities() {
     if (!meta) return;
     list.push({
       kind: 'placed', iid: inst.iid, id: meta.id, name: meta.name, icon: meta.icon,
-      c: Number(inst.c) || 0, r: Number(inst.r) || 0, fw: meta.fw, fh: meta.fh, ry: Number(inst.ry) || 0, g: inst.g || null,
+      c: Number(inst.c) || 0, r: Number(inst.r) || 0, fw: meta.fw, fh: meta.fh, ry: Number(inst.ry) || 0, g: inst.g || null, col: Number(inst.col) || 0,
       type: meta.type, shape: meta.shape, roof: meta.roof, wall: meta.wall,
       color: meta.color, doorScreen: meta.doorScreen, sign: inst.b ? cityConstructSign(inst) : (meta.sign || `${meta.icon} ${meta.name}`),
       redRoof: meta.id !== 'deco_castle' && meta.id !== 'deco_greenhouse' && meta.id !== 'deco_boutique' && meta.id !== 'deco_salon' && meta.id !== 'deco_cityhall' && meta.id !== 'deco_construct' && meta.type === 'bld'
@@ -8063,6 +8307,7 @@ function getWorldEntities() {
 
 function rebuildThreeWorldEntities() {
   if (!threeScene) return;
+  try { pathButtonsInit(); } catch (e) { console.warn('pathButtons', e); }
   let _grown = []; try { _grown = plantGrowTick(); } catch (e) {}
   let _built = []; try { _built = cityTick(); } catch (e) {}
   _built.forEach((n, i) => setTimeout(() => { playSfx('coin'); showToast(`🎉 ${n} 완공! 이제 들어가 볼 수 있어요`); }, 400 + i * 1800));
@@ -9640,6 +9885,7 @@ function renderShopScreen() {
 
   if (activeShopTab === 'bld' || activeShopTab === 'deco' || activeShopTab === 'adv') {
     DECOS.filter(d => activeShopTab === 'bld' ? (d.type === 'bld' && d.id !== 'deco_castle' && !d.hidden) : activeShopTab === 'adv' ? d.grp === 'adv' : (d.type !== 'bld' && d.grp !== 'adv' && d.grp !== 'plant')).forEach(deco => {
+      if (deco.id === 'deco_brick') { pathCss(); grid.appendChild(pathColorBar(sv)); }
       const nIn = (sv.pl || []).filter(p => p && p.id === deco.id).length, nInv = (sv.inv && sv.inv[deco.id]) || 0;
       const card = document.createElement('div'); card.className = 'look-card';
       card.innerHTML = `<div class="look-thumb">${shopThumbHTML(deco)}</div><div class="look-title">${deco.name}</div><div class="look-badge" style="background:#fffbe6; color:#d48806; border-color:#ffe58f;">🪙 ${deco.cost}개</div>${nIn || nInv ? `<div style="font-size:0.68rem; color:#8c7a62;">마을에 ${nIn}개${nInv ? ` · 창고 ${nInv}개` : ''}</div>` : ''}`;
@@ -9649,7 +9895,7 @@ function renderShopScreen() {
         const _iid = 'pl_' + Date.now();
         updateSave(s => {
           s.s -= deco.cost; if (!s.o.includes(deco.id)) s.o.push(deco.id);
-          s.pl.push({ iid: _iid, id: deco.id, c: snapHalf(gpos.c), r: snapHalf(gpos.r) });
+          s.pl.push(Object.assign({ iid: _iid, id: deco.id, c: snapHalf(gpos.c), r: snapHalf(gpos.r) }, PATH_DEF[deco.id] && PATH_DEF[deco.id].path ? { col: pathColorNow() } : {}));
         });
         justBought = { id: deco.id, iid: _iid };
         playSfx('coin'); showToast(`🎉 [${deco.name}] 구매! 마을에서 원하는 자리로 끌어 옮겨요 ✋`); goMoveAfterBuy(_iid);
@@ -9936,6 +10182,7 @@ function initWorldControls() {
       if (meta.type === 'bld' && meta.toyBld && TOY_BUILD[p.id]) { mode = 'toy90'; p.ry = (Math.round(r / 2) * 2 + 2) % 8; }   /* 모형 건물 90° */
       else if (meta.type === 'bld' && loaded3DSprites[p.id + '@1']) { mode = 'bld90'; p.ry = (r + 1) % 4; }              /* 그림 건물 90° (4방향 그림) */
       else if (meta.type !== 'bld' && TOY_BUILD[p.id]) { mode = 'toy45'; p.ry = (r + 1) % 8; }                          /* 장식 모형 45° */
+      else if (PATH_DEF[p.id]) { mode = 'path90'; p.ry = (Math.round(r / 2) * 2 + 2) % 8; }   /* 11-21 길 조각·연못 90° */
       else p.ry = (r + 1) % 2; });                                                                                     /* 그림 장식 좌우 뒤집기 */
     rebuildThreeWorldEntities(); playSfx('click');
     if (mode === 'flip') showToast('↔️ 그림 장식은 좌우로 뒤집혀요');
@@ -10149,7 +10396,7 @@ function fbVillagePayload(code) {
   const sv = getSave(), gp = {};
   STUDY_BUILDINGS.forEach(b => { const p = sv.gp && sv.gp[b.id]; if (p) gp[b.id] = { c: Number(p.c) || 0, r: Number(p.r) || 0, ry: ((Number(p.ry) || 0) % 8 + 8) % 8 }; });
   const pl = (sv.pl || []).filter(p => p && decoById(p.id)).slice(0, 200)
-    .map(p => Object.assign({ iid: String(p.iid).slice(0, 40), id: p.id, c: Number(p.c) || 0, r: Number(p.r) || 0, ry: ((Number(p.ry) || 0) % 8 + 8) % 8 }, p.b ? { b: String(p.b).slice(0, 24), t: Number(p.t) || 0 } : {}));
+    .map(p => Object.assign({ iid: String(p.iid).slice(0, 40), id: p.id, c: Number(p.c) || 0, r: Number(p.r) || 0, ry: ((Number(p.ry) || 0) % 8 + 8) % 8 }, p.col ? { col: Math.max(0, Math.min(9, Number(p.col) || 0)) } : {}, p.b ? { b: String(p.b).slice(0, 24), t: Number(p.t) || 0 } : {}));
   return { code, land: Math.max(0, Math.min(6, Number(sv.land) || 0)), gp, pl, lk: String(sv.lk).slice(0, 24), hr: String(sv.hr || sv.lk).slice(0, 24) };
 }
 async function fbPushVillage(force) {
@@ -10195,7 +10442,7 @@ async function fbVisit(code, name) {
   const gp = {};
   STUDY_BUILDINGS.forEach(b => { const p = v.gp && v.gp[b.id]; if (p) gp[b.id] = { c: Number(p.c) || 0, r: Number(p.r) || 0, ry: ((Number(p.ry) || 0) % 8 + 8) % 8 }; });
   const pl = Object.values(v.pl || {}).filter(p => p && decoById(p.id))
-    .map(p => Object.assign({ iid: 'fv_' + String(p.iid), id: p.id, c: Number(p.c) || 0, r: Number(p.r) || 0, ry: ((Number(p.ry) || 0) % 8 + 8) % 8 }, p.b ? { b: String(p.b).slice(0, 24), t: Number(p.t) || 0 } : {}));
+    .map(p => Object.assign({ iid: 'fv_' + String(p.iid), id: p.id, c: Number(p.c) || 0, r: Number(p.r) || 0, ry: ((Number(p.ry) || 0) % 8 + 8) % 8 }, p.col ? { col: Math.max(0, Math.min(9, Number(p.col) || 0)) } : {}, p.b ? { b: String(p.b).slice(0, 24), t: Number(p.t) || 0 } : {}));
   name = String(name || '').trim().slice(0, 10);
   updateSave(s => {
     const list = (Array.isArray(s.fr) ? s.fr : []).filter(f => f && f.c && f.c !== code);
