@@ -1137,7 +1137,7 @@
         <div class="closet-header">
           <div style="display:flex; gap:8px; align-items:center;">
             <h3 style="margin:0;">🧩 낱말 퍼즐의 방</h3>
-            <span id="cwStageBadge" class="chip">1단계 (보상: 15🪙)</span>
+            <span id="cwStageBadge" class="chip">1단계 (보상: 🪙 15개)</span>
             <div id="cwGradeBox" class="cw-grades"><button data-g="2">2학년</button><button data-g="3">3학년</button><button data-g="4">4학년</button></div>
           </div>
           <div style="display:flex; gap:6px;">
@@ -2574,7 +2574,7 @@ function gardenRender() {
     const unit = d.plant === 'tree' ? '묘목' : '씨앗', card = document.createElement('div'); card.className = 'gd-card';
     card.innerHTML = `<div class="gd-thumb">${shopThumbHTML(d)}</div><div class="gd-name">${d.icon} ${d.name}</div>
       <div class="gd-kind">${unit}${d.petals ? ' · 다 자라면 꽃잎이 흩날려요' : ''}</div><div class="gd-cnt">마을에 ${cnt(d.id)}${d.plant === 'tree' ? '그루' : '포기'}</div>
-      <button class="btn-3d gd-buy">🪙 ${d.cost} · ${unit} 사기</button>`;
+      <button class="btn-3d gd-buy">🪙 ${d.cost}개 · ${unit} 사기</button>`;
     card.querySelector('.gd-buy').onclick = () => gardenBuy(d);
     if (justBought && justBought.id === d.id) markJustCard(card);
     grid.appendChild(card);
@@ -2756,7 +2756,7 @@ function styleShopRender(kind) {
     if (hair) drawPrincessCombined(cv.getContext('2d'), 66, 272, 1.75, sv.lk, l.id, 0);   /* 얼굴·머리 크게 */
     else drawPrincessCombined(cv.getContext('2d'), 66, 128, 0.9, l.id, sv.hr || sv.lk, 0);
     card.innerHTML = `<div class="ss-thumb"></div><div class="ss-name">${name}</div>
-      <button class="btn-3d ss-buy ${owned ? '' : 'primary'}">${on ? (hair ? '✓ 지금 머리' : '✓ 입고 있어요') : owned ? (hair ? '💇 이 머리로' : '👗 입어 보기') : `🪙 ${cost} · 사기`}</button>`;
+      <button class="btn-3d ss-buy ${owned ? '' : 'primary'}">${on ? (hair ? '✓ 지금 머리' : '✓ 입고 있어요') : owned ? (hair ? '💇 이 머리로' : '👗 입어 보기') : `🪙 ${cost}개 · 사기`}</button>`;
     card.querySelector('.ss-thumb').appendChild(cv);
     card.querySelector('.ss-buy').onclick = () => {
       if (on) return;
@@ -4528,7 +4528,7 @@ function cityApply(id) {
   if (cityBuilding(sv)) { playSfx('wrong'); return showToast('🏗️ 지금 짓고 있는 건물이 있어요. 다 지은 뒤에 신청해요!'); }
   if (cityHas(sv, id)) return showToast('이미 마을에 있어요!');
   if ((Number(sv.s) || 0) < it.cost) { playSfx('wrong'); return showToast(`🪙 코인이 ${it.cost - (Number(sv.s) || 0)}개 더 필요해요!`); }
-  if (!confirm(`${it.icon} ${it.name} — 🪙 ${it.cost}코인으로 신청할까요?\n공사는 하루(24시간) 걸려요. 내일 이 시간쯤 완공돼요!`)) return;
+  if (!confirm(`${it.icon} ${it.name} — 🪙 ${it.cost}개로 신청할까요?\n공사는 하루(24시간) 걸려요. 내일 이 시간쯤 완공돼요!`)) return;
   const g = worldPlacementGrid(), iid = 'cs_' + Date.now(), now = Date.now();
   updateSave(s => { s.s = (Number(s.s) || 0) - it.cost; if (!Array.isArray(s.pl)) s.pl = [];
     s.pl.push({ iid, id: 'deco_construct', b: it.id, t0: now, t: now + CITY_BUILD_MS, c: snapHalf(g.c), r: snapHalf(g.r) }); });
@@ -4548,7 +4548,7 @@ function cityRender() {
     if (building) act = `<div class="ch-state build">🏗️ 공사 중</div>`;
     else if (has) act = `<div class="ch-state have">✅ 우리 마을에 있어요</div>`;
     else act = `<button class="btn-3d primary ch-go" data-id="${it.id}" ${cur || coins < it.cost ? 'disabled' : ''}>📝 신청하기</button>`;
-    return `<div class="ch-card${has ? ' have' : ''}"><div class="ch-img">${img}</div><div class="ch-name">${it.icon} ${it.name}</div><div class="ch-note">${it.note}</div><div class="ch-cost">🪙 ${it.cost}</div>${act}</div>`;
+    return `<div class="ch-card${has ? ' have' : ''}"><div class="ch-img">${img}</div><div class="ch-name">${it.icon} ${it.name}</div><div class="ch-note">${it.note}</div><div class="ch-cost">🪙 ${it.cost}개</div>${act}</div>`;
   }).join('');
   el.innerHTML = `<div class="ch-wrap"><div class="ch-head"><div class="ch-title">🏛️ 시청 · 건물 신청</div>
     <div class="ch-sub">건물을 신청하면 코인을 내고, <b>하루(24시간)</b> 동안 공사해요. 공사는 한 번에 하나씩!</div></div>
@@ -6765,7 +6765,7 @@ function worldAddLandCard(grid, sv) {
   const card = document.createElement('div'); card.className = 'look-card' + (done ? ' selected' : '');
   card.innerHTML = `<div class="look-thumb">${toyLandThumb()}</div><div class="look-title">마을 땅 넓히기</div>`
     + `<div style="font-size:0.7rem; color:#888;">지금 ${lv}단계 / 최대 ${max}단계</div>`
-    + `<div class="look-badge" style="${done ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${done ? '가장 넓은 마을!' : `🪙 ${cost} 코인`}</div>`;
+    + `<div class="look-badge" style="${done ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${done ? '가장 넓은 마을!' : `🪙 ${cost}개`}</div>`;
   card.onclick = () => {
     if (done) return showToast('이미 가장 넓은 마을이에요! 👑');
     if (sv.s < cost) { playSfx('wrong'); return showToast('코인이 조금 더 필요해요!'); }
@@ -8610,7 +8610,7 @@ function initCrosswordStage() {
   cwSelected = { r: cwWords[0].r, c: cwWords[0].c }; cwDir = cwWords[0].dir;
   renderCwBoard(); cwReviewBtn(); requestAnimationFrame(cwFit);
 }
-function cwBadge() { document.getElementById('cwStageBadge').textContent = cwReviewMode ? `🔁 다시 생각해 보기 · 낱말 ${cwWords.length}개 · 스스로 맞히면 2🪙씩` : `${cwGrade()}학년 ${cwStage()}단계 · 보상 ${cwRevealed ? 0 : cwReward()}🪙`; }
+function cwBadge() { document.getElementById('cwStageBadge').textContent = cwReviewMode ? `🔁 다시 생각해 보기 · 낱말 ${cwWords.length}개 · 스스로 맞히면 2🪙씩` : `${cwGrade()}학년 ${cwStage()}단계 · 보상 🪙 ${cwRevealed ? 0 : cwReward()}개`; }
 function cwFit() {
   const wrap = document.getElementById('cwBoardWrap'), board = document.getElementById('cwBoard'); if (!wrap || !board) return;
   const hintH = (document.getElementById('cwCurrentHint') || {}).offsetHeight || 34;
@@ -9312,7 +9312,7 @@ function buildLeisureScreens() {
     const grid = sec.querySelector(`#${scrKey}MenuGrid`);
     menus.forEach(m => {
       const card = document.createElement('div'); card.className = 'look-card';
-      card.innerHTML = `<div class="look-thumb">${m.emo || m.icon}</div><div class="look-title">${m.name}</div><div class="look-badge" style="background:#fffbe6; color:#d48806; border-color:#ffe58f;">🪙 ${m.cost} 코인</div>`;
+      card.innerHTML = `<div class="look-thumb">${m.emo || m.icon}</div><div class="look-title">${m.name}</div><div class="look-badge" style="background:#fffbe6; color:#d48806; border-color:#ffe58f;">🪙 ${m.cost}개</div>`;
       card.onclick = () => {
         const sv = getSave();
         if (sv.s < m.cost) { playSfx('wrong'); return showToast('코인이 조금 더 필요해요!'); }
@@ -9450,7 +9450,7 @@ function renderShopScreen() {
     DECOS.filter(d => activeShopTab === 'bld' ? (d.type === 'bld' && d.id !== 'deco_castle' && !d.hidden) : activeShopTab === 'adv' ? d.grp === 'adv' : (d.type !== 'bld' && d.grp !== 'adv' && d.grp !== 'plant')).forEach(deco => {
       const nIn = (sv.pl || []).filter(p => p && p.id === deco.id).length, nInv = (sv.inv && sv.inv[deco.id]) || 0;
       const card = document.createElement('div'); card.className = 'look-card';
-      card.innerHTML = `<div class="look-thumb">${shopThumbHTML(deco)}</div><div class="look-title">${deco.name}</div><div class="look-badge" style="background:#fffbe6; color:#d48806; border-color:#ffe58f;">🪙 ${deco.cost} 코인</div>${nIn || nInv ? `<div style="font-size:0.68rem; color:#8c7a62;">마을에 ${nIn}개${nInv ? ` · 창고 ${nInv}개` : ''}</div>` : ''}`;
+      card.innerHTML = `<div class="look-thumb">${shopThumbHTML(deco)}</div><div class="look-title">${deco.name}</div><div class="look-badge" style="background:#fffbe6; color:#d48806; border-color:#ffe58f;">🪙 ${deco.cost}개</div>${nIn || nInv ? `<div style="font-size:0.68rem; color:#8c7a62;">마을에 ${nIn}개${nInv ? ` · 창고 ${nInv}개` : ''}</div>` : ''}`;
       card.onclick = () => {
         if (sv.s < deco.cost) { playSfx('wrong'); return showToast('코인이 조금 더 필요해요!'); }
         const gpos = worldPlacementGrid();
@@ -9472,7 +9472,7 @@ function renderShopScreen() {
       const card = document.createElement('div'); card.className = 'look-card' + (owned ? ' selected' : '');
       const thumbCanvas = document.createElement('canvas'); thumbCanvas.width = 76; thumbCanvas.height = 76;
       drawPrincessCombined(thumbCanvas.getContext('2d'), 38, 72, 0.48, look.id, look.id, 0);
-      card.innerHTML = `<div class="look-thumb"></div><div class="look-title">${look.name}</div><div style="font-size:0.7rem; color:#888;">+ ${look.hairName}</div><div class="look-badge" style="${owned ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${owned ? '보유 완료' : `🪙 ${look.cost} 코인`}</div>`;
+      card.innerHTML = `<div class="look-thumb"></div><div class="look-title">${look.name}</div><div style="font-size:0.7rem; color:#888;">+ ${look.hairName}</div><div class="look-badge" style="${owned ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${owned ? '보유 완료' : `🪙 ${look.cost}개`}</div>`;
       card.querySelector('.look-thumb').appendChild(thumbCanvas);
       card.onclick = () => {
         if (owned) return showToast('이미 보유한 스타일이에요!');
@@ -9488,7 +9488,7 @@ function renderShopScreen() {
       const card = document.createElement('div'); card.className = 'look-card' + (owned ? ' selected' : '');
       const tc = document.createElement('canvas'); tc.width = 76; tc.height = 76;
       drawPrincessCombined(tc.getContext('2d'), 38, 72, 0.48, look.id, sv.hr || sv.lk, 0);
-      card.innerHTML = `<div class="look-thumb"></div><div class="look-title">${look.name}</div><div style="font-size:0.7rem; color:#888;">✨ 새 옷 · 머리는 그대로</div><div class="look-badge" style="${owned ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${owned ? '보유 중 ✓' : `🪙 ${look.cost} 코인`}</div>`;
+      card.innerHTML = `<div class="look-thumb"></div><div class="look-title">${look.name}</div><div style="font-size:0.7rem; color:#888;">✨ 새 옷 · 머리는 그대로</div><div class="look-badge" style="${owned ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${owned ? '보유 중 ✓' : `🪙 ${look.cost}개`}</div>`;
       card.querySelector('.look-thumb').appendChild(tc);
       card.onclick = () => {
         if (owned) { updateSave(s => { s.lk = look.id; }); updatePlayer3DTexture(); renderShopScreen(); return showToast(`👗 [${look.name}]으로 갈아입었어요!`); }
@@ -9525,7 +9525,7 @@ function renderPrinceShop(grid, sv) {
     const tc = document.createElement('canvas'); tc.width = 76; tc.height = 76;
     if (isHair) drawPrincessCombined(tc.getContext('2d'), 38, 112, 0.66, sv.lk, look.id, 0);
     else drawPrincessCombined(tc.getContext('2d'), 38, 72, 0.48, look.id, sv.hr, 0);
-    card.innerHTML = `<div class="look-thumb"></div><div class="look-title">${look.name}</div><div style="font-size:0.7rem; color:#888;">${isHair ? '💇 머리' : '👔 옷'}</div><div class="look-badge" style="${owned ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${owned ? '보유 완료' : `🪙 ${look.cost} 코인`}</div>`;
+    card.innerHTML = `<div class="look-thumb"></div><div class="look-title">${look.name}</div><div style="font-size:0.7rem; color:#888;">${isHair ? '💇 머리' : '👔 옷'}</div><div class="look-badge" style="${owned ? '' : 'background:#fffbe6; color:#d48806; border-color:#ffe58f;'}">${owned ? '보유 완료' : `🪙 ${look.cost}개`}</div>`;
     card.querySelector('.look-thumb').appendChild(tc);
     card.onclick = () => {
       if (owned) return showToast('이미 가지고 있어요!');
