@@ -5636,7 +5636,7 @@ const GUIDES = {
            { it: [gdI('🟪', 68, 60, 1.6), gdI('🟨🟨🟨🟨🟨⬜🟨', 50, 80, 1.2)], h: [80, 45], tap: 1, c: '빈칸으로 옮겨요' },
            { it: [gdI('✨✨✨✨✨✨✨', 50, 80, 1.2, 'gd-pop'), gdI('🪙 +2개', 50, 40, 1.8, 'gd-coin gd-pop')], c: '한 줄 완성!' }] },
   room: { title: '🏰 공주의 성', bg: 'pink', kind: 'charge',
-    what: '내 방이에요. <b>침대</b>에서 쉬어요. <b>옷장</b>과 <b>화장대</b>에서 옷과 머리를 바꿔요. <b>책상</b>에 앉아 일기를 써요.',
+    what: '내 방이에요. <b>침대</b>에서 쉬어요. <b>옷장</b>과 <b>화장대</b>에서 옷과 머리를 바꿔요. <b>책상</b>에 앉아 일기를 써요. 일기에 스티커도 붙일 수 있어요.',
     coin: '일기 5문장 다 쓰면 <b>+5개</b>',
     energy: '침대에서 자면 <b>10분마다 ⚡ 에너지가 5 늘어요</b>',
     demo: [{ it: [gdI('🛏️', 25, 55, 2.6), gdI('👗', 55, 50, 2.2), gdI('📔', 82, 55, 2.2)], h: [25, 58], tap: 1, c: '침대를 눌러요' },
@@ -6901,7 +6901,8 @@ function initRoom3DShell() {
       · 화면을 손가락으로 <b>끌거나</b> 오른쪽 아래 <b>화살표</b>를 누르면 위·아래·왼쪽·오른쪽을 둘러볼 수 있어요.<br>
       · <b>침대</b>를 누르면 [잠옷입고 코 자기] 버튼이 나와요. 누르면 침대에 누워 잠자고 에너지가 100이 돼요.<br>
       · 왼쪽의 <b>옷장</b>을 누르면 <b>옷</b>을, 오른쪽의 <b>화장대</b>를 누르면 <b>머리 모양</b>을 바꿀 수 있어요.<br>
-      · 뒤쪽 책장 옆 <b>책상</b>을 누르면 <b>일기</b>를 쓸 수 있어요.<br>
+      · 뒤쪽 책장 옆 <b>책상</b>을 누르면 <b>일기</b>를 쓸 수 있어요. 일기장의 <b>스티커</b>를 누르면 일기에 붙어요.<br>
+      · 가구 위 <b>분홍 이름표</b>를 눌러도 그곳으로 가요.<br>
       · 오른쪽 벽의 <b>방문</b>을 누르면 문이 열리고 <b>마을</b>으로 나가요.
     </div>
     <button id="roomHelpBtn" class="btn-3d room-help">도움말</button>
@@ -6919,7 +6920,9 @@ function initRoom3DShell() {
       <div class="room-closet-head"><div id="diaryDate" class="diary-date"></div><span style="flex:1"></span><button id="diaryToday" class="diary-today">오늘 일기</button></div>
       <div class="diary-row" id="diaryWeather"><span class="lbl">날씨</span></div>
       <div class="diary-row" id="diaryMood"><span class="lbl">기분</span></div>
-      <textarea id="diaryText" class="diary-text" maxlength="1000" placeholder="오늘 있었던 일을 써 보세요"></textarea>
+      <div class="diary-row diary-stk-row"><span class="lbl">스티커</span><div id="diaryStkTray" class="diary-tray"></div></div>
+      <div class="diary-paper"><textarea id="diaryText" class="diary-text" maxlength="1000" placeholder="오늘 있었던 일을 써 보세요"></textarea><div id="diaryStk" class="diary-stk"></div></div>
+      <div class="diary-stk-tip">스티커는 끌어서 옮기고, 눌러서 ✕로 떼요</div>
       <div id="diaryCount" class="diary-count"></div>
       <button id="diarySave" class="diary-save">일기 저장하기</button>
       <div id="diaryList" class="diary-list"></div>
@@ -7436,8 +7439,151 @@ function roomStepWalk(dt) {
   if (!w.pts.length) { room3.walk = null; if (w.away) roomDrawPrincess(0, true); else roomDrawPrincess(); if (w.then) w.then(); return; }
   roomDrawPrincess(w.phase, away);
 }
+/* 11-21 원장님: 침실에서 누를 수 있는 가구 위에 이름표 + 일기장 스티커 */
+const ROOM_TAGS = [
+  { k: 'wardrobe', n: '👗 옷장', d: '옷을 갈아입어요' },
+  { k: 'vanity', n: '🪞 화장대', d: '머리 손질을 해요' },
+  { k: 'bed', n: '🛏️ 침대', d: '휴식을 취해요' },
+  { k: 'desk', n: '📔 책상', d: '일기를 써요' }
+];
+function roomTagsCss() {
+  if (document.getElementById('roomTagCss')) return;
+  const st = document.createElement('style'); st.id = 'roomTagCss';
+  st.textContent = `
+    .room-tags { position:absolute; inset:0; pointer-events:none; z-index:6; overflow:hidden; }
+    .room-tag { position:absolute; left:0; top:0; transform:translate(-50%,-100%); pointer-events:auto; display:none; flex-direction:column; align-items:center;
+      border:2px solid #fff; border-radius:14px; padding:4px 10px 5px; background:linear-gradient(#ff9cc6,#ff6fa5); color:#fff; font:inherit; cursor:pointer;
+      box-shadow:0 3px 0 #d9468a, 0 6px 12px rgba(120,30,80,.25); white-space:nowrap; line-height:1.15; animation:roomTagBob 2.4s ease-in-out infinite; }
+    .room-tag b { font-size:0.95rem; }
+    .room-tag span { font-size:0.78rem; font-weight:600; opacity:.95; }
+    .room-tag::after { content:''; position:absolute; left:50%; bottom:-9px; transform:translateX(-50%); border:7px solid transparent; border-top-color:#ff6fa5; border-bottom:0; }
+    .room-tag.show { display:flex; }
+    .room-tag:active { transform:translate(-50%,-100%) scale(.94); }
+    @keyframes roomTagBob { 0%,100% { margin-top:0; } 50% { margin-top:-5px; } }
+    @media (max-width:600px) { .room-tag { padding:3px 7px 4px; } .room-tag b { font-size:0.8rem; } .room-tag span { font-size:0.68rem; } }
+    .diary-paper { position:relative; flex:none; }
+    .diary-paper .diary-text { display:block; }
+    .diary-stk { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+    .diary-stk .stk { position:absolute; transform:translate(-50%,-50%); font-size:2.3rem; line-height:1; pointer-events:auto; cursor:grab; touch-action:none; user-select:none;
+      filter:drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 3px 3px rgba(0,0,0,.25)); }
+    .diary-stk .stk.sel { outline:2px dashed #ff6fa5; outline-offset:3px; border-radius:8px; }
+    .diary-stk .stk .x { position:absolute; right:-14px; top:-14px; width:22px; height:22px; border-radius:50%; border:none; background:#ff4d88; color:#fff; font-size:0.8rem; line-height:22px; padding:0; cursor:pointer; filter:none; }
+    .diary-stk-row .lbl { align-self:flex-start; padding-top:8px; width:auto !important; white-space:nowrap; }
+    .room-guide { word-break:keep-all; }
+    .diary-tray { flex:1; display:flex; flex-wrap:wrap; gap:3px; max-height:92px; overflow-y:auto; background:#fff7fb; border-radius:10px; padding:4px; }
+    .diary-tray button { border:none; background:#fff; font-size:1.35rem; width:38px; height:38px; cursor:pointer; padding:0; border-radius:10px; box-shadow:0 2px 0 #f3c9dc; }
+    .diary-tray button:active { transform:scale(.9); }
+    .diary-stk-tip { font-size:0.75rem; color:#9e6b85; text-align:center; padding:2px 0 0; }
+  `;
+  document.head.appendChild(st);
+}
+function roomTagsInit() {
+  roomTagsCss();
+  const wrap = document.getElementById('roomWrap'); if (!wrap || document.getElementById('roomTags')) return;
+  const box = document.createElement('div'); box.id = 'roomTags'; box.className = 'room-tags';
+  ROOM_TAGS.forEach(t => {
+    const b = document.createElement('button'); b.className = 'room-tag'; b.dataset.k = t.k;
+    b.innerHTML = `<b>${t.n}</b><span>${t.d}</span>`;
+    b.addEventListener('pointerdown', e => e.stopPropagation());
+    b.onclick = e => { e.stopPropagation(); if (!room3) return; room3.forcePick = t.k; roomTap(0, 0); };
+    box.appendChild(b);
+  });
+  const three = document.getElementById('roomThree'); three.insertAdjacentElement('afterend', box);
+}
+function roomTagObjs() {   /* 지금 보이는 가구(그림 또는 기본 모형) 하나씩 */
+  const out = {};
+  room3.scene.traverse(o => {
+    const k = o.userData && o.userData.pick; if (!k || out[k] || !ROOM_TAGS.some(t => t.k === k)) return;
+    for (let q = o; q; q = q.parent) if (q.visible === false) return;
+    out[k] = o;
+  });
+  return out;
+}
+function roomTagsUpdate() {
+  if (!room3) return;
+  if (!document.getElementById('roomTags')) roomTagsInit();
+  const box = document.getElementById('roomTags'); if (!box) return;
+  const open = id => { const e = document.getElementById(id); return !!e && e.classList.contains('show'); };
+  const hideAll = room3.asleep || room3.walk || room3.exiting || room3.doorAnim > 0 || open('roomCloset') || open('roomDiary') || open('roomBigP');
+  room3.tagN = (room3.tagN || 0) + 1;
+  if (!room3.tagPos || room3.tagN % 30 === 1) {   /* 가구 위치는 가끔만 다시 잼 */
+    const objs = roomTagObjs(); room3.tagPos = {};
+    Object.keys(objs).forEach(k => {
+      const bb = new THREE.Box3().setFromObject(objs[k]); if (bb.isEmpty()) return;
+      const c = bb.getCenter(new THREE.Vector3());
+      const top = k === 'bed' ? bb.min.y + (bb.max.y - bb.min.y) * 0.55 : k === 'desk' ? bb.min.y + (bb.max.y - bb.min.y) * 0.8 : bb.max.y - (bb.max.y - bb.min.y) * 0.08;
+      room3.tagPos[k] = new THREE.Vector3(c.x, top, c.z);
+    });
+  }
+  const r = room3.renderer.domElement, W = r.clientWidth, H = r.clientHeight, v = new THREE.Vector3();
+  box.querySelectorAll('.room-tag').forEach(b => {
+    const p = room3.tagPos[b.dataset.k];
+    if (hideAll || !p) { b.classList.remove('show'); return; }
+    v.copy(p).project(room3.camera);
+    const inView = v.z < 1 && v.x > -0.92 && v.x < 0.92 && v.y > -0.85 && v.y < 0.95;
+    b.classList.toggle('show', inView);
+    if (inView) { b.style.left = ((v.x + 1) / 2 * W) + 'px'; b.style.top = Math.max(46, (1 - v.y) / 2 * H) + 'px'; }
+  });
+}
+
+/* ---------- 일기장 스티커: 눌러서 붙이고, 끌어서 옮기고, 한 번 눌러 ✕ 로 떼기 (sv.diary 에만 저장) ---------- */
+const DIARY_STK = ['💖', '⭐', '🌸', '🌈', '🦄', '🐰', '🐱', '🐶', '🐻', '🦋', '🍓', '🍰', '🍦', '🍭', '🎀', '👑', '💎', '🎈', '🎁', '🌙', '☀️', '🌷', '🍀', '🎵', '✨', '🏰', '🚀', '⚽', '🎨', '📚', '🦖', '🚂'];
+const DIARY_STK_MAX = 12;
+function diaryStkInit() {
+  const tray = document.getElementById('diaryStkTray'); if (!tray || tray.childElementCount) return;
+  DIARY_STK.forEach(e => {
+    const b = document.createElement('button'); b.textContent = e;
+    b.onclick = () => diaryStkAdd(e);
+    tray.appendChild(b);
+  });
+  document.getElementById('roomDiary').addEventListener('pointerdown', ev => { if (!ev.target.closest('.stk')) diaryStkSel(-1); });
+}
+function diaryStkAdd(e) {
+  if (!room3) return;
+  room3.diaryK = room3.diaryK || [];
+  if (room3.diaryK.length >= DIARY_STK_MAX) { showToast('스티커는 ' + DIARY_STK_MAX + '개까지 붙일 수 있어요'); return; }
+  playSfx('click');
+  const n = room3.diaryK.length;
+  room3.diaryK.push({ e, x: Math.round(14 + ((n * 37) % 72) + Math.random() * 6), y: Math.round(18 + ((n * 23) % 64) + Math.random() * 6) });
+  room3.stkSel = room3.diaryK.length - 1;
+  diaryStkDraw();
+}
+function diaryStkSel(i) { if (!room3 || room3.stkSel === i) return; room3.stkSel = i; diaryStkDraw(); }
+function diaryStkDraw() {
+  const lay = document.getElementById('diaryStk'); if (!lay || !room3) return;
+  lay.innerHTML = '';
+  (room3.diaryK || []).forEach((s, i) => {
+    const d = document.createElement('div'); d.className = 'stk' + (room3.stkSel === i ? ' sel' : ''); d.textContent = s.e;
+    d.style.left = s.x + '%'; d.style.top = s.y + '%';
+    if (room3.stkSel === i) {
+      const x = document.createElement('button'); x.className = 'x'; x.textContent = '✕'; x.setAttribute('aria-label', '스티커 떼기');
+      x.addEventListener('pointerdown', ev => ev.stopPropagation());
+      x.onclick = ev => { ev.stopPropagation(); room3.diaryK.splice(i, 1); room3.stkSel = -1; playSfx('click'); diaryStkDraw(); };
+      d.appendChild(x);
+    }
+    let st = null;
+    d.addEventListener('pointerdown', ev => {
+      if (ev.target.classList.contains('x')) return;
+      ev.preventDefault(); ev.stopPropagation(); d.setPointerCapture(ev.pointerId);
+      st = { x: ev.clientX, y: ev.clientY, moved: false };
+    });
+    d.addEventListener('pointermove', ev => {
+      if (!st) return;
+      if (Math.hypot(ev.clientX - st.x, ev.clientY - st.y) > 5) st.moved = true;
+      if (!st.moved) return;
+      const r = lay.getBoundingClientRect();
+      s.x = Math.max(4, Math.min(96, Math.round((ev.clientX - r.left) / r.width * 100)));
+      s.y = Math.max(5, Math.min(95, Math.round((ev.clientY - r.top) / r.height * 100)));
+      d.style.left = s.x + '%'; d.style.top = s.y + '%';
+    });
+    const end = () => { if (!st) return; const tap = !st.moved; st = null; if (tap) diaryStkSel(room3.stkSel === i ? -1 : i); };
+    d.addEventListener('pointerup', end); d.addEventListener('pointercancel', () => { st = null; });
+    lay.appendChild(d);
+  });
+}
+
 function roomTap(x, y) {
-  const what = roomPick(x, y);
+  const what = (room3 && room3.forcePick) || roomPick(x, y); if (room3) room3.forcePick = null;
   if (what === 'door') {
     roomCloseCloset(); roomCloseDiary();
     if (room3.asleep || room3.doorAnim > 0 || !room3.standSprite) return roomOpenDoor();
@@ -7495,7 +7641,7 @@ function roomOpenDiary(key) {
   roomCloseCloset();
   const all = diaryAll(); key = key || diaryKey(); room3.diaryKey = key;
   const e = all[key] || {};
-  room3.diaryW = e.w || ''; room3.diaryM = e.m || '';
+  room3.diaryW = e.w || ''; room3.diaryM = e.m || ''; room3.diaryK = Array.isArray(e.k) ? e.k.filter(o => o && o.e).map(o => ({ e: String(o.e), x: +o.x || 50, y: +o.y || 50 })) : []; room3.stkSel = -1; roomTagsCss(); diaryStkInit(); diaryStkDraw();
   const today = key === diaryKey();
   document.getElementById('diaryDate').textContent = diaryLabel(key) + (today ? ' (오늘)' : '');
   document.getElementById('diaryToday').style.display = today ? 'none' : 'inline-block';
@@ -7507,7 +7653,7 @@ function roomOpenDiary(key) {
   keys.forEach(k => {
     const it = document.createElement('div'); it.className = 'diary-item' + (k === key ? ' on' : '');
     const v = all[k] || {};
-    it.textContent = diaryLabel(k) + ' ' + (v.w || '') + (v.m || '') + '  ' + String(v.t || '').split('\n')[0];
+    it.textContent = diaryLabel(k) + ' ' + (v.w || '') + (v.m || '') + (Array.isArray(v.k) ? v.k.slice(0, 3).map(o => o.e).join('') : '') + '  ' + String(v.t || '').split('\n')[0];
     it.onclick = () => { playSfx('click'); roomOpenDiary(k); };
     list.appendChild(it);
   });
@@ -7522,10 +7668,10 @@ function roomOpenDiary(key) {
 }
 function roomSaveDiary() {
   const key = room3.diaryKey || diaryKey(), text = document.getElementById('diaryText').value.trim().slice(0, 1000);
-  if (!text && !room3.diaryW && !room3.diaryM) { showToast('오늘 있었던 일을 조금 써 볼까요?'); return; }
+  if (!text && !room3.diaryW && !room3.diaryM && !(room3.diaryK || []).length) { showToast('오늘 있었던 일을 조금 써 볼까요?'); return; }
   const old = diaryAll()[key] || {}, paid = !!old.c;
   const pay = key === diaryKey() && !paid && diarySentences(text) >= 5;
-  updateSave(s => { if (!s.diary || typeof s.diary !== 'object' || Array.isArray(s.diary)) s.diary = {}; s.diary[key] = { w: room3.diaryW, m: room3.diaryM, t: text, at: Date.now(), c: (paid || pay) ? 1 : 0 }; });
+  updateSave(s => { if (!s.diary || typeof s.diary !== 'object' || Array.isArray(s.diary)) s.diary = {}; s.diary[key] = { w: room3.diaryW, m: room3.diaryM, t: text, at: Date.now(), c: (paid || pay) ? 1 : 0, k: (room3.diaryK || []).slice(0, DIARY_STK_MAX) }; });
   if (pay) addStars(5, '📔 5문장 일기 완성!');
   else { playSfx('coin'); showToast(key === diaryKey() && !paid ? '일기를 저장했어요! 5문장 이상 쓰면 🪙 +5개' : '일기를 저장했어요!'); }
   roomOpenDiary(key);
@@ -7691,6 +7837,7 @@ function roomFrame(now) {
     }
   }
   room3.renderer.render(room3.scene, c);
+  try { roomTagsUpdate(); } catch (e) { }
 }
 
 function roomResetPrincess() {
