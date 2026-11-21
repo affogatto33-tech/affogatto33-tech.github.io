@@ -5687,8 +5687,9 @@ function gdCw(rows, hi, nw) {
     `<i class="${ch === '#' ? 'x' : ''}${hi && hi[0] === r && hi[1] === c ? ' h' : ''}${on(r, c, nw) ? ' n' : ''}">${ch === '#' || ch === '_' ? '' : ch}</i>`).join('')).join('')}</span>`;
 }
 function gdDemoHtml(fr, bg) {
+  fr = gdPrFrame(fr);
   return `<div class="gd-scr" style="background:${GD_BG[bg] || GD_BG.sky}">${(fr.it || []).map(([t, x, y, s, k]) => `<span class="gd-it ${k}" style="left:${x}%;top:${y}%;font-size:${(s * 1.35).toFixed(2)}rem">${t}</span>`).join('')}
-    ${fr.h ? `<span class="gd-hand${fr.tap ? ' tap' : ''}" style="left:${fr.h[0]}%;top:${fr.h[1]}%">👆</span>` : ''}</div><div class="gd-cap">${fr.c || ''}</div>`;
+    ${fr.h ? `<span class="gd-hand${fr.tap ? ' tap' : ''}" style="left:${fr.h[0]}%;top:${fr.h[1]}%">👆</span>` : ''}</div><div class="gd-cap">${gdN(fr.c || '')}</div>`;
 }
 function gdPlay(box, frames, bg) {   /* 시연: 장면을 1.6초마다 넘기며 되풀이 */
   clearInterval(gdTimer); let i = 0;
@@ -5706,10 +5707,16 @@ function gdClose(mark) {
 /* 11-21 줄바꿈: ' · '로 나눈 덩어리는 한 덩어리로 (중간에서 끊기지 않게, '·'는 앞 덩어리 끝에 붙임) */
 function gdChunk(h, sent) { const a = sent ? String(h || '').split(/(?<=\.) (?=\S)/) : String(h || '').split(' · '); return a.map(p => `<span class="gd-ln">${p}</span>`).join(''); }
 /* 11-21 왕자로 시작한 계정(친구 마을이면 그 친구)은 '왕자의 성' */
-function castleName() {
-  try { const pr = (typeof friendVisit !== 'undefined' && friendVisit) ? isPrinceId(friendVisit.data && friendVisit.data.lk) : isPrinceSave(getSave()); return pr ? '왕자의 성' : '공주의 성'; } catch (e) { return '공주의 성'; }
+function gdPrince() { try { return (typeof friendVisit !== 'undefined' && friendVisit) ? isPrinceId(friendVisit.data && friendVisit.data.lk) : isPrinceSave(getSave()); } catch (e) { return false; } }
+function castleName() { return gdPrince() ? '왕자의 성' : '공주의 성'; }
+/* 왕자 계정: 설명 글의 '공주' → '왕자' (성 이름 포함) */
+function gdN(t) { t = String(t == null ? '' : t); return gdPrince() ? t.replace(/공주/g, '왕자') : t; }
+/* 왕자 계정: 시연 그림의 공주·드레스 → 왕자·왕자 옷 (공주와 왕자가 같이 나오는 장면은 그대로) */
+const GD_PR_EMO = [['👸', '🤴'], ['👗', '🧥'], ['👘', '👔'], ['🥻', '🎩']];
+function gdPrFrame(fr) {
+  if (!gdPrince() || (fr.it || []).some(x => String(x[0]).includes('🤴'))) return fr;
+  return Object.assign({}, fr, { it: fr.it.map(x => [GD_PR_EMO.reduce((t, [a, b]) => t.split(a).join(b), String(x[0])), ...x.slice(1)]) });
 }
-function gdN(t) { return String(t == null ? '' : t).replace(/공주의 성/g, castleName()); }
 function gdShow(key) {
   let G = GUIDES[key]; if (!G) return; if (G.same) { key = G.same; G = GUIDES[key]; }
   gdClose(false); gdOpen = key;
