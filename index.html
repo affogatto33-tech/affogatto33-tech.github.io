@@ -5731,16 +5731,20 @@ function gdPrFrame(fr) {
 function gdShow(key) {
   let G = GUIDES[key]; if (!G) return; if (G.same) { key = G.same; G = GUIDES[key]; }
   gdClose(false); gdOpen = key;
+  if (!G.steps) G = Object.assign({}, G, { steps: gdBldSteps(key, G), bld: 1 });   /* 11-21 건물 설명도 한 장씩 */
   const ov = document.createElement('div'); ov.id = 'gdOverlay'; ov.className = 'gd-ov'; document.body.appendChild(ov);
   if (G.steps) {   /* 처음 안내: 여러 장 */
     let s = 0;
     const draw = () => {
       const S = G.steps[s]; document.querySelectorAll('.gd-hl').forEach(e => e.classList.remove('gd-hl'));
       if (S.hl) { const el = document.querySelector(S.hl); const tgt = el && (el.closest('.chip') || el); if (tgt) tgt.classList.add('gd-hl'); }
-      ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${gdN(S.t)}</div><button class="gd-skip">건너뛰기 ⏭️</button></div>
+      const K = { earn: ['🪙 코인을 벌어요', 'earn'], spend: ['🪙 코인을 써요', 'spend'], charge: ['⚡ 에너지를 채워요', 'charge'] }[G.kind] || ['', ''];
+      const SC = S.sec ? GD_SEC[S.sec] : null;
+      ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${G.bld ? gdN(G.title) + (K[0] ? `<span class="gd-kind ${K[1]}">${K[0]}</span>` : '') : gdN(S.t)}</div><button class="gd-skip">건너뛰기 ⏭️</button></div>
+        ${SC ? `<div class="gd-sec ${SC[1]}">${SC[0]}${S.no ? ` <small>${S.no}</small>` : ''}</div>${S.sec === 'how' ? `<div class="gd-sub">${gdN(S.t)}</div>` : ''}` : ''}
         <div class="gd-demo"></div><div class="gd-desc">${gdN(S.d)}</div>
-        <div class="gd-foot"><div class="gd-dots">${G.steps.length > 9 ? `<b class="gd-cnt">${s + 1} / ${G.steps.length}</b>` : G.steps.map((_, j) => `<i class="${j === s ? 'on' : ''}"></i>`).join('')}</div>
-        ${s ? '<button class="btn-3d gd-prev">◀ 앞으로</button>' : ''}<button class="btn-3d primary gd-next">${s < G.steps.length - 1 ? '다음 ▶' : '시작하기! 🎉'}</button></div></div>`;
+        <div class="gd-foot"><div class="gd-dots">${G.steps.length > 9 && !G.bld ? `<b class="gd-cnt">${s + 1} / ${G.steps.length}</b>` : G.steps.map((x, j) => `<i class="${j === s ? 'on' : ''} ${x.sec || ''}"></i>`).join('')}</div>
+        ${s ? '<button class="btn-3d gd-prev">◀ 앞으로</button>' : ''}<button class="btn-3d primary gd-next">${s < G.steps.length - 1 ? '다음 ▶' : G.bld ? '알겠어요! 해 볼게요 👍' : '시작하기! 🎉'}</button></div></div>`;
       gdPlay(ov.querySelector('.gd-demo'), S.demo, G.bg);
       ov.querySelector('.gd-skip').onclick = () => { playSfx('click'); gdClose(); };
       ov.querySelector('.gd-next').onclick = () => { playSfx('click'); if (s < G.steps.length - 1) { s++; draw(); } else gdClose(); };
@@ -5794,6 +5798,120 @@ function toyLook(r, S) {
   };
   wrap('lib3dInit', () => LIB3D); wrap('en3dInit', () => EN3D); wrap('mc3dInit', () => MC3D);
 })();
+
+/* ---------- 11-21 원장님: 건물 설명도 처음 안내처럼 한 장씩 (🎮 방법 → 🪙 코인 → ⚡ 에너지) + 건물 안 ❓ 도움말 단추 ----------
+   GD_HOW[건물] = [{ t: 방법 이름, d: 설명, f: [GUIDES 시연 장면 번호] 또는 demo: [새 장면] }]
+   코인·에너지 카드는 GUIDES 의 coin·energy 글을 ' · ' 로 나눠 한 장에 하나씩 자동으로 만듦 */
+const GD_HOW = {
+  crossword: [
+    { t: '🚪 방 고르기', d: '문 두 개 중에 골라 들어가요.', f: [0, 4] },
+    { t: '🧩 낱말 퍼즐의 방', d: '<b>🧩 낱말 퍼즐의 방</b>에서는 십자말풀이를 해요. 힌트를 보고 칸을 눌러 글자를 채워요.', f: [0, 1, 2, 3] },
+    { t: '📖 독해의 방', d: '<b>📖 독해의 방</b>에서는 글을 읽고 문제를 풀어요.', f: [4, 5, 6, 7] }],
+  math: [
+    { t: '🪑 대리석 책상', d: '긴 대리석 책상 위에 <b>💻 노트북</b>과 <b>💎 보석 상자</b>가 있어요. 하고 싶은 것을 눌러요.', f: [0] },
+    { t: '💻 노트북', d: '<b>💻 노트북</b>을 누르면 교과서 단원별 연산 문제를 풀어요.', f: [0, 1, 2, 3] },
+    { t: '💎 보석 상자', d: '<b>💎 보석 상자</b>를 누르면 수 모형과 칠교 놀이를 해요.',
+      demo: [{ it: [gdI('💻', 32, 50, 3), gdI('💎', 70, 50, 3)], h: [70, 52], tap: 1, c: '보석 상자를 눌러요' },
+             { it: [gdI('🟦🟦🟦', 28, 45, 1.5), gdI('🔺🔷🔶', 72, 45, 1.6), gdI('수 모형', 28, 80, 0.9, 'gd-txt'), gdI('칠교', 72, 80, 0.9, 'gd-txt')], c: '수 모형 · 칠교 놀이' }] },
+    { t: '⭐ 단계 올라가기', d: '한 단원은 <b>5단계</b>예요. 10문제 중 <b>8문제</b>를 한 번에 맞히면 다음 단계가 열려요.',
+      demo: [{ it: [gdI('⭕ 8 / 10', 50, 35, 2, 'gd-txt gd-pop'), gdI('🔓 다음 단계', 50, 76, 1.3, 'gd-key')], c: '다음 단계가 열려요' }] }],
+  english: [
+    { t: '🚪 교실 고르기', d: '복도의 문 세 개 중에 골라요. <b>📘 기본 Voca</b>, <b>✏️ Grammar</b>, <b>📗 Journeys</b> 교실이 있어요.', f: [0] },
+    { t: '🍎 문제 풀기', d: '알맞은 낱말을 골라요. <b>🔊</b>를 누르면 영어로 읽어 줘요.', f: [1, 2] },
+    { t: '⭐ 단계 올라가기', d: '단원마다 <b>5단계</b>예요. <b>80% 이상</b> 한 번에 맞히면 다음 단계가 열려요.', f: [3] }],
+  sentence: [
+    { t: '✏️ 문장 완성', d: '빈칸에 알맞은 말을 넣어 <b>문장을 완성</b>해요.', f: [0, 1] },
+    { t: '↔️ 반대말 찾기', d: '낱말의 <b>반대말</b>을 찾아요.',
+      demo: [{ it: [gdI('크다 ↔ ( ? )', 50, 32, 1.6, 'gd-txt gd-light'), gdI('작다', 30, 72, 1.2, 'gd-key'), gdI('높다', 70, 72, 1.2, 'gd-key')], h: [30, 74], tap: 1, c: '반대말을 골라요' },
+             { it: [gdI('크다 ↔ 작다 ⭐', 50, 35, 1.6, 'gd-txt gd-light gd-pop')], c: '반짝!' }] }],
+  tetris: [
+    { t: '💠 블록 옮기기', d: '떨어지는 블록을 <b>돌리고 옮겨요</b>.', f: [0, 1] },
+    { t: '✨ 줄 지우기', d: '한 줄을 꽉 채우면 그 줄이 사라져요.', f: [2] }],
+  room: [
+    { t: '🛏️ 침대', d: '<b>침대</b>를 누르면 쉬어요.', f: [0, 1, 2] },
+    { t: '👗 옷장 · 화장대', d: '<b>옷장</b>에서 옷을, <b>화장대</b>에서 머리를 바꿔요.',
+      demo: [{ it: [gdI('🚪', 34, 48, 2.6), gdI('🪞', 68, 48, 2.6), gdI('옷장', 34, 82, 0.9, 'gd-txt'), gdI('화장대', 68, 82, 0.9, 'gd-txt')], h: [34, 50], tap: 1, c: '옷장을 눌러요' },
+             { it: [gdI('👸', 50, 50, 3.2, 'gd-pop'), gdI('✨', 30, 35, 1.6), gdI('✨', 70, 35, 1.6)], c: '짠! 갈아입었어요' }] },
+    { t: '📔 일기 쓰기', d: '<b>책상</b>에 앉아 일기를 써요. 일기에 <b>스티커</b>도 붙일 수 있어요.',
+      demo: [{ it: [gdI('📔', 50, 48, 3), gdI('✏️', 72, 34, 1.8)], h: [50, 52], tap: 1, c: '오늘 있었던 일을 써요' },
+             { it: [gdI('📔', 50, 48, 3), gdI('🐰', 32, 34, 1.5, 'gd-pop'), gdI('🌸', 70, 66, 1.5, 'gd-pop')], c: '스티커도 붙여요' }] }],
+  cafe: [{ t: '🥐 사 먹기', d: '맛있는 빵과 음료를 골라 사 먹어요.', f: [0, 1] }],
+  rest: [{ t: '🍽️ 사 먹기', d: '든든한 식사를 골라 사 먹어요.', f: [0, 1] }],
+  playground: [{ t: '🛝 놀기', d: '미끄럼틀과 그네가 있는 놀이터예요. 신나게 놀면 힘이 나요!', f: [0, 1] }],
+  theater: [{ t: '🎻 음악회 보기', d: '<b>▶️ 음악회 보기</b>를 누르면 왕국 오케스트라 음악회를 볼 수 있어요.', f: [0, 1] }],
+  garden: [
+    { t: '🌱 사서 심기', d: '씨앗과 묘목을 사서 마을에 심어요.',
+      demo: [{ it: [gdI('🌱', 32, 45, 2.4), gdI('🌳', 68, 45, 2.6)], h: [32, 48], tap: 1, c: '골라서 사요' },
+             { it: [gdI('🌱', 45, 62, 2.4, 'gd-pop'), gdI('🏡', 75, 40, 2.2)], c: '마을에 심어요' }] },
+    { t: '💧 물 주기', d: '물을 주면 <b>하루마다 한 단계씩</b> 자라요. <b>10단계</b>까지 자라요.', f: [0, 1, 2] }],
+  boutique: [
+    { t: '👗 옷 사기', d: '예쁜 옷을 사서 바로 입어요.', f: [0, 1] },
+    { t: '🚪 옷장', d: '산 옷은 성 침실 <b>옷장</b>에서도 언제든 갈아입을 수 있어요.',
+      demo: [{ it: [gdI('🏰', 50, 42, 3), gdI('🚪 옷장', 50, 82, 1, 'gd-txt')], c: '성 침실 옷장' }] }],
+  salon: [
+    { t: '💇 머리 바꾸기', d: '머리 모양을 사서 바로 바꿔요.', f: [0, 1] },
+    { t: '🪞 화장대', d: '산 머리는 성 침실 <b>화장대</b>에서도 바꿀 수 있어요.',
+      demo: [{ it: [gdI('🏰', 50, 42, 3), gdI('🪞 화장대', 50, 82, 1, 'gd-txt')], c: '성 침실 화장대' }] }],
+  cityhall: [
+    { t: '📝 건물 신청', d: '마을에 새 건물을 짓는 곳이에요. 짓고 싶은 건물을 골라 <b>신청</b>해요.', f: [0] },
+    { t: '🏗️ 24시간 공사', d: '신청하면 <b>24시간 공사</b> 뒤에 건물이 생겨요. 한 번에 하나씩 지을 수 있어요.', f: [1, 2] }]
+};
+function gdStrip(h) { return String(h || '').replace(/<[^>]*>/g, '').trim(); }
+/* 건물 설명 → 카드 여러 장 */
+function gdBldSteps(key, G) {
+  const ic = (String(G.title).match(/^\S+/) || ['✨'])[0];
+  const how = (GD_HOW[key] || [{ t: '🎮 여기서는', d: G.what, f: (G.demo || []).map((_, i) => i) }]);
+  const out = [];
+  how.forEach((h, i) => out.push({ sec: 'how', no: how.length > 1 ? `${i + 1} / ${how.length}` : '', t: h.t, d: h.d,
+    demo: h.demo || (h.f || []).map(j => G.demo[j]).filter(Boolean) }));
+  const cs = String(G.coin || '').split(' · ').filter(Boolean);
+  cs.forEach((c, i) => {
+    const b = (c.match(/<b>(.*?)<\/b>/) || [])[1];
+    let big = b ? '🪙 ' + gdStrip(b).replace(/^🪙\s*/, '') : gdStrip(c);
+    if (b && /써요/.test(c) && !/^\+/.test(gdStrip(b).replace(/^🪙\s*/, ''))) big += ' 써요';
+    out.push({ sec: 'coin', no: cs.length > 1 ? `${i + 1} / ${cs.length}` : '', t: '🪙 코인', d: c,
+      demo: [{ it: [gdI(ic, 50, 32, 2.6), gdI(big, 50, 74, 1.5, 'gd-coin gd-pop')], c: '' }] });
+  });
+  const es = String(G.energy || '').split(' · ').filter(Boolean);
+  es.forEach((e, i) => {
+    const b = (e.match(/<b>(.*?)<\/b>/) || [])[1], tx = gdStrip(b || e);
+    const cls = /늘어/.test(tx) ? 'gd-up' : /줄어/.test(tx) ? 'gd-down' : '';
+    out.push({ sec: 'en', no: es.length > 1 ? `${i + 1} / ${es.length}` : '', t: '⚡ 에너지', d: e,
+      demo: [{ it: [gdI(ic, 50, 32, 2.6), gdI(b ? tx : '⚡ ' + tx, 50, 74, 1.3, 'gd-txt gd-pop ' + cls)], c: '' }] });
+  });
+  return out;
+}
+const GD_SEC = { how: ['🎮 방법', 'how'], coin: ['🪙 코인', 'coin'], en: ['⚡ 에너지', 'en'] };
+/* 건물 안 ❓ 도움말 단추 (오른쪽 아래, 마을 화면에서는 숨김) */
+function gdBldHelpTick() {
+  let b = document.getElementById('gdBldHelp');
+  if (!b) {
+    b = document.createElement('button'); b.id = 'gdBldHelp'; b.type = 'button';
+    b.innerHTML = '❓<span> 도움말</span>';
+    b.onclick = e => { e.stopPropagation(); gdHelp(); };
+    document.body.appendChild(b);
+  }
+  let on = false;
+  try { const k = currentScreen; on = !!(currentUser && k && k !== 'home' && GUIDES[k] && !gdOpen && !(typeof friendVisit !== 'undefined' && friendVisit && k === 'home')); } catch (e) {}
+  b.style.display = on ? '' : 'none';
+}
+(function gdStepCss() {
+  const s = document.createElement('style');
+  s.textContent = `
+  .gd-sec { align-self: center; display: inline-flex; align-items: center; gap: 6px; font-family: 'Jua', sans-serif; font-size: 1.05rem; padding: 3px 14px; border-radius: 999px; border: 2px solid; margin: 2px 0 -2px; }
+  .gd-sec small { font-family: sans-serif; font-weight: 800; font-size: 0.75rem; opacity: 0.75; }
+  .gd-sec.how { background: #f0f5ff; color: #1d39c4; border-color: #adc6ff; }
+  .gd-sec.coin { background: #fff7cc; color: #ad6800; border-color: #ffd666; }
+  .gd-sec.en { background: #e6fffb; color: #08979c; border-color: #87e8de; }
+  .gd-sub { font-family: 'Jua', sans-serif; color: #1d4e89; font-size: 1.12rem; text-align: center; margin-top: 2px; }
+  .gd-dots i.how { background: #adc6ff; } .gd-dots i.coin { background: #ffe58f; } .gd-dots i.en { background: #87e8de; }
+  .gd-dots i.on.how { background: #2f54eb; } .gd-dots i.on.coin { background: #faad14; } .gd-dots i.on.en { background: #13c2c2; }
+  #gdBldHelp { position: fixed; right: 14px; bottom: 16px; z-index: 900; font-family: 'Jua', sans-serif; font-size: 1.05rem; color: #1d4e89; background: #fff; border: 3px solid #91caff; border-radius: 999px; padding: 7px 16px 7px 12px; box-shadow: 0 5px 0 #69b1ff, 0 8px 16px rgba(20,40,90,0.25); cursor: pointer; }
+  #gdBldHelp:active { transform: translateY(3px); box-shadow: 0 2px 0 #69b1ff; }
+  @media (max-width: 560px) { #gdBldHelp { padding: 6px 12px 6px 10px; font-size: 0.95rem; right: 10px; bottom: 12px; } }`;
+  document.head.appendChild(s);
+})();
+setInterval(gdBldHelpTick, 400);
 
 /* 모형 하나 만들기: 앞(+z)이 카메라(45°)를 보게 돌리고, 그림과 같은 크기로 맞춤 */
 function toyMake(id, anims) {
