@@ -1104,6 +1104,43 @@
   .ss-name { font-weight: 700; color: #5a3a4f; font-size: 0.92rem; min-height: 2.4em; display: flex; align-items: center; }
   .ss-buy { font-size: 0.86rem; padding: 6px 10px; }
   .ss-foot { display: flex; justify-content: center; }
+  #scr-boutique .ss-wrap, #scr-salon .ss-wrap { max-width: 1100px; }
+  .mc-room.ss-room3d { flex: 0 0 auto; height: clamp(280px, 50vh, 470px); min-height: 0; margin-top: 0; background: #ffeef5; border-color: #ff85c0; box-shadow: inset 0 0 0 3px #fff0f6; }
+  .mc-room.ss-room3d.salon { background: #e8f8f3; border-color: #b37feb; box-shadow: inset 0 0 0 3px #f9f0ff; }
+  .ss-room3d .mc3d-sub { background: linear-gradient(#ffffff, #fff0f6); color: #c41d7f; border-color: #ffadd2; box-shadow: 0 4px 0 #ff85c0, 0 8px 14px rgba(196,29,127,0.15); transition: opacity .2s, background .2s; }
+  .ss-room3d .mc3d-sub small { color: #eb2f96; }
+  .ss-room3d .mc3d-sub.on { background: linear-gradient(#ff9ecb, #f759ab); color: #fff; border-color: #fff; box-shadow: 0 4px 0 #c41d7f, 0 8px 14px rgba(196,29,127,0.25); }
+  .ss-room3d .mc3d-sub.on small { color: #fff0f6; }
+  .ss-room3d.salon .mc3d-sub { background: linear-gradient(#ffffff, #f9f0ff); color: #722ed1; border-color: #d3adf7; box-shadow: 0 4px 0 #b37feb, 0 8px 14px rgba(114,46,209,0.15); }
+  .ss-room3d.salon .mc3d-sub small { color: #9254de; }
+  .ss-room3d.salon .mc3d-sub.on { background: linear-gradient(#c79cff, #9254de); color: #fff; border-color: #fff; box-shadow: 0 4px 0 #531dab, 0 8px 14px rgba(114,46,209,0.25); }
+  .ss-room3d.salon .mc3d-sub.on small { color: #f9f0ff; }
+  .ss-room3d .ss-s { display: none; }
+  .ss-room3d.narrow .ss-l { display: none; } .ss-room3d.narrow .ss-s { display: inline; }
+  .ss-room3d.narrow .mc3d-sub { padding: 2px 6px 3px; border-width: 2px; border-radius: 999px; } .ss-room3d.narrow .mc3d-sub b { font-size: 1.15rem; line-height: 1.2; } .ss-room3d.narrow .mc3d-sub small { display: none; }
+  .ss-room3d .mc-room2d { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+  .ss-room3d .mc-room2d-b { background: linear-gradient(#fff, #fff0f6); border-color: #ffadd2; color: #c41d7f; }
+  .ss-room3d.salon .mc-room2d-b { background: linear-gradient(#fff, #f9f0ff); border-color: #d3adf7; color: #722ed1; }
+  .ss-prev { display: none; position: absolute; left: 10px; bottom: 10px; z-index: 6; background: rgba(255,255,255,0.94); border: 2px solid #ffadd2; border-radius: 999px; padding: 4px 6px 4px 14px; gap: 8px; align-items: center; font-family: 'Jua', sans-serif; color: #c41d7f; white-space: nowrap; font-size: 0.92rem; box-shadow: 0 4px 10px rgba(196,29,127,0.18); }
+  .salon .ss-prev { border-color: #d3adf7; color: #722ed1; }
+  .ss-prevx { border: none; background: #fff0f6; color: inherit; border-radius: 999px; padding: 3px 10px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
+  .salon .ss-prevx { background: #f9f0ff; }
+  .ss-tabs { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; scroll-margin-top: 10px; }
+  .ss-tab { font-family: 'Jua', sans-serif; font-size: 1rem; border: 2px solid #ffadd2; background: #fff; color: #c41d7f; border-radius: 999px; padding: 6px 14px; cursor: pointer; box-shadow: 0 3px 0 #ffd6e7; display: inline-flex; align-items: center; gap: 6px; }
+  .ss-tab small { font-family: sans-serif; font-size: 0.72rem; font-weight: 700; background: #fff0f6; border-radius: 999px; padding: 1px 7px; }
+  .ss-tab.on { background: linear-gradient(#ff9ecb, #f759ab); color: #fff; border-color: #fff; box-shadow: 0 3px 0 #c41d7f; }
+  .ss-tab.on small { background: rgba(255,255,255,0.3); }
+  .salon .ss-tab { border-color: #d3adf7; color: #722ed1; box-shadow: 0 3px 0 #efdbff; }
+  .salon .ss-tab small { background: #f9f0ff; }
+  .salon .ss-tab.on { background: linear-gradient(#c79cff, #9254de); color: #fff; border-color: #fff; box-shadow: 0 3px 0 #531dab; }
+  .salon .ss-tab.on small { background: rgba(255,255,255,0.3); }
+  .ss-cathead { grid-column: 1 / -1; font-family: 'Jua', sans-serif; font-size: 1.15rem; color: #c41d7f; padding: 8px 4px 2px; border-bottom: 2px dashed #ffadd2; }
+  .salon .ss-cathead { color: #722ed1; border-color: #d3adf7; }
+  .ss-thumb { cursor: pointer; }
+  .ss-card.prev { border-color: #ff85c0; }
+  .salon .ss-card.prev { border-color: #b37feb; }
+  .ss-card.on.prev { border-color: #95de64; }
+  @media (max-width: 560px) { .mc-room.ss-room3d { height: 270px; } .ss-tab { font-size: 0.88rem; padding: 5px 10px; } .ss-prev { font-size: 0.8rem; } }
   .world-label.place .wl-pin span { transform: rotate(45deg); font-size: 1.2rem; line-height: 1; text-shadow: none; }
   .world-label.place .wl-name { white-space: nowrap; }
   @keyframes wlBounce {
@@ -2920,7 +2957,7 @@ function dressCostOf(l) { return l.outfitOnly || isPrinceId(l.id) ? l.cost : Mat
 function ownsLook(sv, id, tab) { const o = (sv && sv.o) || []; return o.includes(id) || o.includes((tab === 'hair' ? 'h:' : 'd:') + id); }
 
 /* ---- 옷가게 · 미용실 화면 ---- */
-function styleShopRender(kind) {
+function styleShopRenderV1(kind) {
   const el = document.getElementById('scr-' + kind); if (!el) return;
   const sv = getSave(), pr = isPrinceSave(sv), hair = kind === 'salon';
   const list = hair ? (pr ? PRINCE_HAIRS : PRINCESS_LOOKS) : (pr ? PRINCE_OUTFITS : [...PRINCESS_LOOKS, ...PRINCESS_OUTFITS_X]);
@@ -6098,6 +6135,683 @@ function gdBldHelpTick() {
   document.head.appendChild(s);
 })();
 setInterval(gdBldHelpTick, 400);
+
+/* ---------- 11-21(4) 👗 옷가게 · 💇 미용실 안: 파스텔 장난감 3D 가게 + 종류별로 나눈 옷·머리 ----------
+   옷가게: 줄무늬 벽지·큰 아치 거울·샹들리에·모자 상자 선반, 종류마다 마네킹 진열대 (드레스·캐주얼·발레·요정·한복 / 왕자 옷·기사·교복·한복·우주복)
+   미용실: 민트·라벤더 벽, 종류마다 거울과 머리 모형 (긴 머리·묶은 머리·올림머리·한복 머리 / 왕관 머리·멋쟁이 머리)
+   진열대나 위 탭을 누르면 그 종류만 보이고 공주(왕자)가 그 앞으로 걸어감 · 카드 그림을 누르면 미리 입어 봄
+   WebGL이 안 되면 3D 대신 큰 단추 */
+const SS_CATS = {
+  pDress: [
+    { k: 'dress',  name: '👗 드레스',      short: '👗 드레스', ids: ['look2', 'look4', 'look6', 'look8', 'look9', 'look10', 'po3', 'po4'], disp: 'gown' },
+    { k: 'casual', name: '👕 캐주얼',      short: '👕 캐주얼', ids: ['look1', 'look3', 'look14', 'look16', 'po2'], disp: 'rack' },
+    { k: 'ballet', name: '🩰 발레·활동복', short: '🩰 발레',   ids: ['look15', 'look18', 'po6'], disp: 'tutu' },
+    { k: 'fairy',  name: '🧚 요정·마법',   short: '🧚 요정',   ids: ['look5', 'look7', 'look17', 'po1', 'po5'], disp: 'wings' },
+    { k: 'hanbok', name: '🎎 한복',        short: '🎎 한복',   ids: ['look11', 'look12', 'look13'], disp: 'hanbok' }
+  ],
+  pHair: [
+    { k: 'long',   name: '💁 긴 머리',    short: '💁 긴 머리', ids: ['look1', 'look3', 'look10', 'look14', 'look16'], disp: 'hLong' },
+    { k: 'tied',   name: '🎀 묶은 머리',  short: '🎀 묶은',   ids: ['look2', 'look4', 'look5', 'look6', 'look17'], disp: 'hTied' },
+    { k: 'updo',   name: '👑 올림머리',   short: '👑 올림',   ids: ['look7', 'look8', 'look9', 'look15', 'look18'], disp: 'hUpdo' },
+    { k: 'hanbok', name: '🎎 한복 머리',  short: '🎎 한복',   ids: ['look11', 'look12', 'look13'], disp: 'hHanbok' }
+  ],
+  bDress: [
+    { k: 'royal',   name: '👑 왕자 옷',     short: '👑 왕자',   ids: ['pl1', 'pl3', 'pl8'], disp: 'tunic' },
+    { k: 'knight',  name: '🛡️ 기사·갑옷',  short: '🛡️ 기사',  ids: ['pl2', 'pl9'], disp: 'armor' },
+    { k: 'school',  name: '🎓 교복',        short: '🎓 교복',   ids: ['pl6', 'pl7'], disp: 'school' },
+    { k: 'special', name: '🚀 한복·우주복', short: '🚀 특별',   ids: ['pl4', 'pl10'], disp: 'space' }
+  ],
+  bHair: [
+    { k: 'crown', name: '👑 왕관 머리',   short: '👑 왕관',   ids: ['ph1', 'ph2', 'ph3'], disp: 'hCrown' },
+    { k: 'cool',  name: '😎 멋쟁이 머리', short: '😎 멋쟁이', ids: ['ph4', 'ph5', 'ph6'], disp: 'hCool' }
+  ]
+};
+const SS_SEL = { boutique: '', salon: '' }, SS_PREV = { boutique: null, salon: null }, SS3D = { boutique: null, salon: null };
+const SS_EMO = '"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';
+const SS_SZ = -1.3, SS_PZ = 1.15;   /* 진열대 줄 · 공주가 서는 줄 */
+
+function ssMode(kind, pr) { return (pr ? 'b' : 'p') + (kind === 'salon' ? 'Hair' : 'Dress'); }
+function ssList(kind, pr) { return kind === 'salon' ? (pr ? PRINCE_HAIRS : PRINCESS_LOOKS) : (pr ? PRINCE_OUTFITS : [...PRINCESS_LOOKS, ...PRINCESS_OUTFITS_X]); }
+function ssCats(mode, list) {
+  const used = new Set(), byId = {}; list.forEach(l => { if (l) byId[l.id] = l; });
+  const cats = SS_CATS[mode].map(c => { const items = c.ids.map(id => byId[id]).filter(Boolean); items.forEach(l => used.add(l.id)); return Object.assign({}, c, { items }); }).filter(c => c.items.length);
+  const rest = list.filter(l => l && !used.has(l.id));   /* 나중에 새로 생긴 옷·머리 */
+  if (rest.length) cats.push({ k: 'more', name: '✨ 새로 온 것', short: '✨ 새것', items: rest, disp: mode.endsWith('Hair') ? (mode[0] === 'b' ? 'hCool' : 'hLong') : (mode[0] === 'b' ? 'tunic' : 'gown') });
+  return cats;
+}
+function ssWornId(kind) { const sv = getSave(); return kind === 'salon' ? (sv.hr || sv.lk) : sv.lk; }
+function ssDefaultCat(kind, cats) { const w = ssWornId(kind), c = cats.find(c => c.items.some(l => l.id === w)); return (c || cats[0] || { k: 'all' }).k; }
+function ssStationX(cats, k) {
+  const n = cats.length, sp = ssSpacing(n), i = cats.findIndex(c => c.k === k);
+  return i < 0 ? 0 : (i - (n - 1) / 2) * sp;
+}
+function ssNarrow() { return (window.innerWidth || 1000) < 600; }
+function ssSpacing(n) { return ssNarrow() ? (n >= 5 ? 1.98 : n === 4 ? 2.25 : 2.7) : (n >= 5 ? 2.45 : n === 4 ? 2.75 : n === 3 ? 3.0 : 3.4); }
+
+/* ---- 화면 ---- */
+function styleShopRender(kind) {
+  const el = document.getElementById('scr-' + kind); if (!el) return;
+  const sv = getSave(), pr = isPrinceSave(sv), hair = kind === 'salon', mode = ssMode(kind, pr), cats = ssCats(mode, ssList(kind, pr));
+  if (!el.querySelector('.ss-wrap')) {
+    el.innerHTML = `<div class="ss-wrap ${hair ? 'salon' : 'boutique'}">
+      <div class="ss-head"><div class="ss-title">${hair ? '💇 미용실' : '👗 옷가게'}</div><div class="ss-sub">${hair ? '종류를 골라 마음에 드는 머리로 바꿔 봐요' : '종류를 골라 예쁜 옷을 입어 봐요'}</div></div>
+      <div id="ssRoom_${kind}" class="mc-room ss-room3d ${hair ? 'salon' : 'boutique'}"><div class="ss-prev" id="ssPrev_${kind}"></div></div>
+      <div class="ss-tabs" id="ssTabs_${kind}"></div>
+      <div class="ss-note">${hair ? '👆 그림을 누르면 거울 앞에서 미리 바꿔 봐요 · 산 머리는 <b>침실 화장대</b>에서도 바꿀 수 있어요 ✨' : '👆 그림을 누르면 미리 입어 봐요 · 산 옷은 <b>침실 옷장</b>에서도 언제든 갈아입을 수 있어요 ✨'}</div>
+      <div class="ss-grid"></div>
+      <div class="ss-foot"><button class="btn-3d primary" data-goto="home">🏡 마을로 돌아가기</button></div>
+    </div>`;
+  }
+  const room = document.getElementById('ssRoom_' + kind);
+  if (room.dataset.mode !== mode) {
+    room.dataset.mode = mode; SS_PREV[kind] = null; SS_SEL[kind] = ssDefaultCat(kind, cats);
+    ssRoomLabels(kind, cats);
+    const S = SS3D[kind]; if (S && S.ok) { ss3dStations(kind, cats); S.px = ssStationX(cats, SS_SEL[kind]); S.walk = null; }
+  }
+  if (SS_SEL[kind] !== 'all' && !cats.some(c => c.k === SS_SEL[kind])) SS_SEL[kind] = ssDefaultCat(kind, cats);
+  ssTabsRender(kind, cats); ssGridRender(kind, cats); ssPrevNote(kind, cats); ssRoomShow(kind, cats);
+}
+function ssTabsRender(kind, cats) {
+  const box = document.getElementById('ssTabs_' + kind), hair = kind === 'salon', unit = hair ? '가지' : '벌', sel = SS_SEL[kind];
+  const all = cats.reduce((n, c) => n + c.items.length, 0);
+  box.innerHTML = [{ k: 'all', name: '✨ 모두', items: { length: all } }, ...cats].map(c => `<button class="ss-tab${c.k === sel ? ' on' : ''}" data-k="${c.k}">${c.name}<small>${c.items.length}${unit}</small></button>`).join('');
+  box.querySelectorAll('.ss-tab').forEach(b => { b.onclick = () => ssSelect(kind, b.dataset.k); });
+}
+function ssSelect(kind, k, fromRoom) {
+  if (SS_SEL[kind] === k && !fromRoom) return;
+  playSfx('click'); SS_SEL[kind] = k;
+  const sv = getSave(), cats = ssCats(ssMode(kind, isPrinceSave(sv)), ssList(kind, isPrinceSave(sv)));
+  ssTabsRender(kind, cats); ssGridRender(kind, cats);
+  const S = SS3D[kind];
+  if (S && S.ok) { const x1 = ssStationX(cats, k); if (Math.abs(x1 - S.px) > 0.05) S.walk = { t0: performance.now(), x0: S.px, x1, dur: Math.min(1300, 450 + Math.abs(x1 - S.px) * 130) }; }
+  if (fromRoom) { const t = document.getElementById('ssTabs_' + kind); if (t && t.getBoundingClientRect().top > window.innerHeight - 80) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+function ssGridRender(kind, cats) {
+  const el = document.getElementById('scr-' + kind), grid = el.querySelector('.ss-grid'), sv = getSave(), pr = isPrinceSave(sv), hair = kind === 'salon', sel = SS_SEL[kind];
+  grid.innerHTML = '';
+  const show = sel === 'all' ? cats : cats.filter(c => c.k === sel);
+  show.forEach(c => {
+    if (sel === 'all') { const h = document.createElement('div'); h.className = 'ss-cathead'; h.textContent = c.name; grid.appendChild(h); }
+    c.items.forEach(l => grid.appendChild(ssCard(kind, l, sv, pr, hair)));
+  });
+}
+function ssCard(kind, l, sv, pr, hair) {
+  const tab = hair ? 'hair' : 'dress', owned = ownsLook(sv, l.id, tab) || (!hair && !pr && !l.cost && !l.outfitOnly);
+  const on = hair ? (sv.hr || sv.lk) === l.id : sv.lk === l.id, cost = hair ? (pr ? l.cost : hairCostOf(l)) : dressCostOf(l);
+  const name = hair && !pr ? l.hairName : l.name, prev = SS_PREV[kind] === l.id;
+  const card = document.createElement('div'); card.className = 'ss-card' + (on ? ' on' : '') + (prev ? ' prev' : '');
+  const cv = document.createElement('canvas'); cv.width = 132; cv.height = 132;
+  try {
+    if (hair) drawPrincessCombined(cv.getContext('2d'), 66, 272, 1.75, sv.lk, l.id, 0);   /* 얼굴·머리 크게 */
+    else drawPrincessCombined(cv.getContext('2d'), 66, 128, 0.9, l.id, sv.hr || sv.lk, 0);
+  } catch (e) {}
+  card.innerHTML = `<div class="ss-thumb" title="미리 보기"></div><div class="ss-name">${name}</div>
+    <button class="btn-3d ss-buy ${owned ? '' : 'primary'}">${on ? (hair ? '✓ 지금 머리' : '✓ 입고 있어요') : owned ? (hair ? '💇 이 머리로' : '👗 입어 보기') : `🪙 ${cost} · 사기`}</button>`;
+  card.querySelector('.ss-thumb').appendChild(cv);
+  card.querySelector('.ss-thumb').onclick = () => ssPreview(kind, on ? null : l.id);
+  card.querySelector('.ss-buy').onclick = () => {
+    if (on) return;
+    SS_PREV[kind] = null;
+    if (owned) { playSfx('click'); updateSave(s => { if (hair) s.hr = l.id; else s.lk = l.id; }); updatePlayer3DTexture(); styleShopRender(kind); return showToast(hair ? `💇 [${name}]로 바꿨어요!` : `👗 [${name}]으로 갈아입었어요!`); }
+    if ((Number(getSave().s) || 0) < cost) { playSfx('wrong'); return showToast('코인이 조금 더 필요해요!'); }
+    updateSave(s => { s.s -= cost; const key = (pr || l.outfitOnly) ? l.id : (hair ? 'h:' : 'd:') + l.id; if (!s.o.includes(key)) s.o.push(key); if (hair) s.hr = l.id; else s.lk = l.id; });
+    justBought = { id: l.id, iid: null }; playSfx('coin'); updatePlayer3DTexture();
+    showToast(hair ? `🎉 [${name}] 머리를 샀어요! 바로 바꿨어요 💇` : `🎉 [${name}]을 샀어요! 바로 입었어요 👗`);
+    styleShopRender(kind); ssCheer(kind);
+  };
+  if (justBought && justBought.id === l.id) markJustCard(card);
+  return card;
+}
+function ssPreview(kind, id) {
+  SS_PREV[kind] = id; playSfx('click');
+  const el = document.getElementById('scr-' + kind), sv = getSave(), cats = ssCats(ssMode(kind, isPrinceSave(sv)), ssList(kind, isPrinceSave(sv)));
+  el.querySelectorAll('.ss-card').forEach(c => c.classList.remove('prev'));
+  ssGridRender(kind, cats); ssPrevNote(kind, cats);
+  const S = SS3D[kind]; if (S && S.ok) { ss3dPrincess(kind, S.px, 0); ssCheer(kind); [250, 700].forEach(ms => setTimeout(() => { if (!S.walk) ss3dPrincess(kind, S.px, 0); }, ms)); }   /* 그림이 늦게 준비될 때 다시 */
+  const room = document.getElementById('ssRoom_' + kind);
+  if (id && room) { const rc = room.getBoundingClientRect(); if (rc.bottom < 80 || rc.top > window.innerHeight - 120) room.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+function ssPrevNote(kind, cats) {
+  const n = document.getElementById('ssPrev_' + kind); if (!n) return;
+  const id = SS_PREV[kind], l = id && cats.reduce((a, c) => a || c.items.find(x => x.id === id), null);
+  if (!l) { n.style.display = 'none'; return; }
+  const pr = isPrinceSave(getSave()), nm = kind === 'salon' && !pr ? l.hairName : l.name;
+  n.innerHTML = `👀 미리 보는 중: <b>${nm}</b> <button class="ss-prevx">✖ 그만 보기</button>`; n.style.display = 'flex';
+  n.querySelector('.ss-prevx').onclick = () => ssPreview(kind, null);
+}
+function ssRoomLabels(kind, cats) {
+  const room = document.getElementById('ssRoom_' + kind), unit = kind === 'salon' ? '가지' : '벌';
+  room.querySelectorAll('.mc3d-wrap, .mc-room2d').forEach(e => e.remove());
+  room.insertAdjacentHTML('beforeend', `<div class="mc3d-wrap">${cats.map(c => `<div class="mc3d-sub ss-sub" id="ssSub_${kind}_${c.k}" data-k="${c.k}"><b><span class="ss-l">${c.name}</span><span class="ss-s">${(c.short || c.name).split(' ')[0]}</span></b><small>${c.items.length}${unit}</small></div>`).join('')}</div>
+    <div class="mc-room2d ss-room2d">${cats.map(c => `<button class="btn-3d mc-room2d-b" data-k="${c.k}"><b>${c.name}</b><small>${c.items.length}${unit}</small></button>`).join('')}</div>`);
+  room.querySelectorAll('.mc3d-sub').forEach(e => { e.style.pointerEvents = 'auto'; e.style.cursor = 'pointer'; e.onclick = () => ssSelect(kind, e.dataset.k, true); });
+  room.querySelectorAll('.mc-room2d-b').forEach(b => { b.onclick = () => ssSelect(kind, b.dataset.k, true); });
+}
+
+/* ---- 3D ---- */
+function ssCvTex(w, h, fn) { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; }
+function ssKit(scene) {
+  const M = (c, o) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.55, metalness: 0 }, o || {}));
+  const K = {
+    M, GOLD: M(0xf5c451, { roughness: 0.28, metalness: 0.55, emissive: 0x3a2400, emissiveIntensity: 0.18 }),
+    SILVER: M(0xe3e8ee, { roughness: 0.22, metalness: 0.65 }), WHITE: M(0xffffff, { roughness: 0.4 }),
+    GLASS: new THREE.MeshPhysicalMaterial({ color: 0xeaf6ff, roughness: 0.05, metalness: 0, transparent: true, opacity: 0.35, clearcoat: 1, depthWrite: false }),
+    MIRROR: new THREE.MeshPhysicalMaterial({ color: 0xd6ecff, roughness: 0.08, metalness: 0.4, clearcoat: 1, emissive: 0x9fd3ff, emissiveIntensity: 0.25 }),
+    add(geo, mat, x, y, z, o) { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = !(o && o.noCast); m.receiveShadow = true; ((o && o.parent) || scene).add(m); return m; },
+    grp(parent, x, y, z) { const g = new THREE.Group(); g.position.set(x || 0, y || 0, z || 0); (parent || scene).add(g); return g; },
+    sph: (r, a, b) => new THREE.SphereGeometry(r, a || 18, b || 14), cyl: (a, b, h, n) => new THREE.CylinderGeometry(a, b, h, n || 24),
+    tor: (r, t, a, b) => new THREE.TorusGeometry(r, t, a || 10, b || 28), box: (w, h, d, r) => libRBox(w, h, d, r == null ? Math.min(w, h, d) * 0.25 : r),
+    scene
+  };
+  return K;
+}
+function ssWallTex(kind) {
+  return ssCvTex(256, 256, (g, w, h) => {
+    if (kind === 'salon') {   /* 라벤더 바탕에 하얀 물방울 · 민트 하트 */
+      g.fillStyle = '#efe4ff'; g.fillRect(0, 0, w, h);
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { const x = i * 64 + (j % 2 ? 32 : 0) + 16, y = j * 64 + 16; g.fillStyle = (i + j) % 2 ? '#ffffff' : '#c9f2e8'; g.beginPath(); g.arc(x, y, 7, 0, Math.PI * 2); g.fill(); }
+    } else {   /* 분홍·하양 세로 줄무늬 + 금 점 */
+      for (let i = 0; i < 8; i++) { g.fillStyle = i % 2 ? '#ffe4ef' : '#fff6fa'; g.fillRect(i * 32, 0, 32, h); }
+      g.fillStyle = '#f6c86b'; for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { g.beginPath(); g.arc(i * 64 + 48, j * 64 + (i % 2 ? 48 : 16), 3, 0, Math.PI * 2); g.fill(); }
+    }
+  });
+}
+function ssFloorTex(kind) {
+  const t = ssCvTex(512, 512, (g) => {
+    const A = kind === 'salon' ? '#d4f5ec' : '#ffe0ec', B = '#fffaf4';
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { g.fillStyle = (i + j) % 2 ? A : B; g.fillRect(i * 128, j * 128, 128, 128); }
+    g.strokeStyle = kind === 'salon' ? 'rgba(90,180,160,0.35)' : 'rgba(220,130,170,0.35)'; g.lineWidth = 3;
+    for (let i = 0; i <= 4; i++) { g.beginPath(); g.moveTo(i * 128, 0); g.lineTo(i * 128, 512); g.stroke(); g.beginPath(); g.moveTo(0, i * 128); g.lineTo(512, i * 128); g.stroke(); }
+  }); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+}
+function ssSignTex(txt, bg, fg, bd) {
+  return ssCvTex(512, 128, (g, w, h) => {
+    g.fillStyle = bg; g.beginPath(); g.roundRect ? g.roundRect(6, 6, w - 12, h - 12, 50) : g.rect(6, 6, w - 12, h - 12); g.fill();
+    g.lineWidth = 8; g.strokeStyle = bd; g.stroke();
+    g.fillStyle = fg; g.font = `bold 64px ${typeof KFONT !== 'undefined' ? KFONT : 'sans-serif'}`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(txt, w / 2, h / 2 + 4);
+  });
+}
+function ssPicTex(emos, bg) {
+  return ssCvTex(256, 320, (g, w, h) => {
+    const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, bg[0]); gr.addColorStop(1, bg[1]); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = `110px ${SS_EMO}`; g.fillText(emos[0], w / 2, h * 0.42);
+    g.font = `52px ${SS_EMO}`; g.fillText(emos[1] || '', w * 0.25, h * 0.82); g.fillText(emos[2] || '', w * 0.75, h * 0.82);
+  });
+}
+/* 가게 공통: 바닥·벽·몰딩·깃발·화분·반짝이 */
+function ssBuildShell(K, kind) {
+  const { M, add } = K, sal = kind === 'salon', WZ = -4.2;
+  const ft = ssFloorTex(kind); ft.repeat.set(5, 4);
+  add(new THREE.PlaneGeometry(32, 24), M(0xffffff, { map: ft, roughness: 0.3 }), 0, 0, 4, { noCast: true }).rotation.x = -Math.PI / 2;
+  const wt = ssWallTex(kind); wt.wrapS = wt.wrapT = THREE.RepeatWrapping; wt.repeat.set(10, 5);
+  add(new THREE.PlaneGeometry(32, 16), M(0xffffff, { map: wt }), 0, 8, WZ, { noCast: true });
+  for (const sx of [-1, 1]) { const sd = add(new THREE.PlaneGeometry(16, 16), M(sal ? 0xe2f7f1 : 0xffe9f2), sx * 10.5, 8, 3.6, { noCast: true }); sd.rotation.y = -sx * Math.PI / 2; }
+  const TRIM = sal ? 0xb37feb : 0xff85c0, TRIM2 = sal ? 0x87e8de : 0xffd6e7;
+  add(libRBox(32, 1.4, 0.14, 0.05), M(0xffffff), 0, 0.7, WZ + 0.05);
+  for (let i = -14; i <= 14; i += 1.4) add(libRBox(1.1, 0.9, 0.05, 0.08), M(TRIM2), i, 0.72, WZ + 0.13, { noCast: true });   /* 판넬 */
+  add(libRBox(32, 0.14, 0.22, 0.06), M(TRIM), 0, 1.45, WZ + 0.08);
+  add(libRBox(32, 0.24, 0.26, 0.1), M(0xffffff), 0, 7.4, WZ + 0.1);
+  /* 위쪽 꼬마 깃발 줄 */
+  const FL = [0xff85c0, 0xffd666, 0x87e8de, 0xb37feb, 0x69b1ff, 0xffadd2];
+  for (let i = 0; i < 22; i++) { const x = -10.5 + i, y = 6.7 - Math.sin((i % 7) / 6 * Math.PI) * 0.35;
+    const f = add(new THREE.ConeGeometry(0.28, 0.5, 3), M(FL[i % FL.length]), x, y, WZ + 0.3, { noCast: true }); f.rotation.z = Math.PI; f.scale.z = 0.2; }
+  /* 둥근 러그 */
+  const rug = add(new THREE.CircleGeometry(4.6, 48), M(sal ? 0xc9f2e8 : 0xffd6e7, { roughness: 0.9 }), 0, 0.02, -0.2, { noCast: true }); rug.rotation.x = -Math.PI / 2; rug.scale.y = 0.55;
+  const rg2 = add(new THREE.RingGeometry(4.25, 4.45, 48), M(0xffffff, { roughness: 0.9 }), 0, 0.025, -0.2, { noCast: true }); rg2.rotation.x = -Math.PI / 2; rg2.scale.y = 0.55;
+  /* 구석 화분 */
+  for (const sx of [-1, 1]) { const x = sx * 8.6;
+    add(K.cyl(0.5, 0.38, 0.8), M(sal ? 0xffadd2 : 0x87e8de), x, 0.4, -2.8);
+    add(K.sph(0.75), M(0x73d13d), x, 1.35, -2.8).scale.set(1, 1.15, 1);
+    for (let i = 0; i < 6; i++) { const a = i * 1.05; add(K.sph(0.13, 10, 8), M(sal ? 0xffd666 : 0xff85c0), x + Math.cos(a) * 0.55, 1.5 + Math.sin(i * 2) * 0.3, -2.8 + Math.sin(a) * 0.55, { noCast: true }); } }
+  /* 반짝이 */
+  const spkT = ssCvTex(64, 64, (g) => { g.fillStyle = '#fff'; g.beginPath(); for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? 7 : 30; g.lineTo(32 + Math.cos(a) * rr, 32 + Math.sin(a) * rr); } g.fill(); });
+  const S = SS3D[kind];
+  for (let i = 0; i < 9; i++) {
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: spkT, color: [0xffd6e7, 0xffffff, 0xfff1b8][i % 3], transparent: true, depthWrite: false }));
+    sp.position.set(-6 + i * 1.5, 3.4 + (i % 3) * 0.9, -2.6 + (i % 2) * 0.8); K.scene.add(sp);
+    S.anim.push(t => { const s = Math.max(0, Math.sin(t / 470 + i * 1.7)); sp.scale.setScalar(0.04 + s * 0.3); sp.material.rotation = t / 700 + i; });
+  }
+  return WZ;
+}
+function ssBuildBoutique(K) {
+  const { M, add, GOLD } = K, WZ = ssBuildShell(K, 'boutique'), S = SS3D.boutique;
+  /* 가운데 큰 아치 거울 + 간판 */
+  const MW = 2.6, MH = 4.0, MY = 1.6;
+  const mir = new THREE.Mesh(new THREE.ShapeGeometry(libArch(MW, MH), 32), K.MIRROR); mir.position.set(0, MY, WZ + 0.06); K.scene.add(mir);
+  const mf = libArch(MW + 0.36, MH + 0.18); mf.holes.push(libArch(MW, MH));
+  add(new THREE.ExtrudeGeometry(mf, { depth: 0.14, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 3, curveSegments: 32 }), GOLD, 0, MY - 0.09, WZ + 0.04);
+  for (let i = 0; i < 3; i++) { const s = add(libRBox(0.12, 1.6 - i * 0.4, 0.02, 0.05), M(0xffffff, { transparent: true, opacity: 0.5 }), -0.7 + i * 0.25, MY + 2.0, WZ + 0.1, { noCast: true }); s.rotation.z = -0.5; }
+  const sg = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 0.8), new THREE.MeshBasicMaterial({ map: ssSignTex('👗 별빛 옷가게', '#fff0f6', '#c41d7f', '#ff85c0'), transparent: true }));
+  sg.position.set(0, 6.25, WZ + 0.12); K.scene.add(sg);
+  /* 커튼 탈의실 두 칸 */
+  for (const sx of [-1, 1]) { const x = sx * 6.9, cur = K.grp(null, x, 0, WZ + 0.5);
+    add(libRBox(2.2, 0.16, 0.3, 0.06), GOLD, 0, 4.4, 0, { parent: cur });
+    for (let i = 0; i < 6; i++) add(K.cyl(0.2, 0.24, 4.1, 14), M(sx < 0 ? 0xd3adf7 : 0xffadd2, { roughness: 0.8 }), -0.9 + i * 0.36, 2.15, 0.05 * (i % 2), { parent: cur });
+    add(K.tor(0.18, 0.05), GOLD, sx * -0.85, 2.3, 0.3, { parent: cur }).rotation.y = Math.PI / 2;
+    add(K.sph(0.16), M(0xffffff), 0, 4.75, 0.1, { parent: cur }); }
+  /* 액자 (구두·가방 / 리본·왕관) */
+  [[-3.5, ['👠', '👜', '🎀'], ['#fff7e6', '#ffe7ba']], [3.5, ['👑', '💍', '🌸'], ['#f9f0ff', '#efdbff']]].forEach(([x, em, bg]) => {
+    add(libRBox(1.6, 1.95, 0.12, 0.3), GOLD, x, 4.6, WZ + 0.1);
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(1.34, 1.68), new THREE.MeshBasicMaterial({ map: ssPicTex(em, bg) })); p.position.set(x, 4.6, WZ + 0.18); K.scene.add(p);
+  });
+  /* 모자 상자 선반 */
+  for (const sx of [-1, 1]) { const x = sx * 4.6, y = 2.6;
+    add(libRBox(1.8, 0.1, 0.55, 0.04), M(0xffffff), x, y, WZ + 0.3);
+    [[-0.5, 0x87e8de, 0.42], [0.1, 0xffadd2, 0.5], [0.6, 0xfff1b8, 0.36]].forEach(([dx, c, r], i) => {
+      add(K.cyl(r * 0.6, r * 0.6, 0.38, 22), M(c), x + dx, y + 0.24, WZ + 0.32);
+      add(K.cyl(r * 0.63, r * 0.63, 0.08, 22), M(0xffffff), x + dx, y + 0.45, WZ + 0.32);
+      add(K.tor(0.08, 0.025, 8, 14), M(0xff85c0), x + dx, y + 0.53, WZ + 0.32).rotation.x = 0.3; }); }
+  /* 샹들리에 */
+  const ch = K.grp(null, 0, 7.0, -1.2);
+  add(K.cyl(0.015, 0.015, 1.2, 6), GOLD, 0, 0.6, 0, { parent: ch, noCast: true });
+  add(K.tor(0.8, 0.05, 10, 40), GOLD, 0, -0.1, 0, { parent: ch, noCast: true }).rotation.x = Math.PI / 2;
+  add(K.tor(0.45, 0.04, 10, 32), GOLD, 0, 0.15, 0, { parent: ch, noCast: true }).rotation.x = Math.PI / 2;
+  const BULB = M(0xfffbe6, { emissive: 0xffe7a3, emissiveIntensity: 0.9 });
+  for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; add(K.sph(0.09, 12, 10), BULB, Math.cos(a) * 0.8, 0.02, Math.sin(a) * 0.8, { parent: ch, noCast: true });
+    add(new THREE.OctahedronGeometry(0.08), K.GLASS, Math.cos(a) * 0.8, -0.32, Math.sin(a) * 0.8, { parent: ch, noCast: true }).scale.y = 1.6; }
+  add(new THREE.OctahedronGeometry(0.16), K.GLASS, 0, -0.5, 0, { parent: ch, noCast: true }).scale.y = 1.7;
+  S.anim.push(t => { ch.rotation.y = t / 4000; });
+}
+function ssBuildSalon(K) {
+  const { M, add, GOLD } = K, WZ = ssBuildShell(K, 'salon'), S = SS3D.salon;
+  const sg = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 0.8), new THREE.MeshBasicMaterial({ map: ssSignTex('💇 별빛 미용실', '#f9f0ff', '#722ed1', '#b37feb'), transparent: true }));
+  sg.position.set(0, 6.25, WZ + 0.12); K.scene.add(sg);
+  /* 긴 화장대 (거울은 진열대마다 따로) */
+  add(libRBox(13.2, 0.16, 0.9, 0.06), M(0xffffff, { roughness: 0.25 }), 0, 1.55, WZ + 0.5);
+  add(libRBox(13.0, 1.4, 0.8, 0.08), M(0xffe4f0), 0, 0.75, WZ + 0.48);
+  for (let i = -6; i <= 6; i += 1.6) add(K.sph(0.06, 10, 8), GOLD, i, 1.1, WZ + 0.9, { noCast: true });
+  /* 화장대 위 병들 */
+  const BC = [0xff85c0, 0x87e8de, 0xb37feb, 0xffd666, 0x69b1ff];
+  for (let i = 0; i < 14; i++) { const x = -6.2 + i * 0.95 + (i % 2) * 0.12; if (Math.abs(x) < 0.4) continue; const h = 0.3 + (i % 3) * 0.12, c = BC[i % BC.length];
+    add(K.cyl(0.09, 0.1, h, 14), M(c, { roughness: 0.2, emissive: c, emissiveIntensity: 0.15 }), x, 1.63 + h / 2, WZ + 0.35);
+    add(K.cyl(0.04, 0.04, 0.1, 10), M(0xffffff), x, 1.68 + h, WZ + 0.35); }
+  /* 왼쪽 앞: 파마 드라이어 의자 */
+  const dry = K.grp(null, -7.0, 0, -0.6);
+  add(K.cyl(0.35, 0.45, 0.12, 20), K.SILVER, 0, 0.06, 0, { parent: dry });
+  add(K.cyl(0.07, 0.07, 0.7, 10), K.SILVER, 0, 0.45, 0, { parent: dry });
+  add(libRBox(1.0, 0.26, 0.9, 0.12), M(0xffadd2), 0, 0.88, 0, { parent: dry });
+  add(libRBox(1.0, 1.0, 0.22, 0.12), M(0xffadd2), 0, 1.45, -0.38, { parent: dry });
+  add(K.cyl(0.05, 0.05, 1.6, 10), K.SILVER, 0, 1.7, -0.6, { parent: dry });
+  const hood = add(new THREE.SphereGeometry(0.55, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.55), M(0xd3adf7, { side: THREE.DoubleSide }), 0, 2.15, -0.25, { parent: dry }); hood.rotation.x = 0.5;
+  /* 오른쪽 앞: 빙글 줄무늬 기둥 + 수건 수레 */
+  const poleT = ssCvTex(64, 128, (g, w, h) => { g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h); for (let i = -4; i < 10; i++) { g.fillStyle = i % 2 ? '#ff85c0' : '#b37feb'; g.beginPath(); g.moveTo(0, i * 32); g.lineTo(w, i * 32 - 40); g.lineTo(w, i * 32 - 26); g.lineTo(0, i * 32 + 14); g.closePath(); g.fill(); } });
+  poleT.wrapS = poleT.wrapT = THREE.RepeatWrapping;
+  const pole = add(K.cyl(0.22, 0.22, 1.6, 28), M(0xffffff, { map: poleT }), 7.4, 3.4, WZ + 0.4);
+  add(K.cyl(0.26, 0.26, 1.7, 28), K.GLASS, 7.4, 3.4, WZ + 0.4, { noCast: true });
+  for (const y of [2.55, 4.25]) add(K.sph(0.3), GOLD, 7.4, y, WZ + 0.4);
+  S.anim.push(t => { poleT.offset.y = -t / 1500; });
+  const cart = K.grp(null, 7.0, 0, -0.6);
+  for (const y of [0.35, 0.95]) add(libRBox(1.1, 0.08, 0.7, 0.03), M(0xffffff), 0, y, 0, { parent: cart });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) add(K.cyl(0.03, 0.03, 1.0, 8), K.SILVER, sx * 0.5, 0.55, sz * 0.3, { parent: cart });
+  [[0xffd6e7, 0.45], [0xc9f2e8, 0.6], [0xefdbff, 0.75]].forEach(([c, y], i) => add(libRBox(0.8, 0.13, 0.5, 0.06), M(c, { roughness: 0.9 }), 0, 0.95 + 0.08 + i * 0.14, 0, { parent: cart }));
+  [[0xffd6e7], [0xc9f2e8]].forEach(([c], i) => add(libRBox(0.8, 0.13, 0.5, 0.06), M(c, { roughness: 0.9 }), 0, 0.46 + i * 0.14, 0, { parent: cart }));
+  /* 벽 장식: 가위·빗 액자 */
+  [[-4.6, ['✂️', '🪮', '🎀']], [4.6, ['💖', '🌸', '✨']]].forEach(([x, em]) => {
+    add(new THREE.TorusGeometry(0.75, 0.08, 12, 40), GOLD, x, 4.7, WZ + 0.12);
+    const p = new THREE.Mesh(new THREE.CircleGeometry(0.72, 40), new THREE.MeshBasicMaterial({ map: ssPicTex(em, ['#fff', '#f0fbf8']) })); p.position.set(x, 4.7, WZ + 0.14); K.scene.add(p);
+  });
+  /* 동그란 등 */
+  for (const x of [-3.2, 0, 3.2]) { add(K.cyl(0.012, 0.012, 1.4, 6), K.SILVER, x, 7.3, -1.2, { noCast: true });
+    add(new THREE.SphereGeometry(0.4, 20, 14, 0, Math.PI * 2, 0, Math.PI / 2), M(0xffffff, { side: THREE.DoubleSide }), x, 6.6, -1.2, { noCast: true }).rotation.x = Math.PI;
+    add(K.sph(0.16), M(0xfffbe6, { emissive: 0xfff1b8, emissiveIntensity: 0.9 }), x, 6.5, -1.2, { noCast: true }); }
+}
+
+/* ---- 진열대: 받침 + 종류마다 다른 모형 ---- */
+function ssPodium(K, g, col) {
+  K.add(K.cyl(0.85, 0.95, 0.38, 36), K.M(col), 0, 0.19, 0, { parent: g });
+  K.add(K.tor(0.86, 0.05, 10, 40), K.GOLD, 0, 0.38, 0, { parent: g, noCast: true }).rotation.x = Math.PI / 2;
+  const ring = K.add(K.tor(1.05, 0.06, 10, 44), K.M(0xfff1b8, { emissive: 0xffd666, emissiveIntensity: 0.9 }), 0, 0.05, 0, { parent: g, noCast: true }); ring.rotation.x = Math.PI / 2;
+  return ring;
+}
+function ssForm(K, g, col, y0) {   /* 마네킹 몸통 (받침 위 y0) */
+  const { add, M, GOLD } = K, m = M(col);
+  add(K.cyl(0.03, 0.03, 0.95, 8), GOLD, 0, y0 + 0.47, 0, { parent: g });
+  add(K.cyl(0.2, 0.25, 0.5, 24), m, 0, y0 + 1.2, 0, { parent: g });
+  add(K.sph(0.27, 24, 16), m, 0, y0 + 1.5, 0, { parent: g }).scale.set(1, 0.75, 0.75);
+  add(K.cyl(0.06, 0.07, 0.14, 12), M(0xfff1e6), 0, y0 + 1.75, 0, { parent: g });
+  add(K.sph(0.07, 12, 10), GOLD, 0, y0 + 1.86, 0, { parent: g });
+  return m;
+}
+function ssCrown(K, g, y, col, s) {
+  const c = K.grp(g, 0, y, 0); c.scale.setScalar(s || 1);
+  K.add(K.cyl(0.13, 0.13, 0.08, 20, 1, true), K.GOLD, 0, 0, 0, { parent: c });
+  for (let i = 0; i < 5; i++) { const a = i * Math.PI * 2 / 5; K.add(new THREE.ConeGeometry(0.035, 0.12, 8), K.GOLD, Math.cos(a) * 0.12, 0.09, Math.sin(a) * 0.12, { parent: c, noCast: true });
+    K.add(K.sph(0.025, 8, 6), K.M(col || 0xff4d6d, { roughness: 0.2 }), Math.cos(a) * 0.13, 0.0, Math.sin(a) * 0.13, { parent: c, noCast: true }); }
+  return c;
+}
+function ssHead(K, g, y0, skin) {   /* 미용실 머리 모형 (얼굴은 +z) */
+  const { add, M } = K, H = K.grp(g, 0, y0, 0); H.scale.setScalar(1.35);
+  add(K.cyl(0.06, 0.08, 0.9, 12), K.GOLD, 0, -0.85, 0, { parent: H });
+  add(K.cyl(0.1, 0.16, 0.22, 16), M(skin || 0xffe3d3), 0, -0.42, 0, { parent: H });
+  add(K.sph(0.4, 28, 20), M(skin || 0xffe3d3), 0, 0, 0, { parent: H }).scale.set(1, 1.05, 0.95);
+  const EY = M(0x4a2c2a, { roughness: 0.3 });
+  for (const s of [-1, 1]) { add(K.sph(0.045, 12, 10), EY, s * 0.14, 0.02, 0.36, { parent: H, noCast: true }).scale.set(1, 1.3, 0.6);
+    add(K.sph(0.015, 8, 6), M(0xffffff), s * 0.14 + 0.015, 0.05, 0.39, { parent: H, noCast: true });
+    add(K.sph(0.06, 12, 8), M(0xffadd2, { roughness: 0.8 }), s * 0.22, -0.1, 0.31, { parent: H, noCast: true }).scale.set(1, 0.6, 0.4); }
+  add(new THREE.TorusGeometry(0.05, 0.012, 6, 14, Math.PI), M(0xe05d7a), 0, -0.13, 0.37, { parent: H, noCast: true }).rotation.z = Math.PI;
+  return H;
+}
+function ssHairCap(K, H, col, o) {   /* 머리 덮개 + 앞머리 */
+  const { add, M } = K, m = M(col, { roughness: 0.45 });
+  add(new THREE.SphereGeometry(0.43, 28, 18, 0, Math.PI * 2, 0, Math.PI * ((o && o.cap) || 0.52)), m, 0, 0.02, -0.02, { parent: H }).scale.set(1, 1.05, 1);
+  add(new THREE.SphereGeometry(0.42, 24, 16, Math.PI * 0.75, Math.PI * 1.5, 0, Math.PI * 0.8), m, 0, 0.02, -0.03, { parent: H });   /* 뒤통수·옆머리 (얼굴 쪽은 비움) */
+  for (let i = 0; i < 5; i++) { const a = -0.7 + i * 0.35; add(K.sph(0.11, 12, 10), m, Math.sin(a) * 0.33, 0.27 - Math.abs(a) * 0.08, Math.cos(a) * 0.3, { parent: H, noCast: true }).scale.set(1, 0.75, 0.7); }
+  return m;
+}
+function ssBow(K, g, x, y, z, col, s) {
+  const b = K.grp(g, x, y, z); b.scale.setScalar(s || 1); const m = K.M(col);
+  for (const sd of [-1, 1]) K.add(K.sph(0.09, 12, 10), m, sd * 0.09, 0, 0, { parent: b, noCast: true }).scale.set(1.1, 0.75, 0.5);
+  K.add(K.sph(0.045, 10, 8), m, 0, 0, 0.02, { parent: b, noCast: true });
+  return b;
+}
+const SS_DISP = {
+  gown(K, g, A) {   /* 분홍 공주 드레스 + 왕관 */
+    const y0 = 0.38; ssForm(K, g, 0xffd6e7, y0);
+    const sk = K.add(K.cyl(0.24, 0.82, 1.0, 36), K.M(0xffadd2), 0, y0 + 0.5, 0, { parent: g });
+    for (let i = 0; i < 3; i++) K.add(K.tor(0.62 + i * 0.1, 0.045, 10, 44), K.M(i % 2 ? 0xffffff : 0xff85c0), 0, y0 + 0.62 - i * 0.24, 0, { parent: g, noCast: true }).rotation.x = Math.PI / 2;
+    for (let i = 0; i < 10; i++) { const a = i * Math.PI / 5; K.add(K.sph(0.05, 10, 8), K.M(0xffffff), Math.cos(a) * 0.84, y0 + 0.04, Math.sin(a) * 0.84, { parent: g, noCast: true }); }
+    ssBow(K, g, 0, y0 + 1.0, 0.24, 0xff85c0, 1.1);
+    for (let i = 0; i < 6; i++) K.add(K.sph(0.025, 8, 6), K.M(0xfff1b8, { emissive: 0xffd666, emissiveIntensity: 0.7 }), Math.cos(i) * 0.4, y0 + 0.3 + i * 0.1, Math.sin(i) * 0.4 + 0.25, { parent: g, noCast: true });
+    const cr = ssCrown(K, g, y0 + 2.0, 0xff4d6d, 1.1); A.push(t => { cr.rotation.y = t / 900; cr.position.y = y0 + 2.0 + Math.sin(t / 500) * 0.05; sk.rotation.y = Math.sin(t / 1100) * 0.12; });
+  },
+  rack(K, g, A) {   /* 옷걸이에 걸린 티셔츠·원피스·코트 + 밀짚모자 */
+    const { add, M, GOLD } = K;
+    for (const s of [-1, 1]) add(K.cyl(0.035, 0.035, 2.0, 10), GOLD, s * 0.78, 1.38, -0.25, { parent: g });
+    add(K.cyl(0.03, 0.03, 1.62, 10), GOLD, 0, 2.36, -0.25, { parent: g }).rotation.z = Math.PI / 2;
+    const C = [0xfff566, 0x69b1ff, 0xff85c0, 0x87e8de, 0xff7875], hs = [];
+    C.forEach((c, i) => { const h = K.grp(g, -0.6 + i * 0.3, 2.34, -0.2 + (i % 2) * 0.05); hs.push(h);
+      add(K.tor(0.05, 0.012, 6, 14, Math.PI * 1.5), K.SILVER, 0, 0.05, 0, { parent: h, noCast: true });
+      add(libRBox(0.4, 0.04, 0.04, 0.015), K.SILVER, 0, -0.06, 0, { parent: h, noCast: true });
+      const long = i === 1 || i === 4, m = M(c);
+      add(libRBox(0.36, long ? 0.78 : 0.48, 0.07, 0.05), m, 0, long ? -0.46 : -0.31, 0, { parent: h });
+      for (const s of [-1, 1]) add(libRBox(0.12, 0.2, 0.06, 0.03), m, s * 0.22, -0.16, 0, { parent: h }).rotation.z = s * 0.6;
+      if (i === 1) for (let k = 0; k < 3; k++) add(K.sph(0.018, 8, 6), M(0xffffff), 0, -0.25 - k * 0.14, 0.04, { parent: h, noCast: true }); });
+    const hat = K.grp(g, 0.35, 0.42, 0.45); hat.rotation.x = -0.25;
+    add(K.cyl(0.42, 0.42, 0.03, 30), M(0xffe08a, { roughness: 0.8 }), 0, 0, 0, { parent: hat });
+    add(new THREE.SphereGeometry(0.2, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2), M(0xffe08a, { roughness: 0.8 }), 0, 0.01, 0, { parent: hat });
+    add(K.cyl(0.205, 0.205, 0.05, 24), M(0x69b1ff), 0, 0.04, 0, { parent: hat, noCast: true });
+    [[0xffd6e7, 0], [0xb5f5ec, 1], [0xfff1b8, 2]].forEach(([c, i]) => add(libRBox(0.5, 0.1, 0.36, 0.04), M(c, { roughness: 0.85 }), -0.4, 0.43 + i * 0.1, 0.35, { parent: g }));
+    A.push(t => hs.forEach((h, i) => { h.rotation.z = Math.sin(t / 700 + i) * 0.05; }));
+  },
+  tutu(K, g, A) {   /* 발레 튀튀 + 토슈즈 + 바 */
+    const { add, M } = K, y0 = 0.38;
+    for (const s of [-1, 1]) add(K.cyl(0.03, 0.03, 1.3, 8), K.SILVER, s * 0.75, y0 + 0.65, -0.55, { parent: g });
+    add(K.cyl(0.035, 0.035, 1.6, 10), M(0xd4a373), 0, y0 + 1.25, -0.55, { parent: g }).rotation.z = Math.PI / 2;
+    ssForm(K, g, 0xffc0dc, y0);
+    const tu = K.grp(g, 0, y0 + 0.96, 0);
+    [[0.72, 0xffd6e7], [0.62, 0xffadd2], [0.52, 0xffffff]].forEach(([r, c], i) => add(K.cyl(r, r * 0.98, 0.05, 40), M(c, { transparent: true, opacity: 0.9, roughness: 0.7 }), 0, 0.06 - i * 0.05, 0, { parent: tu }));
+    for (let i = 0; i < 16; i++) { const a = i * Math.PI / 8; add(K.sph(0.07, 10, 8), M(0xffd6e7, { roughness: 0.7 }), Math.cos(a) * 0.7, 0.07, Math.sin(a) * 0.7, { parent: tu, noCast: true }).scale.set(1, 0.4, 1); }
+    ssBow(K, g, 0, y0 + 1.55, 0.21, 0xff85c0, 0.8);
+    for (const s of [-1, 1]) { const sh = K.grp(g, s * 0.22, y0 + 0.06, 0.55); sh.rotation.y = s * 0.3;
+      add(K.sph(0.1, 14, 10), M(0xffadd2, { roughness: 0.3 }), 0, 0, 0, { parent: sh }).scale.set(0.7, 0.55, 1.5);
+      add(K.cyl(0.006, 0.006, 0.3, 4), M(0xff85c0), 0, 0.12, -0.05, { parent: sh, noCast: true }).rotation.z = 0.4; }
+    A.push(t => { tu.rotation.y = t / 1200; });
+  },
+  wings(K, g, A) {   /* 요정 날개 + 꽃잎 치마 + 별 지팡이 */
+    const { add, M } = K, y0 = 0.38;
+    ssForm(K, g, 0xb5f5ec, y0);
+    for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, p = add(K.sph(0.3, 16, 12), M(i % 2 ? 0xffadd2 : 0x87e8de), Math.cos(a) * 0.26, y0 + 0.82, Math.sin(a) * 0.26, { parent: g }); p.scale.set(0.55, 1.1, 0.25); p.rotation.set(0, -a + Math.PI / 2, 0); p.rotateX(0.5); }
+    const WM = new THREE.MeshPhysicalMaterial({ color: 0xe6f7ff, transparent: true, opacity: 0.6, roughness: 0.1, clearcoat: 1, side: THREE.DoubleSide, depthWrite: false });
+    const wg = [-1, 1].map(s => { const w = K.grp(g, s * 0.06, y0 + 1.4, -0.22);
+      add(K.sph(0.5, 20, 14), WM, s * 0.45, 0.22, 0, { parent: w, noCast: true }).scale.set(0.9, 1.0, 0.05);
+      add(K.sph(0.36, 20, 14), new THREE.MeshPhysicalMaterial({ color: 0xffd6f0, transparent: true, opacity: 0.6, roughness: 0.1, clearcoat: 1, side: THREE.DoubleSide, depthWrite: false }), s * 0.34, -0.38, 0, { parent: w, noCast: true }).scale.set(0.9, 1.0, 0.05);
+      return { w, s }; });
+    const wand = K.grp(g, 0.68, y0 + 1.6, 0.25);
+    add(K.cyl(0.02, 0.02, 0.6, 8), M(0xffffff), 0, -0.3, 0, { parent: wand, noCast: true });
+    const st = new THREE.Shape(); for (let i = 0; i < 10; i++) { const a = Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 0.07 : 0.17; i ? st.lineTo(Math.cos(a) * r, Math.sin(a) * r) : st.moveTo(Math.cos(a) * r, Math.sin(a) * r); }
+    add(new THREE.ExtrudeGeometry(st, { depth: 0.05, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2 }), M(0xffd666, { emissive: 0xffc53d, emissiveIntensity: 0.5 }), 0, 0.05, -0.03, { parent: wand, noCast: true });
+    A.push(t => { wg.forEach(({ w, s }) => { w.rotation.y = s * (0.35 + Math.sin(t / 180) * 0.28); }); wand.rotation.z = Math.sin(t / 600) * 0.25; wand.position.y = y0 + 1.6 + Math.sin(t / 450) * 0.06; });
+  },
+  hanbok(K, g, A) {   /* 노랑 저고리 + 다홍 치마 + 옷고름 + 꽃신 */
+    const { add, M } = K, y0 = 0.38;
+    add(K.cyl(0.03, 0.03, 0.5, 8), K.GOLD, 0, y0 + 0.25, 0, { parent: g });
+    const ch = add(K.cyl(0.26, 0.8, 1.42, 36), M(0xff7a9c), 0, y0 + 0.71, 0, { parent: g });
+    add(K.tor(0.8, 0.035, 8, 44), M(0xffd666), 0, y0 + 0.1, 0, { parent: g, noCast: true }).rotation.x = Math.PI / 2;
+    add(K.cyl(0.29, 0.29, 0.1, 30), M(0xffffff), 0, y0 + 1.44, 0, { parent: g, noCast: true });
+    add(K.sph(0.3, 24, 16), M(0xfff1b8), 0, y0 + 1.58, 0, { parent: g }).scale.set(1, 0.7, 0.78);
+    add(K.cyl(0.06, 0.07, 0.14, 12), M(0xfff1e6), 0, y0 + 1.82, 0, { parent: g });
+    add(K.sph(0.07, 12, 10), K.GOLD, 0, y0 + 1.93, 0, { parent: g });
+    add(libRBox(0.36, 0.05, 0.04, 0.02), M(0xffffff), 0, y0 + 1.72, 0.2, { parent: g, noCast: true }).rotation.z = 0.5;   /* 동정 */
+    for (const [dx, h, rz] of [[0.04, 0.55, 0.12], [-0.03, 0.42, -0.08]]) add(libRBox(0.07, h, 0.02, 0.01), M(0xe8455f), dx, y0 + 1.5 - h / 2, 0.25, { parent: g, noCast: true }).rotation.z = rz;   /* 옷고름 */
+    ssBow(K, g, 0.02, y0 + 1.5, 0.25, 0xe8455f, 0.6);
+    const nr = K.grp(g, -0.18, y0 + 1.36, 0.28); add(K.sph(0.05, 10, 8), K.GOLD, 0, 0, 0, { parent: nr, noCast: true }); add(K.cyl(0.03, 0.01, 0.2, 8), M(0xb37feb), 0, -0.13, 0, { parent: nr, noCast: true });   /* 노리개 */
+    for (const s of [-1, 1]) add(K.sph(0.09, 12, 10), M(0xff85c0), s * 0.16, y0 + 0.05, 0.62, { parent: g }).scale.set(0.7, 0.5, 1.4);
+    A.push(t => { ch.rotation.y = Math.sin(t / 900) * 0.1; nr.rotation.z = Math.sin(t / 400) * 0.25; });
+  },
+  tunic(K, g, A) {   /* 남색 왕자 제복 + 빨간 망토 + 왕관 */
+    const { add, M, GOLD } = K, y0 = 0.38;
+    for (const s of [-1, 1]) add(K.cyl(0.11, 0.1, 0.9, 14), M(0xffffff), s * 0.12, y0 + 0.45, 0, { parent: g });
+    const m = M(0x2f54eb); add(K.cyl(0.24, 0.27, 0.7, 24), m, 0, y0 + 1.22, 0, { parent: g });
+    add(K.sph(0.28, 24, 16), m, 0, y0 + 1.55, 0, { parent: g }).scale.set(1.05, 0.6, 0.8);
+    for (const s of [-1, 1]) add(K.sph(0.1, 12, 10), GOLD, s * 0.29, y0 + 1.6, 0, { parent: g }).scale.set(1, 0.5, 1);
+    for (let i = 0; i < 4; i++) add(K.sph(0.025, 8, 6), GOLD, 0, y0 + 1.0 + i * 0.15, 0.27, { parent: g, noCast: true });
+    add(libRBox(0.08, 0.75, 0.03, 0.02), M(0xff4d4f), 0.05, y0 + 1.3, 0.28, { parent: g, noCast: true }).rotation.z = 0.55;
+    add(libRBox(0.5, 0.06, 0.52, 0.02), GOLD, 0, y0 + 0.9, 0, { parent: g, noCast: true });
+    const cape = add(new THREE.CylinderGeometry(0.34, 0.62, 1.35, 24, 1, true, Math.PI * 0.5, Math.PI), M(0xff4d4f, { side: THREE.DoubleSide }), 0, y0 + 1.0, -0.02, { parent: g });
+    add(K.cyl(0.07, 0.07, 0.14, 12), M(0xfff1e6), 0, y0 + 1.75, 0, { parent: g });
+    add(K.sph(0.07, 12, 10), GOLD, 0, y0 + 1.86, 0, { parent: g });
+    const cr = ssCrown(K, g, y0 + 2.05, 0x69b1ff, 1.15);
+    A.push(t => { cr.rotation.y = t / 900; cr.position.y = y0 + 2.05 + Math.sin(t / 500) * 0.05; cape.rotation.y = Math.sin(t / 800) * 0.1; });
+  },
+  armor(K, g, A) {   /* 은빛 갑옷 + 투구 + 방패 + 칼 */
+    const { add, M, SILVER, GOLD } = K, y0 = 0.38;
+    for (const s of [-1, 1]) add(K.cyl(0.11, 0.1, 0.9, 14), SILVER, s * 0.12, y0 + 0.45, 0, { parent: g });
+    add(K.cyl(0.25, 0.27, 0.65, 24), SILVER, 0, y0 + 1.2, 0, { parent: g });
+    add(K.sph(0.3, 24, 16), SILVER, 0, y0 + 1.52, 0.02, { parent: g }).scale.set(1, 0.65, 0.85);
+    for (const s of [-1, 1]) add(K.sph(0.15, 16, 12), SILVER, s * 0.33, y0 + 1.6, 0, { parent: g }).scale.set(1, 0.7, 1);
+    add(libRBox(0.08, 0.4, 0.03, 0.02), M(0x1d39c4), 0, y0 + 1.3, 0.28, { parent: g, noCast: true });
+    add(libRBox(0.3, 0.08, 0.03, 0.02), M(0x1d39c4), 0, y0 + 1.36, 0.28, { parent: g, noCast: true });
+    const hm = K.grp(g, 0, y0 + 1.97, 0);
+    add(K.sph(0.2, 20, 14), SILVER, 0, 0, 0, { parent: hm });
+    add(libRBox(0.26, 0.04, 0.04, 0.015), M(0x262626), 0, 0, 0.19, { parent: hm, noCast: true });
+    const pl = add(K.sph(0.1, 12, 10), M(0xff4d4f), 0, 0.25, -0.05, { parent: hm, noCast: true }); pl.scale.set(0.5, 1.4, 1.2);
+    const sh = K.grp(g, -0.62, y0 + 0.75, 0.3); sh.rotation.y = 0.35;
+    add(K.cyl(0.36, 0.36, 0.08, 30), M(0x69b1ff), 0, 0, 0, { parent: sh }).rotation.x = Math.PI / 2;
+    add(K.tor(0.36, 0.035, 8, 30), GOLD, 0, 0, 0.02, { parent: sh, noCast: true });
+    add(libRBox(0.08, 0.4, 0.03, 0.02), GOLD, 0, 0, 0.06, { parent: sh, noCast: true }); add(libRBox(0.4, 0.08, 0.03, 0.02), GOLD, 0, 0, 0.06, { parent: sh, noCast: true });
+    const sw = K.grp(g, 0.62, y0, 0.3); sw.rotation.z = -0.12;
+    add(libRBox(0.09, 1.1, 0.03, 0.02), SILVER, 0, 0.85, 0, { parent: sw });
+    add(libRBox(0.36, 0.06, 0.06, 0.02), GOLD, 0, 0.27, 0, { parent: sw });
+    add(K.cyl(0.03, 0.03, 0.22, 8), M(0x8b5e34), 0, 0.14, 0, { parent: sw });
+    add(K.sph(0.05, 10, 8), GOLD, 0, 0.02, 0, { parent: sw });
+    A.push(t => { hm.rotation.y = Math.sin(t / 900) * 0.3; });
+  },
+  school(K, g, A) {   /* 교복 재킷 + 넥타이 + 학사모 + 책 */
+    const { add, M, GOLD } = K, y0 = 0.38;
+    for (const s of [-1, 1]) add(K.cyl(0.11, 0.1, 0.9, 14), M(0x595959), s * 0.12, y0 + 0.45, 0, { parent: g });
+    const m = M(0x1d39c4); add(K.cyl(0.24, 0.27, 0.7, 24), m, 0, y0 + 1.22, 0, { parent: g });
+    add(K.sph(0.28, 24, 16), m, 0, y0 + 1.55, 0, { parent: g }).scale.set(1.05, 0.6, 0.8);
+    add(new THREE.ConeGeometry(0.16, 0.36, 3), M(0xffffff), 0, y0 + 1.5, 0.21, { parent: g, noCast: true }).rotation.set(0, 0, Math.PI);
+    add(libRBox(0.08, 0.36, 0.03, 0.02), M(0xff4d4f), 0, y0 + 1.36, 0.27, { parent: g, noCast: true });
+    add(K.sph(0.04, 10, 8), M(0xff4d4f), 0, y0 + 1.56, 0.26, { parent: g, noCast: true });
+    add(K.tor(0.06, 0.015, 6, 16), GOLD, -0.15, y0 + 1.4, 0.24, { parent: g, noCast: true });
+    add(K.cyl(0.07, 0.07, 0.14, 12), M(0xfff1e6), 0, y0 + 1.75, 0, { parent: g });
+    const cap = K.grp(g, 0, y0 + 1.95, 0);
+    add(K.cyl(0.16, 0.16, 0.14, 20), M(0x262626), 0, 0, 0, { parent: cap });
+    add(libRBox(0.5, 0.04, 0.5, 0.02), M(0x262626), 0, 0.08, 0, { parent: cap }).rotation.y = Math.PI / 4;
+    const tas = add(K.cyl(0.012, 0.012, 0.25, 6), M(0xffd666), 0.2, -0.04, 0, { parent: cap, noCast: true });
+    [[0xff85c0, 0], [0x69b1ff, 1], [0x95de64, 2]].forEach(([c, i]) => { add(libRBox(0.55, 0.1, 0.4, 0.03), M(c), 0.42, y0 + 0.06 + i * 0.11, 0.42, { parent: g }).rotation.y = i * 0.25; });
+    A.push(t => { tas.rotation.z = Math.sin(t / 400) * 0.3; cap.rotation.y = Math.sin(t / 1000) * 0.2; });
+  },
+  space(K, g, A) {   /* 하얀 우주복 + 헬멧 + 작은 로켓 */
+    const { add, M } = K, y0 = 0.38, W = M(0xffffff, { roughness: 0.4 }), OR = M(0xfa8c16);
+    for (const s of [-1, 1]) { add(K.cyl(0.13, 0.12, 0.9, 14), W, s * 0.13, y0 + 0.45, 0, { parent: g }); add(K.tor(0.13, 0.03, 8, 20), OR, s * 0.13, y0 + 0.3, 0, { parent: g, noCast: true }).rotation.x = Math.PI / 2; }
+    add(K.cyl(0.27, 0.29, 0.7, 24), W, 0, y0 + 1.22, 0, { parent: g });
+    add(K.sph(0.3, 24, 16), W, 0, y0 + 1.55, 0, { parent: g }).scale.set(1.05, 0.65, 0.85);
+    add(K.tor(0.28, 0.035, 8, 28), OR, 0, y0 + 1.0, 0, { parent: g, noCast: true }).rotation.x = Math.PI / 2;
+    add(libRBox(0.26, 0.2, 0.04, 0.03), M(0x69b1ff), 0, y0 + 1.3, 0.27, { parent: g, noCast: true });
+    add(K.sph(0.03, 8, 6), M(0xff4d4f, { emissive: 0xff4d4f, emissiveIntensity: 0.6 }), -0.06, y0 + 1.3, 0.3, { parent: g, noCast: true });
+    add(libRBox(0.4, 0.5, 0.18, 0.06), M(0xd9d9d9), 0, y0 + 1.3, -0.3, { parent: g });
+    add(K.sph(0.26, 24, 18), new THREE.MeshPhysicalMaterial({ color: 0xffe7ba, transparent: true, opacity: 0.45, roughness: 0.05, metalness: 0.3, clearcoat: 1, depthWrite: false }), 0, y0 + 1.95, 0, { parent: g, noCast: true });
+    add(K.tor(0.2, 0.05, 10, 24), W, 0, y0 + 1.75, 0, { parent: g }).rotation.x = Math.PI / 2;
+    const rk = K.grp(g, 0.68, y0, 0.25);
+    add(K.cyl(0.13, 0.13, 0.6, 18), W, 0, 0.42, 0, { parent: rk });
+    add(new THREE.ConeGeometry(0.13, 0.26, 18), M(0xff4d4f), 0, 0.85, 0, { parent: rk });
+    add(K.cyl(0.05, 0.05, 0.02, 14), M(0x69b1ff), 0, 0.5, 0.13, { parent: rk, noCast: true }).rotation.x = Math.PI / 2;
+    for (let i = 0; i < 3; i++) { const a = i * 2.094; const f = add(libRBox(0.04, 0.18, 0.14, 0.015), M(0xff4d4f), Math.cos(a) * 0.14, 0.18, Math.sin(a) * 0.14, { parent: rk, noCast: true }); f.rotation.y = -a; }
+    const fl = add(new THREE.ConeGeometry(0.07, 0.2, 12), M(0xffd666, { emissive: 0xffa940, emissiveIntensity: 0.9 }), 0, 0.04, 0, { parent: rk, noCast: true }); fl.rotation.x = Math.PI;
+    A.push(t => { rk.position.y = y0 + 0.15 + Math.sin(t / 500) * 0.08; fl.scale.y = 0.8 + Math.sin(t / 60) * 0.3; });
+  },
+  /* --- 미용실 머리 모형 --- */
+  hLong(K, g, A) {   /* 금발 긴 웨이브 */
+    const H = ssHead(K, g, 1.72), m = ssHairCap(K, H, 0xffd666), locks = [];
+    for (let i = 0; i < 9; i++) { const a = Math.PI * 0.35 + i * Math.PI * 1.3 / 8, l = K.grp(H, Math.cos(a) * 0.36, -0.05, -Math.abs(Math.sin(a)) * 0.3 - 0.02); locks.push(l);
+      for (let k = 0; k < 5; k++) K.add(K.sph(0.12 - k * 0.008, 12, 10), m, Math.sin(k * 1.3) * 0.05, -k * 0.17, 0, { parent: l, noCast: k > 1 }); }
+    ssBow(K, H, 0.28, 0.32, 0.18, 0xff85c0, 0.9);
+    A.push(t => locks.forEach((l, i) => { l.rotation.z = Math.sin(t / 600 + i) * 0.07; }));
+  },
+  hTied(K, g, A) {   /* 분홍 양갈래 + 리본 */
+    const H = ssHead(K, g, 1.72), m = ssHairCap(K, H, 0xff9ec7), tails = [];
+    for (const s of [-1, 1]) { const tl = K.grp(H, s * 0.42, 0.18, -0.08); tails.push({ tl, s });
+      for (let k = 0; k < 5; k++) K.add(K.sph(0.13 - k * 0.012, 12, 10), m, s * (0.05 + k * 0.05), -k * 0.15, 0, { parent: tl, noCast: k > 1 });
+      ssBow(K, tl, 0, 0.06, 0.02, 0x9254de, 0.85); }
+    A.push(t => tails.forEach(({ tl, s }) => { tl.rotation.z = s * (Math.sin(t / 350) * 0.12); }));
+  },
+  hUpdo(K, g, A) {   /* 라벤더 올림머리 + 티아라 */
+    const H = ssHead(K, g, 1.72), m = ssHairCap(K, H, 0xb990f5);
+    K.add(K.sph(0.24, 20, 16), m, 0, 0.5, -0.12, { parent: H });
+    K.add(K.tor(0.2, 0.06, 10, 28), m, 0, 0.42, -0.12, { parent: H, noCast: true }).rotation.x = Math.PI / 2;
+    const ti = K.grp(H, 0, 0.33, 0.12); ti.rotation.x = -0.35;
+    K.add(new THREE.TorusGeometry(0.34, 0.025, 8, 30, Math.PI), K.GOLD, 0, 0, 0, { parent: ti, noCast: true });
+    for (let i = 0; i < 5; i++) { const a = Math.PI * (0.15 + i * 0.175); K.add(new THREE.OctahedronGeometry(i === 2 ? 0.08 : 0.05), K.M(i === 2 ? 0x69b1ff : 0xffadd2, { roughness: 0.15 }), Math.cos(a) * 0.34, Math.sin(a) * 0.34 + 0.03, 0, { parent: ti, noCast: true }); }
+    A.push(t => { ti.children.forEach((c, i) => { if (i) c.rotation.y = t / 400 + i; }); });
+  },
+  hHanbok(K, g, A) {   /* 까만 쪽머리 + 비녀 + 댕기 */
+    const H = ssHead(K, g, 1.72), m = ssHairCap(K, H, 0x3b2a2a, { cap: 0.55 });
+    K.add(K.sph(0.17, 18, 14), m, 0, -0.18, -0.4, { parent: H });
+    K.add(K.cyl(0.02, 0.02, 0.7, 8), K.GOLD, 0, -0.18, -0.45, { parent: H, noCast: true }).rotation.z = Math.PI / 2;
+    for (const s of [-1, 1]) K.add(K.sph(0.035, 10, 8), K.M(0xff4d6d), s * 0.35, -0.18, -0.45, { parent: H, noCast: true });
+    const dg = K.grp(H, 0, -0.3, -0.48); K.add(libRBox(0.1, 0.45, 0.02, 0.02), K.M(0xe8455f), 0, -0.22, 0, { parent: dg, noCast: true });
+    const fl = K.grp(H, -0.32, 0.25, 0.18); for (let i = 0; i < 5; i++) { const a = i * 1.257; K.add(K.sph(0.05, 10, 8), K.M(0xff85c0), Math.cos(a) * 0.05, Math.sin(a) * 0.05, 0, { parent: fl, noCast: true }); } K.add(K.sph(0.03, 8, 6), K.M(0xffd666), 0, 0, 0.03, { parent: fl, noCast: true });
+    A.push(t => { dg.rotation.z = Math.sin(t / 500) * 0.15; });
+  },
+  hCrown(K, g, A) {   /* 금발 곱슬 + 금관 */
+    const H = ssHead(K, g, 1.72), m = ssHairCap(K, H, 0xffd666, { cap: 0.45 });
+    for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6; K.add(K.sph(0.1, 12, 10), m, Math.cos(a) * 0.36, 0.2 + Math.sin(i * 1.7) * 0.04, Math.sin(a) * 0.36 - 0.02, { parent: H, noCast: true }); }
+    const cr = ssCrown(K, H, 0.5, 0x69b1ff, 2.1);
+    A.push(t => { cr.rotation.y = t / 1000; });
+  },
+  hCool(K, g, A) {   /* 주황 삐죽머리 + 동그란 안경 */
+    const H = ssHead(K, g, 1.72), m = ssHairCap(K, H, 0xffa940, { cap: 0.45 });
+    for (let i = 0; i < 9; i++) { const a = -1.2 + i * 0.3, sp = K.add(new THREE.ConeGeometry(0.08, 0.3, 10), m, Math.sin(a) * 0.25, 0.42 - Math.abs(a) * 0.08, Math.cos(a) * 0.1 - 0.05, { parent: H, noCast: true }); sp.rotation.set(-0.3, 0, -a * 0.6); }
+    for (const s of [-1, 1]) K.add(K.tor(0.085, 0.015, 8, 24), K.M(0x262626), s * 0.14, 0.02, 0.39, { parent: H, noCast: true });
+    K.add(K.cyl(0.01, 0.01, 0.08, 6), K.M(0x262626), 0, 0.03, 0.39, { parent: H, noCast: true }).rotation.z = Math.PI / 2;
+    A.push(t => { H.rotation.y = Math.sin(t / 900) * 0.25; });
+  }
+};
+function ss3dStations(kind, cats) {
+  const S = SS3D[kind], K = S.K;
+  if (S.stG) { S.scene.remove(S.stG); S.stG.traverse(o => { if (o.geometry) o.geometry.dispose(); }); }
+  S.stG = K.grp(null, 0, 0, 0); S.st = {}; S.stAnim = []; S.cats = cats; S.narB = ssNarrow();
+  const hair = kind === 'salon', PCOL = hair ? [0xffd6e7, 0xd3adf7, 0x87e8de, 0xfff1b8, 0xbae0ff] : [0xffd6e7, 0xbae0ff, 0xffe7f0, 0xc9f2e8, 0xfff1b8];
+  const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+  cats.forEach((c, i) => {
+    const x = ssStationX(cats, c.k), g = K.grp(S.stG, x, 0, SS_SZ);
+    if (hair) {   /* 뒤 벽 동그란 거울 */
+      K.add(K.tor(0.85, 0.09, 12, 44), K.GOLD, x, 3.35, -4.2 + 0.16, { parent: S.stG });
+      K.add(new THREE.CircleGeometry(0.82, 44), K.MIRROR, x, 3.35, -4.2 + 0.12, { parent: S.stG, noCast: true });
+      for (let k = 0; k < 6; k++) { const a = k * Math.PI / 3; K.add(K.sph(0.07, 10, 8), K.M(0xfffbe6, { emissive: 0xfff1b8, emissiveIntensity: 0.8 }), x + Math.cos(a) * 1.0, 3.35 + Math.sin(a) * 1.0, -4.2 + 0.2, { parent: S.stG, noCast: true }); }
+    }
+    const ring = ssPodium(K, g, PCOL[i % PCOL.length]);
+    try { (SS_DISP[c.disp] || SS_DISP.gown)(K, g, S.stAnim); } catch (e) { console.warn('ss disp', c.disp, e); }
+    const hb = new THREE.Mesh(new THREE.BoxGeometry(1.9, 3.0, 1.8), hitMat); hb.position.set(0, 1.5, 0); g.add(hb);
+    S.st[c.k] = { g, hb, ring, x, base: g.position.clone() };
+  });
+  try { if (typeof toyLook === 'function') toyLook(S.r, S.stG); } catch (e) {}
+}
+function ss3dInit(kind) {
+  if (SS3D[kind]) return SS3D[kind].ok;
+  const S = SS3D[kind] = { ok: false, anim: [], stAnim: [], st: {}, hover: '', px: 0, walk: null, w: 0, h: 0, raf: 0, cheer: 0 };
+  try {
+    if (typeof THREE === 'undefined' || typeof libRBox !== 'function') throw new Error('no three');
+    const box = document.getElementById('ssRoom_' + kind), cv = document.createElement('canvas'); cv.className = 'mc3d'; box.insertBefore(cv, box.firstChild);
+    const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); r.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+    const scene = new THREE.Scene(); scene.background = new THREE.Color(kind === 'salon' ? 0xe8f8f3 : 0xffeef5);
+    const cam = new THREE.PerspectiveCamera(38, 1.6, 0.1, 100);
+    scene.add(new THREE.HemisphereLight(0xffffff, kind === 'salon' ? 0xcdeee5 : 0xf6d6e4, 0.7));
+    const sun = new THREE.DirectionalLight(0xfff6ee, 0.55); sun.position.set(-3, 11, 9); sun.castShadow = true;
+    sun.shadow.mapSize.set(1024, 1024); Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 10, bottom: -4, near: 1, far: 40 }); sun.shadow.radius = 4; scene.add(sun);
+    const K = ssKit(scene); Object.assign(S, { r, scene, cam, cv, K });
+    if (kind === 'salon') ssBuildSalon(K); else ssBuildBoutique(K);
+    try { if (typeof toyLook === 'function') toyLook(r, scene); } catch (e) {}
+    /* 공주(앞모습 판) */
+    const pc = document.createElement('canvas'); pc.width = 256; pc.height = 256; const pt = new THREE.CanvasTexture(pc);
+    const PH = 2.45, pr = new THREE.Mesh(new THREE.PlaneGeometry(PH, PH), new THREE.MeshBasicMaterial({ map: pt, transparent: true, alphaTest: 0.05, depthWrite: false }));
+    pr.userData.yOff = PH / 2 - PH * 16 / 256; pr.renderOrder = 5; scene.add(pr);
+    const sh = new THREE.Mesh(new THREE.CircleGeometry(0.5, 24), new THREE.MeshBasicMaterial({ color: 0x8a3050, transparent: true, opacity: 0.18, depthWrite: false }));
+    sh.rotation.x = -Math.PI / 2; sh.scale.y = 0.45; scene.add(sh); pr.userData.shadow = sh;
+    Object.assign(S, { pr, prTex: pt, prCv: pc });
+    const hit = e => { const rc = cv.getBoundingClientRect(), v = new THREE.Vector2((e.clientX - rc.left) / rc.width * 2 - 1, -(e.clientY - rc.top) / rc.height * 2 + 1);
+      const ray = new THREE.Raycaster(); ray.setFromCamera(v, cam); return Object.keys(S.st).find(k => ray.intersectObject(S.st[k].hb, false).length); };
+    cv.addEventListener('pointerdown', e => { const k = hit(e); if (k) ssSelect(kind, k, true); });
+    cv.addEventListener('pointermove', e => { S.hover = hit(e) || ''; cv.style.cursor = S.hover ? 'pointer' : ''; });
+    cv.addEventListener('pointerleave', () => { S.hover = ''; });
+    S.ok = true; box.classList.add('is3d');
+  } catch (e) { console.warn('ss3d off', e); S.ok = false; }
+  return S.ok;
+}
+function ss3dSize(kind) {
+  if (SS3D[kind].cats && SS3D[kind].narB !== ssNarrow()) { const S0 = SS3D[kind]; S0.narB = ssNarrow(); if (S0.cats) { const sel = SS_SEL[kind]; ss3dStations(kind, S0.cats); S0.px = ssStationX(S0.cats, sel); S0.walk = null; } }
+  const S = SS3D[kind], box = document.getElementById('ssRoom_' + kind), w = box.clientWidth || 800, h = box.clientHeight || 400, a = w / h;
+  S.w = box.clientWidth; S.h = box.clientHeight; S.r.setSize(w, h, false); S.cam.aspect = a;
+  const n = (S.cats || []).length || 4, nar = a < 1.5, half = Math.max(nar ? 3.6 : 4.2, (n - 1) / 2 * ssSpacing(n) + (nar ? 0.95 : 1.25));
+  const need = nar ? half : Math.max(half, 6.2);
+  const dist = Math.max(8.6, need / (Math.tan(19 * Math.PI / 180) * a)), back = dist + SS_SZ; S.dist = dist;
+  if (nar) { S.cam.position.set(0, 2.9 + (dist - 8.6) * 0.08, back); S.cam.lookAt(0, 1.5, SS_SZ); }   /* 휴대폰: 진열대가 가운데 크게 */
+  else { S.cam.position.set(0, 4.0 + (dist - 8.6) * 0.22, back); S.cam.lookAt(0, 1.9, SS_SZ); } S.cam.updateProjectionMatrix(); S.cam.updateMatrixWorld();
+}
+function ss3dPrincess(kind, x, phase) {
+  const S = SS3D[kind], g = S.prCv.getContext('2d'), sv = getSave(), pv = SS_PREV[kind];
+  const lk = kind === 'boutique' && pv ? pv : sv.lk, hr = kind === 'salon' && pv ? pv : (sv.hr || sv.lk);
+  g.clearRect(0, 0, 256, 256);
+  try { drawPrincessCombined(g, 128, 240, 1.55, lk, hr, phase || 0); } catch (e) {}
+  S.prTex.needsUpdate = true;
+  const d = S.dist || 9, f = (d - (SS_PZ - SS_SZ)) / d; x *= f;   /* 진열대 바로 앞에 보이게 (가까우니까 조금 안쪽) */
+  const pr = S.pr; pr.position.set(x, pr.userData.yOff, SS_PZ); pr.userData.shadow.position.set(x, 0.06, SS_PZ + 0.05);
+  pr.lookAt(S.cam.position.x, pr.position.y, S.cam.position.z);
+}
+function ssCheer(kind) { const S = SS3D[kind]; if (S) S.cheer = performance.now(); }
+function ss3dLabels(kind) {
+  const S = SS3D[kind], box = document.getElementById('ssRoom_' + kind), w = box.clientWidth, h = box.clientHeight, nar = w < 620; box.classList.toggle('narrow', nar);
+  const hair = kind === 'salon';
+  for (const k in S.st) {
+    const el = document.getElementById('ssSub_' + kind + '_' + k); if (!el) continue;
+    const v = new THREE.Vector3(S.st[k].x, hair ? 3.05 : 2.78, SS_SZ).project(S.cam);
+    const ew = el.offsetWidth || 80; el.style.left = Math.min(w - ew / 2 - 3, Math.max(ew / 2 + 3, (v.x + 1) / 2 * w)) + 'px'; el.style.top = Math.max(4, (1 - v.y) / 2 * h - (nar ? 38 : 46)) + 'px';
+    el.classList.toggle('on', SS_SEL[kind] === k);
+  }
+}
+function ss3dLoop(kind) {
+  const S = SS3D[kind];
+  const f = t => {
+    const box = document.getElementById('ssRoom_' + kind);
+    if (currentScreen !== kind || !box) { S.raf = 0; return; }
+    S.raf = requestAnimationFrame(f);
+    if (box.clientWidth && (box.clientWidth !== S.w || box.clientHeight !== S.h)) { ss3dSize(kind); if (!S.walk) ss3dPrincess(kind, S.px, 0); }
+    ss3dLabels(kind); S.anim.forEach(a => a(t)); S.stAnim.forEach(a => a(t));
+    for (const k in S.st) { const o = S.st[k], on = SS_SEL[kind] === k, hv = S.hover === k;
+      o.ring.visible = on; if (on) o.ring.material.emissiveIntensity = 0.6 + Math.sin(t / 250) * 0.35;
+      o.g.position.y = o.base.y + (hv ? 0.08 + Math.sin(t / 120) * 0.03 : 0); }
+    const W = S.walk;
+    if (W) { const p = Math.min(1, (t - W.t0) / W.dur), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      S.px = W.x0 + (W.x1 - W.x0) * e; ss3dPrincess(kind, S.px, (t - W.t0) / 90); if (p >= 1) { S.walk = null; ss3dPrincess(kind, S.px, 0); } }
+    else if (S.cheer && t - S.cheer < 700) { const q = (t - S.cheer) / 700; S.pr.position.y = S.pr.userData.yOff + Math.sin(q * Math.PI * 2) * 0.18 * (1 - q); if (q > 0.97) S.pr.position.y = S.pr.userData.yOff; }
+    S.r.render(S.scene, S.cam);
+  };
+  return f;
+}
+function ssRoomShow(kind, cats) {
+  const box = document.getElementById('ssRoom_' + kind); if (!box) return;
+  if (!ss3dInit(kind)) { box.classList.add('no3d'); return; }
+  const S = SS3D[kind];
+  if (S.cats !== cats && (!S.cats || S.cats.map(c => c.k + c.items.length).join() !== cats.map(c => c.k + c.items.length).join())) { ss3dStations(kind, cats); S.px = ssStationX(cats, SS_SEL[kind]); S.walk = null; }
+  else S.cats = cats;
+  if (!S.walk && SS_SEL[kind] !== 'all' && S.st[SS_SEL[kind]] && Math.abs(S.px - S.st[SS_SEL[kind]].x) > 0.05 && !S.shown) S.px = S.st[SS_SEL[kind]].x;
+  S.shown = true;
+  ss3dSize(kind); if (!S.walk) ss3dPrincess(kind, S.px, 0); ss3dLabels(kind);
+  if (!S.raf) { S.loopFn = S.loopFn || ss3dLoop(kind); S.raf = requestAnimationFrame(S.loopFn); }
+}
 
 /* 모형 하나 만들기: 앞(+z)이 카메라(45°)를 보게 돌리고, 그림과 같은 크기로 맞춤 */
 function toyMake(id, anims) {
