@@ -5,7 +5,7 @@
 <!--APPMETA-->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="공주의 성">
+<meta name="apple-mobile-web-app-title" content="별빛 왕국">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#ffd9ee">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -13,7 +13,7 @@
 <link rel="manifest" href="manifest.json">
 <!--/APPMETA-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>공주의 성</title>
+<title>별빛 왕국</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   :root {
@@ -1263,7 +1263,7 @@
 <!-- 로그인 & 기기 간 세이브 코드 전송 모달 -->
 <div id="authModal" class="modal-backdrop">
   <div class="modal-card">
-    <h2 style="margin:0; text-align:center;">🏰 공주의 성 프로필 & 기기 연동</h2>
+    <h2 style="margin:0; text-align:center;">⭐ 별빛 왕국 프로필 & 기기 연동</h2>
     <div class="notice-pill">💡 기기 안에만 저장됩니다. 진짜 비밀번호를 넣지 마세요! (테스트 계정 '지영'은 코인 칩 터치 시 +1000)</div>
     <input id="authId" class="input-field" type="text" placeholder="이름 (예: 지아, 지영)" autocomplete="off">
     <input id="authPw" class="input-field" type="password" placeholder="간단한 비밀번호" autocomplete="off">
@@ -5520,9 +5520,9 @@ const GD_BG = { sky: 'linear-gradient(#bfe6ff,#e9f7ff)', grass: 'linear-gradient
 /* 장면: it = [[글자/그림, x%, y%, 크기rem, 꾸밈], ...], h = 손가락 [x%, y%] (tap: 누르기), c = 아래 설명 */
 const gdI = (t, x, y, s, k) => [t, x, y, s || 2.2, k || ''];
 const GUIDES = {
-  _start: { title: '공주의 성에 온 걸 환영해요!', icon: '🏰', bg: 'grass', steps: [
-    { t: '👋 반가워요!', d: '여기는 공부하고 <b>🪙 코인</b>을 모아서 내 마을을 꾸미는 곳이에요. 제가 하나씩 알려 줄게요!',
-      demo: [{ it: [gdI('🏰', 50, 38, 3.4), gdI('📚', 18, 55), gdI('💎', 82, 55), gdI('🌳', 30, 82, 1.6), gdI('🌷', 70, 84, 1.4), gdI('👸', 50, 72, 2.4)], c: '내 마을' }] },
+  _start: { title: '별빛 왕국에 온 걸 환영해요!', icon: '🏰', bg: 'grass', steps: [
+    { t: '👋 반가워요!', d: '<b>⭐ 별빛 왕국</b>에 온 걸 환영해요! 공부하고 <b>🪙 코인</b>을 모아서 내 마을을 꾸며요.',
+      demo: [{ it: [gdI('🏰', 50, 38, 3.4), gdI('📚', 18, 55), gdI('💎', 82, 55), gdI('🌳', 30, 82, 1.6), gdI('🌷', 70, 84, 1.4), gdI('👸🤴', 50, 72, 2.2)], c: '⭐ 별빛 왕국' }] },
     { t: '🚶 걸어 다니기', d: '땅을 <b>톡</b> 누르면 공주가 그곳으로 걸어가요. 왼쪽 아래 동그란 조이스틱으로도 움직일 수 있어요.',
       demo: [{ it: [gdI('👸', 25, 70), gdI('🌳', 70, 30, 1.8), gdI('🌷', 85, 80, 1.4)], h: [72, 72], c: '가고 싶은 곳을 눌러요' },
              { it: [gdI('👸', 25, 70), gdI('🌳', 70, 30, 1.8), gdI('🌷', 85, 80, 1.4), gdI('⭕', 72, 72, 1.4, 'gd-pulse')], h: [72, 72], tap: 1, c: '톡!' },
@@ -5572,6 +5572,12 @@ const GUIDES = {
       demo: [{ it: [gdI('🏛️', 50, 40, 3.4), gdI('🪙 300개', 50, 80, 1.3, 'gd-txt')], h: [50, 42], c: '시청에서 신청' },
              { it: [gdI('🏗️', 50, 45, 3.4, 'gd-pop'), gdI('⏰ 24시간', 50, 82, 1.2, 'gd-txt')], c: '뚝딱뚝딱 공사 중' },
              { it: [gdI('🛝', 50, 45, 3.4, 'gd-pop'), gdI('✨', 28, 30, 1.6), gdI('✨', 72, 30, 1.6)], c: '짠! 새 건물 완성' }] },
+    { t: '👭 친구 마을', d: '<b>👭 친구 마을</b> 단추를 누르면 친구 마을에 놀러 갈 수 있어요.', hl: '#btnFriends',
+      demo: [{ it: [gdI('👭 친구 마을', 50, 45, 1.3, 'gd-key')], h: [50, 50], tap: 1, c: '' },
+             { it: [gdI('🏡', 22, 45, 2.6), gdI('➡️', 50, 45, 1.6), gdI('🏰', 78, 45, 2.6, 'gd-pop'), gdI('👸', 22, 80, 1.6)], c: '친구네 마을로 출발!' }] },
+    { t: '👭 친구 마을', d: '친구의 <b>마을 코드 6자리</b>를 넣으면 친구 마을로 가요.', hl: '#btnFriends',
+      demo: [{ it: [gdI('A', 20, 42, 1.2, 'gd-key'), gdI('7', 32, 42, 1.2, 'gd-key'), gdI('K', 44, 42, 1.2, 'gd-key'), gdI('3', 56, 42, 1.2, 'gd-key'), gdI('B', 68, 42, 1.2, 'gd-key'), gdI('9', 80, 42, 1.2, 'gd-key'), gdI('친구 코드', 50, 80, 0.9, 'gd-txt')], c: '' },
+             { it: [gdI('🏰', 50, 38, 3, 'gd-pop'), gdI('✨', 28, 28, 1.4), gdI('✨', 72, 28, 1.4), gdI('🤴', 50, 80, 1.6)], c: '친구 마을에 왔어요!' }] },
     { t: '❓ 언제든 다시 보기', d: '위쪽 <b>❓ 도움말</b> 단추를 누르면 지금 있는 곳의 설명을 다시 볼 수 있어요. 자, 이제 시작해요!', hl: '#btnHelp',
       demo: [{ it: [gdI('❓', 50, 45, 3.4, 'gd-pop'), gdI('👸', 25, 72, 2), gdI('🤴', 75, 72, 2)], c: '즐겁게 놀아요!' }] }
   ] },
@@ -5699,6 +5705,11 @@ function gdClose(mark) {
 }
 /* 11-21 줄바꿈: ' · '로 나눈 덩어리는 한 덩어리로 (중간에서 끊기지 않게, '·'는 앞 덩어리 끝에 붙임) */
 function gdChunk(h, sent) { const a = sent ? String(h || '').split(/(?<=\.) (?=\S)/) : String(h || '').split(' · '); return a.map(p => `<span class="gd-ln">${p}</span>`).join(''); }
+/* 11-21 왕자로 시작한 계정(친구 마을이면 그 친구)은 '왕자의 성' */
+function castleName() {
+  try { const pr = (typeof friendVisit !== 'undefined' && friendVisit) ? isPrinceId(friendVisit.data && friendVisit.data.lk) : isPrinceSave(getSave()); return pr ? '왕자의 성' : '공주의 성'; } catch (e) { return '공주의 성'; }
+}
+function gdN(t) { return String(t == null ? '' : t).replace(/공주의 성/g, castleName()); }
 function gdShow(key) {
   let G = GUIDES[key]; if (!G) return; if (G.same) { key = G.same; G = GUIDES[key]; }
   gdClose(false); gdOpen = key;
@@ -5708,8 +5719,8 @@ function gdShow(key) {
     const draw = () => {
       const S = G.steps[s]; document.querySelectorAll('.gd-hl').forEach(e => e.classList.remove('gd-hl'));
       if (S.hl) { const el = document.querySelector(S.hl); const tgt = el && (el.closest('.chip') || el); if (tgt) tgt.classList.add('gd-hl'); }
-      ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${S.t}</div><button class="gd-skip">건너뛰기 ⏭️</button></div>
-        <div class="gd-demo"></div><div class="gd-desc">${S.d}</div>
+      ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${gdN(S.t)}</div><button class="gd-skip">건너뛰기 ⏭️</button></div>
+        <div class="gd-demo"></div><div class="gd-desc">${gdN(S.d)}</div>
         <div class="gd-foot"><div class="gd-dots">${G.steps.length > 9 ? `<b class="gd-cnt">${s + 1} / ${G.steps.length}</b>` : G.steps.map((_, j) => `<i class="${j === s ? 'on' : ''}"></i>`).join('')}</div>
         ${s ? '<button class="btn-3d gd-prev">◀ 앞으로</button>' : ''}<button class="btn-3d primary gd-next">${s < G.steps.length - 1 ? '다음 ▶' : '시작하기! 🎉'}</button></div></div>`;
       gdPlay(ov.querySelector('.gd-demo'), S.demo, G.bg);
@@ -5720,9 +5731,9 @@ function gdShow(key) {
     draw(); return;
   }
   const K = { earn: ['🪙 코인을 벌어요', 'earn'], spend: ['🪙 코인을 써요', 'spend'], charge: ['⚡ 에너지를 채워요', 'charge'] }[G.kind] || ['', ''];
-  ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${G.title}<span class="gd-kind ${K[1]}">${K[0]}</span></div><button class="gd-skip">건너뛰기 ⏭️</button></div>
+  ov.innerHTML = `<div class="gd-card"><div class="gd-top"><span class="gd-fairy">🧚</span><div class="gd-ttl">${gdN(G.title)}<span class="gd-kind ${K[1]}">${K[0]}</span></div><button class="gd-skip">건너뛰기 ⏭️</button></div>
     <div class="gd-demo"></div>
-    <div class="gd-rows"><div class="gd-row"><b>🎮 여기서는</b><span>${gdChunk(G.what, 1)}</span></div><div class="gd-row"><b>🪙 코인</b><span>${gdChunk(G.coin)}</span></div><div class="gd-row"><b>⚡ 에너지</b><span>${gdChunk(G.energy)}</span></div></div>
+    <div class="gd-rows"><div class="gd-row"><b>🎮 여기서는</b><span>${gdChunk(gdN(G.what), 1)}</span></div><div class="gd-row"><b>🪙 코인</b><span>${gdChunk(G.coin)}</span></div><div class="gd-row"><b>⚡ 에너지</b><span>${gdChunk(G.energy)}</span></div></div>
     <div class="gd-foot"><button class="btn-3d primary gd-next">알겠어요! 해 볼게요 👍</button></div></div>`;
   gdPlay(ov.querySelector('.gd-demo'), G.demo, G.bg);
   ov.querySelector('.gd-skip').onclick = () => { playSfx('click'); gdClose(); };
@@ -7890,7 +7901,7 @@ function rebuildThreeWorldEntities() {
     if (ent.doorScreen || ent.shape === 'carousel') {
       labelEl = document.createElement('div');
       labelEl.className = 'world-label place ' + ((ent.id === 'deco_cityhall' || ent.id === 'deco_construct') ? 'city' : ent.id === 'deco_greenhouse' ? 'garden' : (ent.id === 'deco_boutique' || ent.id === 'deco_salon') ? 'shop' : ent.id === 'deco_castle' ? 'castle' : (ent.redRoof || ent.id === 'tetris') ? 'red-sign' : 'study');
-      { const _sg = String(ent.sign), _m = _sg.match(/^(\S+)\s+(.*)$/);
+      { const _sg = String(ent.sign).replace('공주의 성', castleName()), _m = _sg.match(/^(\S+)\s+(.*)$/);
         const _bob = document.createElement('div'); _bob.className = 'wl-bob'; _bob.style.animationDelay = (-Math.random() * 3.2).toFixed(2) + 's';
         const _pin = document.createElement('div'); _pin.className = 'wl-pin'; const _ic = document.createElement('span'); _ic.textContent = _m ? _m[1] : '📍'; _pin.appendChild(_ic); _bob.appendChild(_pin);
         const _nm = document.createElement('div'); _nm.className = 'wl-name'; _nm.textContent = _m ? _m[2] : _sg;
