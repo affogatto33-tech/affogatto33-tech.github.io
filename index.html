@@ -10303,6 +10303,58 @@ function openAuthModal() {
   document.getElementById('authModal').classList.add('open');
 }
 
+/* ============================================================================
+ * 11-21 원장님: ① 기록이 없는 새 기기는 '지아'를 저절로 만들지 않고 이름 창부터
+ *              ② 프로필 창에 '이 기기에서 이 이름 지우기'
+ *              ③ 예전 지아 기록은 한 번 비우고 새로 시작 (github.io 에서만, 지우기 전 기록은 이 기기에 따로 보관)
+ * ============================================================================ */
+function jiaResetOnce() {
+  if (!/github\.io$/.test(location.hostname)) return;          /* 미리보기·로컬 시험 기록은 건드리지 않음 */
+  if (localStorage.getItem('princess_jia_reset_1121')) return;
+  let raw = {};
+  try { raw = JSON.parse(localStorage.getItem('princess_users') || '{}') || {}; } catch (e) { return; }
+  const k = Object.keys(raw).find(x => normId(x) === normId('지아'));
+  if (k) {
+    try { localStorage.setItem('princess_bk_jia_1121', JSON.stringify(raw[k])); } catch (e) {}
+    raw[k] = { pw: String((raw[k] && raw[k].pw) || ''), save: createDefaultSave() };
+    localStorage.setItem('princess_users', JSON.stringify(raw));
+  }
+  localStorage.setItem('princess_jia_reset_1121', '1');
+}
+function firstRunAsk() {   /* 처음 온 기기: 이름·비밀번호 넣고 새로 만들기 */
+  switchScreen('home', false);
+  openAuthModal();
+  const n = document.querySelector('#authModal .notice-pill');
+  if (n) { if (!n.dataset.orig) n.dataset.orig = n.textContent; n.textContent = '👋 처음 오셨네요! 이름과 간단한 비밀번호를 넣고, 공주나 왕자를 고른 다음 [새로 만들기]를 눌러요.'; }
+  const iv = setInterval(() => {
+    if (currentUser) { clearInterval(iv); if (n && n.dataset.orig) n.textContent = n.dataset.orig; return; }
+    const m = document.getElementById('authModal'); if (m && !m.classList.contains('open')) openAuthModal();
+  }, 800);
+}
+function acctDeleteInit() {
+  const reset = document.getElementById('btnDoResetPw'); if (!reset || document.getElementById('btnDoDelete')) return;
+  const b = document.createElement('button'); b.id = 'btnDoDelete'; b.className = 'btn-3d danger'; b.style.cssText = 'width:100%; font-size:0.84rem;';
+  b.textContent = '🗑️ 이 기기에서 이 이름 지우기';
+  reset.insertAdjacentElement('afterend', b);
+  b.onclick = () => {
+    const id = normId(document.getElementById('authId').value), pw = document.getElementById('authPw').value, users = loadAllUsers();
+    if (!id || !users[id]) return showToast('지울 이름을 먼저 입력해 주세요!');
+    if ((users[id].pw || '') !== pw) return showToast('비밀번호가 다릅니다!');
+    if (!confirm(`[${id}] 기록을 이 기기에서 지울까요?\n코인·옷·마을·일기가 모두 없어지고 되돌릴 수 없어요.\n(다른 기기에 있는 기록은 그대로예요)`)) return;
+    let raw = {};
+    try { raw = JSON.parse(localStorage.getItem('princess_users') || '{}') || {}; } catch (e) { raw = {}; }
+    Object.keys(raw).forEach(k => { if (normId(k) === id) { try { localStorage.setItem('princess_deleted_last', JSON.stringify({ id: k, at: Date.now(), entry: raw[k] })); } catch (e) {} delete raw[k]; } });
+    localStorage.setItem('princess_users', JSON.stringify(raw));
+    document.getElementById('authId').value = ''; document.getElementById('authPw').value = '';
+    showToast(`🗑️ [${id}] 기록을 지웠어요`);
+    if (currentUser === id) {
+      const rest = Object.keys(loadAllUsers());
+      if (rest.length) { loginSuccess(rest[0]); openAuthModal(); }
+      else { currentUser = null; localStorage.removeItem('princess_current'); renderTopBar(); try { rebuildThreeWorldEntities(); } catch (e) {} firstRunAsk(); }
+    } else openAuthModal();
+  };
+}
+
 function loginSuccess(uid) {
   friendVisit = null; fbTok = null; fvBanner();
   currentUser = uid; localStorage.setItem('princess_current', uid);
@@ -10721,20 +10773,18 @@ function bootApp() {
   initHangulKeyboard();
   initEvents();
 
+  try { jiaResetOnce(); } catch (e) { console.warn('jiaReset', e); }
+  try { acctDeleteInit(); } catch (e) { console.warn('acctDelete', e); }
   const users = loadAllUsers();
   const savedCur = normId(localStorage.getItem('princess_current'));
   if (savedCur && users[savedCur]) currentUser = savedCur;
   else if (users[normId('지아')]) currentUser = normId('지아');
   else if (Object.keys(users).length > 0) currentUser = Object.keys(users)[0];
-  else {
-    users[normId('지아')] = { pw: '', save: createDefaultSave() };
-    saveAllUsers(users);
-    currentUser = normId('지아');
-  }
+  else currentUser = null;   /* 11-21 새 기기: 지아를 저절로 만들지 않고 이름부터 */
 
   initThreeWorld();
   initWorldControls();
-  loginSuccess(currentUser);
+  if (currentUser) loginSuccess(currentUser); else firstRunAsk();
   requestAnimationFrame(animateThreeWorld);
 }
 
