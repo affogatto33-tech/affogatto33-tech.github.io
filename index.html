@@ -8068,11 +8068,11 @@ function pathMesh(ent) {
   const ci = pathColIdx(ent), P = PATH_COLORS[ci];
   const pz = def.path === 'p', M = pathMats(ci, pz), y0 = pz ? 0.052 : 0.036;   /* 광장은 길 위에 (기본 마을처럼) */
   pathParts(def.path, PE).forEach(pt => {
-    const m = new THREE.Mesh(new THREE.ShapeGeometry(pathShape(pt), pt.circ ? 48 : 1), M.edge); m.rotation.x = -Math.PI / 2; m.position.y = y0; m.receiveShadow = true; inner.add(m);
+    const m = new THREE.Mesh(new THREE.ShapeGeometry(pathShape(pt), pt.circ ? 48 : 1), M.edge); m.rotation.x = -Math.PI / 2; m.position.y = y0; m.receiveShadow = true; m.renderOrder = pz ? -9.85 : -9.95; inner.add(m);
   });
   pathParts(def.path, 0).forEach(pt => {
     const geo = new THREE.ShapeGeometry(pathShape(pt), pt.circ ? 48 : 1); pathWorldUV(geo, w.x, w.z, th);
-    const m = new THREE.Mesh(geo, M.cob); m.rotation.x = -Math.PI / 2; m.position.y = y0 + 0.008; m.receiveShadow = true; inner.add(m);
+    const m = new THREE.Mesh(geo, M.cob); m.rotation.x = -Math.PI / 2; m.position.y = y0 + 0.008; m.receiveShadow = true; m.renderOrder = pz ? -9.8 : -9.9; inner.add(m);
   });
   if (sel) pathSelGlow(inner, pathParts(def.path, PE));
   group.userData.toy = inner; group.userData.pathPiece = true;
@@ -8082,26 +8082,26 @@ const PATH_MATS = {};
 function pathMats(ci, plaza) {
   const k = ci + (plaza ? 'p' : ''), P = PATH_COLORS[ci] || PATH_COLORS[0];
   if (!PATH_MATS[k]) PATH_MATS[k] = {
-    edge: new THREE.MeshStandardMaterial({ color: plaza && ci === 0 ? 0xe6cdf5 : P.edge, roughness: plaza ? 0.7 : 0.8, polygonOffset: true, polygonOffsetFactor: plaza ? -6 : -2, polygonOffsetUnits: plaza ? -6 : -2 }),
-    cob: new THREE.MeshStandardMaterial({ map: pathCobbleTex(ci), roughness: 0.75, polygonOffset: true, polygonOffsetFactor: plaza ? -8 : -4, polygonOffsetUnits: plaza ? -8 : -4 })
+    edge: new THREE.MeshStandardMaterial({ color: plaza && ci === 0 ? 0xe6cdf5 : P.edge, roughness: plaza ? 0.7 : 0.8, depthWrite: false }),
+    cob: new THREE.MeshStandardMaterial({ map: pathCobbleTex(ci), roughness: 0.75, depthWrite: false })
   };
   return PATH_MATS[k];
 }
 function pathSelGlow(inner, parts) {   /* 고른 조각: 노랗게 반짝 */
   const mat = new THREE.MeshBasicMaterial({ color: 0xfff27a, transparent: true, opacity: 0.38, depthWrite: false });
-  parts.forEach(pt => { const m = new THREE.Mesh(new THREE.ShapeGeometry(pathShape(pt), pt.circ ? 48 : 1), mat); m.rotation.x = -Math.PI / 2; m.position.y = 0.075; inner.add(m); });
+  parts.forEach(pt => { const m = new THREE.Mesh(new THREE.ShapeGeometry(pathShape(pt), pt.circ ? 48 : 1), mat); m.rotation.x = -Math.PI / 2; m.position.y = 0.075; m.renderOrder = -4.5; inner.add(m); });
 }
 /* 연못·호수: 기본 마을 호수와 같은 물(흐르는 물 그림) + 모래 둘레 + 연잎·연꽃 */
 function lakeMesh(ent, def, group, inner, sel) {
   const R = def.lake, seed = (String(ent.iid || ent.id).split('').reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) >>> 0) % 1000;
   const pts = []; for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, rr = R * (1 + 0.12 * Math.sin(a * 3 + 0.7 + seed) + 0.07 * Math.sin(a * 5 + 2.1 + seed * 0.3)); pts.push([Math.cos(a) * rr * 1.2, Math.sin(a) * rr]); }
   const shape = s => { const sh = new THREE.Shape(); pts.forEach(([x, y], i) => i ? sh.lineTo(x * s, y * s) : sh.moveTo(x * s, y * s)); sh.closePath(); return sh; };
-  const shore = new THREE.Mesh(new THREE.ShapeGeometry(shape(1.13), 4), new THREE.MeshStandardMaterial({ color: sel ? 0xfff27a : 0xffe6b5, roughness: 0.9, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }));
-  shore.rotation.x = -Math.PI / 2; shore.position.y = 0.014; shore.receiveShadow = true; inner.add(shore);
+  const shore = new THREE.Mesh(new THREE.ShapeGeometry(shape(1.13), 4), new THREE.MeshStandardMaterial({ color: sel ? 0xfff27a : 0xffe6b5, roughness: 0.9, depthWrite: false }));
+  shore.rotation.x = -Math.PI / 2; shore.position.y = 0.014; shore.receiveShadow = true; shore.renderOrder = -9.4; inner.add(shore);
   let wt = (typeof envWaterTex !== 'undefined' && envWaterTex) || null;
   if (!wt) { wt = envWaterTexture(); wt.wrapS = wt.wrapT = THREE.RepeatWrapping; wt.repeat.set(0.07, 0.07); }
-  const water = new THREE.Mesh(new THREE.ShapeGeometry(shape(1), 4), new THREE.MeshStandardMaterial({ map: wt, roughness: 0.3, metalness: 0.05, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 }));
-  water.rotation.x = -Math.PI / 2; water.position.y = 0.026; inner.add(water);
+  const water = new THREE.Mesh(new THREE.ShapeGeometry(shape(1), 4), new THREE.MeshStandardMaterial({ map: wt, roughness: 0.3, metalness: 0.05, depthWrite: false }));
+  water.rotation.x = -Math.PI / 2; water.position.y = 0.026; water.renderOrder = -8.9; inner.add(water);
   const lr = envRng(seed + 11), padMat = new THREE.MeshStandardMaterial({ color: 0x6fcf6a, roughness: 0.8 }), lotus = new THREE.MeshStandardMaterial({ color: 0xff9ecb, roughness: 0.5 });
   for (let i = 0; i < def.pads; i++) {
     const a = lr() * Math.PI * 2, rr = Math.sqrt(lr()) * R * 0.68, px = Math.cos(a) * rr * 1.15, pz = Math.sin(a) * rr;
@@ -8498,7 +8498,7 @@ function normId(raw) { return String(raw || '').trim().normalize('NFC'); }
 function createDefaultSave() {
   return {
     s: 250, en: 100, et: Date.now(),
-    o: ['look1', 'deco_castle', 'deco_cityhall', 'deco_tree', 'deco_carousel'], bld5: 1, gh1: 1, sh1: 1, ct1: 1, es1: 1, lock: ['tetris'],
+    o: ['look1', 'deco_castle', 'deco_cityhall', 'deco_tree', 'deco_carousel'], bld5: 1, dp: 1, gh1: 1, sh1: 1, ct1: 1, es1: 1, lock: ['tetris'],
     e: 'look1', cov: [], st: 1,
     md: { as: 1, md: 1, ad: 1 },
     gg: { mul: { c: {}, s: {}, l: {}, p: {} }, div: { c: {}, s: {}, l: {}, p: {} } },
@@ -8578,6 +8578,7 @@ function loadAllUsers() {
     }
     merged.pl = (Array.isArray(merged.pl) ? merged.pl : def.pl).filter(p => p && p.id !== 'deco_amuse' && decoById(p.id));
     if (!(entry.save && entry.save.bld5)) { baseBuildingsFill(merged); merged.bld5 = 1; }
+    if (!(entry.save && entry.save.dp)) merged.dp = 0;   /* def 에도 dp 가 있어서 원래 기록으로 판단 */
     if (!(entry.save && entry.save.gh1)) { greenhouseFill(merged); merged.gh1 = 1; }   /* 11-20(6) 식물원 */
     if (!(entry.save && entry.save.sh1)) { styleShopsFill(merged); merged.sh1 = 1; }   /* 11-20(7) 옷가게·미용실 */
     if (!(entry.save && entry.save.ct1)) { cityHallFill(merged); merged.ct1 = 1; if (!(entry.save && entry.save.lock)) merged.lock = []; }   /* 11-20 시청 */
